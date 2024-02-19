@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div id="dark-overlay"></div>
+
+  <div id="img-backgroud"></div>
+
+  <div class="center">
+    <form class="sign-up-form" action="{{ url_for('sign_up') }}" method="post">
+      <div class="inputbox">
+        <input type="email" required="required" name="email">
+        <span>Email</span>
+      </div>
+
+      <div class="inputbox">
+        <input type="text" required="required" name="password">
+        <span>Password</span>
+      </div>
+
+      <div class="inputbox">
+        <input type="text" required="required" name="verify-password">
+        <span>Verify password</span>
+      </div>
+
+      <div class="inputbox">
+        <input type="text" required="required" name="username">
+        <span>Username</span>
+      </div>
+
+      <div class="inputbox">
+        <input type="text" required="required" name="first-name">
+        <span>First name</span>
+      </div>
+
+      <div class="inputbox">
+        <input type="text" required="required" name="last-name">
+        <span>Last name</span>
+      </div>
+
+      <div class="inputbox">
+        <input type="button" value="submit">
+      </div>
+    </form>
+
+    <p>We promise only ever to use your
+      <br>personal information in a legitimate way
+    </p>
+  </div>
+{% endblock %}

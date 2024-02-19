@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@2.0.0/modern-normalize.min.css">
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
+        {% block head %}{% endblock %}
+
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+        <section id="hero">
+            <div class="container">
+                <header>
+                    <a href="{{ url_for('index') }}" target="_self"><img src="{{ url_for('static', filename='images/TravelTracer-removebg.png') }}" alt="logo" height="50" width="200"></a>
+
+                    <nav>
+                        <ul>
+                            <li><a href="#" target="_self" class="buttons">Attractions</a></li>
+                            <li><a href="#" target="_self" class="buttons">Achievements</a></li>
+                            <li><a href="#" target="_self" class="buttons">Friends</a></li>
+                            <li><a href="#" target="_self" class="buttons">Groups</a></li>
+                            <li><a href="#" target="_self" class="buttons">Contact</a></li>
+                            <li><a href="{{ url_for('login') }}" target="_self" class="btn">Log in</a></li>
+                        </ul>
+                    </nav>
+                </header>
+                
+                {% block container %}{% endblock %}
+            </div>
+        </section>
+
+        {% block content %}{% endblock %}
+    </body>
+</html>

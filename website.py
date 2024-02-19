@@ -4,21 +4,34 @@ from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 import secrets
 
+
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
 
+
 #csrf = CSRFProtect(app)
+
 
 #loginManager = LoginManager()
 #loginManager.init_app(app)
 #loginManager.login_view = "/login"
 
-@app.route('/')
+
+@app.route("/")
 def index():
-    return render_template("auth/login.html")
+    return render_template("index.html")
 
 
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
 
+
+@app.route("/signup", methods=["POST", "GET"])
+def sign_up():
+    if request.method == "GET":
+        return render_template("signup.html")
 
 
 if __name__ == "__main__":
