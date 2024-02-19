@@ -15,7 +15,7 @@ app.secret_key = secrets.token_urlsafe(16)
 
 @app.route('/')
 def index():
-    return render_template("auth/login.hmtl")
+    return render_template("auth/login.html")
 
 
 
