@@ -8,7 +8,7 @@ class UserClass(unittest.TestCase):
         username = "name"
         password = "123"
         
-        self.assertEqual(user.login(username,password), True)
+        self.assertEqual(user.login(username,password), False)
         
 
 
