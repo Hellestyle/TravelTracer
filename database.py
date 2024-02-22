@@ -4,9 +4,9 @@ import mysql.connector
 class Database:
     def __init__(self) -> None:
         dbconfig = {'host': 'kark.uit.no',
-                    'user': 'user',
-                    'password': 'pass',
-                    'database': 'stud_v23_user', }
+                    'user': 'stud_v23_she199',
+                    'password': 'Q7TOeuhlLTSj2lfT',
+                    'database': 'stud_v23_she199', }
         self.configuration = dbconfig
 
     def __enter__(self):

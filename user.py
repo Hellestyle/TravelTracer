@@ -2,11 +2,14 @@ from database import Database
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User():
-    def __init__(self, username=None, passhash=None, email=None, isAdmin = False) -> None:
+    def __init__(self, username=None, passhash=None, email=None, isAdmin = False, firstName=None , lastName = None) -> None:
         self.__usernmae = username
         self.__passhash = passhash
         self.__email = email
         self.__isAdmin = isAdmin
+        self.__firstName = firstName
+        self.__lastName = lastName
+        
         
     def login(self, username, password):
         # Check username and hash
