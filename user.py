@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class User():
     def __init__(self, username=None, passhash=None, email=None, isAdmin = False, firstName=None , lastName = None) -> None:
-        self.__usernmae = username
+        self.__username = username
         self.__passhash = passhash
         self.__email = email
         self.__isAdmin = isAdmin
@@ -30,3 +30,12 @@ class User():
         # Add to database
         # Return success/True
         pass        
+    
+
+    def __str__(self) -> str:
+        string = f"User(username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName})"
+        return string
+    
+
+if __name__ == "__main__":
+    pass
