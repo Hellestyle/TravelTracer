@@ -6,7 +6,7 @@ class Database:
         dbconfig = {'host': 'kark.uit.no',
                     'user': 'stud_v23_she199',
                     'password': 'Q7TOeuhlLTSj2lfT',
-                    'database': 'stud_v23_user', }
+                    'database': 'stud_v23_she199', }
         self.configuration = dbconfig
 
     def __enter__(self):
