@@ -30,6 +30,10 @@ header {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+<<<<<<< HEAD
+=======
+    z-index: 2;
+>>>>>>> IE
 }
 
 nav ul {
