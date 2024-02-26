@@ -32,24 +32,32 @@ class User():
                 return True
             return False
 
-    def checkIfUserExist(self, username, email):
+        
+    def isUsernameAvailible(username):
         with Database() as db:
             try:
-                existResultat = db.query("SELECT * FROM user Where username = %s ", (username,))[0]
-                existResultat2 = db.query("SELECT * FROM user Where email = %s ", (email,))[0]
+                usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
             except:
                 return False
-        if (existResultat[1] == username) or (existResultat2[2] == email):
+        if usernameResult == []:
+            return True
+        else:
+            return False
+        
+    def isEmailAvailible(email):
+        with Database() as db:
+            try:
+                emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
+            except:
+                return False
+        if emailResult == []:
             return True
         else:
             return False
     
     def registrer(self, firstName, lastName, email, username, passhash):
-        # Add database check for not a registrered user
-        # Add to database
-        # Return success/True
         passhash = generate_password_hash(passhash)
-        if self.checkIfUserExist(username, email) == False:
+        if (self.isEmailAvailible(email)) and (self.isUsernameAvailible(username)):
             with Database() as db:
                 try:
                     db.query('INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, %s)',(username, email, firstName, lastName, passhash,0,))
