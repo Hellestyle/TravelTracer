@@ -32,18 +32,32 @@ class User():
                 return True
             return False
 
+    def checkIfUserExist(self, username, email):
+        with Database() as db:
+            try:
+                existResultat = db.query("SELECT * FROM user Where user = %s ", username)[0]
+                existResultat2 = db.query("SELECT * FROM email Where email = %s ", email)[0]
+            except:
+                return False
+        if (existResultat[1] == username) or (existResultat2[2] == email):
+            return True
+        else:
+            return False
     
-    def registrer(self):
+    def registrer(self, firstName, lastName, email, username, passhash):
         # Add database check for not a registrered user
         # Add to database
         # Return success/True
-<<<<<<< HEAD
-        pass     
-
-    c   
-=======
-        pass        
-    
+        passhash = generate_password_hash(passhash)
+        if self.checkIfUserExist(self, username, email) == False:
+            with Database() as db:
+                try:
+                    db.query("INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, '0'",username, email, firstName, lastName, passhash)
+                    return True
+                except:
+                    return False
+        else:
+            return False
 
     def __str__(self) -> str:
         string = f"User(username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName})"
@@ -52,4 +66,3 @@ class User():
 
 if __name__ == "__main__":
     pass
->>>>>>> de734c3462e4ce42f436374fa19d8978da0fd5d4
