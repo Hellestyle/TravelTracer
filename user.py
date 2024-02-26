@@ -17,7 +17,7 @@ class User():
         # Check username and hash
         with Database() as db:
             try:
-                databaseResult = db.query("SELECT * FROM user Where username = %s ", username)[0]
+                databaseResult = db.query("SELECT * FROM user Where username = %s ", (username,))[0]
             except:
                 return False
             if check_password_hash(pwhash = databaseResult[-1], password = password):
