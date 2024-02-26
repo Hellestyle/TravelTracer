@@ -18,7 +18,8 @@ class User():
         with Database() as db:
             try:
                 databaseResult = db.queryOne("SELECT * FROM user Where username = %s ", (username,))
-            except:
+            except Exception as e:
+                print(f"Error: {e}")
                 return False
             if databaseResult != []:
                 if check_password_hash(pwhash = databaseResult[-1], password = password):
@@ -47,4 +48,4 @@ class User():
     
 
 if __name__ == "__main__":
-    pass
+       pass
