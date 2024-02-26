@@ -35,8 +35,8 @@ class User():
     def checkIfUserExist(self, username, email):
         with Database() as db:
             try:
-                existResultat = db.query("SELECT * FROM user Where user = %s ", username)[0]
-                existResultat2 = db.query("SELECT * FROM email Where email = %s ", email)[0]
+                existResultat = db.query("SELECT * FROM user Where username = %s ", (username,))[0]
+                existResultat2 = db.query("SELECT * FROM user Where email = %s ", (email,))[0]
             except:
                 return False
         if (existResultat[1] == username) or (existResultat2[2] == email):
@@ -49,10 +49,10 @@ class User():
         # Add to database
         # Return success/True
         passhash = generate_password_hash(passhash)
-        if self.checkIfUserExist(self, username, email) == False:
+        if self.checkIfUserExist(username, email) == False:
             with Database() as db:
                 try:
-                    db.query("INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, '0'",username, email, firstName, lastName, passhash)
+                    db.query('INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, %s)',(username, email, firstName, lastName, passhash,0,))
                     return True
                 except:
                     return False
