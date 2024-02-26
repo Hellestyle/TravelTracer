@@ -33,7 +33,7 @@ class User():
             return False
 
         
-    def isUsernameAvailible(username):
+    def isUsernameAvailible(self,username):
         with Database() as db:
             try:
                 usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
@@ -44,7 +44,7 @@ class User():
         else:
             return False
         
-    def isEmailAvailible(email):
+    def isEmailAvailible(self,email):
         with Database() as db:
             try:
                 emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
