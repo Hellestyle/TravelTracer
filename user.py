@@ -2,25 +2,33 @@ from database import Database
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User():
-    def __init__(self, username=None, passhash=None, email=None, isAdmin = False, firstName=None , lastName = None) -> None:
+    def __init__(self, id = None, username=None, passhash=None, email=None, isAdmin = False, firstName=None , lastName = None, avatar = None) -> None:
+        self.__id = id
         self.__username = username
         self.__passhash = passhash
         self.__email = email
         self.__isAdmin = isAdmin
         self.__firstName = firstName
         self.__lastName = lastName
+        self.__avatar = avatar
         
         
     def login(self, username, password):
         # Check username and hash
         with Database() as db:
             try:
-                databaseResult = db.query("SELECT * FROM CHANGEME/USERNAME Where CHANGEME/USERNAMEFIELD = %s ", username)
+                databaseResult = db.query("SELECT * FROM user Where username = %s ", username)[0]
             except:
                 return False
-            if check_password_hash(pwhash = databaseResult[0]["CHANGE ME"], password = password):
-                self.__passhash = databaseResult[0]["CHANGEME"]
-                self.__usernmae = username
+            if check_password_hash(pwhash = databaseResult[-1], password = password):
+                self.__id = databaseResult[0]
+                self.__passhash = databaseResult[-1]
+                self.__username = databaseResult[1]
+                self.__email = databaseResult[2]
+                self.__firstName = databaseResult[3]
+                self.__lastName = databaseResult[4]
+                self.__avatar = databaseResult[5]
+                self.__isAdmin = databaseResult[6]
                 return True
             return False
 
