@@ -24,3 +24,13 @@ class Database:
         self.cursor.execute(sql,params)
         result = self.cursor.fetchall()
         return result
+
+
+    def queryOne(self,sql,params=None):
+        self.cursor.execute(sql,params)
+        result = self.cursor.fetchone()
+        return result
+    
+
+if __name__ == "__main__":
+    pass
