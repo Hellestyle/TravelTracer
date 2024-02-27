@@ -34,13 +34,40 @@ class User():
                     return True
             return False
 
+        
+    def isUsernameAvailible(self,username):
+        with Database() as db:
+            try:
+                usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
+            except:
+                return False
+        if usernameResult == []:
+            return True
+        else:
+            return False
+        
+    def isEmailAvailible(self,email):
+        with Database() as db:
+            try:
+                emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
+            except:
+                return False
+        if emailResult == []:
+            return True
+        else:
+            return False
     
-    def registrer(self):
-        # Add database check for not a registrered user
-        # Add to database
-        # Return success/True
-        pass        
-    
+    def registrer(self, firstName, lastName, email, username, passhash):
+        passhash = generate_password_hash(passhash)
+        if (self.isEmailAvailible(email)) and (self.isUsernameAvailible(username)):
+            with Database() as db:
+                try:
+                    db.query('INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, %s)',(username, email, firstName, lastName, passhash,0,))
+                    return True
+                except:
+                    return False
+        else:
+            return False
 
     def __str__(self) -> str:
         string = f"User(username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName})"
@@ -48,4 +75,4 @@ class User():
     
 
 if __name__ == "__main__":
-       pass
+     pass
