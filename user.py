@@ -62,8 +62,8 @@ class User():
                 return False
 
     
-    def registrer(self, firstName, lastName, email, username, passhash):
-        passhash = generate_password_hash(passhash)
+    def registrer(self, firstName, lastName, email, username, password):
+        passhash = generate_password_hash(password)
 
         if not self.isEmailAvailible(email):
             return False, Errors.EMAIL_ALREADY_EXISTS
@@ -72,7 +72,7 @@ class User():
         
         with Database() as db:
             try:
-                db.query('INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, %s)',(username, email, firstName, lastName, passhash,0,))
+                db.query('INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, %s)', (username, email, firstName, lastName, passhash, 0,))
                 return True, None
             except:
                 return False, Errors.DATABASE_ERROR
