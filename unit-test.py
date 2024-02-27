@@ -19,14 +19,17 @@ class UserClass(unittest.TestCase):
     #    
     #    self.assertEqual(user.login(username,password), False)
     #    
-#
+
     #def test_print(self):
     #    user = User("JohnDoe12",email="Johndoe12@gmail.com", isAdmin=True,firstName="John", lastName="Doe")
     #    self.assertEqual(User.__str__,True)
 
     def test_registrering(self):
         user = User()
-        self.assertEqual(user.registrer("Mathias", "Pettersen", "Mathiaspettersen@hotmail.no", "MP", "123456789"), True)
+        success, error = self.assertEqual(user.registrer("Mathias", "Pettersen", "Mathiaspettersen@hotmail.no", "MP", "123456789"), True)
+        if not success:
+            print("Registration failed: ", error.value)
+
 
 if __name__ == '__main__':
     unittest.main()
