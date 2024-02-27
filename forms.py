@@ -18,12 +18,3 @@ class RegistrationForm(FlaskForm):
     first_name = StringField("First name", validators=[InputRequired()])
     last_name = StringField("Last name", validators=[InputRequired()])
     submit = SubmitField('Register')
-
-    def validate_email(self, field):
-        #Sqlspørring som sjekker om mail adressen allerede er i bruk
-            raise ValidationError("Email already registered")
-    
-    def validate_username(self, field):
-         #Sql spørring som sjekker om brukernavn allerede er registrert
-            raise ValidationError("Username already registered")
-         
