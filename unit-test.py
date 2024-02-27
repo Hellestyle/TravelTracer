@@ -26,9 +26,12 @@ class UserClass(unittest.TestCase):
 
     def test_registrering(self):
         user = User()
-        success, error = self.assertEqual(user.registrer("Mathias", "Pettersen", "Mathiaspettersen@hotmail.no", "MP", "123456789"), True)
+        success, error = user.registrer("Mathias", "Pettersen", "Mathiaspettersen@hotmail.no", "MP", "123456789")
         if not success:
             print("Registration failed: ", error.value)
+        else:
+            print("Registration succeed!")
+            self.assertTrue(success, "Registration should succeed")
 
 
 if __name__ == '__main__':
