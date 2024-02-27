@@ -17,19 +17,21 @@ class User():
         # Check username and hash
         with Database() as db:
             try:
-                databaseResult = db.query("SELECT * FROM user Where username = %s ", username)[0]
-            except:
+                databaseResult = db.queryOne("SELECT * FROM user Where username = %s ", (username,))
+            except Exception as e:
+                print(f"Error: {e}")
                 return False
-            if check_password_hash(pwhash = databaseResult[-1], password = password):
-                self.__id = databaseResult[0]
-                self.__passhash = databaseResult[-1]
-                self.__username = databaseResult[1]
-                self.__email = databaseResult[2]
-                self.__firstName = databaseResult[3]
-                self.__lastName = databaseResult[4]
-                self.__avatar = databaseResult[5]
-                self.__isAdmin = databaseResult[6]
-                return True
+            if databaseResult != []:
+                if check_password_hash(pwhash = databaseResult[-1], password = password):
+                    self.__id = databaseResult[0]
+                    self.__passhash = databaseResult[-1]
+                    self.__username = databaseResult[1]
+                    self.__email = databaseResult[2]
+                    self.__firstName = databaseResult[3]
+                    self.__lastName = databaseResult[4]
+                    self.__avatar = databaseResult[5]
+                    self.__isAdmin = databaseResult[6]
+                    return True
             return False
 
         
@@ -73,4 +75,4 @@ class User():
     
 
 if __name__ == "__main__":
-    pass
+     pass
