@@ -39,7 +39,8 @@ class User():
         with Database() as db:
             try:
                 usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
-            except:
+            except Exception as e:
+                print(f"Error: {e}")
                 return False
         if usernameResult == []:
             return True
@@ -50,7 +51,8 @@ class User():
         with Database() as db:
             try:
                 emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
-            except:
+            except Exception as e:
+                print(f"Error: {e}")
                 return False
         if emailResult == []:
             return True
@@ -64,7 +66,8 @@ class User():
                 try:
                     db.query('INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, %s)',(username, email, firstName, lastName, passhash,0,))
                     return True
-                except:
+                except Exception as e:
+                    print(f"Error: {e}")
                     return False
         else:
             return False
