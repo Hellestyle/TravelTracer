@@ -28,6 +28,13 @@
           </div>
         </form>
 
+        <form method="post" action="/login" enctype="multipart/form-data"> 
+          
+          <p>{{ loginform.email.label }} {{ loginform.email() }}</p> 
+          <p>{{ loginform.password.label }} {{ loginform.password() }}</p> 
+          <p><input type="submit" value="Submit"></p> 
+      </form> 
+
         <a href="{{ url_for('sign_up') }}" target="_self" class="sign-up">Don't have an account? Click here</a>
     </div>
 {% endblock %}
