@@ -13,11 +13,11 @@ class User():
         self.__avatar = avatar
         
         
-    def login(self, username, password):
+    def login(self, email, password):
         # Check username and hash
         with Database() as db:
             try:
-                databaseResult = db.queryOne("SELECT * FROM user Where username = %s ", (username,))
+                databaseResult = db.queryOne("SELECT * FROM user Where email = %s ", (email,))
             except Exception as e:
                 print(f"Error: {e}")
                 return False
