@@ -12,7 +12,7 @@ class UserClass(unittest.TestCase):
 
     def test_login(self):
         user = User()
-        username = "MP"
+        username = "Mathiaspettersen@hotmail.no"
         password = "123456789"
         
         self.assertEqual(user.login(username,password), True)

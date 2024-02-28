@@ -28,11 +28,13 @@
           </div>
         </form>
 
-        <form method="post" action="/login" enctype="multipart/form-data"> 
+        <form method="post" action="{{ url_for('login') }}" enctype="multipart/form-data"> 
+          {{ loginform.csrf_token }}
           
           <p>{{ loginform.email.label }} {{ loginform.email() }}</p> 
-          <p>{{ loginform.password.label }} {{ loginform.password() }}</p> 
-          <p><input type="submit" value="Submit"></p> 
+          <p>{{ loginform.password.label }} {{ loginform.password() }}</p>
+          <p>{{ loginform.submit.label }} {{ loginform.submit() }}</p>
+          
       </form> 
 
         <a href="{{ url_for('sign_up') }}" target="_self" class="sign-up">Don't have an account? Click here</a>

@@ -29,7 +29,7 @@ class User():
         # Check username and hash
         with Database() as db:
             try:
-                databaseResult = db.queryOne("SELECT * FROM user Where username = %s ", (email,))
+                databaseResult = db.queryOne("SELECT * FROM user Where email = %s ", (email,))
                 if databaseResult and check_password_hash(pwhash = databaseResult[-1], password = password):
                     self.__id = databaseResult[0]
                     self.__passhash = databaseResult[-1]

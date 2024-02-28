@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
 
 
-#csrf = CSRFProtect(app)
+csrf = CSRFProtect(app)
 
 
 #loginManager = LoginManager()
@@ -27,14 +27,16 @@ def index():
 @app.route("/login", methods=["POST", "GET"])
 def login():
     loginform = LoginForm()
+    
     if loginform.validate_on_submit():
+    #if request.method == "POST":
+        print("HEIOA")
         email = loginform.email.data
         password = loginform.password.data
         user = User()
         user.login(email,password)
         return f'{user}'
-
-
+    
     if request.method == "GET":
         return render_template("login.html",loginform = loginform)
 
