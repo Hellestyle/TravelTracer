@@ -3,8 +3,12 @@
 {% block head %}
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
 {% endblock %}
-
+  
 {% block content %}
+  <div style="display:none;">
+    {{ csrf_token() }}
+  </div>
+
   <div id="dark-overlay"></div>
 
   <div id="img-backgroud"></div>
@@ -13,7 +17,6 @@
     <h1>Welcome</h1>
 
     <form class="login-form" action="{{ url_for('login') }}" method="post">
-      {{ csrf_token() }}
 
       <div class="inputbox">
         <input type="email" required="required" name="email">
