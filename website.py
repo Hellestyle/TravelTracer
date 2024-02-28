@@ -47,8 +47,8 @@ def sign_up():
         user = User()
         try:
             user.registrer(registrationForm.first_name.data,registrationForm.last_name.data,registrationForm.email.data,registrationForm.username.data,registrationForm.password.data)
-        except Exception as e:
-            return f"{e}"
+        except:
+            return  "<h1>Error</h1>"
         user.login(registrationForm.email.data,registrationForm.password.data)
         return f'{user}'
         

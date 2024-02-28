@@ -70,9 +70,9 @@ class User():
         passhash = generate_password_hash(password)
 
         if not self.isEmailAvailible(email):
-            return False, Errors.EMAIL_ALREADY_EXISTS
+            return  Errors.EMAIL_ALREADY_EXISTS
         if not self.isUsernameAvailible(username):
-            return False, Errors.USERNAME_ALREADY_EXISTS
+            return  Errors.USERNAME_ALREADY_EXISTS
         
         with Database() as db:
             try:

@@ -45,10 +45,14 @@
         <input type="button" value="submit">
       </div>
     </form>
-    <form>
+    <form method="post" action="{{ url_for('sign_up') }}" enctype="multipart/form-data"> 
       {{ registrationForm.csrf_token }}
       <p>{{ registrationForm.email.label }} {{ registrationForm.email() }}</p> 
+      <p>{{ registrationForm.username.label }} {{ registrationForm.username() }}</p>
       <p>{{ registrationForm.password.label }} {{ registrationForm.password() }}</p>
+      <p>{{ registrationForm.password2.label }} {{ registrationForm.password2() }}</p>
+      <p>{{ registrationForm.first_name.label }} {{ registrationForm.first_name() }}</p>
+      <p>{{ registrationForm.last_name.label }} {{ registrationForm.last_name() }}</p>
       <p>{{ registrationForm.submit.label }} {{ registrationForm.submit() }}</p>
 
 
