@@ -3,6 +3,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 import secrets
+from forms import LoginForm
 
 
 app = Flask(__name__)
@@ -24,6 +25,10 @@ def index():
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
+    loginform = LoginForm()
+    if loginform.validate_on_submit():
+        email = None
+
     if request.method == "GET":
         return render_template("login.html")
 

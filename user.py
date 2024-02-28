@@ -12,7 +12,9 @@ class Errors(Enum):
 
 
 class User():
-    def __init__(self, id=None, username=None, passhash=None, email=None, isAdmin=False, firstName=None , lastName=None, avatar=None) -> None:
+
+    def __init__(self, id = None, username=None, passhash=None, email=None, isAdmin = False, firstName=None , lastName = None, avatar = None) -> None:
+
         self.__id = id
         self.__username = username
         self.__passhash = passhash
@@ -23,7 +25,7 @@ class User():
         self.__avatar = avatar
         
         
-    def login(self, username, password):
+    def login(self, email, password):
         # Check username and hash
         with Database() as db:
             try:
@@ -61,7 +63,33 @@ class User():
             except:
                 return False
 
+
+        
+    def isUsernameAvailible(self,username):
+        with Database() as db:
+            try:
+                usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
+            except Exception as e:
+                print(f"Error: {e}")
+                return False
+        if usernameResult == []:
+            return True
+        else:
+            return False
+        
+    def isEmailAvailible(self,email):
+        with Database() as db:
+            try:
+                emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
+            except Exception as e:
+                print(f"Error: {e}")
+                return False
+        if emailResult == []:
+            return True
+        else:
+            return False
     
+
     def registrer(self, firstName, lastName, email, username, password):
         passhash = generate_password_hash(password)
 
@@ -76,6 +104,7 @@ class User():
                 return True, None
             except:
                 return False, Errors.DATABASE_ERROR
+
 
 
     def __str__(self) -> str:
