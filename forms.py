@@ -21,14 +21,14 @@ class RegistrationForm(FlaskForm):
     last_name = StringField("Last name", validators=[InputRequired()])
     submit = SubmitField('Register')
 
-    def validate_email(self, field):
-        with Database() as db:
-            email = field.data.lower()
-            if db.queryOne("SELECT * FROM user Where email = %s ", (email,)):
-                raise ValidationError("Email already registered")
-    
-    def validate_username(self, field):
-        with Database() as db:
-            username = field.data
-            if db.queryOne("SELECT * FROM user Where username = %s ", (username,)):
-                raise ValidationError("Username already registered")
+    #def validate_email(self, field):
+    #    with Database() as db:
+    #        email = field.data.lower()
+    #        if db.queryOne("SELECT * FROM user Where email = %s ", (email,)):
+    #            raise ValidationError("Email already registered")
+    #
+    #def validate_username(self, field):
+    #    with Database() as db:
+    #        username = field.data
+    #        if db.queryOne("SELECT * FROM user Where username = %s ", (username,)):
+    #            raise ValidationError("Username already registered")
