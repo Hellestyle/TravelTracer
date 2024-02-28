@@ -29,8 +29,6 @@ def login():
     loginform = LoginForm()
     
     if loginform.validate_on_submit():
-    #if request.method == "POST":
-        print("HEIOA")
         email = loginform.email.data
         password = loginform.password.data
         user = User()
@@ -43,8 +41,21 @@ def login():
 
 @app.route("/signup", methods=["POST", "GET"])
 def sign_up():
+    registrationForm = RegistrationForm()
+
+    if registrationForm.validate_on_submit():
+        user = User()
+        try:
+            user.registrer(registrationForm.first_name.data,registrationForm.last_name.data,registrationForm.email.data,registrationForm.username.data,registrationForm.password.data)
+        except Exception as e:
+            return f"{e}"
+        user.login(registrationForm.email.data,registrationForm.password.data)
+        return f'{user}'
+        
+
+
     if request.method == "GET":
-        return render_template("signup.html")
+        return render_template("signup.html", registrationForm = registrationForm)
 
 
 if __name__ == "__main__":

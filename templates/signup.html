@@ -45,7 +45,15 @@
         <input type="button" value="submit">
       </div>
     </form>
+    <form>
+      {{ registrationForm.csrf_token }}
+      <p>{{ registrationForm.email.label }} {{ registrationForm.email() }}</p> 
+      <p>{{ registrationForm.password.label }} {{ registrationForm.password() }}</p>
+      <p>{{ registrationForm.submit.label }} {{ registrationForm.submit() }}</p>
 
+
+    </form>
+    
     <p>We promise only ever to use your
       <br>personal information in a legitimate way
     </p>
