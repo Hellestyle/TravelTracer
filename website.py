@@ -63,7 +63,7 @@ def sign_up():
             email = registrationForm.email.data
             password = registrationForm.password.data
             username = registrationForm.username.data
-            firstName = registrationForm.frist_name.data
+            firstName = registrationForm.first_name.data
             lastName = registrationForm.last_name.data
 
             user = User()
