@@ -59,7 +59,7 @@ def sign_up():
     else:
         registrationForm = RegistrationForm(request.form)
 
-        if registrationForm.valite():
+        if registrationForm.validate():
             email = registrationForm.email.data
             password = registrationForm.password.data
             username = registrationForm.username.data
