@@ -39,7 +39,7 @@ class User():
                     self.__lastName = databaseResult[4]
                     self.__avatar = databaseResult[5]
                     self.__isAdmin = databaseResult[6]
-                    return True
+                    return True, None
             except:
                 return False, Errors.LOGIN_ERROR
 

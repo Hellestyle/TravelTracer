@@ -2,13 +2,12 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, InputRequired, EqualTo
 from wtforms import ValidationError
-
 from database import Database
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Length(5, 40), Email()])
-    password = PasswordField("Password", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(message="Please enter your email"), Email(message="Inputs must be in email format")])
+    password = PasswordField("Password", validators=[DataRequired(message="Please enter your password")])
     submit = SubmitField("Log in")
 
 

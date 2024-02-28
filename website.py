@@ -26,17 +26,28 @@ def index():
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    loginform = LoginForm()
-    
-    if loginform.validate_on_submit():
-        email = loginform.email.data
-        password = loginform.password.data
-        user = User()
-        user.login(email,password)
-        return f'{user}'
-    
     if request.method == "GET":
-        return render_template("login.html",loginform = loginform)
+        return render_template("login.html")
+    
+    else:
+        loginForm = LoginForm(request.form)
+
+        if loginForm.validate():
+            email = loginForm.email.data
+            password = loginForm.password.data
+            user = User()
+            success, message = user.login(email, password)
+            if success:
+                return f'{user}'
+                #return to user profile page
+            else:
+                flash(message)
+                return redirect(url_for("login"))
+        else:
+            for errors in loginForm.errors.values():
+                for error in errors:
+                    flash(error)
+            return redirect(url_for("login"))
 
 
 @app.route("/signup", methods=["POST", "GET"])
@@ -52,10 +63,8 @@ def sign_up():
         user.login(registrationForm.email.data,registrationForm.password.data)
         return f'{user}'
         
-
-
     if request.method == "GET":
-        return render_template("signup.html", registrationForm = registrationForm)
+        return render_template("signup.html", registrationForm=registrationForm)
 
 
 if __name__ == "__main__":
