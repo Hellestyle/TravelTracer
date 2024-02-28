@@ -13,7 +13,7 @@ class Errors(Enum):
 
 class User():
 
-    def __init__(self, id = None, username=None, passhash=None, email=None, isAdmin = False, firstName=None , lastName = None, avatar = None) -> None:
+    def __init__(self, id=None, username=None, passhash=None, email=None, isAdmin=False, firstName=None , lastName=None, avatar=None) -> None:
 
         self.__id = id
         self.__username = username
@@ -30,7 +30,7 @@ class User():
         with Database() as db:
             try:
                 databaseResult = db.queryOne("SELECT * FROM user Where email = %s ", (email,))
-                if databaseResult and check_password_hash(pwhash = databaseResult[-1], password = password):
+                if databaseResult and check_password_hash(pwhash=databaseResult[-1], password=password):
                     self.__id = databaseResult[0]
                     self.__passhash = databaseResult[-1]
                     self.__username = databaseResult[1]
