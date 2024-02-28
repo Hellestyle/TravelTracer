@@ -32,4 +32,3 @@ class RegistrationForm(FlaskForm):
             username = field.data
             if db.queryOne("SELECT * FROM user Where username = %s ", (username,)):
                 raise ValidationError("Username already registered")
-         
