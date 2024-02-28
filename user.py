@@ -29,7 +29,7 @@ class User():
         # Check username and hash
         with Database() as db:
             try:
-                databaseResult = db.queryOne("SELECT * FROM user Where username = %s ", (username,))
+                databaseResult = db.queryOne("SELECT * FROM user Where username = %s ", (email,))
                 if databaseResult and check_password_hash(pwhash = databaseResult[-1], password = password):
                     self.__id = databaseResult[0]
                     self.__passhash = databaseResult[-1]
@@ -64,30 +64,6 @@ class User():
                 return False
 
 
-        
-    def isUsernameAvailible(self,username):
-        with Database() as db:
-            try:
-                usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
-            except Exception as e:
-                print(f"Error: {e}")
-                return False
-        if usernameResult == []:
-            return True
-        else:
-            return False
-        
-    def isEmailAvailible(self,email):
-        with Database() as db:
-            try:
-                emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
-            except Exception as e:
-                print(f"Error: {e}")
-                return False
-        if emailResult == []:
-            return True
-        else:
-            return False
     
 
     def registrer(self, firstName, lastName, email, username, password):
