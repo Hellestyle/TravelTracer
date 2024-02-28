@@ -3,14 +3,15 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 import secrets
-from forms import LoginForm
+from forms import LoginForm, RegistrationForm
+from user import User
 
 
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
 
 
-#csrf = CSRFProtect(app)
+csrf = CSRFProtect(app)
 
 
 #loginManager = LoginManager()
@@ -26,11 +27,18 @@ def index():
 @app.route("/login", methods=["POST", "GET"])
 def login():
     loginform = LoginForm()
+    
     if loginform.validate_on_submit():
-        email = None
-
+    #if request.method == "POST":
+        print("HEIOA")
+        email = loginform.email.data
+        password = loginform.password.data
+        user = User()
+        user.login(email,password)
+        return f'{user}'
+    
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("login.html",loginform = loginform)
 
 
 @app.route("/signup", methods=["POST", "GET"])
