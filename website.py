@@ -35,10 +35,11 @@ def login():
         if loginForm.validate():
             email = loginForm.email.data
             password = loginForm.password.data
+
             user = User()
             success, message = user.login(email, password)
             if success:
-                return f'{user}'
+                flash("Login successfully!")
                 #return to user profile page
             else:
                 flash(message)
@@ -52,19 +53,32 @@ def login():
 
 @app.route("/signup", methods=["POST", "GET"])
 def sign_up():
-    registrationForm = RegistrationForm()
-
-    if registrationForm.validate_on_submit():
-        user = User()
-        try:
-            user.registrer(registrationForm.first_name.data,registrationForm.last_name.data,registrationForm.email.data,registrationForm.username.data,registrationForm.password.data)
-        except:
-            return  "<h1>Error</h1>"
-        user.login(registrationForm.email.data,registrationForm.password.data)
-        return f'{user}'
-        
     if request.method == "GET":
-        return render_template("signup.html", registrationForm=registrationForm)
+        return render_template("signup.html")
+
+    else:
+        registrationForm = RegistrationForm(request.form)
+
+        if registrationForm.valite():
+            email = registrationForm.email.data
+            password = registrationForm.password.data
+            username = registrationForm.username.data
+            firstName = registrationForm.frist_name.data
+            lastName = registrationForm.last_name.data
+
+            user = User()
+            success, message = user.registrer(firstName, lastName, email, username, password)
+            if success:
+                flash("Registration Successful!")
+                return redirect(url_for("login"))
+            else:
+                flash(message)
+                return redirect(url_for("sign_up"))
+        else:
+            for errors in registrationForm.errors.values():
+                for error in errors:
+                    flash(error)
+            return redirect(url_for("sign_up"))
 
 
 if __name__ == "__main__":
