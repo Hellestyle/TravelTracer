@@ -12,9 +12,8 @@ class Errors(Enum):
 
 
 class User():
-
     def __init__(self, id=None, username=None, passhash=None, email=None, isAdmin=False, firstName=None , lastName=None, avatar=None) -> None:
-
+      
         self.__id = id
         self.__username = username
         self.__passhash = passhash
@@ -68,8 +67,6 @@ class User():
                 return False
 
 
-    
-
     def registrer(self, firstName, lastName, email, username, password):
         email = email.lower()
         passhash = generate_password_hash(password)
@@ -86,6 +83,15 @@ class User():
             except:
                 return False, Errors.DATABASE_ERROR.value
 
+
+    def deleteUser(self):
+        email = self.__email
+        with Database() as db:
+            try:
+                db.queryOne('DELETE FROM user WHERE email = %s ', (email,))
+                return True, "Sucess"
+            except:
+                return False, Errors.DATABASE_ERROR.value
 
 
     def __str__(self) -> str:
