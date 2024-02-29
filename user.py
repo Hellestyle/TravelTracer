@@ -90,6 +90,15 @@ class User():
                 return True, "No errors"
             except:
                 return False, Errors.DATABASE_ERROR.value
+    def deleteUser(self):
+        email = self.__email
+        with Database() as db:
+            try:
+                db.queryOne('DELETE FROM user WHERE email = %s ', (email,))
+                return True, "Sucess"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+
 
 
 
