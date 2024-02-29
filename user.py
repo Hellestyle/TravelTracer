@@ -12,9 +12,8 @@ class Errors(Enum):
 
 
 class User():
-
     def __init__(self, id=None, username=None, passhash=None, email=None, isAdmin=False, firstName=None , lastName=None, avatar=None) -> None:
-
+      
         self.__id = id
         self.__username = username
         self.__passhash = passhash
@@ -26,10 +25,12 @@ class User():
         
         
     def login(self, email, password):
+
         with Database() as db:
             try:
                 databaseResult = db.queryOne("SELECT * FROM user Where email = %s ", (email,))
                 if databaseResult and check_password_hash(pwhash=databaseResult[-1], password=password):
+
                     self.__id = databaseResult[0]
                     self.__passhash = databaseResult[-1]
                     self.__username = databaseResult[1]
@@ -38,11 +39,13 @@ class User():
                     self.__lastName = databaseResult[4]
                     self.__avatar = databaseResult[5]
                     self.__isAdmin = databaseResult[6]
+
                     return True, "No errors"
                 else:
                     return False, Errors.LOGIN_ERROR.value
             except:
                 return False, Errors.DATABASE_ERROR.value
+
 
         
     def isUsernameAvailible(self, username):
@@ -56,7 +59,9 @@ class User():
         
 
     def isEmailAvailible(self, email):
+
         email = email.lower()
+
         with Database() as db:
             try:
                 emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
@@ -69,6 +74,7 @@ class User():
     
 
     def registrer(self, firstName, lastName, email, username, password):
+
         email = email.lower()
         passhash = generate_password_hash(password)
 
@@ -76,6 +82,7 @@ class User():
             return False, Errors.EMAIL_ALREADY_EXISTS.value
         if not self.isUsernameAvailible(username):
             return False, Errors.USERNAME_ALREADY_EXISTS.value
+
         
         with Database() as db:
             try:
@@ -83,6 +90,7 @@ class User():
                 return True, "No errors"
             except:
                 return False, Errors.DATABASE_ERROR.value
+
 
 
 
