@@ -6,19 +6,19 @@ from database import Database
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(message="Please enter your email"), Email(message="Inputs must be in email format")])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Log in')
+    email = StringField('email', validators=[DataRequired(message="Please enter your email"), Email(message="Inputs must be in email format")])
+    password = PasswordField('password', validators=[DataRequired()])
+    submit = SubmitField('submit')
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(message="Please enter your email"), Length(min=5, max=30), Email(message="Inputs must be in email format")])
-    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=30, message="Minimun 3 characters")])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=30, message="Minimum 8 characters")])
-    password_confirm = PasswordField('Confirm password', validators=[EqualTo('password', message="Passwords must match")])
-    first_name = StringField('First name', validators=[DataRequired()])
-    last_name = StringField('Last name', validators=[DataRequired()])
-    submit = SubmitField('Register')
+    email = StringField('email', validators=[DataRequired(message="Please enter your email"), Length(min=5, max=30), Email(message="Inputs must be in email format")])
+    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=30, message="Minimum 8 characters")])
+    verify_password = PasswordField('verify_password', validators=[EqualTo('password', message="Passwords must match")])
+    username = StringField('username', validators=[DataRequired(), Length(min=3, max=30, message="Minimun 3 characters")])
+    first_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('last_name', validators=[DataRequired()])
+    submit = SubmitField('submit')
 
     #def validate_email(self, field):
     #    with Database() as db:
