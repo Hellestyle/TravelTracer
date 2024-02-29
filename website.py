@@ -40,6 +40,7 @@ def login():
             success, message = user.login(email, password)
             if success:
                 flash("Login successfully!")
+                return f"{user}"
                 #return to user profile page
             else:
                 flash(message)
