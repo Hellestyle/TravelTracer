@@ -2,24 +2,23 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, InputRequired, EqualTo
 from wtforms import ValidationError
-
 from database import Database
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Length(5, 40), Email()])
-    password = PasswordField("Password", validators=[DataRequired()])
-    submit = SubmitField("Log in")
+    email = StringField('email', validators=[DataRequired(message="Please enter your email"), Email(message="Email must use email format")])
+    password = PasswordField('password', validators=[DataRequired()])
+    submit = SubmitField('submit')
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Length(5, 40), Email()])
-    username = StringField("Username", validators=[DataRequired(), Length(2, 30)])
-    password = PasswordField("Password", validators=[DataRequired(), Length(min=8, message="Minimum 8 characters"), EqualTo("password2", message="Passwords must match.")])
-    password2 = PasswordField('Confirm password', validators=[DataRequired()])
-    first_name = StringField("First name", validators=[InputRequired()])
-    last_name = StringField("Last name", validators=[InputRequired()])
-    submit = SubmitField('Register')
+    email = StringField('email', validators=[DataRequired(message="Please enter your email"), Length(min=5, max=30), Email(message="Email must use the email format")])
+    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
+    verify_password = PasswordField('verify_password', validators=[EqualTo('password', message="The two passwords must match")])
+    username = StringField('username', validators=[DataRequired(), Length(min=3, max=30, message="Username must contain at least 3 characters")])
+    first_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('last_name', validators=[DataRequired()])
+    submit = SubmitField('submit')
 
     #def validate_email(self, field):
     #    with Database() as db:
