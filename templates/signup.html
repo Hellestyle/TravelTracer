@@ -11,18 +11,20 @@
 
   <div class="center">
     <form class="sign-up-form" action="{{ url_for('sign_up') }}" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
       <div class="inputbox">
         <input type="email" required="required" name="email">
         <span>Email</span>
       </div>
 
       <div class="inputbox">
-        <input type="text" required="required" name="password">
+        <input type="password" required="required" name="password">
         <span>Password</span>
       </div>
 
       <div class="inputbox">
-        <input type="text" required="required" name="verify-password">
+        <input type="password" required="required" name="verify_password">
         <span>Verify password</span>
       </div>
 
@@ -32,34 +34,29 @@
       </div>
 
       <div class="inputbox">
-        <input type="text" required="required" name="first-name">
+        <input type="text" required="required" name="first_name">
         <span>First name</span>
       </div>
 
       <div class="inputbox">
-        <input type="text" required="required" name="last-name">
+        <input type="text" required="required" name="last_name">
         <span>Last name</span>
       </div>
 
       <div class="inputbox">
-        <input type="button" value="submit">
+        <input type="submit" value="submit">
       </div>
     </form>
-    <form method="post" action="{{ url_for('sign_up') }}" enctype="multipart/form-data"> 
-      {{ registrationForm.csrf_token }}
-      <p>{{ registrationForm.email.label }} {{ registrationForm.email() }}</p> 
-      <p>{{ registrationForm.username.label }} {{ registrationForm.username() }}</p>
-      <p>{{ registrationForm.password.label }} {{ registrationForm.password() }}</p>
-      <p>{{ registrationForm.password2.label }} {{ registrationForm.password2() }}</p>
-      <p>{{ registrationForm.first_name.label }} {{ registrationForm.first_name() }}</p>
-      <p>{{ registrationForm.last_name.label }} {{ registrationForm.last_name() }}</p>
-      <p>{{ registrationForm.submit.label }} {{ registrationForm.submit() }}</p>
 
-
-    </form>
     
     <p>We promise only ever to use your
       <br>personal information in a legitimate way
     </p>
+
+    <ul>
+      {% for message in get_flashed_messages() %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
   </div>
 {% endblock %}
