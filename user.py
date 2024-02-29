@@ -26,7 +26,6 @@ class User():
         
         
     def login(self, email, password):
-        # Check username and hash
         with Database() as db:
             try:
                 databaseResult = db.queryOne("SELECT * FROM user Where email = %s ", (email,))
@@ -40,8 +39,10 @@ class User():
                     self.__avatar = databaseResult[5]
                     self.__isAdmin = databaseResult[6]
                     return True, "No errors"
+                else:
+                    return False, Errors.LOGIN_ERROR.value
             except:
-                return False, Errors.LOGIN_ERROR
+                return False, Errors.DATABASE_ERROR.value
 
         
     def isUsernameAvailible(self, username):
@@ -55,7 +56,7 @@ class User():
         
 
     def isEmailAvailible(self, email):
-        email.lower()
+        email = email.lower()
         with Database() as db:
             try:
                 emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
@@ -68,20 +69,20 @@ class User():
     
 
     def registrer(self, firstName, lastName, email, username, password):
-        email.lower()
+        email = email.lower()
         passhash = generate_password_hash(password)
 
         if not self.isEmailAvailible(email):
-            return False, Errors.EMAIL_ALREADY_EXISTS
+            return False, Errors.EMAIL_ALREADY_EXISTS.value
         if not self.isUsernameAvailible(username):
-            return False, Errors.USERNAME_ALREADY_EXISTS
+            return False, Errors.USERNAME_ALREADY_EXISTS.value
         
         with Database() as db:
             try:
                 db.query('INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, %s)', (username, email, firstName, lastName, passhash, 0,))
                 return True, "No errors"
             except:
-                return False, Errors.DATABASE_ERROR
+                return False, Errors.DATABASE_ERROR.value
 
 
 
