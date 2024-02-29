@@ -6,16 +6,16 @@ from database import Database
 
 
 class LoginForm(FlaskForm):
-    email = StringField('email', validators=[DataRequired(message="Please enter your email"), Email(message="Inputs must be in email format")])
+    email = StringField('email', validators=[DataRequired(message="Please enter your email"), Email(message="Email must use email format")])
     password = PasswordField('password', validators=[DataRequired()])
     submit = SubmitField('submit')
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField('email', validators=[DataRequired(message="Please enter your email"), Length(min=5, max=30), Email(message="Inputs must be in email format")])
-    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=30, message="Minimum 8 characters")])
-    verify_password = PasswordField('verify_password', validators=[EqualTo('password', message="Passwords must match")])
-    username = StringField('username', validators=[DataRequired(), Length(min=3, max=30, message="Minimun 3 characters")])
+    email = StringField('email', validators=[DataRequired(message="Please enter your email"), Length(min=5, max=30), Email(message="Email must use the email format")])
+    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
+    verify_password = PasswordField('verify_password', validators=[EqualTo('password', message="The two passwords must match")])
+    username = StringField('username', validators=[DataRequired(), Length(min=3, max=30, message="Username must contain at least 3 characters")])
     first_name = StringField('first_name', validators=[DataRequired()])
     last_name = StringField('last_name', validators=[DataRequired()])
     submit = SubmitField('submit')
