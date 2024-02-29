@@ -39,9 +39,7 @@ def login():
             user = User()
             success, message = user.login(email, password)
             if success:
-                flash("Login successfully!")
                 return f"{user}"
-                #return to user profile page
             else:
                 flash(message)
                 return redirect(url_for("login"))
@@ -70,8 +68,7 @@ def sign_up():
             user = User()
             success, message = user.registrer(firstName, lastName, email, username, password)
             if success:
-                flash("Registration Successful!")
-                return redirect(url_for("login"))
+                return f"{user}"
             else:
                 flash(message)
                 return redirect(url_for("sign_up"))

@@ -39,7 +39,7 @@ class User():
                     self.__lastName = databaseResult[4]
                     self.__avatar = databaseResult[5]
                     self.__isAdmin = databaseResult[6]
-                    return True, None
+                    return True, "No errors"
             except:
                 return False, Errors.LOGIN_ERROR
 
@@ -55,6 +55,7 @@ class User():
         
 
     def isEmailAvailible(self, email):
+        email.lower()
         with Database() as db:
             try:
                 emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
@@ -67,6 +68,7 @@ class User():
     
 
     def registrer(self, firstName, lastName, email, username, password):
+        email.lower()
         passhash = generate_password_hash(password)
 
         if not self.isEmailAvailible(email):
@@ -77,7 +79,7 @@ class User():
         with Database() as db:
             try:
                 db.query('INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, %s)', (username, email, firstName, lastName, passhash, 0,))
-                return True, None
+                return True, "No errors"
             except:
                 return False, Errors.DATABASE_ERROR
 
