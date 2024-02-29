@@ -29,7 +29,9 @@ class User():
         with Database() as db:
             try:
                 databaseResult = db.queryOne("SELECT * FROM user Where email = %s ", (email,))
-                if databaseResult and check_password_hash(pwhash=databaseResult[-1], password=password):
+                check_password_result = check_password_hash(pwhash=databaseResult[-1], password=password)
+
+                if len(databaseResult) != 0 and check_password_result == True:
                     self.__id = databaseResult[0]
                     self.__passhash = databaseResult[-1]
                     self.__username = databaseResult[1]
@@ -49,7 +51,7 @@ class User():
         with Database() as db:
             try:
                 usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
-                if not usernameResult:
+                if len(usernameResult) == 0:
                     return True
             except:
                 return False
@@ -60,7 +62,7 @@ class User():
         with Database() as db:
             try:
                 emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
-                if not emailResult:
+                if len(emailResult) == 0:
                     return True
             except:
                 return False
