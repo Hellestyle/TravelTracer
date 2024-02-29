@@ -6,18 +6,18 @@ from database import Database
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(message="Please enter your email"), Email(message="Inputs must be in email format")])
-    password = PasswordField("Password", validators=[DataRequired(message="Please enter your password")])
-    submit = SubmitField("Log in")
+    email = StringField('Email', validators=[DataRequired(message="Please enter your email"), Email(message="Inputs must be in email format")])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Log in')
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Length(5, 40), Email(message="Inputs must be in email format")])
-    username = StringField("Username", validators=[DataRequired(), Length(3, 30, message="Minimun 3 characters")])
-    password = PasswordField("Password", validators=[DataRequired(), Length(min=8, message="Minimum 8 characters")])
-    password2 = PasswordField('Confirm password', validators=[DataRequired(), EqualTo("password", message="Passwords must match")])
-    first_name = StringField("First name", validators=[DataRequired()])
-    last_name = StringField("Last name", validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(message="Please enter your email"), Length(min=5, max=30), Email(message="Inputs must be in email format")])
+    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=30, message="Minimun 3 characters")])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=30, message="Minimum 8 characters")])
+    password_confirm = PasswordField('Confirm password', validators=[EqualTo('password', message="Passwords must match")])
+    first_name = StringField('First name', validators=[DataRequired()])
+    last_name = StringField('Last name', validators=[DataRequired()])
     submit = SubmitField('Register')
 
     #def validate_email(self, field):
