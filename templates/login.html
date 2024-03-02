@@ -1,42 +1,43 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/login.css') }}"
+/>
+{% endblock %} {% block content %}
+<div id="dark-overlay"></div>
 
-{% block head %}
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
-{% endblock %}
-  
-{% block content %}
-  <div id="dark-overlay"></div>
+<div id="img-backgroud"></div>
 
-  <div id="img-backgroud"></div>
+<div class="center">
+  <h1>Welcome</h1>
 
-  <div class="center">
-    <h1>Welcome</h1>
+  <form class="login-form" action="{{ url_for('login') }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
-    <form class="login-form" action="{{ url_for('login') }}" method="post">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="inputbox">
+      <input type="email" required="required" name="email" />
+      <span>Email</span>
+    </div>
 
-      <div class="inputbox">
-        <input type="email" required="required" name="email">
-        <span>Email</span>
-      </div>
+    <div class="inputbox">
+      <input type="password" required="required" name="password" />
+      <span>Password</span>
+    </div>
 
-      <div class="inputbox">
-        <input type="password" required="required" name="password">
-        <span>Password</span>
-      </div>
+    <div class="inputbox">
+      <input type="submit" value="submit" />
+    </div>
+  </form>
 
-      <div class="inputbox">
-        <input type="submit" value="submit">
-      </div>
-    </form>
+  <a href="{{ url_for('sign_up') }}" target="_self" class="sign-up"
+    >Don't have an account? Click here</a
+  >
 
-    <a href="{{ url_for('sign_up') }}" target="_self" class="sign-up">Don't have an account? Click here</a>
-
-
-    <ul>
-      {% for message in get_flashed_messages() %}
-        <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  </div>
+  <ul>
+    {% for message in get_flashed_messages() %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}
