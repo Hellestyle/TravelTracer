@@ -42,7 +42,7 @@ def login():
                 return f"{user}"
             else:
                 flash(message)
-                return redirect(url_for("login"))
+                return render_template("login.html")
         else:
             for errors in loginForm.errors.values():
                 for error in errors:
@@ -71,7 +71,7 @@ def sign_up():
                 return f"Welcome {username}!"
             else:
                 flash(message)
-                return redirect(url_for("sign_up"))
+                return render_template("signup.html")
         else:
             for errors in registrationForm.errors.values():
                 for error in errors:
