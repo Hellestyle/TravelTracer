@@ -4,7 +4,8 @@ from enum import Enum
 
 
 class Errors(Enum):
-    LOGIN_ERROR = "Username or password is wrong"
+    USER_DOES_NOT_EXIST = "Username does not exist"
+    PASSWORD_ERROR = "Password is wrong"
     EMAIL_ALREADY_EXISTS = "Email Already exists"
     USERNAME_ALREADY_EXISTS = "Username already exists"
     DATABASE_ERROR = "Database error"
@@ -28,42 +29,44 @@ class User():
         with Database() as db:
             try:
                 databaseResult = db.queryOne("SELECT * FROM user Where email = %s ", (email,))
-                check_password_result = check_password_hash(pwhash=databaseResult[-1], password=password)
 
-                if len(databaseResult) != 0 and check_password_result == True:
-                    self.__id = databaseResult[0]
-                    self.__passhash = databaseResult[-1]
-                    self.__username = databaseResult[1]
-                    self.__email = databaseResult[2]
-                    self.__firstName = databaseResult[3]
-                    self.__lastName = databaseResult[4]
-                    self.__avatar = databaseResult[5]
-                    self.__isAdmin = databaseResult[6]
-                    return True, "No errors"
+                if databaseResult:
+                    check_password_result = check_password_hash(pwhash=databaseResult[-1], password=password)
+
+                    if check_password_result:
+                        self.__id = databaseResult[0]
+                        self.__passhash = databaseResult[-1]
+                        self.__username = databaseResult[1]
+                        self.__email = databaseResult[2]
+                        self.__firstName = databaseResult[3]
+                        self.__lastName = databaseResult[4]
+                        self.__avatar = databaseResult[5]
+                        self.__isAdmin = databaseResult[6]
+                        return True, "No errors"
+                    else:
+                        return False, Errors.PASSWORD_ERROR.value
                 else:
-                    return False, Errors.LOGIN_ERROR.value
+                    return False, Errors.USER_DOES_NOT_EXIST.value
             except:
                 return False, Errors.DATABASE_ERROR.value
 
         
     def isUsernameAvailible(self, username):
         with Database() as db:
-            try:
-                usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
-                if len(usernameResult) == 0:
-                    return True
-            except:
+            usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
+            if usernameResult == None:
+                return True
+            else:
                 return False
         
 
     def isEmailAvailible(self, email):
         email = email.lower()
         with Database() as db:
-            try:
-                emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
-                if len(emailResult) == 0:
-                    return True
-            except:
+            emailResult = db.query("SELECT * FROM user Where email = %s ", (email,))
+            if emailResult == None:
+                return True
+            else:
                 return False
 
 
