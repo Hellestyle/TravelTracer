@@ -1,25 +1,23 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/index.css') }}"
+/>
+{% endblock %} {% block title %} Welcome to TravelTracer {% endblock %} {% block
+container %}
+<h1>
+  Explore the world with<br />
+  <span>TravelTracer</span>
+</h1>
+{% endblock %} {% block content %}
+<div id="dark-overlay"></div>
 
-{% block head %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-{% endblock %}
-
-{% block title %}
-    Welcome to TravelTracer
-{% endblock %}
-
-{% block container %}
-    <h1>
-        Explore the world with<br>
-        <span>TravelTracer</span>
-    </h1>
-{% endblock %}
-
-{% block content %}
-    <div id="dark-overlay"></div>
-
-    <video muted autoplay loop id="video-backgroud">
-        <source src="{{ url_for('static', filename='videos/moutains.mp4') }}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+<video muted autoplay loop id="video-backgroud">
+  <source
+    src="{{ url_for('static', filename='videos/moutains.mp4') }}"
+    type="video/mp4"
+  />
+  Your browser does not support the video tag.
+</video>
 {% endblock %}

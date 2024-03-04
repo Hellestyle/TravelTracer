@@ -1,61 +1,62 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/signup.css') }}"
+/>
+{% endblock %} {% block content %}
+<div id="dark-overlay"></div>
 
-{% block head %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/signup.css') }}">
-{% endblock %}
+<div id="img-backgroud"></div>
 
-{% block content %}
-  <div id="dark-overlay"></div>
+<div class="center">
+  <form class="sign-up-form" action="{{ url_for('sign_up') }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
-  <div id="img-backgroud"></div>
+    <div class="inputbox">
+      <input type="email" required="required" name="email" />
+      <span>Email</span>
+    </div>
 
-  <div class="center">
-    <form class="sign-up-form" action="{{ url_for('sign_up') }}" method="post">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="inputbox">
+      <input type="password" required="required" name="password" />
+      <span>Password</span>
+    </div>
 
-      <div class="inputbox">
-        <input type="email" required="required" name="email">
-        <span>Email</span>
-      </div>
+    <div class="inputbox">
+      <input type="password" required="required" name="verify_password" />
+      <span>Verify password</span>
+    </div>
 
-      <div class="inputbox">
-        <input type="password" required="required" name="password">
-        <span>Password</span>
-      </div>
+    <div class="inputbox">
+      <input type="text" required="required" name="username" />
+      <span>Username</span>
+    </div>
 
-      <div class="inputbox">
-        <input type="password" required="required" name="verify_password">
-        <span>Verify password</span>
-      </div>
+    <div class="inputbox">
+      <input type="text" required="required" name="first_name" />
+      <span>First name</span>
+    </div>
 
-      <div class="inputbox">
-        <input type="text" required="required" name="username">
-        <span>Username</span>
-      </div>
+    <div class="inputbox">
+      <input type="text" required="required" name="last_name" />
+      <span>Last name</span>
+    </div>
 
-      <div class="inputbox">
-        <input type="text" required="required" name="first_name">
-        <span>First name</span>
-      </div>
+    <div class="inputbox">
+      <input type="submit" value="submit" />
+    </div>
+  </form>
 
-      <div class="inputbox">
-        <input type="text" required="required" name="last_name">
-        <span>Last name</span>
-      </div>
+  <p>
+    We promise only ever to use your <br />personal information in a legitimate
+    way
+  </p>
 
-      <div class="inputbox">
-        <input type="submit" value="submit">
-      </div>
-    </form>
-    
-    <p>We promise only ever to use your
-      <br>personal information in a legitimate way
-    </p>
-
-    <ul>
-      {% for message in get_flashed_messages() %}
-        <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  </div>
+  <ul>
+    {% for message in get_flashed_messages() %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}

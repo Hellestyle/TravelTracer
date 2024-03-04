@@ -23,13 +23,19 @@ class Database:
     def query(self,sql,params=None):
         self.cursor.execute(sql,params)
         result = self.cursor.fetchall()
-        return result
+        if result:
+            return result
+        else:
+            return None
 
 
     def queryOne(self,sql,params=None):
         self.cursor.execute(sql,params)
         result = self.cursor.fetchone()
-        return result
+        if result:
+            return result
+        else:
+            return None
     
 
 if __name__ == "__main__":
