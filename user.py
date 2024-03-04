@@ -4,6 +4,7 @@ from enum import Enum
 
 
 class Errors(Enum):
+    USER_OR_PASSWORD_ERROR = "Username or password is wrong"
     USER_DOES_NOT_EXIST = "Username does not exist"
     PASSWORD_ERROR = "Password is wrong"
     EMAIL_ALREADY_EXISTS = "Email Already exists"
@@ -44,9 +45,9 @@ class User():
                         self.__isAdmin = databaseResult[6]
                         return True, "No errors"
                     else:
-                        return False, Errors.PASSWORD_ERROR.value
+                        return False, Errors.USER_OR_PASSWORD_ERROR.value
                 else:
-                    return False, Errors.USER_DOES_NOT_EXIST.value
+                    return False, Errors.USER_OR_PASSWORD_ERROR.value
             except:
                 return False, Errors.DATABASE_ERROR.value
 
