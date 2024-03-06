@@ -81,6 +81,10 @@ h1 span {
     margin-top: 0;
 }
 
+.button-holder a{
+    text-decoration: none;
+}
+
 .view-more-button {
     cursor: pointer;
     font-weight: 700;
