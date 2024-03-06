@@ -32,16 +32,16 @@
 .container .sights{
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 50px;
 }
 
 .container .sights .sight-item{
     padding: 24px;
-    width: 460px;
+    width: 450px;
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
     border: 1px solid black;    
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 .container .sights .sight-item h3{

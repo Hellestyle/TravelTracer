@@ -28,3 +28,88 @@ h1 span {
     object-fit: cover;
     z-index: -2;
 }
+
+.container {
+    padding: 60px 148px;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    display: flex;
+    height: 60vh;
+}
+
+.container .sights{
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+}
+
+.container .sights .sight-item{
+    padding: 24px;
+    width: 600px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid black;    
+    border-radius: 15px;
+}
+
+.container .sights .sight-item h3{
+    font-size: 26px;
+    margin-bottom: 18px;
+}
+
+.container .sights .sight-item .info{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.container .sights .sight-item .info h5{
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.container .sights .sight-item p{
+    width: 400px;
+}
+
+.button-holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+}
+
+.view-more-button {
+    cursor: pointer;
+    font-weight: 700;
+    font-family: Helvetica,"sans-serif";
+    transition: all .2s;
+    padding: 10px 20px;
+    border-radius: 100px;
+    background: #60c79a;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+  
+.view-more-button:hover {
+    background: #fff;
+}
+  
+.view-more-button > svg {
+    width: 34px;
+    margin-left: 10px;
+    transition: transform .3s ease-in-out;
+}
+  
+.view-more-button:hover svg {
+    transform: translateX(5px);
+}
+  
+.view-more-button:active {
+    transform: scale(0.95);
+}
+  

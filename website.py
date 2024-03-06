@@ -29,7 +29,21 @@ app.register_blueprint(user_profile, url_prefix="/user-profile")
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    sights=[
+            {'name': 'Eiffel Tower'},
+            {'name': 'Statue of Liberty'},
+            {'name': 'Great Wall of China'},
+            {'name': 'Taj Mahal'},
+            {'name': 'Pyramids of Giza'},
+            {'name': 'Colosseum'},
+            {'name': 'Machu Picchu'},
+            {'name': 'Stonehenge'},
+            {'name': 'Petra'},
+            {'name': 'Chichen Itza'},
+            {'name': 'Christ the Redeemer'},
+            {'name': 'Angkor Wat'}
+            ]
+    return render_template("index.html", sights=sights)
 
 
 if __name__ == "__main__":
