@@ -78,9 +78,9 @@ def sign_up():
             return render_template("signup.html", form=registrationForm)
 
 
-@app.route("/attractions")
-def attractions():
-    return render_template("attractions.html")
+@app.route("/sights")
+def sights():
+    return render_template("sights.html")
 
 
 if __name__ == "__main__":
