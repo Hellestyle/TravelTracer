@@ -6,12 +6,16 @@ import secrets
 from forms import LoginForm, RegistrationForm
 from user import User
 
+from sight.sight import sight
+
 
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
 
 
 csrf = CSRFProtect(app)
+
+app.register_blueprint(sight, url_prefix="/sight")
 
 
 #loginManager = LoginManager()
@@ -77,11 +81,6 @@ def sign_up():
                 for error in errors:
                     flash(error)
             return redirect(url_for("sign_up"))
-
-
-@app.route("/attractions")
-def attractions():
-    return render_template("attractions.html")
 
 
 if __name__ == "__main__":

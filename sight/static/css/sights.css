@@ -14,7 +14,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('/static/images/brige.jpg');
+    background-image: url('/sight/static/images/brige.jpg');
     background-size: cover;
     background-position: center;
     z-index: -2;
@@ -29,13 +29,13 @@
     display: flex;
 }
 
-.container .attractions{
+.container .sights{
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
-.container .attractions .attraction-item{
+.container .sights .sight-item{
     padding: 24px;
     width: 460px;
     background: rgba(255, 255, 255, 0.5);
@@ -44,23 +44,23 @@
     border-radius: 10px;
 }
 
-.container .attractions .attraction-item h3{
+.container .sights .sight-item h3{
     font-size: 26px;
     margin-bottom: 18px;
 }
 
-.container .attractions .attraction-item .info{
+.container .sights .sight-item .info{
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
 }
 
-.container .attractions .attraction-item .info h5{
+.container .sights .sight-item .info h5{
     font-size: 18px;
     font-weight: 400;
 }
 
-.container .attractions .attraction-item p{
+.container .sights .sight-item p{
     width: 400px;
 }
 
