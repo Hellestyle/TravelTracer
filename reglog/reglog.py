@@ -37,8 +37,10 @@ def login():
 @reglog.route("/signup", methods=["POST", "GET"])
 def sign_up():
 
+    registrationForm = RegistrationForm(request.form)
+
     if request.method == "GET":
-        return render_template("reglog/signup.html")
+        return render_template("reglog/signup.html", form=registrationForm)
 
     else:
         registrationForm = RegistrationForm(request.form)
@@ -56,9 +58,9 @@ def sign_up():
                 return f"Welcome {username}!"
             else:
                 flash(message)
-                return render_template("reglog/signup.html")
+                return render_template("reglog/signup.html", form=registrationForm)
         else:
             for errors in registrationForm.errors.values():
                 for error in errors:
                     flash(error)
-            return redirect(url_for("reglog.sign_up"))
+            return render_template("reglog/signup.html", form=registrationForm)
