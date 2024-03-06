@@ -28,11 +28,11 @@
 
   <body>
     <section id="hero">
-      <div class="container">
+      <div class="nav-container">
         <header>
           <a href="{{ url_for('index') }}" target="_self"
             ><img
-              src="{{ url_for('static', filename='images/TravelTracer-removebg.png') }}"
+              src="{{ url_for('static', filename='images/TravelTracer.png') }}"
               alt="logo"
               height="50"
               width="200"
@@ -41,7 +41,12 @@
           <nav>
             <ul>
               <li>
-                <a href="#" target="_self" class="buttons">Attractions</a>
+                <a
+                  href="{{ url_for('attractions') }}"
+                  target="_self"
+                  class="buttons"
+                  >Attractions</a
+                >
               </li>
               <li>
                 <a href="#" target="_self" class="buttons">Achievements</a>

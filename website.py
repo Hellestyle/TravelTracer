@@ -79,5 +79,10 @@ def sign_up():
             return redirect(url_for("sign_up"))
 
 
+@app.route("/attractions")
+def attractions():
+    return render_template("attractions.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
