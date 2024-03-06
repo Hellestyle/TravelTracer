@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template
+
+from database import  Database
+from models.sight import Sight
 
 
 sight = Blueprint("sight", __name__, template_folder="templates", static_folder="static")
@@ -69,6 +72,11 @@ def sights():
             {'name': 'Chateau de La Chapelle-Blanche-Saint-Martin'},
             {'name': 'Chateau de La Chapelle-Bâton'},
     ]
+
+    # with Database() as db:
+        
+    #     sight = Sight(db)
+    #     sights = sight.getAllSights()
 
     return render_template(
         "sight/sights.html",
