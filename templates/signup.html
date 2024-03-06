@@ -14,32 +14,62 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
     <div class="inputbox">
-      <input type="email" required="required" name="email" />
+      <input
+        type="email"
+        required="required"
+        name="email"
+        value="{{ form.email.data if form.email.data is not none else '' }}"
+      />
       <span>Email</span>
     </div>
 
     <div class="inputbox">
-      <input type="password" required="required" name="password" />
+      <input
+        type="password"
+        required="required"
+        name="password"
+        value="{{ form.password.data if form.password.data is not none else '' }}"
+      />
       <span>Password</span>
     </div>
 
     <div class="inputbox">
-      <input type="password" required="required" name="verify_password" />
+      <input
+        type="password"
+        required="required"
+        name="verify_password"
+        value="{{ form.verify_password.data if form.verify_password.data is not none else '' }}"
+      />
       <span>Verify password</span>
     </div>
 
     <div class="inputbox">
-      <input type="text" required="required" name="username" />
+      <input
+        type="text"
+        required="required"
+        name="username"
+        value="{{ form.username.data if form.username.data is not none else '' }}"
+      />
       <span>Username</span>
     </div>
 
     <div class="inputbox">
-      <input type="text" required="required" name="first_name" />
+      <input
+        type="text"
+        required="required"
+        name="first_name"
+        value="{{ form.first_name.data if form.first_name.data is not none else '' }}"
+      />
       <span>First name</span>
     </div>
 
     <div class="inputbox">
-      <input type="text" required="required" name="last_name" />
+      <input
+        type="text"
+        required="required"
+        name="last_name"
+        value="{{ form.last_name.data if form.last_name.data is not none else '' }}"
+      />
       <span>Last name</span>
     </div>
 
