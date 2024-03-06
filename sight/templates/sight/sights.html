@@ -11,30 +11,30 @@
 
 {% for i in range(0, sights|length, 3) %}
 
-  <div class="container">
-    <div class="sights">
+  {% if i < 9 %}
+    <div class="container">
+      <div class="sights">
 
-      {% for sight in sights[i:i+3] %}
-
-        <div class="sight-item">
-          <h3> {{ sight.name }} </h3>
-          <div class="info">
-            <h5>05 Mar 2024</h5>
-            <h5>|</h5>
-            <h5>Tromsobadet</h5>
+        {% for sight in sights[i:i+3] %}
+          <div class="sight-item">
+            <h3> {{ sight.name }} </h3>
+            <div class="info">
+              <h5>05 Mar 2024</h5>
+              <h5>|</h5>
+              <h5>Tromsobadet</h5>
+            </div>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate enim
+              ad distinctio at quos sequi voluptatibus eveniet facere dicta ut illum
+              atque, rem autem, impedit ea. Pariatur assumenda architecto quidem.
+            </p>
           </div>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate enim
-            ad distinctio at quos sequi voluptatibus eveniet facere dicta ut illum
-            atque, rem autem, impedit ea. Pariatur assumenda architecto quidem.
-          </p>
-        </div>
+        {% endfor %}
 
-      {% endfor %}
-
+      </div>
     </div>
-  </div>
-
+  {% endif %}
+  
 {% endfor %}
 
 <div class="button-container">
