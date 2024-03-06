@@ -96,6 +96,23 @@ class User():
                 return True, "Sucess"
             except:
                 return False, Errors.DATABASE_ERROR.value
+            
+    def changePassword(self,oldPass,newPass,newPassCheck):
+        with Database() as db:
+            try:
+                result = db.queryOne("SELECT email,password FROM user Where email = %s ", (self.__email,))
+                if check_password_hash(result[1],oldPass) and newPass == newPassCheck:
+                    newPassHash = generate_password_hash(newPass)
+                    try:
+                        db.queryOne('UPDATE user SET password = %s WHERE `user`.`email` = %s', (newPassHash,self.__email,))
+                    except:
+                        return False, Errors.DATABASE_ERROR.value
+                    return True, "Success"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+            
+                
+                
 
 
     def __str__(self) -> str:
