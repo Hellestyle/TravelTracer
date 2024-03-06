@@ -8,7 +8,7 @@ from user import User
 
 from sight.sight import sight
 from reglog.reglog import reglog
-from user.user import user
+from user_profile.user_profile import user_profile
 
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ csrf = CSRFProtect(app)
 
 app.register_blueprint(sight, url_prefix="/sight")
 app.register_blueprint(reglog, url_prefix="/reglog")
-app.register_blueprint(user, url_prefix="/user")
+app.register_blueprint(user_profile, url_prefix="/user-profile")
 
 
 #loginManager = LoginManager()
