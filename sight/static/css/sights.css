@@ -67,12 +67,21 @@
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 20px;
 }
 
 .button-container .bn{
     width: 8em;
     height: 3em;
+}
+
+.button-container .pagination-button {
+    width: 3em;
+    height: 3em;
+}
+
+.button-container .pagination-button-active {
+    background-color: #aaa;
 }
 
 button {
@@ -81,7 +90,7 @@ button {
     border-radius: 10em;
     font-size: 17px;
     font-weight: 600;
-    padding: 1em 2em;
+    padding: 1em 1em;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     border: 1px solid black;

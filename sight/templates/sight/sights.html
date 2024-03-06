@@ -4,6 +4,7 @@
   type="text/css"
   href="{{ url_for('.static', filename='css/sights.css') }}"
 />
+<script src="{{ url_for('.static', filename='js/pagination.js') }}"> </script>
 {% endblock %} {% block title %} Sights {% endblock %} {% block content %}
 <div id="dark-overlay"></div>
 
@@ -11,8 +12,7 @@
 
 {% for i in range(0, sights|length, 3) %}
 
-  {% if i < 9 %}
-    <div class="container">
+    <div class="container" style="display: {{ 'block' if loop.index <= 3 else 'none' }};">
       <div class="sights">
 
         {% for sight in sights[i:i+3] %}
@@ -33,14 +33,23 @@
 
       </div>
     </div>
-  {% endif %}
   
 {% endfor %}
 
-<div class="button-container">
-  <button class="bn">Previous</button>
+{% if sights|length > 9 %}
 
-  <button class="bn">Next</button>
-</div>
+  <div class="button-container">
+
+    <button class="bn" onclick="previousPage();"> Previous </button>
+
+    {% for i in range(0, sights|length, 9) %}
+      <button class="pagination-button {{ 'pagination-button-active' if loop.index == 1 else '' }}" onclick="switchPage({{ loop.index }});"> {{ loop.index }} </button>
+    {% endfor %} 
+
+    <button class="bn" onclick="nextPage();"> Next </button>
+
+  </div>
+
+{% endif %}
 
 {% endblock %}
