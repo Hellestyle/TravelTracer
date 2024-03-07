@@ -3,15 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     background-color: #cdcdcd;
-}
 
-.backgournd-image {
-    background-image: url(/sight/static/images/tromso.jpeg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    height: 50vh;
-    width: 100%;
 }
 
 .header {
@@ -20,6 +12,8 @@
     padding: 50px;
     align-items: center;
     justify-content: space-around;
+    height: 10vh;
+    margin-top: 100px;
 }
   
 .header h1 {
@@ -58,18 +52,139 @@
     justify-content: center;
     margin-top: 50px;
     align-items: center;
+    gap: 10px;
+}
+
+.button-left {
+    --primary-color: #23b783;
+    --secondary-color: #fff;
+    --hover-color: #111;
+    --arrow-width: 10px;
+    --arrow-stroke: 2px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 10px;
+    color: var(--secondary-color);
+    padding: 10px 20px;
+    background: var(--primary-color);
+    display: flex;
+    transition: 0.2s background;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+}
+  
+.button-left .arrow-wrapper-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.button-left .arrow-left {
+    margin-top: 1px;
+    width: var(--arrow-width);
+    background: var(--primary-color);
+    height: var(--arrow-stroke);
+    position: relative;
+    transition: 0.2s;
+}
+  
+.button-left .arrow-left::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    border: solid var(--secondary-color);
+    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+    display: inline-block;
+    top: -3px;
+    left: 3px;
+    transition: 0.2s;
+    padding: 3px;
+    transform: rotate(135deg);
+}
+  
+.button-left:hover {
+    background-color: var(--hover-color);
+}
+  
+.button-left:hover .arrow-left {
+    background: var(--secondary-color);
+}
+  
+.button-left:hover .arrow-left:before {
+    left: 0;
 }
 
 .image-container img {
+    display: flex;
     width: 30%;
-    height: auto;
+    height: 400px;
     object-fit: cover;
-    margin-right: 10px;
     border: hidden;    
-    box-shadow: 10px 5px 5px gray;
+    box-shadow: 5px 5px 5px gray;
     border-radius: 15px;
 }
   
+.button-right {
+    --primary-color: #23b783;
+    --secondary-color: #fff;
+    --hover-color: #111;
+    --arrow-width: 10px;
+    --arrow-stroke: 2px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 10px;
+    color: var(--secondary-color);
+    padding: 10px 20px;
+    background: var(--primary-color);
+    display: flex;
+    transition: 0.2s background;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+}
+  
+.button-right .arrow-wrapper-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.button-right .arrow-right {
+    margin-top: 1px;
+    width: var(--arrow-width);
+    background: var(--primary-color);
+    height: var(--arrow-stroke);
+    position: relative;
+    transition: 0.2s;
+}
+  
+.button-right .arrow-right::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    border: solid var(--secondary-color);
+    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+    display: inline-block;
+    top: -3px;
+    right: 3px;
+    transition: 0.2s;
+    padding: 3px;
+    transform: rotate(-45deg);
+}
+  
+.button-right:hover {
+    background-color: var(--hover-color);
+}
+  
+.button-right:hover .arrow-right {
+    background: var(--secondary-color);
+}
+  
+.button-right:hover .arrow-right:before {
+    right: 0;
+}
+
 .content {
     display: flex;
     justify-content: center;
@@ -82,7 +197,7 @@
     height: 300px;
     padding: 30px 25px;
     border: hidden;    
-    box-shadow: 10px 5px 5px gray;
+    box-shadow: 5px 5px 5px gray;
     border-radius: 15px;
     overflow: auto;
 }
