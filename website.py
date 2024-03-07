@@ -10,6 +10,10 @@ from sight.sight import sight
 from reglog.reglog import reglog
 from user_profile.user_profile import user_profile
 
+import random as rand
+from database import  Database
+from models.sight import Sight
+
 
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
@@ -29,22 +33,14 @@ app.register_blueprint(user_profile, url_prefix="/user-profile")
 
 @app.route("/")
 def index():
-    sights=[
-            {'name': 'Eiffel Tower'},
-            {'name': 'Statue of Liberty'},
-            {'name': 'Great Wall of China'},
-            {'name': 'Taj Mahal'},
-            {'name': 'Pyramids of Giza'},
-            {'name': 'Colosseum'},
-            {'name': 'Machu Picchu'},
-            {'name': 'Stonehenge'},
-            {'name': 'Petra'},
-            {'name': 'Chichen Itza'},
-            {'name': 'Christ the Redeemer'},
-            {'name': 'Angkor Wat'}
-            ]
-    return render_template("index.html", sights=sights)
 
+    with Database(dict_cursor=True) as db:
+        
+        sight_model = Sight(db)
+
+        sights = sight_model.getAllSights()
+
+    return render_template("index.html", sights=(rand.sample(sights,3)))
 
 if __name__ == "__main__":
     app.run(debug=True)
