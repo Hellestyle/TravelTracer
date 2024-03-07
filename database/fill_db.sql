@@ -100,7 +100,7 @@ INSERT INTO sight_has_achievement (achievement_id, sight_id) VALUES
 	(2, 5),
 	(1, 6), (2, 6);
 
--- Імена згенеровані за допомогою Python бібліотеки Faker (fake_names.py)
+-- Navn generert ved hjelp av Faker Python-biblioteket (fake_names.py)
 INSERT INTO `user` (username, email, firstname, lastname, avatar, admin, password) VALUES
 	('tetiana2024', 'tetiana.v@example.com', 'Tetiana', 'V', '1.png', 1, 'pbkdf2:sha256:600000$HQ3uN5G0VQOyzKKId8hSslCW5CNk0uUd$87a2a0112338f66e7f52f332042b88df6e9adf8279117d48030c0d7844f80e91'), -- Password: 12345
 	('jm12345', 'jammil@test.com', 'James', 'Miller', NULL, 0, 'pbkdf2:sha256:600000$lGJbCpHVxZhz9EXLmCWawhsOAAy0vm4F$ab3d9defab1ba7a3f65392019173eab7c6dec08ceeb60fe15a0bf8cd7998c773'), -- Password: abc111
