@@ -51,9 +51,10 @@ h1 span {
     max-width: 100%;
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
-    border: 1px solid black;    
     border-radius: 15px;
     overflow: auto;
+    border: hidden;    
+    box-shadow: 10px 5px 5px gray;
 }
 
 .container .sights .sight-item h3{
