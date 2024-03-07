@@ -16,19 +16,29 @@
       <div class="sights">
 
         {% for sight in sights[i:i+3] %}
-          <div class="sight-item">
-            <h3> {{ sight.name }} </h3>
-            <div class="info">
-              <h5>05 Mar 2024</h5>
-              <h5>|</h5>
-              <h5>Tromsobadet</h5>
+          <a class="sight-link" href="{{ url_for('sight.sight_details', sight_id=sight.id) }}">
+            <div class="sight-item">
+              <img class="sight-photo" src="{{ url_for('static', filename='images/sight/' + sight.photos[0]) }}" alt="{{ sight.name }}" />
+                <h3> {{ sight.name }} </h3>
+                <div class="info sight-info">
+                  <h5>
+                    {% if sight.visited == 0 %}
+                      No people visited this sight yet
+                    {% elif sight.visited == 1 %}
+                      1 person visited this sight
+                    {% else %}
+                      {{ sight.visited }} people visited this sight
+                    {% endif %}
+                  </h5>
+                  <h5>
+                    {% for sight_type in sight.sight_types %}
+                      <span class="sight-type"> {{ sight_type }} </span>
+                    {% endfor %}
+                  </h5>
+                  <h5> {{ sight.age_category }} </h5>
+                </div>
             </div>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate enim
-              ad distinctio at quos sequi voluptatibus eveniet facere dicta ut illum
-              atque, rem autem, impedit ea. Pariatur assumenda architecto quidem.
-            </p>
-          </div>
+          </a>
         {% endfor %}
 
       </div>

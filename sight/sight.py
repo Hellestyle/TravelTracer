@@ -81,9 +81,21 @@ def sights():
 
         sights = sight_model.getAllSights()
 
-    print(sights)
-
     return render_template(
         "sight/sights.html",
         sights=sights
+    )
+
+@sight.route("/sight/<int:sight_id>")
+def sight_details(sight_id):
+    
+    with Database(dict_cursor=True) as db:
+        
+        sight_model = Sight(db)
+
+        sight = sight_model.getSight(sight_id)
+
+    return render_template(
+        "sight/sight.html",
+        sight=sight
     )
