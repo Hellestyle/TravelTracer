@@ -71,13 +71,13 @@ INSERT INTO sight_type_meta (sight_type_id, language_id, name, description) VALU
 INSERT INTO age_category (min_age, max_age) VALUES
 	(NULL, NULL), (NULL, 6), (6, 13), (13, 18), (18, 25), (25, 45), (45, 65), (65, NULL);
 
-INSERT INTO sight (city_id, age_category_id, latitude, longitude, active, open_time, close_time) VALUES
-	(1, 1, 59.9094153, 10.7406971, 1, '6:00:00', '22:00:00'),
-	(2, 5, 68.4370305, 17.424379, 1, '12:00:00', '23:00:00'),
-	(3, 1, 69.6535678, 18.9598588, 1, '6:00:00', '18:00:00'),
-	(3, 6, 69.6501545, 18.9414836, 1, '11:00:00', '17:00:00'),
-	(3, 1, 69.6639835, 18.9480026, 0, NULL, NULL),
-	(4, 1, 40.6898353, 74.0466458, 1, NULL, NULL);
+INSERT INTO sight (city_id, age_category_id, google_maps_url, active, open_time, close_time) VALUES
+	(1, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2000.365925839628!2d10.740637377483424!3d59.90947417490049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46416e88f67085cd%3A0xdcf2357905a03761!2sStatholdergaarden!5e0!3m2!1sno!2sno!4v1709823648099!5m2!1sno!2sno', 1, '6:00:00', '22:00:00'),
+	(2, 5, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1466.3510485544261!2d17.421929099192013!3d68.43704862923146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45dbbfb7ea6d0a83%3A0x3b144d7377078f89!2sFuru%20Gastropub!5e0!3m2!1sno!2sno!4v1709823114173!5m2!1sno!2sno', 1, '12:00:00', '23:00:00'),
+	(3, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1386.3987020284865!2d18.968909578055616!3d69.66648738114753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45df105e7e017a9b%3A0x451a9b89b8677a2f!2sRestaurant%20Smak%20AS!5e0!3m2!1sno!2sno!4v1709823360328!5m2!1sno!2sno', 1, '6:00:00', '18:00:00'),
+	(3, 6, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1387.329332266788!2d18.96074607805482!3d69.65223428113663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45c4c4538f889c73%3A0x7072e24b8fa74ca8!2sPolarmuseet%20i%20Troms%C3%B8!5e0!3m2!1sno!2sno!4v1709823417696!5m2!1sno!2sno', 1, '11:00:00', '17:00:00'),
+	(3, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1386.5696721282113!2d18.944414978055505!3d69.6638689811456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45c4c445e2ebeb71%3A0x210cefa26c302f6f!2sCharlottenlund%20aktivitets-%20og%20friluftspark!5e0!3m2!1sno!2sno!4v1709823533949!5m2!1sno!2sno', 0, NULL, NULL),
+	(4, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3025.2676073911716!2d-74.04788002347213!3d40.69010357139694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c251435afe5fdd%3A0x961a3af922a7eeae!2sStatue%20of%20Liberty%20Museum!5e0!3m2!1sno!2sno!4v1709823582662!5m2!1sno!2sno', 1, NULL, NULL);
 
 INSERT INTO sight_meta (sight_id, language_id, name, address, description) VALUES
 	(1, 1, 'Statholdergaarden', 'Raadhusgata 11, Oslo 0151 Norway', 'Statholdergaarden is Bent Stiansen\'s gourmet restaurant. In 1993, Bent Stiansen became the world master of the culinary contest, Bocuse d`Or. He and his team have developed Statholdergaarden into one of Oslo\'s and Norway\'s best restaurants.'), -- https://statholdergaarden.no/en/home?mobile=no
