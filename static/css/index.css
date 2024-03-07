@@ -1,3 +1,7 @@
+body {
+    margin-top: 0;
+}
+
 h1 {
     font-size: 4.875rem;
     font-weight: 700;
@@ -30,58 +34,39 @@ h1 span {
 }
 
 .container {
-    padding: 60px 148px;
+    padding: 50px 150px;
     justify-content: center;
     align-items: center;
-    top: 0;
-    left: 0;
     display: flex;
     height: 60vh;
+    margin-top: 200px;
+    margin-bottom: 0;
 }
 
 .container .sights{
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 2vw;
+    gap: 3vw;
 }
 
 .container .sights .sight-item{
-    padding: 20px;
+    padding: 10px;
+    max-height: 100%;
     max-width: 100%;
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     overflow: auto;
     border: hidden;    
-    box-shadow: 10px 5px 5px gray;
-}
-
-.container .sights .sight-item h3{
-    font-size: 26px;
-    margin-bottom: 18px;
-}
-
-.container .sights .sight-item .info{
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.container .sights .sight-item .info h5{
-    font-size: 18px;
-    font-weight: 400;
-}
-
-.container .sights .sight-item p{
-    width: 400px;
+    box-shadow: 5px 5px 5px gray;
 }
 
 .button-holder {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-top: 100px;
+    align-items: flex-start;
+    margin-top: -100px;
+    padding: 0;
 }
 
 .button-holder a{
@@ -119,23 +104,22 @@ h1 span {
 .view-more-button:active {
     transform: scale(0.95);
 }
-  
 
 .sight-link {
     text-decoration: none;
     color: inherit;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .sight-link:hover {
     cursor: pointer;
     transform: scale(1.1);
-    transition: all 0.5s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
-.sight-photo {
-    width: 400px;
-    height: 400px;
+.container .sights .sight-item .sight-photo{
+    width: 450px;
+    height: 250px;
     border-radius: 15px;
     object-fit: cover;
 }
@@ -145,13 +129,17 @@ h1 span {
     flex-direction: column;
 }
 
+.sight-item h3 {
+    margin: 5px;
+}
+
 .sight-info h5 {
     margin: 2px 5px;
     color: #585858;
 }
 
 .sight-info h5 .sight-type {
-    margin: 0 3px;
+    margin: 0 5px;
     padding: 3px;
     border-radius: 5px;
     color: #333;
