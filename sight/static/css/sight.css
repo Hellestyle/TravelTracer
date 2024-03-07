@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #cdcdcd;
+}
+
+.backgournd-image {
+    background-image: url(/sight/static/images/tromso.jpeg);
+    background-size: cover;
+    height: 50vh;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    color: black;
+    padding: 50px;
+    align-items: center;
+    justify-content: space-around;
+}
+  
+.header h1 {
+    margin-bottom: 10px;
+}
+  
+.header-button {
+    position: relative;
+    display: inline-block;
+    margin: 15px;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: black;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid black;
+    border-radius: 15px;
+    box-shadow: inset 0 0 0 0 gray;
+}
+
+.header-button:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 black;
+}
+
+.header-button:active {
+    transform: scale(0.9);
+}
+  
+.content {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    align-items: center; 
+}
+  
+.text {
+    width: 30%;
+    height: 300px;
+    padding: 30px 25px;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+  
+.text h3 {
+    margin-bottom: 15px;
+}
+  
+.text p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+    font-size: 18px;
+}
+
+.map {
+    width: 30%;
+    height: 300px;
+    margin: 0 10px; 
+    border: 1px solid black;
+    border-radius: 15px;
+}
+  
+.map iframe {
+    width: 100%;
+    height: 100%;
+    border: 1px hidden;
+    border-radius: 15px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+
+}
+
+.back-button {
+    color: black;
+    background-color: transparent;
+    padding: 25px 50px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: .3s ease-in-out;
+    box-shadow: inset 2px 5px 10px rgba(0,0,0,0.2);
+    letter-spacing: 0.2em;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+  
+.back-button:hover {
+    letter-spacing: 0.5em;
+    transform: translateY(-0.8em);
+    background: #171717;
+    color: white;
+}
+  
+.back-button:active {
+    letter-spacing: 0.4em;
+    transition: 0.1s all;
+    transform: translateY(-0.6em);
+    background: #171717;
+    color: white;
+}
