@@ -36,8 +36,15 @@ INSERT INTO sight_type_meta (sight_type_id, language_id, name, description) VALU
 	(4, 1, 'Natural attractions', 'Mountains, lakes, and other natural places'), (4, 2, 'Naturlig attraksjoner', 'Fjell, innsjøer og andre naturlige steder'),
 	(5, 1, 'Monuments', 'Famous monuments'), (5, 2, 'Monumenter', 'Kjente monumenter');
 
-INSERT INTO age_category (min_age, max_age) VALUES
-	(NULL, NULL), (NULL, 6), (6, 13), (13, 18), (18, 25), (25, 45), (45, 65), (65, NULL);
+INSERT INTO age_category () VALUES (), (), (), (), (), ();
+
+INSERT INTO age_category_meta (age_category_id, language_id, name) VALUES
+	(1, 1, 'Children (0-12 years)'), 
+    (2, 1, 'Family-friendly'), 
+    (3, 1, 'Teenagers (13-19 years)'), 
+    (4, 1, 'Young Adults (20-30 years)'), 
+    (5, 1, 'Adults (31-60 years)'), 
+    (6, 1, 'Seniors (60+ years)');
 
 INSERT INTO sight (city_id, age_category_id, google_maps_url, active, open_time, close_time) VALUES
 	(1, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2000.365925839628!2d10.740637377483424!3d59.90947417490049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46416e88f67085cd%3A0xdcf2357905a03761!2sStatholdergaarden!5e0!3m2!1sno!2sno!4v1709823648099!5m2!1sno!2sno', 1, '6:00:00', '22:00:00'),
