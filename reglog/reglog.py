@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 
 from forms import LoginForm, RegistrationForm
 from user import User
+from flask import flash
 
 
 reglog = Blueprint("reglog", __name__, template_folder="templates", static_folder="static")
@@ -9,13 +10,12 @@ reglog = Blueprint("reglog", __name__, template_folder="templates", static_folde
 
 @reglog.route("/login", methods=["POST", "GET"])
 def login():
+    loginForm = LoginForm(request.form)
 
     if request.method == "GET":
-        return render_template("reglog/login.html")
+        return render_template("reglog/login.html", login=loginForm)
     
     else:
-        loginForm = LoginForm(request.form)
-
         if loginForm.validate():
             email = loginForm.email.data
             password = loginForm.password.data
@@ -26,23 +26,22 @@ def login():
                 return f"{user}"
             else:
                 flash(message)
-                return render_template("reglog/login.html")
+                return render_template("reglog/login.html", login=loginForm)
         else:
             for errors in loginForm.errors.values():
                 for error in errors:
                     flash(error)
-            return redirect(url_for("reglog.login"))
+            return render_template("reglog/login.html", login=loginForm)
 
 
 @reglog.route("/signup", methods=["POST", "GET"])
 def sign_up():
+    registrationForm = RegistrationForm(request.form)
 
     if request.method == "GET":
-        return render_template("reglog/signup.html")
+        return render_template("reglog/signup.html", form=registrationForm)
 
     else:
-        registrationForm = RegistrationForm(request.form)
-
         if registrationForm.validate():
             email = registrationForm.email.data
             password = registrationForm.password.data
@@ -56,9 +55,9 @@ def sign_up():
                 return f"Welcome {username}!"
             else:
                 flash(message)
-                return render_template("reglog/signup.html")
+                return render_template("reglog/signup.html", form=registrationForm)
         else:
             for errors in registrationForm.errors.values():
                 for error in errors:
                     flash(error)
-            return redirect(url_for("reglog.sign_up"))
+            return render_template("reglog/signup.html", form=registrationForm)

@@ -5,6 +5,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE achievement; 
 TRUNCATE TABLE achievement_meta; 
 TRUNCATE TABLE age_category;
+TRUNCATE TABLE age_category_meta;
 TRUNCATE TABLE city;
 TRUNCATE TABLE city_meta;
 TRUNCATE TABLE country;

@@ -1,3 +1,7 @@
+body {
+    margin-top: 0;
+}
+
 h1 {
     font-size: 4.875rem;
     font-weight: 700;
@@ -27,4 +31,117 @@ h1 span {
     height: 100%;
     object-fit: cover;
     z-index: -2;
+}
+
+.container {
+    padding: 50px 150px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 60vh;
+    margin-top: 200px;
+    margin-bottom: 0;
+}
+
+.container .sights{
+    display: flex;
+    justify-content: center;
+    gap: 3vw;
+}
+
+.container .sights .sight-item{
+    padding: 10px;
+    max-height: 100%;
+    max-width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    overflow: auto;
+    border: hidden;    
+    box-shadow: 5px 5px 5px gray;
+}
+
+.button-holder {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: -100px;
+    padding: 0;
+}
+
+.button-holder a{
+    text-decoration: none;
+}
+
+.view-more-button {
+    cursor: pointer;
+    font-weight: 700;
+    font-family: Helvetica,"sans-serif";
+    transition: all .2s;
+    padding: 10px 20px;
+    border-radius: 100px;
+    background: #60c79a;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+  
+.view-more-button:hover {
+    background: #fff;
+}
+  
+.view-more-button > svg {
+    width: 34px;
+    margin-left: 10px;
+    transition: transform .3s ease-in-out;
+}
+  
+.view-more-button:hover svg {
+    transform: translateX(5px);
+}
+  
+.view-more-button:active {
+    transform: scale(0.95);
+}
+
+.sight-link {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease-in-out;
+}
+
+.sight-link:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.container .sights .sight-item .sight-photo{
+    width: 450px;
+    height: 250px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.sight-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.sight-item h3 {
+    margin: 5px;
+}
+
+.sight-info h5 {
+    margin: 2px 5px;
+    color: #585858;
+}
+
+.sight-info h5 .sight-type {
+    margin: 0 5px;
+    padding: 3px;
+    border-radius: 5px;
+    color: #333;
+    background-color: #858585;
 }

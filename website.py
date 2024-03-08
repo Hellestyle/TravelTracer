@@ -10,6 +10,10 @@ from sight.sight import sight
 from reglog.reglog import reglog
 from user_profile.user_profile import user_profile
 
+import random as rand
+from database import  Database
+from models.sight import Sight
+
 
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
@@ -29,8 +33,14 @@ app.register_blueprint(user_profile, url_prefix="/user-profile")
 
 @app.route("/")
 def index():
-    return render_template("index.html")
 
+    with Database(dict_cursor=True) as db:
+        
+        sight_model = Sight(db)
+
+        sights = sight_model.getAllSights()
+
+    return render_template("index.html", sights=(rand.sample(sights,3)))
 
 if __name__ == "__main__":
     app.run(debug=True)

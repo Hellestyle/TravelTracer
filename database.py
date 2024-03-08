@@ -2,16 +2,20 @@ import mysql.connector
 
 
 class Database:
-    def __init__(self) -> None:
+    def __init__(self, dict_cursor=False) -> None:
+
         dbconfig = {'host': 'kark.uit.no',
                     'user': 'stud_v23_she199',
                     'password': 'Q7TOeuhlLTSj2lfT',
                     'database': 'stud_v23_she199', }
+        
         self.configuration = dbconfig
+
+        self.__dict_cursor = dict_cursor
 
     def __enter__(self):
         self.conn = mysql.connector.connect(**self.configuration)
-        self.cursor = self.conn.cursor()
+        self.cursor = self.conn.cursor(dictionary=self.__dict_cursor)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_trace) -> None:
