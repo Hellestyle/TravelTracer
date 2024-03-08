@@ -19,6 +19,11 @@ class RegistrationForm(FlaskForm):
     first_name = StringField('first_name', validators=[DataRequired()])
     last_name = StringField('last_name', validators=[DataRequired()])
     submit = SubmitField('submit')
+    
+class ChangePasswordForm(FlaskForm):
+    oldPassword = PasswordField("oldPassword",validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
+    newPassword = PasswordField("newPassword",validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
+    verifyNewPassword = PasswordField("verifyNewPassword",validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
 
     #def validate_email(self, field):
     #    with Database() as db:

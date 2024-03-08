@@ -1,8 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 
 from forms import LoginForm, RegistrationForm
 from user import User
 from flask import flash
+
 
 
 reglog = Blueprint("reglog", __name__, template_folder="templates", static_folder="static")
