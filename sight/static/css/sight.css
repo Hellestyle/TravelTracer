@@ -200,16 +200,23 @@
     box-shadow: 5px 5px 5px gray;
     border-radius: 15px;
     overflow: auto;
+    background-color: white;
+}
+
+.text img {
+    background-color: #fff;
 }
   
 .text h3 {
     margin-bottom: 15px;
+    background-color: #fff;
 }
   
 .text p {
     margin-bottom: 10px;
     line-height: 1.5;
     font-size: 18px;
+    background-color: #fff;
 }
 
 .map {
@@ -234,6 +241,10 @@
     align-items: center;
     margin-top: 50px;
 
+}
+
+.button-container a{
+    text-decoration: none;
 }
 
 .back-button {
