@@ -14,7 +14,7 @@ class Errors(Enum):
 
 
 class User():
-    def __init__(self, id=None, username=None, passhash=None, email=None, isAdmin=False, firstName=None , lastName=None, avatar=None) -> None:
+    def __init__(self, id=None, username=None, passhash=None, email=None, isAdmin=False, firstName=None , lastName=None, avatar=None, is_authenticated=None, is_active = None, is_anonymous=None) -> None:
       
         self.__id = id
         self.__username = username
@@ -24,6 +24,10 @@ class User():
         self.__firstName = firstName
         self.__lastName = lastName
         self.__avatar = avatar
+        #Flask Login Manager stuff
+        self.__is_authenticated = is_authenticated
+        self.__is_active = is_active
+        self.__is_anonymous = is_anonymous
         
         
     def login(self, email, password):
@@ -96,6 +100,51 @@ class User():
                 return True, "Sucess"
             except:
                 return False, Errors.DATABASE_ERROR.value
+            
+    def changePassword(self,oldPass,newPass,newPassCheck):
+        with Database() as db:
+            try:
+                result = db.queryOne("SELECT email,password FROM user Where email = %s ", (self.__email,))
+                if check_password_hash(result[1],oldPass) and newPass == newPassCheck:
+                    newPassHash = generate_password_hash(newPass)
+                    try:
+                        db.queryOne('UPDATE user SET password = %s WHERE `user`.`email` = %s', (newPassHash,self.__email,))
+                    except:
+                        return False, Errors.DATABASE_ERROR.value
+                    return True, "Success"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+            
+    def get_id(self, email):
+        with Database() as db:
+            try:
+                databaseResult = db.queryOne("SELECT * FROM user Where email = %s ", (email,))
+                self.__id = databaseResult[0]
+                self.__passhash = databaseResult[-1]
+                self.__username = databaseResult[1]
+                self.__email = databaseResult[2]
+                self.__firstName = databaseResult[3]
+                self.__lastName = databaseResult[4]
+                self.__avatar = databaseResult[5]
+                self.__isAdmin = databaseResult[6]
+                return self
+            except:
+                return None
+            
+    def changeUsername(self,password,verifyPassword,newUsername):
+        with Database() as db:
+            try:
+                result = db.queryOne("SELECT email,password FROM user Where email = %s ", (self.__email,))
+                if check_password_hash(result[1],password) and password == verifyPassword:
+                    
+                    try:
+                        db.queryOne('UPDATE user SET username = %s WHERE `user`.`email` = %s', (newUsername,self.__email,))
+                    except:
+                        return False, Errors.DATABASE_ERROR.value
+                    return True, "Success"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+                
 
 
     def __str__(self) -> str:
