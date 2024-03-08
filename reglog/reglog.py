@@ -5,9 +5,12 @@ from forms import LoginForm, RegistrationForm
 from user import User
 from flask import flash
 
+from website import load_user
+
 
 
 reglog = Blueprint("reglog", __name__, template_folder="templates", static_folder="static")
+
 
 
 @reglog.route("/login", methods=["POST", "GET"])
@@ -25,6 +28,7 @@ def login():
             user = User()
             success, message = user.login(email, password)
             if success:
+                user = load_user(email)
                 return f"{user}"
             else:
                 flash(message)

@@ -3,7 +3,6 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 import secrets
-from forms import LoginForm, RegistrationForm
 from user import User
 
 from sight.sight import sight
@@ -28,6 +27,9 @@ app.register_blueprint(sight, url_prefix="/sight")
 app.register_blueprint(reglog, url_prefix="/reglog")
 app.register_blueprint(user_profile, url_prefix="/user-profile")
 
+@loginManager.user_loader
+def load_user(email):
+    return User.returnObject(email)
 
 
 @app.route("/")
