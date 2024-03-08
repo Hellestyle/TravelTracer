@@ -34,7 +34,7 @@ h1 span {
 }
 
 .container {
-    padding: 50px 150px;
+    padding: 50px 0;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -46,7 +46,8 @@ h1 span {
 .container .sights{
     display: flex;
     justify-content: center;
-    gap: 3vw;
+    flex-wrap: wrap;
+    gap: 3vh;
 }
 
 .container .sights .sight-item{
@@ -59,15 +60,20 @@ h1 span {
     overflow: auto;
     border: hidden;    
     box-shadow: 5px 5px 5px gray;
+    overflow: hidden;
 }
 
 .button-holder {
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    margin-top: -100px;
     padding: 0;
 }
+
 
 .button-holder a{
     text-decoration: none;

@@ -21,7 +21,7 @@
 }
 
 .container {
-    padding: 60px 148px;
+    padding: 60px 60px;
     justify-content: center;
     align-items: center;
     top: 0;
@@ -32,12 +32,14 @@
 .container .sights{
     display: flex;
     justify-content: center;
-    gap: 50px;
+    gap: 5vh;
+    flex-wrap: wrap;
 }
 
 .container .sights .sight-item{
-    padding: 24px;
-    width: 450px;
+    padding: 10px;
+    max-height: 100%;
+    max-width: 100%;
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
     border: hidden;    
@@ -47,13 +49,12 @@
 
 .container .sights .sight-item h3{
     font-size: 26px;
-    margin-bottom: 18px;
+    margin-bottom: 15px;
 }
 
 .container .sights .sight-item .info{
     display: flex;
     gap: 10px;
-    margin-bottom: 10px;
 }
 
 .container .sights .sight-item .info h5{
@@ -62,7 +63,7 @@
 }
 
 .container .sights .sight-item p{
-    width: 400px;
+    width: 100%;
 }
 
 .button-container {
@@ -122,9 +123,8 @@ button:active {
 
 .sight-photo {
     width: 400px;
-    height: 400px;
+    height: 300px;
     border-radius: 15px;
-    object-fit: cover;
 }
 
 .sight-info {
