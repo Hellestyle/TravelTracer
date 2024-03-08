@@ -6,7 +6,9 @@ from flask import flash
 
 
 user_profile = Blueprint("user_profile", __name__, template_folder="templates", static_folder="static")
+
 @user_profile.route("/user_profile", methods=["POST", "GET"])
+@login_required
 def user_profileChangePassword(user):
     changePassowordForm = ChangePasswordForm(request.form)
 
