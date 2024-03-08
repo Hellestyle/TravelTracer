@@ -10,7 +10,11 @@
 <div id="img-backgroud"></div>
 
 <div class="center">
-  <form class="sign-up-form" action="{{ url_for('reglog.sign_up') }}" method="post">
+  <form
+    class="sign-up-form"
+    action="{{ url_for('reglog.sign_up') }}"
+    method="post"
+  >
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
     <div class="inputbox">

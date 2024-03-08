@@ -3,6 +3,7 @@ USE `stud_v23_she199`;
 select * from achievement; 
 select * from achievement_meta; 
 select * from age_category;
+select * from age_category_meta;
 select * from city;
 select * from city_meta;
 select * from country;

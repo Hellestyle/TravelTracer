@@ -4,6 +4,7 @@
   type="text/css"
   href="{{ url_for('.static', filename='css/sights.css') }}"
 />
+<script src="{{ url_for('.static', filename='js/pagination.js') }}"> </script>
 {% endblock %} {% block title %} Sights {% endblock %} {% block content %}
 <div id="dark-overlay"></div>
 
@@ -11,36 +12,54 @@
 
 {% for i in range(0, sights|length, 3) %}
 
-  <div class="container">
-    <div class="sights">
+    <div class="container" style="display: {{ 'block' if loop.index <= 3 else 'none' }};">
+      <div class="sights">
 
-      {% for sight in sights[i:i+3] %}
+        {% for sight in sights[i:i+3] %}
+          <a class="sight-link" href="{{ url_for('sight.sight_details', sight_id=sight.id) }}">
+            <div class="sight-item">
+              <img class="sight-photo" src="{{ url_for('static', filename='images/sight/' + sight.photos[0]) }}" alt="{{ sight.name }}" />
+                <h3> {{ sight.name }} </h3>
+                <div class="info sight-info">
+                  <h5>
+                    {% if sight.visited == 0 %}
+                      No people visited this sight yet
+                    {% elif sight.visited == 1 %}
+                      1 person visited this sight
+                    {% else %}
+                      {{ sight.visited }} people visited this sight
+                    {% endif %}
+                  </h5>
+                  <h5>
+                    {% for sight_type in sight.sight_types %}
+                      <span class="sight-type"> {{ sight_type }} </span>
+                    {% endfor %}
+                  </h5>
+                  <h5> {{ sight.age_category }} </h5>
+                </div>
+            </div>
+          </a>
+        {% endfor %}
 
-        <div class="sight-item">
-          <h3> {{ sight.name }} </h3>
-          <div class="info">
-            <h5>05 Mar 2024</h5>
-            <h5>|</h5>
-            <h5>Tromsobadet</h5>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate enim
-            ad distinctio at quos sequi voluptatibus eveniet facere dicta ut illum
-            atque, rem autem, impedit ea. Pariatur assumenda architecto quidem.
-          </p>
-        </div>
-
-      {% endfor %}
-
+      </div>
     </div>
-  </div>
-
+  
 {% endfor %}
 
-<div class="button-container">
-  <button class="bn">Previous</button>
+{% if sights|length > 9 %}
 
-  <button class="bn">Next</button>
-</div>
+  <div class="button-container">
+
+    <button class="bn" onclick="previousPage();"> Previous </button>
+
+    {% for i in range(0, sights|length, 9) %}
+      <button class="pagination-button {{ 'pagination-button-active' if loop.index == 1 else '' }}" onclick="switchPage({{ loop.index }});"> {{ loop.index }} </button>
+    {% endfor %} 
+
+    <button class="bn" onclick="nextPage();"> Next </button>
+
+  </div>
+
+{% endif %}
 
 {% endblock %}

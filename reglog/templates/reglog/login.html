@@ -16,12 +16,22 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
     <div class="inputbox">
-      <input type="email" required="required" name="email" />
+      <input
+        type="email"
+        required="required"
+        name="email"
+        value="{{ login.email.data if login.email.data is not none else '' }}"
+      />
       <span>Email</span>
     </div>
 
     <div class="inputbox">
-      <input type="password" required="required" name="password" />
+      <input
+        type="password"
+        required="required"
+        name="password"
+        value="{{ login.password.data if login.password.data is not none else '' }}"
+      />
       <span>Password</span>
     </div>
 
