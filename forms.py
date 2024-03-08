@@ -28,7 +28,7 @@ class ChangePasswordForm(FlaskForm):
 class ChangeUsername(FlaskForm):
     newUsername = StringField('newUsername', validators=[DataRequired(), Length(min=3, max=30, message="Username must contain at least 3 characters")])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
-    verify_password = PasswordField('verify_password', validators=[EqualTo('password', message="The two passwords must match")])
+    verifyPassword = PasswordField('verifyPassword', validators=[EqualTo('password', message="The two passwords must match")])
 
     #def validate_email(self, field):
     #    with Database() as db:

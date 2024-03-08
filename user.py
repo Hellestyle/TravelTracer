@@ -131,7 +131,19 @@ class User():
             except:
                 return None
             
-        
+    def changeUsername(self,password,verifyPassword,newUsername):
+        with Database() as db:
+            try:
+                result = db.queryOne("SELECT email,password FROM user Where email = %s ", (self.__email,))
+                if check_password_hash(result[1],password) and password == verifyPassword:
+                    
+                    try:
+                        db.queryOne('UPDATE user SET username = %s WHERE `user`.`email` = %s', (newUsername,self.__email,))
+                    except:
+                        return False, Errors.DATABASE_ERROR.value
+                    return True, "Success"
+            except:
+                return False, Errors.DATABASE_ERROR.value
                 
 
 
