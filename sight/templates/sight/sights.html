@@ -1,14 +1,26 @@
 {% extends "base.html" %} {% block head %}
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{{ url_for('.static', filename='css/sights.css') }}"
-/>
-<script src="{{ url_for('.static', filename='js/pagination.js') }}"> </script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/sights.css') }}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 {% endblock %} {% block title %} Sights {% endblock %} {% block content %}
 <div id="dark-overlay"></div>
 
 <div id="img-backgroud"></div>
+
+<div class="search-box">
+  <div class="row">
+    <input type="text" id="input-box" 
+    placeholder="Search the category here" autocomplete="off">
+    <a href="{{ url_for('sight.sight_category', category='') }}"><button class="search-button"><i class='bx bx-search'></i></button></a>
+  </div>
+
+  <div class="result-box"></div>
+</div>
+
+{% if message %}
+  <div class="message">
+    <h3> {{ message }} </h3>
+  </div>
+{% endif %}
 
 {% for i in range(0, sights|length, 3) %}
 
@@ -62,4 +74,15 @@
 
 {% endif %}
 
+<script src="{{ url_for('.static', filename='js/pagination.js') }}"> </script>
+<script src="{{ url_for('.static', filename='js/search.js') }} "> </script>
+
+<script>
+  document.querySelector('.search-button').addEventListener('click', function(event) {
+    event.preventDefault();
+    var inputBoxValue = document.querySelector('#input-box').value;
+    var newHref = "{{ url_for('sight.sight_category', category='') }}" + inputBoxValue;
+    window.location.href = newHref;
+  });
+</script>
 {% endblock %}

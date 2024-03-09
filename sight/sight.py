@@ -34,3 +34,17 @@ def sight_details(sight_id):
         "sight/sight.html",
         sight=sight
     )
+
+
+@sight.route("/sight/<string:category>")
+def sight_category(category):
+        
+        with Database(dict_cursor=True) as db:
+            sight_model = Sight(db)
+            sights = sight_model.getSightByCategory(category)
+
+            if sights is not None:
+                return render_template("sight/sights.html", sights=sights)
+            else:
+                message = "No sights found for this category"
+                return render_template("sight/sights.html", message=message)
