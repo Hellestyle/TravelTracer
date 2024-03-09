@@ -223,7 +223,7 @@ button:active {
 }
 
 .sight-info h5 .sight-type {
-    margin: 0 3px;
+    margin-right: 5px;
     padding: 3px;
     border-radius: 5px;
     color: #333;
