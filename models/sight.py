@@ -143,34 +143,33 @@ class Sight:
     # Todo: There is a bug in this method, it does not return the sight records - Isak
     def getSightByCategory(self, category, language_id=None):
             
-            if language_id is None:
-                language_id = self.__db.query("SELECT id FROM language WHERE `default` = 1;")[0]['id']
+        if language_id is None:
+            language_id = self.__db.query("SELECT id FROM language WHERE `default` = 1;")[0]['id']
 
-            sights = self.__db.query("""SELECT s.id AS id, sm.name AS name, sm.description AS description, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
-                acm.name AS age_category, stm.name AS sight_type
-                FROM sight AS s
-                LEFT OUTER JOIN city AS c ON s.city_id = c.id
-                LEFT OUTER JOIN country AS ctr ON ctr.id = c.country_id
-                LEFT OUTER JOIN city_meta AS cm ON c.id = cm.city_id
-                LEFT OUTER JOIN country_meta AS ctrm ON ctr.id = ctrm.country_id
-                LEFT OUTER JOIN sight_meta AS sm ON s.id = sm.sight_id
-                LEFT OUTER JOIN age_category AS ac ON s.age_category_id = ac.id
-                LEFT OUTER JOIN age_category_meta AS acm ON ac.id = acm.age_category_id
-                LEFT OUTER JOIN sight_has_sight_type AS sst ON s.id = sst.sight_id
-                LEFT OUTER JOIN sight_type AS st ON st.id = sst.sight_type_id
-                LEFT OUTER JOIN sight_type_meta AS stm ON st.id = stm.sight_type_id
-                WHERE sm.language_id = %s AND cm.language_id = %s AND ctrm.language_id = %s AND stm.language_id = %s AND acm.language_id = %s AND stm.name = %s;""", (language_id, language_id, language_id, language_id, language_id, category))
+        sights = self.__db.query("""SELECT s.id AS id, sm.name AS name, sm.description AS description, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
+            acm.name AS age_category, stm.name AS sight_type
+            FROM sight AS s
+            LEFT OUTER JOIN city AS c ON s.city_id = c.id
+            LEFT OUTER JOIN country AS ctr ON ctr.id = c.country_id
+            LEFT OUTER JOIN city_meta AS cm ON c.id = cm.city_id
+            LEFT OUTER JOIN country_meta AS ctrm ON ctr.id = ctrm.country_id
+            LEFT OUTER JOIN sight_meta AS sm ON s.id = sm.sight_id
+            LEFT OUTER JOIN age_category AS ac ON s.age_category_id = ac.id
+            LEFT OUTER JOIN age_category_meta AS acm ON ac.id = acm.age_category_id
+            LEFT OUTER JOIN sight_has_sight_type AS sst ON s.id = sst.sight_id
+            LEFT OUTER JOIN sight_type AS st ON st.id = sst.sight_type_id
+            LEFT OUTER JOIN sight_type_meta AS stm ON st.id = stm.sight_type_id
+            WHERE sm.language_id = %s AND cm.language_id = %s AND ctrm.language_id = %s AND stm.language_id = %s AND acm.language_id = %s AND stm.name = %s;""", (language_id, language_id, language_id, language_id, language_id, category))
 
-            if sights is None:
-                return None
+        if sights is None:
+            return None
 
-            for i in range(len(sights)):
-
-                sights[i]['achievements'] = self.__db.query("""SELECT a.*, am.name AS name, am.description AS description FROM achievement AS a
-                    LEFT OUTER JOIN sight_has_achievement AS sa ON a.id = sa.achievement_id
-                    LEFT OUTER JOIN achievement_meta AS am ON a.id = am.achievement_id
-                    WHERE sa.sight_id = %s AND am.language_id = %s;""", (sights[i]['id'], language_id))
+        for i in range(len(sights)):
+            sights[i]['achievements'] = self.__db.query("""SELECT a.*, am.name AS name, am.description AS description FROM achievement AS a
+                LEFT OUTER JOIN sight_has_achievement AS sa ON a.id = sa.achievement_id
+                LEFT OUTER JOIN achievement_meta AS am ON a.id = am.achievement_id
+                WHERE sa.sight_id = %s AND am.language_id = %s;""", (sights[i]['id'], language_id))
                 
-                sights[i]['photos'] = [photo['photo'] for photo in self.__db.query("SELECT photo FROM sight_photo WHERE sight_id = %s;", (sights[i]['id'],))]
+            sights[i]['photos'] = [photo['photo'] for photo in self.__db.query("SELECT photo FROM sight_photo WHERE sight_id = %s;", (sights[i]['id'],))]
 
-            return sights
+        return sights
