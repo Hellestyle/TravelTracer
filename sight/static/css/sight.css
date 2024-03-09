@@ -56,17 +56,14 @@
 }
 
 .button-left {
-    --primary-color: #23b783;
-    --secondary-color: #fff;
-    --hover-color: #111;
     --arrow-width: 10px;
     --arrow-stroke: 2px;
     box-sizing: border-box;
-    border: 0;
+    border: 1px solid black;
     border-radius: 10px;
-    color: var(--secondary-color);
+    color: black;
     padding: 10px 20px;
-    background: var(--primary-color);
+    background: transparent;
     display: flex;
     transition: 0.2s background;
     align-items: center;
@@ -83,17 +80,17 @@
 .button-left .arrow-left {
     margin-top: 1px;
     width: var(--arrow-width);
-    background: var(--primary-color);
+    background: black;
     height: var(--arrow-stroke);
     position: relative;
     transition: 0.2s;
 }
-  
+
 .button-left .arrow-left::before {
     content: "";
     box-sizing: border-box;
     position: absolute;
-    border: solid var(--secondary-color);
+    border: solid black;
     border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
     display: inline-block;
     top: -3px;
@@ -102,16 +99,18 @@
     padding: 3px;
     transform: rotate(135deg);
 }
-  
+
 .button-left:hover {
-    background-color: var(--hover-color);
+    background: black;
+    color: white;
 }
-  
+
 .button-left:hover .arrow-left {
-    background: var(--secondary-color);
+    background: white;
 }
-  
-.button-left:hover .arrow-left:before {
+
+.button-left:hover .arrow-left::before {
+    border-color: white;
     left: 0;
 }
 
@@ -126,17 +125,14 @@
 }
   
 .button-right {
-    --primary-color: #23b783;
-    --secondary-color: #fff;
-    --hover-color: #111;
     --arrow-width: 10px;
     --arrow-stroke: 2px;
     box-sizing: border-box;
-    border: 0;
+    border: 1px solid black;
     border-radius: 10px;
-    color: var(--secondary-color);
+    color: black;
     padding: 10px 20px;
-    background: var(--primary-color);
+    background: transparent;
     display: flex;
     transition: 0.2s background;
     align-items: center;
@@ -153,7 +149,7 @@
 .button-right .arrow-right {
     margin-top: 1px;
     width: var(--arrow-width);
-    background: var(--primary-color);
+    background: black;
     height: var(--arrow-stroke);
     position: relative;
     transition: 0.2s;
@@ -163,7 +159,7 @@
     content: "";
     box-sizing: border-box;
     position: absolute;
-    border: solid var(--secondary-color);
+    border: solid black;
     border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
     display: inline-block;
     top: -3px;
@@ -174,14 +170,16 @@
 }
   
 .button-right:hover {
-    background-color: var(--hover-color);
+    background: black;
+    color: white;
 }
   
 .button-right:hover .arrow-right {
-    background: var(--secondary-color);
+    background: white;
 }
   
 .button-right:hover .arrow-right:before {
+    border-color: white;
     right: 0;
 }
 
