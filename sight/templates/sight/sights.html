@@ -22,6 +22,14 @@
   </div>
 {% endif %}
 
+{% if message %}
+  <div class="back-button-container">
+    <a href="{{ url_for('sight.sights') }}">
+      <button class="back-button">Back</button>
+    </a>
+  </div>
+{% endif %}
+
 {% for i in range(0, sights|length, 3) %}
 
     <div class="container" style="display: {{ 'block' if loop.index <= 3 else 'none' }};">
