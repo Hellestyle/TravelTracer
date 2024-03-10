@@ -146,12 +146,12 @@ class Sight:
         return sight
 
 
-    def getSightByCategory(self, category, language_id=None):
+    def getSightByCategory(self, category, language_id=None, active_only=True):
             
         if language_id is None:
             language_id = self.__db.query("SELECT id FROM language WHERE `default` = 1;")[0]['id']
 
-        sights = self.__db.query("""SELECT s.id AS id, sm.name AS name, sm.description AS description, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
+        query = """SELECT s.id AS id, sm.name AS name, sm.description AS description, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
             acm.name AS age_category, stm.name AS sight_type,
             (SELECT COUNT(*) FROM visited_list WHERE user_id IS NOT NULL AND sight_id = s.id) AS visited
             FROM sight AS s
@@ -165,7 +165,14 @@ class Sight:
             LEFT OUTER JOIN sight_has_sight_type AS sst ON s.id = sst.sight_id
             LEFT OUTER JOIN sight_type AS st ON st.id = sst.sight_type_id
             LEFT OUTER JOIN sight_type_meta AS stm ON st.id = stm.sight_type_id
-            WHERE sm.language_id = %s AND cm.language_id = %s AND ctrm.language_id = %s AND stm.language_id = %s AND acm.language_id = %s AND stm.name = %s;""", (language_id, language_id, language_id, language_id, language_id, category))
+            WHERE sm.language_id = %s AND cm.language_id = %s AND ctrm.language_id = %s AND stm.language_id = %s AND acm.language_id = %s AND stm.name = %s"""
+
+        if active_only:
+            query += " AND s.active = 1"
+
+        query += ";"
+
+        sights = self.__db.query(query, (language_id, language_id, language_id, language_id, language_id, category))
 
         if sights is None:
             return None

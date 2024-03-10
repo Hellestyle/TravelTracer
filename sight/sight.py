@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, url_for
 
 from database import  Database
 from models.sight import Sight
+from models.sight_type import SightType
 
 import json
 import os
@@ -19,11 +20,16 @@ def sights():
         
         sight_model = Sight(db)
 
+        sight_type_model = SightType(db)
+
         sights = sight_model.getAllSights()
+
+        sight_types = sight_type_model.getAllSightTypes()
 
     return render_template(
         "sight/sights.html",
-        sights=sights
+        sights=sights,
+        sight_type_names=[sight_type["name"] for sight_type in sight_types]
     )
 
 @sight.route("/sight/<int:sight_id>")
@@ -52,11 +58,16 @@ def sight_details(sight_id):
 def sight_category(category):
         
         with Database(dict_cursor=True) as db:
+
             sight_model = Sight(db)
             sights = sight_model.getSightByCategory(category)
 
+            sight_type_meta = SightType(db)
+
+            sight_types = sight_type_meta.getAllSightTypes()
+
             if sights is not None:
-                return render_template("sight/sights.html", sights=sights)
+                return render_template("sight/sights.html", sights=sights, sight_type_names=[sight_type["name"] for sight_type in sight_types])
             else:
                 message = "No sights found for this category"
-                return render_template("sight/sights.html", message=message)
+                return render_template("sight/sights.html", message=message, sight_type_names=[sight_type["name"] for sight_type in sight_types])

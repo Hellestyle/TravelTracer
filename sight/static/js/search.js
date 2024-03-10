@@ -1,15 +1,6 @@
-let availableKeywords = [
-    'Restaurants',
-    'Bars',
-    'Cafes',
-    'Museums',
-    'Galleries',
-    'Aquariums',
-    'Churches',
-    'Cathedrals',
-    'Natural attractions',
-    'Monuments',
-];
+function initKeywords(keywordsString) {
+    document.availableKeywords = keywordsString.split(",");
+}
 
 const resultBox = document.querySelector(".result-box");
 const inputBox = document.getElementById("input-box");
@@ -18,7 +9,7 @@ inputBox.onkeyup = function() {
     let result = [];
     let input = inputBox.value.toLowerCase();
     if (input.length > 0) {
-        result = availableKeywords.filter((keyword) => {
+        result = document.availableKeywords.filter((keyword) => {
             return keyword.toLowerCase().includes(input);
         });
         console.log(result);
