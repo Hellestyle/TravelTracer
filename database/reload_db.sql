@@ -79,10 +79,10 @@ INSERT INTO age_category_meta (age_category_id, language_id, name) VALUES
     (6, 1, 'Seniors (60+ years)');
 
 INSERT INTO sight (city_id, age_category_id, google_maps_url, active, open_time, close_time) VALUES
-	(1, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2000.365925839628!2d10.740637377483424!3d59.90947417490049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46416e88f67085cd%3A0xdcf2357905a03761!2sStatholdergaarden!5e0!3m2!1sno!2sno!4v1709823648099!5m2!1sno!2sno', 1, '6:00:00', '22:00:00'),
-	(2, 5, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1466.3510485544261!2d17.421929099192013!3d68.43704862923146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45dbbfb7ea6d0a83%3A0x3b144d7377078f89!2sFuru%20Gastropub!5e0!3m2!1sno!2sno!4v1709823114173!5m2!1sno!2sno', 1, '12:00:00', '23:00:00'),
-	(3, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1386.3987020284865!2d18.968909578055616!3d69.66648738114753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45df105e7e017a9b%3A0x451a9b89b8677a2f!2sRestaurant%20Smak%20AS!5e0!3m2!1sno!2sno!4v1709823360328!5m2!1sno!2sno', 1, '6:00:00', '18:00:00'),
-	(3, 6, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1387.329332266788!2d18.96074607805482!3d69.65223428113663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45c4c4538f889c73%3A0x7072e24b8fa74ca8!2sPolarmuseet%20i%20Troms%C3%B8!5e0!3m2!1sno!2sno!4v1709823417696!5m2!1sno!2sno', 1, '11:00:00', '17:00:00'),
+	(1, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2000.365925839628!2d10.740637377483424!3d59.90947417490049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46416e88f67085cd%3A0xdcf2357905a03761!2sStatholdergaarden!5e0!3m2!1sno!2sno!4v1709823648099!5m2!1sno!2sno', 1, '6:00', '22:00'),
+	(2, 5, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1466.3510485544261!2d17.421929099192013!3d68.43704862923146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45dbbfb7ea6d0a83%3A0x3b144d7377078f89!2sFuru%20Gastropub!5e0!3m2!1sno!2sno!4v1709823114173!5m2!1sno!2sno', 1, '12:00', '23:00'),
+	(3, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1386.3987020284865!2d18.968909578055616!3d69.66648738114753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45df105e7e017a9b%3A0x451a9b89b8677a2f!2sRestaurant%20Smak%20AS!5e0!3m2!1sno!2sno!4v1709823360328!5m2!1sno!2sno', 1, '6:00', '18:00'),
+	(3, 6, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1387.329332266788!2d18.96074607805482!3d69.65223428113663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45c4c4538f889c73%3A0x7072e24b8fa74ca8!2sPolarmuseet%20i%20Troms%C3%B8!5e0!3m2!1sno!2sno!4v1709823417696!5m2!1sno!2sno', 1, '11:00', '17:00'),
 	(3, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1386.5696721282113!2d18.944414978055505!3d69.6638689811456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45c4c445e2ebeb71%3A0x210cefa26c302f6f!2sCharlottenlund%20aktivitets-%20og%20friluftspark!5e0!3m2!1sno!2sno!4v1709823533949!5m2!1sno!2sno', 0, NULL, NULL),
 	(4, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3025.2676073911716!2d-74.04788002347213!3d40.69010357139694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c251435afe5fdd%3A0x961a3af922a7eeae!2sStatue%20of%20Liberty%20Museum!5e0!3m2!1sno!2sno!4v1709823582662!5m2!1sno!2sno', 1, NULL, NULL);
 
@@ -134,12 +134,12 @@ INSERT INTO sight_has_achievement (achievement_id, sight_id) VALUES
 
 -- Navn generert ved hjelp av Faker Python-biblioteket (fake_names.py)
 INSERT INTO `user` (username, email, firstname, lastname, avatar, admin, password) VALUES
-	('tetiana2024', 'tetiana.v@example.com', 'Tetiana', 'V', '1.png', 1, 'pbkdf2:sha256:600000$HQ3uN5G0VQOyzKKId8hSslCW5CNk0uUd$87a2a0112338f66e7f52f332042b88df6e9adf8279117d48030c0d7844f80e91'), -- Password: 12345
-	('jm12345', 'jammil@test.com', 'James', 'Miller', NULL, 0, 'pbkdf2:sha256:600000$lGJbCpHVxZhz9EXLmCWawhsOAAy0vm4F$ab3d9defab1ba7a3f65392019173eab7c6dec08ceeb60fe15a0bf8cd7998c773'), -- Password: abc111
-	('cole.ow', 'cole.ow@example.com', 'Cole', 'Owens', '3.jpg', 0, 'pbkdf2:sha256:600000$V7Y8pBswMzxDzmZS1cjbieW4qPknOyvN$12906af4a65dd4ed984f72b6180512c8921dd7735b9785fa51a0a8a4fd7a0f60'), -- Password: password2024
-	('den2024', 'denshaw@example.com', 'Denise', 'Shaw', '4.jpeg', 0, 'pbkdf2:sha256:600000$PRQZGCEAkCRTQNvAJLMmsjGu2HubvA5i$a71cce403ec9903f932c7c8dfe5bf97296166c0841dd38825f7f159b08b0b7e4'), -- Password: den2024
-	('mark_sandoval', 'mark.sandoval@test.com', 'Mark', 'Sandoval', NULL, 0, 'pbkdf2:sha256:600000$urlE71cfZ9h11U66JzSnUkWjKfddXb6Z$e483d473cf11f6be6776b9c0761273abfb91f5484c1c052b8fca8375896d3a85'), -- Password: anbufve12jed23
-	('abrown', 'abrown@example.com', 'Abigail', 'Brown', NULL, 0, 'pbkdf2:sha256:600000$xoIGGrf0H9Dgb8395i2KqeEiwKsPxDe2$59a5155db5edd5f7efbfd7979e5c93055d45ed5cdc1cdd49dac5454cae333e42'); -- Password: abcde_zyxwv
+	('tetiana2024', 'tetiana.v@example.com', 'Tetiana', 'V', '1.png', 1, 'pbkdf2:sha256:260000$IoGMsP32mSUxsqO7$36e01a1751342caa90bd3e2a540df2387aae463d69a6e188aea0d12e38a9ac09'), -- Password: 123456789
+	('jm12345', 'jammil@test.com', 'James', 'Miller', NULL, 0, 'pbkdf2:sha256:260000$IoGMsP32mSUxsqO7$36e01a1751342caa90bd3e2a540df2387aae463d69a6e188aea0d12e38a9ac09'),  -- Password: 123456789
+	('cole.ow', 'cole.ow@example.com', 'Cole', 'Owens', '3.jpg', 0, 'pbkdf2:sha256:260000$Ycm39vW9YqX7HjV7$30dc06b7640b2569f536685ce7f9dd4a32403dc185bcebdd7eeb320635e14131'),  -- Password: 123456789
+	('den2024', 'denshaw@example.com', 'Denise', 'Shaw', '4.jpeg', 0, 'pbkdf2:sha256:260000$tmCV8uhQYtn8mm4R$6c0daac42b8f17ad05f1817f1705ff6500f7b6b51a137353c1808f1539b7979a'),  -- Password: 123456789
+	('mark_sandoval', 'mark.sandoval@test.com', 'Mark', 'Sandoval', NULL, 0, 'pbkdf2:sha256:260000$YsNMbKSbfEUQnEmN$c5cfe6efc879e76d3277e3a50b2c123523533bc059e66aaf2fdb2c2d4c65e2c3'),  -- Password: 123456789
+	('abrown', 'abrown@example.com', 'Abigail', 'Brown', NULL, 0, 'pbkdf2:sha256:260000$LIbxJ2uys4OAUNTi$40748d70e16cb95c7dd3cfae70441d68cc166f0675f00f36a2942e31d6a8af00');  -- Password: 123456789
 
 INSERT INTO user_system_meta (user_id, verified, open_profile, show_real_name, show_friend_list, current_language, current_city) VALUES
 	(1, 1, 1, 1, 1, 1, 3),
