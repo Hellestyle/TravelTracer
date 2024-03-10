@@ -139,15 +139,14 @@ class Sight:
         return sight
 
 
-    # It returns a list of sights that belong to a specific category - Isak
-    # Todo: There is a bug in this method, it does not return the sight records - Isak
     def getSightByCategory(self, category, language_id=None):
             
         if language_id is None:
             language_id = self.__db.query("SELECT id FROM language WHERE `default` = 1;")[0]['id']
 
         sights = self.__db.query("""SELECT s.id AS id, sm.name AS name, sm.description AS description, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
-            acm.name AS age_category, stm.name AS sight_type
+            acm.name AS age_category, stm.name AS sight_type,
+            (SELECT COUNT(*) FROM visited_list WHERE user_id IS NOT NULL AND sight_id = s.id) AS visited
             FROM sight AS s
             LEFT OUTER JOIN city AS c ON s.city_id = c.id
             LEFT OUTER JOIN country AS ctr ON ctr.id = c.country_id
@@ -163,6 +162,19 @@ class Sight:
 
         if sights is None:
             return None
+        
+        sights_dict = {}
+        for sight in sights:
+            sight_id = sight['id']
+
+            if sight_id not in sights_dict:
+                sights_dict[sight_id] = sight
+                sights_dict[sight_id]['sight_types'] = []
+
+            sights_dict[sight_id]['sight_types'].append(sight['sight_type'])
+
+        sights = list(sights_dict.values())
+
 
         for i in range(len(sights)):
             sights[i]['achievements'] = self.__db.query("""SELECT a.*, am.name AS name, am.description AS description FROM achievement AS a
