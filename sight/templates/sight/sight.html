@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/sight.css') }}" />
 
+  <script src="{{ url_for('.static', filename='js/toggle-description.js') }}"> </script>
+
 {% endblock %}
 
 {% block title %} {{ sight.name }} {% endblock %}
@@ -51,12 +53,25 @@
           About
         </h3>
 
-        <p>
+        <p class="sight-description">
           {% if sight.description is not none %}
             {{ sight.description }}
+            <span class="sight-description-gradient-container">
+              <button class="sight-description-button" onclick="toggleDescription();"> ...Show more </button>
+            </span>
           {% else %}
             No description
           {% endif %}
+        </p>
+
+        <p>
+          <img
+            src="{{ url_for('.static', filename='images/ages.svg') }}"
+            alt="ages"
+            height="20"
+            width="20"
+          />
+          {{ sight.age_category }}
         </p>
 
         <p>

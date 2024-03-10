@@ -6,6 +6,10 @@
 
 }
 
+img {
+    display: inline;
+}
+
 .header {
     display: flex;
     color: black;
@@ -194,7 +198,7 @@
   
 .text {
     width: 30%;
-    height: 300px;
+    height: 380px;
     padding: 30px 25px;
     border: hidden;    
     box-shadow: 5px 5px 5px gray;
@@ -221,7 +225,7 @@
 
 .map {
     width: 30%;
-    height: 300px;
+    height: 380px;
     margin: 0 10px; 
     border: hidden;    
     box-shadow: 10px 5px 5px gray;
@@ -274,6 +278,40 @@
     transform: translateY(-0.6em);
     background: #171717;
     color: white;
+}
+
+.sight-description {
+    position: relative;
+    max-height: 50px;
+    overflow: hidden;
+    margin-bottom: 50px!important;
+}
+
+.sight-description-gradient-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 0 10px 0 90px;
+    background: none;
+    background-image: radial-gradient(white, transparent);
+    line-height: 1;
+}
+
+.sight-description-button {
+    padding: 0 5px 0 10px;
+    border: none;
+    background: white;
+    color: black;
+    font-weight: bold;
+}
+
+.expanded {
+    max-height: none;
+    padding-bottom: 25px;
+}
+
+.sight-description-button:hover {
+    cursor: pointer;
 }
 
 .open, .close {
