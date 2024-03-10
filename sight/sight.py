@@ -32,7 +32,7 @@ def sight_details(sight_id):
         sight = sight_model.getSight(sight_id)
 
     # We can change file amount here if we want to add more images
-    images = [f"/sight/static/images/{sight_id}_{i}.jpg" for i in range(1, 5)]
+    images = [f"/sight/static/images/{sight_id}_{i}.jpg" for i in range(1, 4)]
 
     return render_template("sight/sight.html", sight=sight, images=json.dumps(images))
 
