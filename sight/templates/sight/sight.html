@@ -16,7 +16,6 @@
       </div>
     </div>
 
-    <!-- Your can place photo of the sight here -->
     <div class="image-container">
       <button onclick="prevImage()" class="button-left">
         <div class="arrow-wrapper-left">
@@ -26,9 +25,6 @@
       </button>
 
       <img src="/sight/static/images/tromso-night.jpg" alt="Image" />
-      <!-- 
-        <img id="image" src="image1.jpg" alt="Image">
-      -->
       <img src="/sight/static/images/brige.jpg" alt="Image" />
 
       <button onclick="nextImage()" class="button-right">
@@ -38,7 +34,6 @@
         </div>
       </button>
     </div>
-    <!-- Above this -->
 
     <div class="content">
       <div class="text">
@@ -106,9 +101,17 @@
       >
     </div>
 
+    <!-- Javascript for button-left and button-right -->
+    <!-- We can change elements in the imgaes list -->
     <script>
-      var currentImageIndex = 0;
-      var images = ["image1.jpg", "image2.jpg", "image3.jpg"];
+      var images = [
+        "/sight/static/images/tromso-night.jpg",
+        "/sight/static/images/brige.jpg",
+        "/sight/static/images/sign.jpeg",
+        "/sight/static/images/tromso.jpeg",
+      ];
+      var index1 = 0;
+      var index2 = 1;
 
       function showImage(index) {
         var imageElement = document.getElementById("image");
@@ -122,11 +125,21 @@
       }
 
       function prevImage() {
-        showImage(currentImageIndex - 1);
+        index1 = (index1 - 1 + images.length) % images.length;
+        index2 = (index2 - 1 + images.length) % images.length;
+        document.querySelector(".image-container img:nth-of-type(1)").src =
+          images[index1];
+        document.querySelector(".image-container img:nth-of-type(2)").src =
+          images[index2];
       }
 
       function nextImage() {
-        showImage(currentImageIndex + 1);
+        index1 = (index1 + 1) % images.length;
+        index2 = (index2 + 1) % images.length;
+        document.querySelector(".image-container img:nth-of-type(1)").src =
+          images[index1];
+        document.querySelector(".image-container img:nth-of-type(2)").src =
+          images[index2];
       }
 
       showImage(currentImageIndex);
