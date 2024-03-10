@@ -101,6 +101,7 @@
 }
 
 .button-left:hover {
+    cursor: pointer;
     background: black;
     color: white;
 }
@@ -170,6 +171,7 @@
 }
   
 .button-right:hover {
+    cursor: pointer;
     background: black;
     color: white;
 }
@@ -259,6 +261,7 @@
 }
   
 .back-button:hover {
+    cursor: pointer;
     letter-spacing: 0.5em;
     transform: translateY(-0.8em);
     background: #171717;
@@ -271,4 +274,17 @@
     transform: translateY(-0.6em);
     background: #171717;
     color: white;
+}
+
+.open, .close {
+    background-color: white;
+    font-weight: bold;
+}
+
+.open {
+    color: green;
+}
+
+.close {
+    color: red;
 }

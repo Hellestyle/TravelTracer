@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/sight/static/css/sight.css" />
-    <title>Sight page</title>
-  </head>
+{% extends "base.html" %}
 
-  <body>
+{% block head %}
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/sight.css') }}" />
+
+{% endblock %}
+
+{% block title %} {{ sight.name }} {% endblock %}
+
+{% block content %}
+
     <div class="header">
-      <h1>Tromso Discovery Tour</h1>
+      <h1> {{ sight.name }} </h1>
       <div class="header-buttons">
         <button class="header-button">Visited</button>
         <button class="header-button">Like</button>
@@ -39,7 +43,7 @@
       <div class="text">
         <h3>
           <img
-            src="/sight/static/images/information.svg"
+            src="{{ url_for('.static', filename='images/information.svg') }}"
             alt="info"
             height="20"
             width="20"
@@ -48,43 +52,68 @@
         </h3>
 
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum fugit
-          expedita ullam nihil perspiciatis ratione cupiditate dolor, cumque,
-          necessitatibus vel culpa at doloremque dolorem nisi temporibus! Minus
-          suscipit minima eos?
+          {% if sight.description is not none %}
+            {{ sight.description }}
+          {% else %}
+            No description
+          {% endif %}
         </p>
 
         <p>
           <img
-            src="/sight/static/images/star.svg"
+            src="{{ url_for('.static', filename='images/star.svg') }}"
             alt="star"
             height="20"
             width="20"
-          />Achievements:
+          />
+          {% if sight.achievements %}
+            Achievements:
+            {% for achievement in sight.achievements %}
+              <img
+                src="{{ url_for('static', filename='images/achievement/' + achievement.icon) }}"
+                alt="{{ achievement.name }}"
+                title="{{ achievement.name }}"
+                height="36"
+                width="36"
+              />
+            {% endfor %}
+          {% else %}
+            No achievements
+          {% endif %}
         </p>
         <p>
           <img
-            src="/sight/static/images/clock.svg"
+            src="{{ url_for('.static', filename='images/clock.svg') }}"
             alt="clock"
             height="20"
             width="20"
           />
-          Opening hours:
+          Opening hours: 
+          {% if sight.open_time is none or sight.close_time is none %}
+            24/7
+          {% else %}
+            {{ sight.open_time.strftime('%H:%M') }} - {{ sight.close_time.strftime('%H:%M') }}
+          {% endif %}
+          {% if is_open %}
+            <span class="open">Open</span>
+          {% else %}
+            <span class="close">Closed</span>
+          {% endif %}
         </p>
         <p>
           <img
-            src="/sight/static/images/map-marker.svg"
+            src="{{ url_for('.static', filename='images/map-marker.svg') }}"
             alt="map-marker"
             height="20"
             width="20"
           />
-          Address:
+          Address: {{ sight.address }}
         </p>
       </div>
 
       <div class="map">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1385.7383359279095!2d19.066850677970933!3d69.67660044431871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45c4c498b6d456db%3A0xebde0189e5fa8324!2sTroms%C3%B8%20Alpinpark!5e0!3m2!1sen!2sno!4v1709840102015!5m2!1sen!2sno"
+          src="{{ sight.google_maps_url }}"
           width="600"
           height="450"
           style="border: 0"
@@ -139,5 +168,5 @@
       showImage(0);
     </script>
     </script>
-  </body>
-</html>
+
+{% endblock %}

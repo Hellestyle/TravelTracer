@@ -1,3 +1,5 @@
+from datetime import datetime as dt
+
 class Sight:
 
     def __init__(self, db):
@@ -11,7 +13,7 @@ class Sight:
         if language_id is None:
             language_id = self.__db.query("SELECT id FROM language WHERE `default` = 1;")[0]['id']
 
-        sights_query = """SELECT s.id AS id, sm.name AS name, sm.description AS description, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
+        sights_query = """SELECT s.id AS id, sm.name AS name, sm.description AS description, sm.address AS address, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
             acm.name AS age_category, stm.name AS sight_type,
             (SELECT COUNT(*) FROM visited_list WHERE user_id IS NOT NULL AND sight_id = s.id) AS visited
             FROM sight AS s
@@ -82,8 +84,8 @@ class Sight:
                     'country': sight_record['country'],
                     'google_maps_url': sight_record['google_maps_url'],
                     'active': sight_record['active'],
-                    'open_time': sight_record['open_time'],
-                    'close_time': sight_record['close_time'],
+                    'open_time': None if sight_record['open_time'] is None else dt.strptime(sight_record['open_time'], '%H:%M').time(),
+                    'close_time': None if sight_record['close_time'] is None else dt.strptime(sight_record['close_time'], '%H:%M').time(),
                     'age_category': sight_record['age_category'],
                     'visited': sight_record['visited'],
                     'sight_types': []
@@ -109,7 +111,7 @@ class Sight:
         if language_id is None:
             language_id = self.__db.query("SELECT id FROM language WHERE `default` = 1;")[0]['id']
 
-        sight = self.__db.query("""SELECT s.id AS id, sm.name AS name, sm.description AS description, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
+        sight = self.__db.query("""SELECT s.id AS id, sm.name AS name, sm.description AS description, sm.address AS address, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
             acm.name AS age_category, stm.name AS sight_type
             FROM sight AS s
             LEFT OUTER JOIN city AS c ON s.city_id = c.id
@@ -128,6 +130,11 @@ class Sight:
             return None
 
         sight = sight[0]
+
+        if sight['open_time'] is not None and sight['close_time'] is not None:
+
+            sight['open_time'] = dt.strptime(sight['open_time'], '%H:%M').time()
+            sight['close_time'] = dt.strptime(sight['close_time'], '%H:%M').time()
 
         sight['achievements'] = self.__db.query("""SELECT a.*, am.name AS name, am.description AS description FROM achievement AS a
             LEFT OUTER JOIN sight_has_achievement AS sa ON a.id = sa.achievement_id
