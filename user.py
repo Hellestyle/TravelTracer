@@ -47,6 +47,7 @@ class User():
                         self.__lastName = databaseResult[4]
                         self.__avatar = databaseResult[5]
                         self.__isAdmin = databaseResult[6]
+                        self.__is_authenticated = True
                         return True, "No errors"
                     else:
                         return False, Errors.USER_OR_PASSWORD_ERROR.value
