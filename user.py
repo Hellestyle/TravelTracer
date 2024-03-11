@@ -26,7 +26,7 @@ class User(UserMixin):
         self.__avatar = avatar
         self.__isAdmin = isAdmin
         self.__passhash = passhash
-        
+
 
     def get_email(self, email):
         with Database() as db:
@@ -45,7 +45,7 @@ class User(UserMixin):
                 result = db.queryOne("SELECT * FROM user WHERE  id=(%s)", (id,))
             except mysql.connector.Error as err:
                     print(err)
-            return result
+            return User(*result)
             
     
     def get_id(self):
@@ -128,14 +128,12 @@ class User(UserMixin):
             except:
                 return False, Errors.DATABASE_ERROR.value
             
-
-                
-
-
+           
     def __str__(self) -> str:
-        string = f"User(username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName})"
+        string = f"User(id={self.__id}, username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName}"
         return string
-    
+
+
 
 if __name__ == "__main__":
      pass

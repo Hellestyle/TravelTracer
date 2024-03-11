@@ -51,12 +51,20 @@
               <li>
                 <a href="#" target="_self" class="buttons">Achievements</a>
               </li>
-              <li><a href="#" target="_self" class="buttons">Friends</a></li>
-              <li>
-                <a href="{{ url_for('reglog.login') }}" target="_self" class="btn"
-                  >Log in</a
-                >
+              <li><a href="" target="_self" class="buttons">Friends</a></li>
+              
+              {% if current_user.is_authenticated %}
+              <li><a href="{{ url_for('reglog.logout') }}" target="_self" class="btn"
+                >Log out</a
+              >
               </li>
+              {% else %}
+              <li>
+              <a href="{{ url_for('reglog.login') }}" target="_self" class="btn"
+                >Log in</a  
+              >
+              </li>
+              {% endif %}
             </ul>
           </nav>
         </header>
