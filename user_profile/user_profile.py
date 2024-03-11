@@ -1,6 +1,6 @@
 from forms import ChangePasswordForm
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-
+from flask_login import login_required, current_user
 from user import User
 from flask import flash
 
@@ -21,7 +21,7 @@ def user_profileChangePassword(user):
             newPassword = changePassowordForm.newPassword.data
             verifyNewPassword = changePassowordForm.verifyNewPassword.data
             
-            #Må ha logged_in User objekt før man kan gå videre
+            user = current_user
             success, message = user.changePassword(oldPassword, newPassword, verifyNewPassword)
             if success:
                 return f"Succsesfully changes password !"
