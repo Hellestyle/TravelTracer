@@ -6,6 +6,10 @@
 
 }
 
+img {
+    display: inline;
+}
+
 .header {
     display: flex;
     color: black;
@@ -56,17 +60,14 @@
 }
 
 .button-left {
-    --primary-color: #23b783;
-    --secondary-color: #fff;
-    --hover-color: #111;
     --arrow-width: 10px;
     --arrow-stroke: 2px;
     box-sizing: border-box;
-    border: 0;
+    border: 1px solid black;
     border-radius: 10px;
-    color: var(--secondary-color);
+    color: black;
     padding: 10px 20px;
-    background: var(--primary-color);
+    background: transparent;
     display: flex;
     transition: 0.2s background;
     align-items: center;
@@ -83,17 +84,17 @@
 .button-left .arrow-left {
     margin-top: 1px;
     width: var(--arrow-width);
-    background: var(--primary-color);
+    background: black;
     height: var(--arrow-stroke);
     position: relative;
     transition: 0.2s;
 }
-  
+
 .button-left .arrow-left::before {
     content: "";
     box-sizing: border-box;
     position: absolute;
-    border: solid var(--secondary-color);
+    border: solid black;
     border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
     display: inline-block;
     top: -3px;
@@ -102,16 +103,19 @@
     padding: 3px;
     transform: rotate(135deg);
 }
-  
+
 .button-left:hover {
-    background-color: var(--hover-color);
+    cursor: pointer;
+    background: black;
+    color: white;
 }
-  
+
 .button-left:hover .arrow-left {
-    background: var(--secondary-color);
+    background: white;
 }
-  
-.button-left:hover .arrow-left:before {
+
+.button-left:hover .arrow-left::before {
+    border-color: white;
     left: 0;
 }
 
@@ -126,17 +130,14 @@
 }
   
 .button-right {
-    --primary-color: #23b783;
-    --secondary-color: #fff;
-    --hover-color: #111;
     --arrow-width: 10px;
     --arrow-stroke: 2px;
     box-sizing: border-box;
-    border: 0;
+    border: 1px solid black;
     border-radius: 10px;
-    color: var(--secondary-color);
+    color: black;
     padding: 10px 20px;
-    background: var(--primary-color);
+    background: transparent;
     display: flex;
     transition: 0.2s background;
     align-items: center;
@@ -153,7 +154,7 @@
 .button-right .arrow-right {
     margin-top: 1px;
     width: var(--arrow-width);
-    background: var(--primary-color);
+    background: black;
     height: var(--arrow-stroke);
     position: relative;
     transition: 0.2s;
@@ -163,7 +164,7 @@
     content: "";
     box-sizing: border-box;
     position: absolute;
-    border: solid var(--secondary-color);
+    border: solid black;
     border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
     display: inline-block;
     top: -3px;
@@ -174,14 +175,17 @@
 }
   
 .button-right:hover {
-    background-color: var(--hover-color);
+    cursor: pointer;
+    background: black;
+    color: white;
 }
   
 .button-right:hover .arrow-right {
-    background: var(--secondary-color);
+    background: white;
 }
   
 .button-right:hover .arrow-right:before {
+    border-color: white;
     right: 0;
 }
 
@@ -194,7 +198,7 @@
   
 .text {
     width: 30%;
-    height: 300px;
+    height: 380px;
     padding: 30px 25px;
     border: hidden;    
     box-shadow: 5px 5px 5px gray;
@@ -221,7 +225,7 @@
 
 .map {
     width: 30%;
-    height: 300px;
+    height: 380px;
     margin: 0 10px; 
     border: hidden;    
     box-shadow: 10px 5px 5px gray;
@@ -261,6 +265,7 @@
 }
   
 .back-button:hover {
+    cursor: pointer;
     letter-spacing: 0.5em;
     transform: translateY(-0.8em);
     background: #171717;
@@ -273,4 +278,51 @@
     transform: translateY(-0.6em);
     background: #171717;
     color: white;
+}
+
+.sight-description {
+    position: relative;
+    max-height: 50px;
+    overflow: hidden;
+    margin-bottom: 50px!important;
+}
+
+.sight-description-gradient-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 0 10px 0 90px;
+    background: none;
+    background-image: radial-gradient(white, transparent);
+    line-height: 1;
+}
+
+.sight-description-button {
+    padding: 0 5px 0 10px;
+    border: none;
+    background: white;
+    color: black;
+    font-weight: bold;
+}
+
+.expanded {
+    max-height: none;
+    padding-bottom: 25px;
+}
+
+.sight-description-button:hover {
+    cursor: pointer;
+}
+
+.open, .close {
+    background-color: white;
+    font-weight: bold;
+}
+
+.open {
+    color: green;
+}
+
+.close {
+    color: red;
 }

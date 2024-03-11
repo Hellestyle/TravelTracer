@@ -105,6 +105,46 @@ body {
     justify-content: center;
 }
 
+.back-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+
+}
+
+.back-button-container a{
+    text-decoration: none;
+}
+
+.back-button {
+    color: #fff;
+    background-color: transparent;
+    padding: 25px 50px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: .3s ease-in-out;
+    box-shadow: inset 2px 5px 10px rgba(0,0,0,0.2);
+    letter-spacing: 0.2em;
+    border: 2px solid #fff;
+    border-radius: 5px;
+}
+  
+.back-button:hover {
+    letter-spacing: 0.5em;
+    transform: translateY(-0.8em);
+    background: #fff;
+    color: black;
+}
+  
+.back-button:active {
+    letter-spacing: 0.4em;
+    transition: 0.1s all;
+    transform: translateY(-0.6em);
+    background: #171717;
+    color: white;
+}
+
 .container {
     padding: 60px 60px;
     justify-content: center;
