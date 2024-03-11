@@ -28,8 +28,8 @@ app.register_blueprint(reglog, url_prefix="/reglog")
 app.register_blueprint(user_profile, url_prefix="/user-profile")
 
 @loginManager.user_loader
-def load_user(email):
-    return User.returnObject(email)
+def load_user(user_id):
+    return User().get_user_by_id(user_id)
 
 
 @app.route("/")
