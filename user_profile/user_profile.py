@@ -9,7 +9,7 @@ user_profile = Blueprint("user_profile", __name__, template_folder="templates", 
 
 @user_profile.route("/user_profile", methods=["POST", "GET"])
 @login_required
-def user_profileChangePassword(user):
+def user_profileChangePassword():
     changePassowordForm = ChangePasswordForm(request.form)
 
     if request.method == "GET":
