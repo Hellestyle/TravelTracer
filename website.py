@@ -3,7 +3,6 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 import secrets
-from forms import LoginForm, RegistrationForm
 from user import User
 
 from sight.sight import sight
@@ -18,6 +17,9 @@ from models.sight import Sight
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
 
+loginManager = LoginManager()
+loginManager.init_app(app)
+loginManager.login_view = "/login"
 
 csrf = CSRFProtect(app)
 
@@ -25,10 +27,9 @@ app.register_blueprint(sight, url_prefix="/sight")
 app.register_blueprint(reglog, url_prefix="/reglog")
 app.register_blueprint(user_profile, url_prefix="/user-profile")
 
-
-#loginManager = LoginManager()
-#loginManager.init_app(app)
-#loginManager.login_view = "/login"
+@loginManager.user_loader
+def load_user(user_id):
+    return User().get_user_by_id(user_id)
 
 
 @app.route("/")
