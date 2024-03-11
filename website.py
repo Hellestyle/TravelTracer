@@ -19,7 +19,7 @@ app.secret_key = secrets.token_urlsafe(16)
 
 loginManager = LoginManager()
 loginManager.init_app(app)
-loginManager.login_view = "/login"
+loginManager.login_view = "/reglog/login"
 
 csrf = CSRFProtect(app)
 
