@@ -84,4 +84,4 @@ def sight_category(category):
                     return redirect(url_for("sight.sight_details", sight_id=sight_id))
                 else:
                     message = "No sights found"
-                    return render_template("sight/sights.html", message=message, sight_type_names=[sight_type["name"] for sight_type in sight_types])
+                    return render_template("sight/sights.html", message=message)
