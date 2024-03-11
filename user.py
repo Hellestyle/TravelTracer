@@ -45,6 +45,7 @@ class User(UserMixin):
                 result = db.queryOne("SELECT * FROM user WHERE  id=(%s)", (id,))
             except mysql.connector.Error as err:
                     print(err)
+            return result
             
     
     def get_id(self):
