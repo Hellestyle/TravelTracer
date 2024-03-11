@@ -89,7 +89,7 @@
 
 <script>
 
-  initKeywords("{{ sight_type_names|join(',') }}")
+  initKeywords("{{ sight_type_names|join(',') }}" + "," + "{{ sight_names|join(',') }}")
 
   document.querySelector('.search-button').addEventListener('click', function(event) {
     event.preventDefault();
