@@ -34,7 +34,10 @@ class User(UserMixin):
                 result = db.queryOne("SELECT * FROM user WHERE  email=(%s)", (email,))
             except mysql.connector.Error as err:
                     print(err)
-            return User(*result)
+            if result:
+                return User(*result)
+            else:
+                return None
     
     def get_user_by_id(self, id):
         with Database() as db:
@@ -42,7 +45,7 @@ class User(UserMixin):
                 result = db.queryOne("SELECT * FROM user WHERE  id=(%s)", (id,))
             except mysql.connector.Error as err:
                     print(err)
-            return result
+            
     
     def get_id(self):
         return str(self.__id)    

@@ -26,7 +26,7 @@ def login():
 
             user = User()
             usr = user.get_email(email)
-            if usr and usr.check_password(password):
+            if usr is not None and usr.check_password(password):
                 login_user(user, remember=True)
                 next = request.args.get('next')
                 if next is None or not next.startswith('/'):
