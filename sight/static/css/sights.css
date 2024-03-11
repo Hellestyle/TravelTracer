@@ -20,6 +20,131 @@
     z-index: -2;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+.search-box {
+    width: 425px;
+    height: 80px;
+    background: #fff;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    border-radius: 5px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.row input {
+    flex: 1;
+    height: 50px;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-size: 18px;
+    color: black;
+}
+
+.row a {
+    text-decoration: none;
+}
+
+.search-button {
+    background: transparent;
+    border: 0;
+    outline: 0;
+}
+
+.search-button .bx-search {
+    width: 25px;
+    color: black;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+::placeholder {
+    color: grey;
+}
+
+.result-box ul {
+    background-color: #fff;
+    border-top: 2px solid #999;
+    padding: 15px 10px;
+    margin-top: 0;
+    border-radius: 5px;
+}
+
+.result-box ul li {
+    list-style: none;
+    border-radius: 5px;
+    padding: 15px 10px;
+    cursor: pointer;
+}
+
+.result-box ul li:hover {
+    background: #e9f3ff;
+}
+
+.result-box {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.message h3 {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    justify-content: center;
+}
+
+.back-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+
+}
+
+.back-button-container a{
+    text-decoration: none;
+}
+
+.back-button {
+    color: #fff;
+    background-color: transparent;
+    padding: 25px 50px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: .3s ease-in-out;
+    box-shadow: inset 2px 5px 10px rgba(0,0,0,0.2);
+    letter-spacing: 0.2em;
+    border: 2px solid #fff;
+    border-radius: 5px;
+}
+  
+.back-button:hover {
+    letter-spacing: 0.5em;
+    transform: translateY(-0.8em);
+    background: #fff;
+    color: black;
+}
+  
+.back-button:active {
+    letter-spacing: 0.4em;
+    transition: 0.1s all;
+    transform: translateY(-0.6em);
+    background: #171717;
+    color: white;
+}
+
 .container {
     padding: 60px 60px;
     justify-content: center;
@@ -138,7 +263,7 @@ button:active {
 }
 
 .sight-info h5 .sight-type {
-    margin: 0 3px;
+    margin-right: 5px;
     padding: 3px;
     border-radius: 5px;
     color: #333;

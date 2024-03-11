@@ -65,7 +65,7 @@ h1 span {
 
 .button-holder {
     position: fixed;
-    bottom: 10%;
+    bottom: 5%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -145,7 +145,7 @@ h1 span {
 }
 
 .sight-info h5 .sight-type {
-    margin: 0 5px;
+    margin-right: 5px;
     padding: 3px;
     border-radius: 5px;
     color: #333;

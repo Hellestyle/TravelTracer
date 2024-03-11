@@ -20,6 +20,7 @@
         type="email"
         required="required"
         name="email"
+        autocomplete="off"
         value="{{ login.email.data if login.email.data is not none else '' }}"
       />
       <span>Email</span>
@@ -30,6 +31,7 @@
         type="password"
         required="required"
         name="password"
+        autocomplete="off"
         value="{{ login.password.data if login.password.data is not none else '' }}"
       />
       <span>Password</span>
