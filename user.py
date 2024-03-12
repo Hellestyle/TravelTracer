@@ -5,11 +5,11 @@ from flask_login import UserMixin
 import mysql.connector 
 
 
-
 class Errors(Enum):
     USER_OR_PASSWORD_ERROR = "Username or password is wrong"
     USER_DOES_NOT_EXIST = "Username does not exist"
     PASSWORD_ERROR = "Password is wrong"
+    PASSWORDS_MATCH_ERROR = "Passwords do not match"
     EMAIL_ALREADY_EXISTS = "Email Already exists"
     USERNAME_ALREADY_EXISTS = "Username already exists"
     DATABASE_ERROR = "Database error"
@@ -64,7 +64,8 @@ class User(UserMixin):
                     return None
             except mysql.connector.Error as err:
                 print(err)
-    
+
+
     def get_user_by_id(self, id):
         with Database() as db:
             try:
@@ -75,14 +76,16 @@ class User(UserMixin):
                     return None
             except mysql.connector.Error as err:
                 print(err)
-    
-    
+
+
     def get_id(self):
         return str(self.__id)    
-    
+
+
     def check_password(self, password):
         return check_password_hash(self.__passhash, password)
-    
+
+
     def isUsernameAvailible(self, username):
         with Database() as db:
             usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
@@ -90,7 +93,7 @@ class User(UserMixin):
                 return True
             else:
                 return False
-        
+
 
     def isEmailAvailible(self, email):
         email = email.lower()
@@ -127,38 +130,48 @@ class User(UserMixin):
                 return True, "Sucess"
             except:
                 return False, Errors.DATABASE_ERROR.value
-            
+
+
     def changePassword(self, oldPass, newPass, newPassCheck):
         with Database() as db:
             try:
                 result = db.queryOne("SELECT email, password FROM user Where email = %s ", (self.__email,))
-                if check_password_hash(result[1], oldPass) and newPass == newPassCheck:
-                    newPassHash = generate_password_hash(newPass)
-                    try:
-                        db.queryOne('UPDATE user SET password = %s WHERE `user`.`email` = %s', (newPassHash,self.__email,))
-                        return True, "Success"
-                    except:
-                        return False, Errors.DATABASE_ERROR.value
-                else:
-                    return False, Errors.PASSWORD_ERROR.value
             except:
                 return False, Errors.DATABASE_ERROR
             
-            
-    def changeUsername(self, password, verifyPassword, newUsername):
-        with Database() as db:
-            try:
-                result = db.queryOne("SELECT email,password FROM user Where email = %s ", (self.__email,))
-                if check_password_hash(result[1],password) and password == verifyPassword:
+            if check_password_hash(result[1], oldPass):
+                if newPass == newPassCheck:
+                    newPassHash = generate_password_hash(newPass)
                     try:
-                        db.queryOne('UPDATE user SET username = %s WHERE `user`.`email` = %s', (newUsername,self.__email,))
+                        db.queryOne('UPDATE user SET password = %s WHERE `user`.`email` = %s', (newPassHash, self.__email,))
                         return True, "Success"
                     except:
                         return False, Errors.DATABASE_ERROR.value
                 else:
-                    return False, Errors.PASSWORD_ERROR.value
+                    return False, Errors.PASSWORDS_MATCH_ERROR.value
+            else:
+                return False, Errors.PASSWORD_ERROR.value
+
+
+    def changeUsername(self, password, verifyPassword, newUsername):
+        with Database() as db:
+            try:
+                result = db.queryOne("SELECT email, password FROM user Where email = %s ", (self.__email,))
             except:
                 return False, Errors.DATABASE_ERROR.value
+            
+            if check_password_hash(result[1], password) and password == verifyPassword:
+                username_availible = self.isUsernameAvailible(newUsername)
+                if username_availible:
+                    try:
+                        db.queryOne('UPDATE user SET username = %s WHERE `user`.`email` = %s', (newUsername, self.__email,))
+                        return True, "Success"
+                    except:
+                        return False, Errors.DATABASE_ERROR.value
+                else:
+                    return False, Errors.USERNAME_ALREADY_EXISTS.value
+            else:
+                return False, Errors.PASSWORD_ERROR.value
 
 
     def __str__(self) -> str:
