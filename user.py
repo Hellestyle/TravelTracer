@@ -28,25 +28,28 @@ class User(UserMixin):
         self.__passhash = passhash
 
 
-    def get_email(self, email):
+    def get_user_by_email(self, email):
         with Database() as db:
             try:
                 result = db.queryOne("SELECT * FROM user WHERE  email=(%s)", (email,))
+                if result:
+                    return User(*result)
+                else:
+                    return None
             except mysql.connector.Error as err:
-                    print(err)
-            if result:
-                return User(*result)
-            else:
-                return None
+                print(err)
     
     def get_user_by_id(self, id):
         with Database() as db:
             try:
                 result = db.queryOne("SELECT * FROM user WHERE  id=(%s)", (id,))
+                if result:
+                    return User(*result)
+                else:
+                    return None
             except mysql.connector.Error as err:
-                    print(err)
-            return User(*result)
-            
+                print(err)
+    
     
     def get_id(self):
         return str(self.__id)    
@@ -127,8 +130,8 @@ class User(UserMixin):
                     return True, "Success"
             except:
                 return False, Errors.DATABASE_ERROR.value
-            
-           
+
+
     def __str__(self) -> str:
         string = f"User(id={self.__id}, username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName}"
         return string
@@ -136,4 +139,4 @@ class User(UserMixin):
 
 
 if __name__ == "__main__":
-     pass
+    pass
