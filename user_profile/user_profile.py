@@ -11,18 +11,17 @@ user_profile = Blueprint("user_profile", __name__, template_folder="templates", 
 @login_required
 def user_profileMain():
     user = current_user
-    
-
     if request.method == "GET":
-        return render_template("user_profile/user_profile.html")
+        changePassForm = ChangePasswordForm()
+        return render_template("user_profile/user_profile.html", changePassForm=changePassForm)
 
 
 @user_profile.route("/user-profile/settings", methods=["POST", "GET"])
 @login_required
 def user_profileSettings():
     if request.method =="GET":
-        
-        return render_template("user_profile/user_profile_settings.html", changePassForm = False)
+        changePassForm = ChangePasswordForm()
+        return render_template("user_profile/user_profile.html", changePassForm = changePassForm)
 
 @user_profile.route("/user-profile/settings/change-password", methods=["POST", "GET"])
 @login_required
@@ -36,7 +35,7 @@ def user_profileSettingsChangePassword():
     if request.method == "GET":
         
         
-        return render_template("user_profile/user_profile_settings.html", changePassForm=changePassForm)
+        return render_template("user_profile/user_profile.html", changePassForm=changePassForm)
 
     else:
         if changePassForm.validate():
@@ -50,12 +49,12 @@ def user_profileSettingsChangePassword():
                 return f"Succsesfully changes password !"
             else:
                 flash(message)
-                return render_template("user_profile/user_profile_settings.html", changePassForm=changePassForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm)
         else:
             for errors in changePassForm.errors.values():
                 for error in errors:
                     flash(error)
-            return render_template("user_profile/user_profile_settings.html", changePassForm=changePassForm)
+            return render_template("user_profile/user_profile.html", changePassForm=changePassForm)
 
 @user_profile.route("/user-profile/settings/change-username", methods=["POST", "GET"])
 @login_required

@@ -8,7 +8,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/user_profile/static/css/user_profile.css" />
+    <script src="static/js/user_profile.js"></script>
     <title>Document</title>
+    
   </head>
 
   <body>
@@ -46,12 +48,26 @@
       </ul>
     </div>
 
+  
+ 
+
+
     <div class="content">
       <nav>
         <i class="bx bx-menu-alt-left"></i>
       </nav>
+      <button onclick="toggleDiv('settings')">Toggle Settings</button>
     </div>
+  
+ <div id="settings">
+    <p>This is the settings div content.</p>
+  </div>
 
-    <script src="/user_profile/static/js/user_profile.js"></script>
+  
+
+
+   
+  
   </body>
+  
 </html>

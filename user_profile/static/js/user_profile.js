@@ -16,3 +16,9 @@ const sideBar = document.querySelector('.sidebar');
 menuBar.addEventListener('click', () => {
     sideBar.classList.toggle('close');
 });
+
+function toggleDiv(id) {
+      var settingsDiv = document.getElementById(id);
+      // Toggle between 'none' and 'block' for display property
+      settingsDiv.style.display = (settingsDiv.style.display === 'none' || settingsDiv.style.display === '') ? 'block' : 'none';
+    }
