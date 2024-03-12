@@ -32,13 +32,13 @@
           <a href="#"><i class="bx bx-face"></i>Friends</a>
         </li>
         <li>
-          <a href="{{ url_for('user_profile.user_profileSettings') }}"><i class="bx bx-cog"></i>Settings</a>
+          <a href="{{ url_for('user_profile.user_profileSettingsChangePassword') }}"><i class="bx bx-cog"></i>Settings</a>
         </li>
       </ul>
 
       <ul class="side-menu">
         <li>
-          <a href="#" class="logout">
+          <a href="{{ url_for('reglog.logout') }}" class="logout">
             <i class="bx bx-log-out"></i>
             Logout
           </a>

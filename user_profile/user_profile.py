@@ -11,49 +11,30 @@ user_profile = Blueprint("user_profile", __name__, template_folder="templates", 
 @login_required
 def user_profileMain():
     user = current_user
-    changePassowordForm = ChangePasswordForm(request.form)
-    changeUsernameForm = ChangeUsername(request.form)
+    
 
     if request.method == "GET":
-        return render_template("user_profile/user_profile.html", changePassowordForm=changePassowordForm)
+        return render_template("user_profile/user_profile.html")
 
-    else:
-        if changePassowordForm.validate():
-            oldPassword = changePassowordForm.oldPassword.data
-            newPassword = changePassowordForm.newPassword.data
-            verifyNewPassword = changePassowordForm.verifyNewPassword.data
-            
-            user = current_user
-            success, message = user.changePassword(oldPassword, newPassword, verifyNewPassword)
-            if success:
-                return f"Succsesfully changes password !"
-            else:
-                flash(message)
-                return render_template("user_profile/user_profile.html", changePassowordForm=changePassowordForm)
-        else:
-            for errors in changePassowordForm.errors.values():
-                for error in errors:
-                    flash(error)
-            return render_template("user_profile/user_profile.html", changePassowordForm=changePassowordForm)
-
-@user_profile.route("/user-profile/settings", methods=["POST", "GET"])
+@user_profile.route("/user-profile/settings/change-password", methods=["POST", "GET"])
 @login_required
-def user_profileSettings():
+def user_profileSettingsChangePassword():
     user = current_user
     print(user)
-    changePassowordForm = ChangePasswordForm()
-    changeUsernameForm = ChangeUsername()
+    changePassForm = ChangePasswordForm()
+
+    
 
     if request.method == "GET":
-        changePassowordForm = ChangePasswordForm()
-        changeUsernameForm = ChangeUsername()
-        return render_template("user_profile/user_profile_settings.html", changePassowordForm=changePassowordForm,changeUsernameForm=changeUsernameForm)
+        
+        
+        return render_template("user_profile/user_profile_settings.html", changePassForm=changePassForm)
 
     else:
-        if changePassowordForm.validate():
-            oldPassword = changePassowordForm.oldPassword.data
-            newPassword = changePassowordForm.newPassword.data
-            verifyNewPassword = changePassowordForm.verifyNewPassword.data
+        if changePassForm.validate():
+            oldPassword = changePassForm.oldPassword.data
+            newPassword = changePassForm.newPassword.data
+            verifyNewPassword = changePassForm.verifyNewPassword.data
             
             user = current_user
             success, message = user.changePassword(oldPassword, newPassword, verifyNewPassword)
@@ -61,10 +42,16 @@ def user_profileSettings():
                 return f"Succsesfully changes password !"
             else:
                 flash(message)
-                return render_template("user_profile/user_profile_settings.html", changePassowordForm=changePassowordForm,changeUsernameForm=changeUsernameForm)
+                return render_template("user_profile/user_profile_settings.html", changePassForm=changePassForm)
         else:
-            for errors in changePassowordForm.errors.values():
+            for errors in changePassForm.errors.values():
                 for error in errors:
                     flash(error)
-            return render_template("user_profile/user_profile_settings.html", changePassowordForm=changePassowordForm, changeUsernameForm=changeUsernameForm)
+            return render_template("user_profile/user_profile_settings.html", changePassForm=changePassForm)
+
+@user_profile.route("/user-profile/settings/change-username", methods=["POST", "GET"])
+@login_required
+def user_profileSettingsChangeUsername():
+    user = current_user
+    changeUserForm = ChangeUsername()
     

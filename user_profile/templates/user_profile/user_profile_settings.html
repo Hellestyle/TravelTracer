@@ -38,7 +38,7 @@
 
       <ul class="side-menu">
         <li>
-          <a href="#" class="logout">
+          <a href="{{ url_for('reglog.logout') }}" class="logout">
             <i class="bx bx-log-out"></i>
             Logout
           </a>
@@ -47,48 +47,16 @@
     </div>
 
     <div class="content">
-      <form  id="changePassowordFormID" action="{{ url_for('user_profile.user_profileSettings') }}" method="post"> 
-      {{ changePassowordForm.csrf_token }}
-      {{ changePassowordForm.oldPassword.label }} {{ changePasswordForm.oldPassword }}
-      {{ changePassowordForm.newPassword.label }} {{ changePasswordForm.newPassword }}
-      {{ changePassowordForm.verifyNewPassword.label }} {{ changePasswordForm.verifyNewPassword }}
+      <form id="changePasswordForm" action="{{ url_for('user_profile.user_profileSettingsChangePassword') }}" method="post"> 
+      {{ changePassForm.csrf_token }}
+      {{ changePassForm.oldPassword.label }} {{ changePassForm.oldPassword() }}
 
-      <div class="inputbox">
-      <input
-        type="password"
-        required="required"
-        name="oldPass"
-        autocomplete="off"
-        value=""
-      />
-      <span>Old Password</span>
-      </div>
       
-      <div class="inputbox">
-      <input
-        type="password"
-        required="required"
-        name="newPass"
-        autocomplete="off"
-        value=""
-      />
-      <span>New Password</span>
-      </div>
-
-      <div class="inputbox">
-      <input
-        type="password"
-        required="required"
-        name="newPassVerify"
-        autocomplete="off"
-        value=""
-      />
-      <span>New Password again</span>
-      </div>
-
-      <div class="inputbox">
-      <input type="submit" value="submit" />
-      </div>
+      {{ changePassForm.newPassword.label }} {{ changePassForm.newPassword() }}
+      
+      {{ changePassForm.verifyNewPassword.label }} {{ changePassForm.verifyNewPassword() }}
+        
+      <input type="submit" value="Go">
 
       </form>
       <nav>

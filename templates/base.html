@@ -51,7 +51,7 @@
               <li>
                 <a href="#" target="_self" class="buttons">Achievements</a>
               </li>
-              <li><a href="" target="_self" class="buttons">Friends</a></li>
+              <li><a href="{{ url_for('user_profile.user_profileMain') }}" target="_self" class="buttons">Friends</a></li>
               
               {% if current_user.is_authenticated %}
               <li><a href="{{ url_for('reglog.logout') }}" target="_self" class="btn"
