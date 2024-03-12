@@ -7,7 +7,7 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/user_profile/static/css/user_profile.css" />
+    <link rel="stylesheet" href="static/css/user_profile.css" />
     <script src="static/js/user_profile.js"></script>
     <title>Document</title>
     
@@ -34,7 +34,8 @@
           <a href="#"><i class="bx bx-face"></i>Friends</a>
         </li>
         <li>
-          <a href="{{ url_for('user_profile.user_profileSettings') }}"><i class="bx bx-cog"></i>Settings</a>
+          <button onclick="toggleDiv('settings')"><i class="bx bx-cog"></i>Settings</button>
+          <a onclick="toggleDiv('settings')"><i class="bx bx-cog"></i>Settings</a>
         </li>
       </ul>
 
@@ -56,7 +57,6 @@
       <nav>
         <i class="bx bx-menu-alt-left"></i>
       </nav>
-      <button onclick="toggleDiv('settings')">Toggle Settings</button>
     </div>
   
  <div id="settings">
