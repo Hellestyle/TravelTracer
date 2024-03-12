@@ -17,9 +17,9 @@ from models.sight import Sight
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
 
-#loginManager = LoginManager()
-#loginManager.init_app(app)
-#loginManager.login_view = "/login"
+loginManager = LoginManager()
+loginManager.init_app(app)
+loginManager.login_view = "/reglog/login"
 
 csrf = CSRFProtect(app)
 
@@ -27,10 +27,10 @@ app.register_blueprint(sight, url_prefix="/sight")
 app.register_blueprint(reglog, url_prefix="/reglog")
 app.register_blueprint(user_profile, url_prefix="/user-profile")
 
-#@loginManager.user_loader
-#def load_user(email):
-#    return User.returnObject(email)
 
+@loginManager.user_loader
+def load_user(user_id):
+    return User().get_user_by_id(user_id)
 
 @app.route("/")
 def index():

@@ -5,8 +5,7 @@ from forms import LoginForm, RegistrationForm
 from user import User
 from flask import flash
 
-from website import load_user
-
+import sys
 
 
 reglog = Blueprint("reglog", __name__, template_folder="templates", static_folder="static")
@@ -26,18 +25,17 @@ def login():
             password = loginForm.password.data
 
             user = User()
-            success, message = user.login(email, password)
-            if success:
-                user = load_user(email)
-                return f"{user}"
-            else:
-                flash(message)
-                return render_template("reglog/login.html", login=loginForm)
-        else:
-            for errors in loginForm.errors.values():
-                for error in errors:
-                    flash(error)
-            return render_template("reglog/login.html", login=loginForm)
+            user = user.get_email(email)
+            if user is not None and user.check_password(password):
+                login_user(user, force=True)
+                next = request.args.get('next')
+                if next is None or not next.startswith('/'):
+                    next = url_for('index')
+                return redirect(next)
+            
+            flash("Invalid email or password")
+                
+        return render_template("reglog/login.html", login=loginForm)
 
 
 @reglog.route("/signup", methods=["POST", "GET"])
@@ -67,3 +65,10 @@ def sign_up():
                 for error in errors:
                     flash(error)
             return render_template("reglog/signup.html", form=registrationForm)
+
+@reglog.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.')
+    return redirect(url_for('index'))
