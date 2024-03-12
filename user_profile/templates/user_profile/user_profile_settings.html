@@ -47,6 +47,7 @@
     </div>
 
     <div class="content">
+      { % if changePassForm % }
       <form id="changePasswordForm" action="{{ url_for('user_profile.user_profileSettingsChangePassword') }}" method="post"> 
       {{ changePassForm.csrf_token }}
       {{ changePassForm.oldPassword.label }} {{ changePassForm.oldPassword() }}
@@ -59,6 +60,7 @@
       <input type="submit" value="Go">
 
       </form>
+      { % endif % }
       <nav>
         <i class="bx bx-menu-alt-left"></i>
       </nav>
