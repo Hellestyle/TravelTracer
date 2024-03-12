@@ -21,6 +21,7 @@ def user_profileMain():
 @login_required
 def user_profileSettings():
     if request.method =="GET":
+        
         return render_template("user_profile/user_profile_settings.html", changePassForm = False)
 
 @user_profile.route("/user-profile/settings/change-password", methods=["POST", "GET"])

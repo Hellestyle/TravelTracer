@@ -32,7 +32,7 @@
           <a href="#"><i class="bx bx-face"></i>Friends</a>
         </li>
         <li>
-          <a href="/user_profile/settings"><i class="bx bx-cog"></i>Settings</a>
+          <a href="{{ url_for('user_profile.user_profileSettings') }}"><i class="bx bx-cog"></i>Settings</a>
         </li>
       </ul>
 
@@ -45,9 +45,9 @@
         </li>
       </ul>
     </div>
-
+{% if changePassForm %}
     <div class="content">
-      { % if changePassForm % }
+      
       <form id="changePasswordForm" action="{{ url_for('user_profile.user_profileSettingsChangePassword') }}" method="post"> 
       {{ changePassForm.csrf_token }}
       {{ changePassForm.oldPassword.label }} {{ changePassForm.oldPassword() }}
@@ -60,12 +60,12 @@
       <input type="submit" value="Go">
 
       </form>
-      { % endif % }
+      
       <nav>
         <i class="bx bx-menu-alt-left"></i>
       </nav>
     </div>
-
+{% endif %}
     <script src="/user_profile/static/js/user_profile.js"></script>
   </body>
 </html>
