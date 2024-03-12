@@ -32,7 +32,7 @@
           <a href="#"><i class="bx bx-face"></i>Friends</a>
         </li>
         <li>
-          <a href="{{ url_for('user_profile.user_profileSettings') }}"><i class="bx bx-cog"></i>Settings</a>
+          <a href="/user_profile/settings"><i class="bx bx-cog"></i>Settings</a>
         </li>
       </ul>
 
@@ -47,6 +47,50 @@
     </div>
 
     <div class="content">
+      <form  id="changePassowordFormID" action="{{ url_for('user_profile.user_profileSettings') }}" method="post"> 
+      {{ changePassowordForm.csrf_token }}
+      {{ changePassowordForm.oldPassword.label }} {{ changePasswordForm.oldPassword }}
+      {{ changePassowordForm.newPassword.label }} {{ changePasswordForm.newPassword }}
+      {{ changePassowordForm.verifyNewPassword.label }} {{ changePasswordForm.verifyNewPassword }}
+
+      <div class="inputbox">
+      <input
+        type="password"
+        required="required"
+        name="oldPass"
+        autocomplete="off"
+        value=""
+      />
+      <span>Old Password</span>
+      </div>
+      
+      <div class="inputbox">
+      <input
+        type="password"
+        required="required"
+        name="newPass"
+        autocomplete="off"
+        value=""
+      />
+      <span>New Password</span>
+      </div>
+
+      <div class="inputbox">
+      <input
+        type="password"
+        required="required"
+        name="newPassVerify"
+        autocomplete="off"
+        value=""
+      />
+      <span>New Password again</span>
+      </div>
+
+      <div class="inputbox">
+      <input type="submit" value="submit" />
+      </div>
+
+      </form>
       <nav>
         <i class="bx bx-menu-alt-left"></i>
       </nav>
