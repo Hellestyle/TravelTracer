@@ -28,6 +28,32 @@ class User(UserMixin):
         self.__passhash = passhash
 
 
+    def login(self, email, password):
+        with Database() as db:
+            try:
+                databaseResult = db.queryOne("SELECT * FROM user Where email = %s ", (email,))
+
+                if databaseResult:
+                    check_password_result = check_password_hash(pwhash=databaseResult[-1], password=password)
+
+                    if check_password_result:
+                        self.__id = databaseResult[0]
+                        self.__passhash = databaseResult[-1]
+                        self.__username = databaseResult[1]
+                        self.__email = databaseResult[2]
+                        self.__firstName = databaseResult[3]
+                        self.__lastName = databaseResult[4]
+                        self.__avatar = databaseResult[5]
+                        self.__isAdmin = databaseResult[6]
+                        return True, "No errors"
+                    else:
+                        return False, Errors.USER_OR_PASSWORD_ERROR.value
+                else:
+                    return False, Errors.USER_OR_PASSWORD_ERROR.value
+            except:
+                return False, Errors.DATABASE_ERROR.value
+
+
     def get_user_by_email(self, email):
         with Database() as db:
             try:
@@ -102,32 +128,35 @@ class User(UserMixin):
             except:
                 return False, Errors.DATABASE_ERROR.value
             
-    def changePassword(self,oldPass,newPass,newPassCheck):
+    def changePassword(self, oldPass, newPass, newPassCheck):
         with Database() as db:
             try:
-                result = db.queryOne("SELECT email,password FROM user Where email = %s ", (self.__email,))
-                if check_password_hash(result[1],oldPass) and newPass == newPassCheck:
+                result = db.queryOne("SELECT email, password FROM user Where email = %s ", (self.__email,))
+                if check_password_hash(result[1], oldPass) and newPass == newPassCheck:
                     newPassHash = generate_password_hash(newPass)
                     try:
                         db.queryOne('UPDATE user SET password = %s WHERE `user`.`email` = %s', (newPassHash,self.__email,))
+                        return True, "Success"
                     except:
                         return False, Errors.DATABASE_ERROR.value
-                    return True, "Success"
+                else:
+                    return False, Errors.PASSWORD_ERROR.value
             except:
-                return False, Errors.DATABASE_ERROR.value
+                return False, Errors.DATABASE_ERROR
             
             
-    def changeUsername(self,password,verifyPassword,newUsername):
+    def changeUsername(self, password, verifyPassword, newUsername):
         with Database() as db:
             try:
                 result = db.queryOne("SELECT email,password FROM user Where email = %s ", (self.__email,))
                 if check_password_hash(result[1],password) and password == verifyPassword:
-                    
                     try:
                         db.queryOne('UPDATE user SET username = %s WHERE `user`.`email` = %s', (newUsername,self.__email,))
+                        return True, "Success"
                     except:
                         return False, Errors.DATABASE_ERROR.value
-                    return True, "Success"
+                else:
+                    return False, Errors.PASSWORD_ERROR.value
             except:
                 return False, Errors.DATABASE_ERROR.value
 
