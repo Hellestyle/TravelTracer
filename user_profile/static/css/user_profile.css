@@ -173,8 +173,8 @@ body {
 }
 
 .sidebar.close~.content {
-    width: calc(100% - 60px);
-    left: 60px;
+    width: calc(100% - 0px);
+    left: 0px;
 }
 
 .content nav {
@@ -188,6 +188,7 @@ body {
     top: 0;
     left: 0;
     z-index: 1000;
+    overflow-y: hidden;
 }
 
 .content nav::before{
@@ -197,8 +198,6 @@ body {
     height: 40px;
     bottom: -40px;
     left: 0;
-    border-radius: 50%;
-    box-shadow: -20px -20px 0 var(--light);
 }
 
 .content nav a{
@@ -208,7 +207,6 @@ body {
 .content nav .bx.bx-menu-alt-left {
     cursor: pointer;
     color: var(--dark);
-    
 }
 
 .content_info   {
