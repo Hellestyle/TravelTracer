@@ -53,32 +53,32 @@
       <nav>
         <button class="bx bx-menu-alt-left">Menu</button>
       </nav>
-         <div id="settings" class="content_info">
-          <p>This is the outside settings div content.</p>
-          <button onclick="toggleDiv('changepassword')">Change Password</button>
-          <button onclick="toggleDiv('changeusername')">Change Username</button>
-            <div id="changepassword" class="content_info">
-              <p>ChangePassword</p>
-                <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
-                  {{ changePassForm.csrf_token }}
-                  {{ changePassForm.oldPassword.label }} {{ changePassForm.oldPassword() }}
-                  {{ changePassForm.newPassword.label }} {{ changePassForm.newPassword() }}
-                  {{ changePassForm.verifyNewPassword.label }} {{ changePassForm.verifyNewPassword() }}
-                  {{ changePassForm.submitPasswordChange.label }} {{ changePassForm.submitPasswordChange() }}
-                  
-                </form>
-            </div>
-            <div id="changeusername" class="content_info">
-              <p>Change Username</p>
-                <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
-                  {{ changeUserForm.csrf_token }}
-                  {{ changeUserForm.newUsername.label }} {{ changeUserForm.newUsername() }}
-                  {{ changeUserForm.password.label }} {{ changeUserForm.password() }}
-                  {{ changeUserForm.verifyPassword.label }} {{ changeUserForm.verifyPassword() }}
-                  {{ changeUserForm.submitUsernameChange.label }} {{ changeUserForm.submitUsernameChange() }}
-                </form>
-            </div>
+      <div id="settings" class="content_info">
+        <p>This is the outside settings div content.</p>
+        <button onclick="toggleDiv('changepassword')">Change Password</button>
+        <button onclick="toggleDiv('changeusername')">Change Username</button>
+        <div id="changepassword" class="content_info">
+          <p>ChnagePassword</p>
+            <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
+              {{ changePassForm.csrf_token }}
+              {{ changePassForm.oldPassword.label }} {{ changePassForm.oldPassword() }}
+              {{ changePassForm.newPassword.label }} {{ changePassForm.newPassword() }}
+              {{ changePassForm.verifyNewPassword.label }} {{ changePassForm.verifyNewPassword() }}
+              {{ changePassForm.submitPasswordChange.label }} {{ changePassForm.submitPasswordChange() }}
+              
+            </form>
         </div>
+        <div id="changeusername" class="content_info">
+          <p>Change Username</p>
+            <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
+              {{ changeUserForm.csrf_token }}
+              {{ changeUserForm.newUsername.label }} {{ changeUserForm.newUsername() }}
+              {{ changeUserForm.password.label }} {{ changeUserForm.password() }}
+              {{ changeUserForm.verifyPassword.label }} {{ changeUserForm.verifyPassword() }}
+              {{ changeUserForm.submitUsernameChange.label }} {{ changeUserForm.submitUsernameChange() }}
+            </form>
+        </div>
+      </div>
     </div>
   
  
