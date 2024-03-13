@@ -8,7 +8,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="static/css/user_profile.css" />
-    <script src="static/js/user_profile.js"></script>
+    <script src="static/js/user_profile.js" defer></script>
     <title>Document</title>
     
   </head>
@@ -34,7 +34,6 @@
           <a href="#"><i class="bx bx-face"></i>Friends</a>
         </li>
         <li>
-          <button onclick="toggleDiv('settings')"><i class="bx bx-cog"></i>Settings</button>
           <a onclick="toggleDiv('settings')"><i class="bx bx-cog"></i>Settings</a>
         </li>
       </ul>
@@ -52,7 +51,7 @@
 
     <div class="content">
       <nav>
-        <i class="bx bx-menu-alt-left"></i>
+        <button class="bx bx-menu-alt-left"></button>
       </nav>
     </div>
   
