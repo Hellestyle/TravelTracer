@@ -22,16 +22,16 @@
 
       <ul class="side-menu">
         <li class="active">
-          <a href="#"><i class="bx bx-user"></i>Profile</a>
+          <a onclick="toggleDiv('profile')"><i class="bx bx-user"></i>Profile</a>
         </li>
         <li>
-          <a href="#"><i class="bx bx-been-here"></i>Visited</a>
+          <a onclick="toggleDiv('visited')"><i class="bx bx-been-here"></i>Visited</a>
         </li>
         <li>
-          <a href="#"><i class="bx bx-star"></i>Achievements</a>
+          <a onclick="toggleDiv('achievements')"><i class="bx bx-star"></i>Achievements</a>
         </li>
         <li>
-          <a href="#"><i class="bx bx-face"></i>Friends</a>
+          <a onclick="toggleDiv('friends')"<i class="bx bx-face"></i>Friends</a>
         </li>
         <li>
           <a onclick="toggleDiv('settings')"><i class="bx bx-cog"></i>Settings</a>
@@ -58,7 +58,7 @@
           <button onclick="toggleDiv('changepassword')">Change Password</button>
           <button onclick="toggleDiv('changeusername')">Change Username</button>
             <div id="changepassword" class="content_info">
-              <p>ChnagePassword</p>
+              <p>ChangePassword</p>
                 <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
                   {{ changePassForm.csrf_token }}
                   {{ changePassForm.oldPassword.label }} {{ changePassForm.oldPassword() }}
