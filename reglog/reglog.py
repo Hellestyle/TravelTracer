@@ -24,17 +24,18 @@ def login():
             email = loginForm.email.data
             password = loginForm.password.data
 
-            user = User()
-            user = user.get_email(email)
+            user_model = User()
+            user = user_model.get_user_by_email(email)
             if user is not None and user.check_password(password):
                 login_user(user, force=True)
                 next = request.args.get('next')
                 if next is None or not next.startswith('/'):
                     next = url_for('index')
                 return redirect(next)
-            
-            flash("Invalid email or password")
-                
+            else:
+                flash("Invalid email or password")
+                return render_template("reglog/login.html", login=loginForm)
+        
         return render_template("reglog/login.html", login=loginForm)
 
 
@@ -56,7 +57,10 @@ def sign_up():
             user = User()
             success, message = user.registrer(firstName, lastName, email, username, password)
             if success:
-                return f"Welcome {username}!"
+                user_model = User()
+                usr = user_model.get_user_by_email(email)
+                login_user(usr, force=True)
+                return redirect(url_for('index'))
             else:
                 flash(message)
                 return render_template("reglog/signup.html", form=registrationForm)

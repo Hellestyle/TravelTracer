@@ -47,7 +47,6 @@ def sight_details(sight_id):
     is_open = sight["open_time"] is None and sight["close_time"] is None or \
         sight["open_time"] <= now and sight["close_time"] >= now
 
-    # We can change file amount here if we want to add more images
     images = [url_for('static', filename=f"images/sight/{sight_photo}") for sight_photo in sight["photos"]]
 
     return render_template(
@@ -76,7 +75,7 @@ def sight_category(category):
 
                 sight_id = None
                 for sight in sights:
-                     if category.lower() == sight['name'].lower():
+                    if category.lower() == sight['name'].lower():
                         sight_id = sight['id']
                         break
                 
@@ -84,4 +83,4 @@ def sight_category(category):
                     return redirect(url_for("sight.sight_details", sight_id=sight_id))
                 else:
                     message = "No sights found"
-                    return render_template("sight/sights.html", message=message, sight_type_names=[sight_type["name"] for sight_type in sight_types])
+                    return render_template("sight/sights.html", message=message)
