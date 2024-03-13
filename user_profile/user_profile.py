@@ -11,17 +11,14 @@ user_profile = Blueprint("user_profile", __name__, template_folder="templates", 
 @login_required
 def user_profileMain():
     user = current_user
+    changePassForm = ChangePasswordForm()
+    changeUserForm = ChangeUsername()
     if request.method == "GET":
-        changePassForm = ChangePasswordForm()
-        return render_template("user_profile/user_profile.html", changePassForm=changePassForm)
+        
+        return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
 
 
-@user_profile.route("/user-profile", methods=["POST", "GET"])
-@login_required
-def user_profileSettings():
-    if request.method =="GET":
-        changePassForm = ChangePasswordForm()
-        return render_template("user_profile/user_profile.html", changePassForm = changePassForm)
+
 
 @user_profile.route("/user-profile/settings/change-password", methods=["POST", "GET"])
 @login_required
@@ -29,13 +26,14 @@ def user_profileSettingsChangePassword():
     user = current_user
     print(user)
     changePassForm = ChangePasswordForm()
+    changeUserForm = ChangePasswordForm()
 
     
 
     if request.method == "GET":
         
         
-        return render_template("user_profile/user_profile.html", changePassForm=changePassForm)
+        return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
 
     else:
         if changePassForm.validate():
@@ -49,16 +47,17 @@ def user_profileSettingsChangePassword():
                 return f"Succsesfully changes password !"
             else:
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
         else:
             for errors in changePassForm.errors.values():
                 for error in errors:
                     flash(error)
-            return render_template("user_profile/user_profile.html", changePassForm=changePassForm)
+            return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
 
 @user_profile.route("/user-profile/settings/change-username", methods=["POST", "GET"])
 @login_required
 def user_profileSettingsChangeUsername():
     user = current_user
     changeUserForm = ChangeUsername()
+    changePassForm = ChangePasswordForm()
     
