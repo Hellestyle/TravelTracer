@@ -59,22 +59,23 @@
           <button onclick="toggleDiv('changeusername')">Change Username</button>
             <div id="changepassword" class="content_info">
               <p>ChnagePassword</p>
-                <form action="{{ url_for('user_profile.user_profileSettingsChangePassword') }}" method="post">
+                <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
                   {{ changePassForm.csrf_token }}
                   {{ changePassForm.oldPassword.label }} {{ changePassForm.oldPassword() }}
                   {{ changePassForm.newPassword.label }} {{ changePassForm.newPassword() }}
                   {{ changePassForm.verifyNewPassword.label }} {{ changePassForm.verifyNewPassword() }}
-                  <input type="submit" value="Go">
+                  {{ changePassForm.submitPasswordChange.label }} {{ changePassForm.submitPasswordChange() }}
+                  
                 </form>
             </div>
             <div id="changeusername" class="content_info">
               <p>Change Username</p>
-                <form action="{{ url_for('user_profile.user_profileSettingsChangeUsername') }}" method="post">
+                <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
                   {{ changeUserForm.csrf_token }}
                   {{ changeUserForm.newUsername.label }} {{ changeUserForm.newUsername() }}
                   {{ changeUserForm.password.label }} {{ changeUserForm.password() }}
                   {{ changeUserForm.verifyPassword.label }} {{ changeUserForm.verifyPassword() }}
-                  <input type="submit" value="Go">
+                  {{ changeUserForm.submitUsernameChange.label }} {{ changeUserForm.submitUsernameChange() }}
                 </form>
             </div>
         </div>

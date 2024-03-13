@@ -14,10 +14,30 @@ def user_profileMain():
     changePassForm = ChangePasswordForm()
     changeUserForm = ChangeUsername()
     if request.method == "GET":
-        
         return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
 
-
+    else:
+        if changePassForm.submitPasswordChange.data and changePassForm.validate():
+            # Do change password with func
+            oldPassword = changePassForm.oldPassword.data
+            newPassword = changePassForm.newPassword.data
+            verifyNewPassword = changePassForm.verifyNewPassword.data
+            
+            user = current_user
+            success, message = user.changePassword(oldPassword, newPassword, verifyNewPassword)
+            if success:
+                return f"Succsesfully changes password !"
+            else:
+                flash(message)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
+        elif changeUserForm.submitUsernameChange.data and changeUserForm.validate():
+            # do change username with func
+            return print(current_user)
+        else:
+            for errors in changePassForm.errors.values():
+                for error in errors:
+                    flash(error)
+            return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
 
 
 @user_profile.route("/user-profile/settings/change-password", methods=["POST", "GET"])
@@ -26,7 +46,7 @@ def user_profileSettingsChangePassword():
     user = current_user
     print(user)
     changePassForm = ChangePasswordForm()
-    changeUserForm = ChangePasswordForm()
+    changeUserForm = ChangeUsername()
 
     
 
@@ -36,7 +56,7 @@ def user_profileSettingsChangePassword():
         return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
 
     else:
-        if changePassForm.validate():
+        if changePassForm.submitPasswordChange.data and changePassForm.validate():
             oldPassword = changePassForm.oldPassword.data
             newPassword = changePassForm.newPassword.data
             verifyNewPassword = changePassForm.verifyNewPassword.data

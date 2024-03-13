@@ -24,12 +24,13 @@ class ChangePasswordForm(FlaskForm):
     oldPassword = PasswordField("oldPassword",validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
     newPassword = PasswordField("newPassword",validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
     verifyNewPassword = PasswordField('verifyNewPassword', validators=[EqualTo('newPassword', message="The two passwords must match")])
+    submitPasswordChange = SubmitField("Submit")
 
 class ChangeUsername(FlaskForm):
     newUsername = StringField('newUsername', validators=[DataRequired(), Length(min=3, max=30, message="Username must contain at least 3 characters")])
     password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
     verifyPassword = PasswordField('verifyPassword', validators=[EqualTo('password', message="The two passwords must match")])
-
+    submitUsernameChange = SubmitField("Submit")
     #def validate_email(self, field):
     #    with Database() as db:
     #        email = field.data.lower()
