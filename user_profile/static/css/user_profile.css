@@ -172,6 +172,10 @@ body {
     transition: all 0.3s ease;
 }
 
+.hidden {
+    display: none;
+}
+
 .sidebar.close~.content {
     width: calc(100% - 0px);
     left: 0px;
@@ -191,7 +195,7 @@ body {
     overflow-y: hidden;
 }
 
-.content nav::before{
+.content nav::before {
     content: "";
     position: absolute;
     width: 40px;
@@ -215,14 +219,8 @@ body {
     margin-left: -25px;
 }
 
-.content_info   {
-    display: none; /* Set initial display to 'none' */
-    border: 1px solid #ccc;
-    position: 100;
-    top: 50%;
+.content_info {
     text-align: center;
-    width: 10;
-    margin: auto;
     border: 3px solid green;
     padding: 50px;
 }

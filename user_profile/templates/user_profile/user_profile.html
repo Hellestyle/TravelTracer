@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="static/css/user_profile.css" />
     <script src="static/js/user_profile.js" defer></script>
     <title>Document</title>
@@ -14,36 +11,35 @@
   </head>
 
   <body>
-    <div class="sidebar">
-      <a href="#" class="logo"
-        ><i class="bx bx-trip"></i>
-        <div class="logo-name"><span>Travel</span>Tracer</div>
+    <div class="sidebar close">
+      <a href="{{ url_for('index') }}" target="_self" class="logo">
+        <i class="bx bx-trip"></i>
+        <div class="logo-name">
+          <span>Travel</span>Tracer
+        </div>
       </a>
 
       <ul class="side-menu">
         <li class="active">
-          <a onclick="toggleDivs(['profile','settings','friends','achievements','visited'])"><i class="bx bx-user"></i>Profile</a>
+          <a id="profile"><i class="bx bx-user"></i>Profile</a>
         </li>
         <li>
-          <a onclick="toggleDivs(['visited','settings','friends','profile','achievements'])"><i class="bx bx-been-here"></i>Visited</a>
+          <a id="visited"><i class="bx bx-been-here"></i>Visited</a>
         </li>
         <li>
-          <a onclick="toggleDivs(['achievements','settings','friends','profile','visited'])"><i class="bx bx-star"></i>Achievements</a>
+          <a id="achievements"><i class="bx bx-star"></i>Achievements</a>
         </li>
         <li>
-          <a onclick="toggleDivs(['friends','settings','achievements','profile','visited'])"><i class="bx bx-face"></i>Friends</a>
+          <a id="friends"><i class="bx bx-face"></i>Friends</a>
         </li>
         <li>
-          <a onclick="toggleDivs(['settings','achievements','friends','profile','visited'])"><i class="bx bx-cog"></i>Settings</a>
+          <a id="settings"><i class="bx bx-cog"></i>Settings</a>
         </li>
       </ul>
 
       <ul class="side-menu">
         <li>
-          <a href="{{ url_for('reglog.logout') }}" class="logout">
-            <i class="bx bx-log-out"></i>
-            Logout
-          </a>
+          <a href="{{ url_for('reglog.logout') }}" class="logout"><i class="bx bx-log-out"></i>Logout</a>
         </li>
       </ul>
     </div>
@@ -54,28 +50,23 @@
         <button class="bx bx-menu-alt-left"></button>
         <h3>Menu</h3>
       </nav>
-      <!-- Profile -->
-      <div id="profile" class="content_info_start">
-        <p>Profile div</p>
+      <div id="profile" class="">
+        <p>Welcome to your profile.</p>
       </div>
-      <!-- Visited -->
-      <div id="visited" class="content_info">
-        <p>visited div</p>
+      <div id="visited" class="hidden">
+        <a>This is a list of all the sights you have visited.</a>
       </div>
-      <!-- Achievements -->
-      <div id="achievements" class="content_info">
-        <p>Achievemtns div</p>
+      <div id="achievements" class="hidden">
+        <p>Here you can keep track of your achievements.</p>
       </div>
-      <!-- Friends -->
-      <div id="friends" class="content_info">
-        <p>Friends div</p>
+      <div id="friends" class="hidden">
+        <p>This is the page for friends.</p>
       </div>
-      <!-- Settings -->
-      <div id="settings" class="content_info">
-        <p>Settings div</p>
-        <button onclick="toggleDivs(['changepassword','changeusername'])">Change Password</button>
-        <button onclick="toggleDivs(['changeusername','changepassword'])">Change Username</button>
-        <div id="changepassword" class="content_info">
+      <div id="settings" class="content_info hidden">
+        <p>This is the inside settings div content.</p>
+        <button id="changePassword">Change Password</button>
+        <button id="changeUsername">Change Username</button>
+        <div id="changePassword" class="content_info hidden">
           <p>ChnagePassword</p>
             <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
               {{ changePassForm.csrf_token }}
@@ -86,7 +77,7 @@
               
             </form>
         </div>
-        <div id="changeusername" class="content_info">
+        <div id="changeUsername" class="content_info hidden">
           <p>Change Username</p>
             <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
               {{ changeUserForm.csrf_token }}
@@ -101,11 +92,6 @@
     </div>
   
  
-
-  
-
-
-   
   
   </body>
   
