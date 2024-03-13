@@ -34,9 +34,14 @@ def user_profileMain():
             # do change username with func
             return print(current_user)
         else:
-            for errors in changePassForm.errors.values():
-                for error in errors:
-                    flash(error)
+            if changePassForm.errors:
+                for errors in changePassForm.errors.values():
+                    for error in errors:
+                        flash(error)
+            else:
+                for errors in changeUserForm.errors.values():
+                    for error in errors:
+                        flash(error)
             return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
 
 
