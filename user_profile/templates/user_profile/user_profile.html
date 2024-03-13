@@ -51,7 +51,8 @@
 
     <div class="content">
       <nav>
-        <button class="bx bx-menu-alt-left">Menu</button>
+        <button class="bx bx-menu-alt-left"></button>
+        <h3>Menu</h3>
       </nav>
       <!-- Profile -->
       <div id="profile" class="content_info_start">
@@ -72,16 +73,16 @@
       <!-- Settings -->
       <div id="settings" class="content_info">
         <p>Settings div</p>
-        <button onclick="toggleDiv('changepassword')">Change Password</button>
-        <button onclick="toggleDiv('changeusername')">Change Username</button>
+        <button onclick="toggleDivs(['changepassword','changeusername'])">Change Password</button>
+        <button onclick="toggleDivs(['changeusername','changepassword'])">Change Username</button>
         <div id="changepassword" class="content_info">
           <p>ChnagePassword</p>
             <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
               {{ changePassForm.csrf_token }}
-              {{ changePassForm.oldPassword.label }} {{ changePassForm.oldPassword() }}
-              {{ changePassForm.newPassword.label }} {{ changePassForm.newPassword() }}
-              {{ changePassForm.verifyNewPassword.label }} {{ changePassForm.verifyNewPassword() }}
-              {{ changePassForm.submitPasswordChange.label }} {{ changePassForm.submitPasswordChange() }}
+              {{ changePassForm.oldPassword.label }} {{ changePassForm.oldPassword() }} <br>
+              {{ changePassForm.newPassword.label }} {{ changePassForm.newPassword() }}  <br>
+              {{ changePassForm.verifyNewPassword.label }} {{ changePassForm.verifyNewPassword() }} <br>
+              {{ changePassForm.submitPasswordChange() }} 
               
             </form>
         </div>
@@ -89,10 +90,11 @@
           <p>Change Username</p>
             <form action="{{ url_for('user_profile.user_profileMain') }}" method="post">
               {{ changeUserForm.csrf_token }}
-              {{ changeUserForm.newUsername.label }} {{ changeUserForm.newUsername() }}
-              {{ changeUserForm.password.label }} {{ changeUserForm.password() }}
-              {{ changeUserForm.verifyPassword.label }} {{ changeUserForm.verifyPassword() }}
-              {{ changeUserForm.submitUsernameChange.label }} {{ changeUserForm.submitUsernameChange() }}
+              {{ changeUserForm.newUsername.label }} {{ changeUserForm.newUsername() }} <br>
+              {{ changeUserForm.newFirstName.label }} {{ changeUserForm.newFirstName() }} <br>
+              {{ changeUserForm.newLastName.label }} {{ changeUserForm.newLastName() }} <br>
+              {{ changeUserForm.password.label }} {{ changeUserForm.password() }} <br>
+              {{ changeUserForm.submitUsernameChange() }}
             </form>
         </div>
       </div>

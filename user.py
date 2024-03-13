@@ -153,18 +153,18 @@ class User(UserMixin):
                 return False, Errors.PASSWORD_ERROR.value
 
 
-    def changeUsername(self, password, verifyPassword, newUsername):
+    def changeNames(self, password, newUsername,newFirstName, newLastName):
         with Database() as db:
             try:
                 result = db.queryOne("SELECT email, password FROM user Where email = %s ", (self.__email,))
             except:
                 return False, Errors.DATABASE_ERROR.value
             
-            if check_password_hash(result[1], password) and password == verifyPassword:
+            if check_password_hash(result[1], password):
                 username_availible = self.isUsernameAvailible(newUsername)
                 if username_availible:
                     try:
-                        db.queryOne('UPDATE user SET username = %s WHERE `user`.`email` = %s', (newUsername, self.__email,))
+                        db.queryOne('UPDATE user SET username = %s , firstname = %s , lastname = %s WHERE `user`.`email` = %s', (newUsername, newFirstName, newLastName, self.__email,))
                         return True, "Success"
                     except:
                         return False, Errors.DATABASE_ERROR.value

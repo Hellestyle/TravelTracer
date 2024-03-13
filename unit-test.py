@@ -61,7 +61,7 @@ class UserClass(unittest.TestCase):
     def test_changeUsernameFAIL(self):
         test_user = User()
         test_user.login("test1234@uit.no", "12345678")
-        result, message = test_user.changeUsername("12345678", "12345678", "Isak")
+        result, message = test_user.changeNames(password="12345678", newUsername="Isak",newFirstName="Yue", newLastName="Eriksen")
         expected = (False, Errors.USERNAME_ALREADY_EXISTS.value)
         return self.assertEqual((result, message), expected)
 
