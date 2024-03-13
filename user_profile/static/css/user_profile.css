@@ -207,10 +207,23 @@ body {
 .content nav .bx.bx-menu-alt-left {
     cursor: pointer;
     color: var(--dark);
+    align-items: center;
 }
 
 .content_info   {
     display: none; /* Set initial display to 'none' */
+    border: 1px solid #ccc;
+    position: 100;
+    top: 50%;
+    text-align: center;
+    width: 10;
+    margin: auto;
+    border: 3px solid green;
+    padding: 50px;
+}
+
+.content_info_start {
+    display: block;
     border: 1px solid #ccc;
     position: 100;
     top: 50%;

@@ -22,19 +22,19 @@
 
       <ul class="side-menu">
         <li class="active">
-          <a onclick="toggleDiv('profile')"><i class="bx bx-user"></i>Profile</a>
+          <a onclick="toggleDivs(['profile','settings','friends','achievements','visited'])"><i class="bx bx-user"></i>Profile</a>
         </li>
         <li>
-          <a onclick="toggleDiv('visited')"><i class="bx bx-been-here"></i>Visited</a>
+          <a onclick="toggleDivs(['visited','settings','friends','profile','achievements'])"><i class="bx bx-been-here"></i>Visited</a>
         </li>
         <li>
-          <a onclick="toggleDiv('achievements')"><i class="bx bx-star"></i>Achievements</a>
+          <a onclick="toggleDivs(['achievements','settings','friends','profile','visited'])"><i class="bx bx-star"></i>Achievements</a>
         </li>
         <li>
-          <a onclick="toggleDiv('friends')"<i class="bx bx-face"></i>Friends</a>
+          <a onclick="toggleDivs(['friends','settings','achievements','profile','visited'])"><i class="bx bx-face"></i>Friends</a>
         </li>
         <li>
-          <a onclick="toggleDiv('settings')"><i class="bx bx-cog"></i>Settings</a>
+          <a onclick="toggleDivs(['settings','achievements','friends','profile','visited'])"><i class="bx bx-cog"></i>Settings</a>
         </li>
       </ul>
 
@@ -53,20 +53,25 @@
       <nav>
         <button class="bx bx-menu-alt-left">Menu</button>
       </nav>
-      <div id="profile">
-
+      <!-- Profile -->
+      <div id="profile" class="content_info_start">
+        <p>Profile div</p>
       </div>
-      <div id="visited">
-
+      <!-- Visited -->
+      <div id="visited" class="content_info">
+        <p>visited div</p>
       </div>
-      <div id="achievements">
-
+      <!-- Achievements -->
+      <div id="achievements" class="content_info">
+        <p>Achievemtns div</p>
       </div>
-      <div id="friends">
-
+      <!-- Friends -->
+      <div id="friends" class="content_info">
+        <p>Friends div</p>
       </div>
+      <!-- Settings -->
       <div id="settings" class="content_info">
-        <p>This is the outside settings div content.</p>
+        <p>Settings div</p>
         <button onclick="toggleDiv('changepassword')">Change Password</button>
         <button onclick="toggleDiv('changeusername')">Change Username</button>
         <div id="changepassword" class="content_info">

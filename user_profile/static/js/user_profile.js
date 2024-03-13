@@ -39,3 +39,21 @@ function closeSidebar(id) {
     document.getElementById(id).style.width = "0";
     document.getElementById(id).style.marginLeft= "0";
 }
+
+function toggleDivs(divIds) {
+    // Hide all divs initially
+    divIds.forEach(function(id) {
+        var div = document.getElementById(id);
+        if (div) {
+            div.style.display = 'none';
+        }
+    });
+
+    // Show the first div
+    if (divIds.length > 0) {
+        var firstDiv = document.getElementById(divIds[0]);
+        if (firstDiv) {
+            firstDiv.style.display = 'block';
+        }
+    }
+}
