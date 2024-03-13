@@ -51,13 +51,25 @@
 
     <div class="content">
       <nav>
-        <button class="bx bx-menu-alt-left"></button>
+        <button class="bx bx-menu-alt-left">Menu</button>
       </nav>
+         <div id="settings" class="content_info">
+          <p>This is the outside settings div content.</p>
+          <button onclick="toggleDiv('changepassword')">Change Password</button>
+          <button onclick="toggleDiv('changeusername')">Change Username</button>
+            <div id="changepassword" class="content_info">
+              <p>ChnagePassword</p>
+            </div>
+            <div id="changeusername" class="content_info">
+              <p>Change Username</p>
+                <form action="{{ url_for('user_profile.user_profileSettingsChangePassword') }}" method="post">
+                  {{  }}
+                </form>
+            </div>
+        </div>
     </div>
   
- <div id="settings">
-    <p>This is the settings div content.</p>
-  </div>
+ 
 
   
 
