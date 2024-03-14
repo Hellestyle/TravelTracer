@@ -55,7 +55,51 @@
       </nav>
 
       <div id="profile" class="">
-        <p>Welcome to your profile.</p>
+        <div class="profile-header"> <!-- profile header row start red-->
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap;" class="profile-info"> <!-- profile info row start  green-->
+                <div> <!-- profile avatar col  blue-->
+                    <img class="profile-picture" src="static/images/avatar.png" alt="Profile Picture">
+                </div>
+                <div> <!-- profile info col blue-->
+                    <div style="display: flex; flex-direction: row;"> <!-- real name row-->
+                        <h1>John Doe</h1>
+                        <h3 style="right: 0; padding-right: 40px; position: fixed;">Edit profile<i style="position: relative; top: 5px;" class="bx bx-cog"></i></h3>
+                    </div>
+                    <div> <!-- username row -->
+                        <p style="margin-bottom: 15px">@johndoe123</p>
+                    </div>
+                    <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 30px; margin-bottom: 15px;"> <!-- data label row-->
+                        <div>
+                            <p> visited list </p>
+                            <p> 0 </p>
+                        </div>
+                        <div>
+                            <p> wishlist </p>
+                            <p> 0 </p>
+                        </div>
+                        <div>
+                            <p> friends </p>
+                            <p> 0 </p>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- profile info row end-->
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 20px"> <!-- tab row start-->
+                <h4> Activity feed </h4>
+                <h4> Trips </h4>
+                <h4> Photos </h4>
+                <h4> Reviews </h4>
+                <h4> Forums </h4>
+                <h4> Travel map </h4>
+            </div> <!-- tab row end-->
+        </div> <!-- profile header end-->
+
+
+
+        <div> <!-- profile body-->
+
+        </div> <!-- profile body-->
+
       </div>
       <div id="visited" class="hidden">
         <a>This is a list of all the sights you have visited.</a>
