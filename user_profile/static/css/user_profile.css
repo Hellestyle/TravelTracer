@@ -167,8 +167,8 @@ body {
 
 .content {
     position: relative;
-    width: calc(100% - 230px);
-    left: 230px;
+    width: calc(100% - 0px);
+    left: 0px;
     transition: all 0.3s ease;
 }
 
@@ -237,3 +237,31 @@ body {
     padding: 50px;
 }
 
+
+
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture {
+    max-width: 200px;
+    border-radius: 50%;
+    margin: 20px;
+    display: block;
+}
+
+.profile-info h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.profile-info p {
+    font-size: 16px;
+}

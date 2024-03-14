@@ -16,7 +16,7 @@ sideBarMenuOptions.forEach(item => {
             }
         });
         li.classList.add('active');
-        sideBar.classList.toggle('close');
+        sideBar.classList.add('close');
     });
 });
 
