@@ -1,328 +1,335 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: #cdcdcd;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+#img-backgroud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/sight/static/images/sight-background.jpg");
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
 }
 
 img {
-    display: inline;
+  display: inline;
 }
 
 .header {
-    display: flex;
-    color: black;
-    padding: 50px;
-    align-items: center;
-    justify-content: space-around;
-    height: 10vh;
-    margin-top: 100px;
+  display: flex;
+  color: black;
+  padding: 50px;
+  align-items: center;
+  justify-content: space-around;
+  height: 10vh;
+  margin-top: 100px;
 }
-  
+
 .header h1 {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
-  
+
 .header-button {
-    position: relative;
-    display: inline-block;
-    margin: 15px;
-    padding: 15px 30px;
-    text-align: center;
-    font-size: 18px;
-    letter-spacing: 1px;
-    text-decoration: none;
-    color: black;
-    background: transparent;
-    cursor: pointer;
-    transition: ease-out 0.5s;
-    border: 2px solid black;
-    border-radius: 15px;
-    box-shadow: inset 0 0 0 0 gray;
+  position: relative;
+  display: inline-block;
+  margin: 15px;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: black;
+  background: transparent;
+  cursor: pointer;
+  transition: ease-out 0.5s;
+  border: 2px solid black;
+  border-radius: 15px;
+  box-shadow: inset 0 0 0 0 gray;
 }
 
 .header-button:hover {
-    color: white;
-    box-shadow: inset 0 -100px 0 0 black;
+  color: white;
+  box-shadow: inset 0 -100px 0 0 black;
 }
 
 .header-button:active {
-    transform: scale(0.9);
+  transform: scale(0.9);
 }
 
-.image-container{
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-    align-items: center;
-    gap: 10px;
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  align-items: center;
+  gap: 10px;
 }
 
 .button-left {
-    --arrow-width: 10px;
-    --arrow-stroke: 2px;
-    box-sizing: border-box;
-    border: 1px solid black;
-    border-radius: 10px;
-    color: black;
-    padding: 10px 20px;
-    background: transparent;
-    display: flex;
-    transition: 0.2s background;
-    align-items: center;
-    gap: 0.6em;
-    font-weight: bold;
+  --arrow-width: 10px;
+  --arrow-stroke: 2px;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 10px;
+  color: black;
+  padding: 10px 20px;
+  background: transparent;
+  display: flex;
+  transition: 0.2s background;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: bold;
 }
-  
+
 .button-left .arrow-wrapper-left {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-  
+
 .button-left .arrow-left {
-    margin-top: 1px;
-    width: var(--arrow-width);
-    background: black;
-    height: var(--arrow-stroke);
-    position: relative;
-    transition: 0.2s;
+  margin-top: 1px;
+  width: var(--arrow-width);
+  background: black;
+  height: var(--arrow-stroke);
+  position: relative;
+  transition: 0.2s;
 }
 
 .button-left .arrow-left::before {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    border: solid black;
-    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
-    display: inline-block;
-    top: -3px;
-    left: 3px;
-    transition: 0.2s;
-    padding: 3px;
-    transform: rotate(135deg);
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  border: solid black;
+  border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+  display: inline-block;
+  top: -3px;
+  left: 3px;
+  transition: 0.2s;
+  padding: 3px;
+  transform: rotate(135deg);
 }
 
 .button-left:hover {
-    cursor: pointer;
-    background: black;
-    color: white;
+  cursor: pointer;
+  background: black;
+  color: white;
 }
 
 .button-left:hover .arrow-left {
-    background: white;
+  background: white;
 }
 
 .button-left:hover .arrow-left::before {
-    border-color: white;
-    left: 0;
+  border-color: white;
+  left: 0;
 }
 
 .image-container img {
-    display: flex;
-    width: 30%;
-    height: 400px;
-    object-fit: cover;
-    border: hidden;    
-    box-shadow: 5px 5px 5px gray;
-    border-radius: 15px;
+  display: flex;
+  width: 30%;
+  height: 400px;
+  object-fit: cover;
+  border: hidden;
+  border-radius: 15px;
 }
-  
+
 .button-right {
-    --arrow-width: 10px;
-    --arrow-stroke: 2px;
-    box-sizing: border-box;
-    border: 1px solid black;
-    border-radius: 10px;
-    color: black;
-    padding: 10px 20px;
-    background: transparent;
-    display: flex;
-    transition: 0.2s background;
-    align-items: center;
-    gap: 0.6em;
-    font-weight: bold;
+  --arrow-width: 10px;
+  --arrow-stroke: 2px;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 10px;
+  color: black;
+  padding: 10px 20px;
+  background: transparent;
+  display: flex;
+  transition: 0.2s background;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: bold;
 }
-  
+
 .button-right .arrow-wrapper-right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-  
+
 .button-right .arrow-right {
-    margin-top: 1px;
-    width: var(--arrow-width);
-    background: black;
-    height: var(--arrow-stroke);
-    position: relative;
-    transition: 0.2s;
+  margin-top: 1px;
+  width: var(--arrow-width);
+  background: black;
+  height: var(--arrow-stroke);
+  position: relative;
+  transition: 0.2s;
 }
-  
+
 .button-right .arrow-right::before {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    border: solid black;
-    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
-    display: inline-block;
-    top: -3px;
-    right: 3px;
-    transition: 0.2s;
-    padding: 3px;
-    transform: rotate(-45deg);
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  border: solid black;
+  border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+  display: inline-block;
+  top: -3px;
+  right: 3px;
+  transition: 0.2s;
+  padding: 3px;
+  transform: rotate(-45deg);
 }
-  
+
 .button-right:hover {
-    cursor: pointer;
-    background: black;
-    color: white;
+  cursor: pointer;
+  background: black;
+  color: white;
 }
-  
+
 .button-right:hover .arrow-right {
-    background: white;
+  background: white;
 }
-  
+
 .button-right:hover .arrow-right:before {
-    border-color: white;
-    right: 0;
+  border-color: white;
+  right: 0;
 }
 
 .content {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-    align-items: center; 
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  align-items: center;
 }
-  
+
 .text {
-    width: 30%;
-    height: 380px;
-    padding: 30px 25px;
-    border: hidden;    
-    box-shadow: 5px 5px 5px gray;
-    border-radius: 15px;
-    overflow: auto;
-    background-color: white;
+  width: 30%;
+  height: 380px;
+  padding: 30px 25px;
+  border: hidden;
+  border-radius: 15px;
+  overflow: auto;
+  background-color: white;
 }
 
 .text img {
-    background-color: #fff;
+  background-color: #fff;
 }
-  
+
 .text h3 {
-    margin-bottom: 15px;
-    background-color: #fff;
+  margin-bottom: 15px;
+  background-color: #fff;
 }
-  
+
 .text p {
-    margin-bottom: 10px;
-    line-height: 1.5;
-    font-size: 18px;
-    background-color: #fff;
+  margin-bottom: 10px;
+  line-height: 1.5;
+  font-size: 18px;
+  background-color: #fff;
 }
 
 .map {
-    width: 30%;
-    height: 380px;
-    margin: 0 10px; 
-    border: hidden;    
-    box-shadow: 10px 5px 5px gray;
-    border-radius: 15px;
+  width: 30%;
+  height: 380px;
+  margin: 0 10px;
+  border: hidden;
+  border-radius: 15px;
 }
-  
+
 .map iframe {
-    width: 100%;
-    height: 100%;
-    border: 1px hidden;
-    border-radius: 15px;
+  width: 100%;
+  height: 100%;
+  border: 1px hidden;
+  border-radius: 15px;
 }
 
 .button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
 }
 
-.button-container a{
-    text-decoration: none;
+.button-container a {
+  text-decoration: none;
 }
 
 .back-button {
-    color: black;
-    background-color: transparent;
-    padding: 25px 50px;
-    font-size: 18px;
-    font-weight: 500;
-    transition: .3s ease-in-out;
-    box-shadow: inset 2px 5px 10px rgba(0,0,0,0.2);
-    letter-spacing: 0.2em;
-    border: 2px solid black;
-    border-radius: 15px;
+  color: black;
+  background-color: transparent;
+  padding: 25px 50px;
+  font-size: 18px;
+  font-weight: 500;
+  transition: 0.3s ease-in-out;
+  box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.2em;
+  border: 2px solid black;
+  border-radius: 15px;
 }
-  
+
 .back-button:hover {
-    cursor: pointer;
-    letter-spacing: 0.5em;
-    transform: translateY(-0.8em);
-    background: #171717;
-    color: white;
+  cursor: pointer;
+  letter-spacing: 0.5em;
+  transform: translateY(-0.2em);
+  background: #171717;
+  color: white;
 }
-  
+
 .back-button:active {
-    letter-spacing: 0.4em;
-    transition: 0.1s all;
-    transform: translateY(-0.6em);
-    background: #171717;
-    color: white;
+  letter-spacing: 0.4em;
+  transition: 0.1s all;
+  transform: translateY(-0.6em);
+  background: #171717;
+  color: white;
 }
 
 .sight-description {
-    position: relative;
-    max-height: 50px;
-    overflow: hidden;
-    margin-bottom: 50px!important;
+  position: relative;
+  max-height: 50px;
+  overflow: hidden;
+  margin-bottom: 50px !important;
 }
 
 .sight-description-gradient-container {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    padding: 0 10px 0 90px;
-    background: none;
-    background-image: radial-gradient(white, transparent);
-    line-height: 1;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 0 10px 0 90px;
+  background: none;
+  background-image: radial-gradient(white, transparent);
+  line-height: 1;
 }
 
 .sight-description-button {
-    padding: 0 5px 0 10px;
-    border: none;
-    background: white;
-    color: black;
-    font-weight: bold;
+  padding: 0 5px 0 10px;
+  border: none;
+  background: white;
+  color: black;
+  font-weight: bold;
 }
 
 .expanded {
-    max-height: none;
-    padding-bottom: 25px;
+  max-height: none;
+  padding-bottom: 25px;
 }
 
 .sight-description-button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.open, .close {
-    background-color: white;
-    font-weight: bold;
+.open,
+.close {
+  background-color: white;
+  font-weight: bold;
 }
 
 .open {
-    color: green;
+  color: green;
 }
 
 .close {
-    color: red;
+  color: red;
 }
