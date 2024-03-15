@@ -1,3 +1,13 @@
+const menuBar = document.querySelector('.content nav .bx.bx-menu-alt-left');
+const sideBar = document.querySelector('.sidebar');
+menuBar.addEventListener('click', () => {
+    sideBar.classList.toggle('close');
+    modal.style.display = "none";
+    settingsDivs.forEach(div => {
+        div.classList.add('hidden');
+    });
+});
+
 const sideBarMenuOptions = document.querySelectorAll('.sidebar .side-menu li a:not(.logout)');
 const contentDivs = document.querySelectorAll('.content > div');
 
@@ -20,14 +30,34 @@ sideBarMenuOptions.forEach(item => {
     });
 });
 
-const menuBar = document.querySelector('.content nav .bx.bx-menu-alt-left');
-const sideBar = document.querySelector('.sidebar');
-menuBar.addEventListener('click', () => {
-    sideBar.classList.toggle('close');
+const editprofilebutton = document.querySelector('.content #profile .profile-header .profile-info #edit-profile-settings ');
+var modal = document.querySelector(".content div#profile div.modal");
+var span = document.querySelector('.content div#profile div.modal span.close')
+
+console.log(editprofilebutton);
+console.log(modal);
+editprofilebutton.addEventListener('click', () => {
+    modal.style.display = "block"
 });
 
-const settingsButtons = document.querySelectorAll('.content div#settings > button');
-const settingsDivs = document.querySelectorAll('.content div#settings > div');
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+  }
+  
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+if (event.target == modal) {
+    modal.style.display = "none";
+}
+}
+
+
+
+
+
+const settingsButtons = document.querySelectorAll('.content #profile div#edit-profile-settings div > button');
+const settingsDivs = document.querySelectorAll('.content #profile div#edit-profile-settings div > div');
 
 settingsButtons.forEach(button => {
     button.addEventListener('click', () => {

@@ -52,23 +52,30 @@
       </ul>
     </div>
 
+    
     <div class="content">
       <nav>
         <button class="bx bx-menu-alt-left"></button>
         <h3>Menu</h3>
-
+        
         <a href="{{ url_for('index') }}" class="home-button"
-          >Home<i class="bx bx-home-alt"></i
-        ></a>
-      </nav>
+        >Home<i class="bx bx-home-alt"></i
+          ></a>
+        </nav>
 
+        <div class="container">
+          {% for message in get_flashed_messages() %}
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+        
       <div id="profile" class="">
         <div class="profile-header">
           <!-- profile header row start red-->
-          <div
-            style="display: flex; flex-direction: row; flex-wrap: wrap"
-            class="profile-info"
-          >
+          <div style="display: flex; flex-direction: row; flex-wrap: wrap" class="profile-info">
             <!-- profile info row start  green-->
             <div>
               <!-- profile avatar col  blue-->
@@ -83,7 +90,7 @@
               <div style="display: flex; flex-direction: row">
                 <!-- real name row-->
                 <h1>John Doe</h1>
-                <h3 style="right: 0; padding-right: 40px; position: fixed">
+                <h3 id="edit-profile-settings" style="right: 0; padding-right: 40px; position: fixed">
                   Edit profile<i
                     style="position: relative; top: 5px"
                     class="bx bx-cog"
@@ -140,9 +147,52 @@
         </div>
         <!-- profile header end-->
 
-        <div><!-- profile body--></div>
-        <!-- profile body-->
+        <div><!-- profile body start-->
+        </div><!-- profile body end-->
+        
+
+        <div id="edit-profile-settings" style="text-align: center;" class="modal"> <!-- Edit profile settings-->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1 style="text-align: center;">Settings</h1>
+            <button id="changePassword">Change Password</button>
+            <button id="changeUsername">Change Username</button>
+            <div id="changePassword" class="content_info hidden">
+              <p>ChnagePassword</p>
+              <form
+                action="{{ url_for('user_profile.user_profileMain') }}"
+                method="post"
+              >
+                {{ changePassForm.csrf_token }} {{ changePassForm.oldPassword.label
+                }} {{ changePassForm.oldPassword() }} <br />
+                {{ changePassForm.newPassword.label }} {{
+                changePassForm.newPassword() }} <br />
+                {{ changePassForm.verifyNewPassword.label }} {{
+                changePassForm.verifyNewPassword() }} <br />
+                {{ changePassForm.submitPasswordChange() }}
+              </form>
+            </div>
+            <div id="changeUsername" class="content_info hidden">
+              <p>Change Username</p>
+              <form
+                action="{{ url_for('user_profile.user_profileMain') }}"
+                method="post"
+              >
+                {{ changeUserForm.csrf_token }} {{ changeUserForm.newUsername.label
+                }} {{ changeUserForm.newUsername() }} <br />
+                {{ changeUserForm.newFirstName.label }} {{
+                changeUserForm.newFirstName() }} <br />
+                {{ changeUserForm.newLastName.label }} {{
+                changeUserForm.newLastName() }} <br />
+                {{ changeUserForm.password.label }} {{ changeUserForm.password() }}
+                <br />
+                {{ changeUserForm.submitUsernameChange() }}
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div id="visited" class="hidden">
         <h1 style="text-align: center;">This is a list of all the sights you have visited.</h1>
         <table class="table table-striped">
@@ -244,48 +294,10 @@
         </table>
       </div>
       <div id="settings" class="content_info hidden">
-        <h1 style="text-align: center;">Settings</h1>
-        <button id="changePassword">Change Password</button>
-        <button id="changeUsername">Change Username</button>
-        <div id="changePassword" class="content_info hidden">
-          <p>ChnagePassword</p>
-          <form
-            action="{{ url_for('user_profile.user_profileMain') }}"
-            method="post"
-          >
-            {{ changePassForm.csrf_token }} {{ changePassForm.oldPassword.label
-            }} {{ changePassForm.oldPassword() }} <br />
-            {{ changePassForm.newPassword.label }} {{
-            changePassForm.newPassword() }} <br />
-            {{ changePassForm.verifyNewPassword.label }} {{
-            changePassForm.verifyNewPassword() }} <br />
-            {{ changePassForm.submitPasswordChange() }}
-          </form>
-        </div>
-        <div id="changeUsername" class="content_info hidden">
-          <p>Change Username</p>
-          <form
-            action="{{ url_for('user_profile.user_profileMain') }}"
-            method="post"
-          >
-            {{ changeUserForm.csrf_token }} {{ changeUserForm.newUsername.label
-            }} {{ changeUserForm.newUsername() }} <br />
-            {{ changeUserForm.newFirstName.label }} {{
-            changeUserForm.newFirstName() }} <br />
-            {{ changeUserForm.newLastName.label }} {{
-            changeUserForm.newLastName() }} <br />
-            {{ changeUserForm.password.label }} {{ changeUserForm.password() }}
-            <br />
-            {{ changeUserForm.submitUsernameChange() }}
-          </form>
-        </div>
+        
       </div>
     </div>
 
-    <ul>
-      {% for message in get_flashed_messages() %}
-      <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
+    
   </body>
 </html>
