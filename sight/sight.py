@@ -42,18 +42,22 @@ def sight_details(sight_id):
         sight_model = Sight(db)
         sight = sight_model.getSight(sight_id)
 
-    now = dt.now().time()
+    if sight is not None:
+        now = dt.now().time()
 
-    is_open = sight["open_time"] is None and sight["close_time"] is None or \
-        sight["open_time"] <= now and sight["close_time"] >= now
+        is_open = sight["open_time"] is None and sight["close_time"] is None or \
+            sight["open_time"] <= now and sight["close_time"] >= now
 
-    images = [url_for('static', filename=f"images/sight/{sight_photo}") for sight_photo in sight["photos"]]
+        images = [url_for('static', filename=f"images/sight/{sight_photo}") for sight_photo in sight["photos"]]
 
-    return render_template(
-        "sight/sight.html",
-        sight=sight, images=json.dumps(images),
-        is_open=is_open
-    )
+        return render_template(
+            "sight/sight.html",
+            sight=sight, images=json.dumps(images),
+            is_open=is_open
+        )
+    else:
+        message = "No sights found"
+        return render_template("sight/sights.html", message=message)
 
 
 @sight.route("/sight/<string:category>")
