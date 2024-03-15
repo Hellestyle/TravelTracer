@@ -61,16 +61,16 @@
         <a href="{{ url_for('index') }}" class="home-button"
         >Home<i class="bx bx-home-alt"></i
           ></a>
-        </nav>
+      </nav>
 
-        <div class="container">
-          {% for message in get_flashed_messages() %}
-          <div class="alert alert-warning">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message }}
-          </div>
-          {% endfor %}
+      <div class="container">
+        {% for message in get_flashed_messages() %}
+        <div style="position: relative; top: 10px;" class="alert alert-warning">
+          <button type="button" class="close" >&times;</button>
+          {{ message }}
         </div>
+        {% endfor %}
+      </div>
         
       <div id="profile" class="">
         <div class="profile-header">
@@ -151,10 +151,12 @@
         </div><!-- profile body end-->
         
 
-        <div id="edit-profile-settings" style="text-align: center;" class="modal"> <!-- Edit profile settings-->
+        <div id="edit-profile-settings" class="modal"> <!-- Edit profile settings-->
           <div class="modal-content">
-            <span class="close">&times;</span>
-            <h1 style="text-align: center;">Settings</h1>
+            <div style="display: flex; flex-direction: row;">
+              <h1 style="text-align: center;flex-grow: 1;">Settings</h1>
+              <span style="text-align: end;" class="close-modal">&times;</span>
+            </div>
             <button id="changePassword">Change Password</button>
             <button id="changeUsername">Change Username</button>
             <div id="changePassword" class="content_info hidden">

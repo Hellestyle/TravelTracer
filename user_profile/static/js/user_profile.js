@@ -1,16 +1,17 @@
-const menuBar = document.querySelector('.content nav .bx.bx-menu-alt-left');
-const sideBar = document.querySelector('.sidebar');
-menuBar.addEventListener('click', () => {
-    sideBar.classList.toggle('close');
-    modal.style.display = "none";
-    settingsDivs.forEach(div => {
+// Opens sidemenu when you click the menu button
+const menuBarButton = document.querySelector('.content nav .bx.bx-menu-alt-left');
+const sideMenu = document.querySelector('.sidebar');
+menuBarButton.addEventListener('click', () => {
+    sideMenu.classList.toggle('close');
+    editprofilewindow.style.display = "none";
+    editProfileDivs.forEach(div => {
         div.classList.add('hidden');
     });
 });
 
+// Opens the correct content when you select from the sidemenu
 const sideBarMenuOptions = document.querySelectorAll('.sidebar .side-menu li a:not(.logout)');
 const contentDivs = document.querySelectorAll('.content > div');
-
 sideBarMenuOptions.forEach(item => {
     const li = item.parentElement;
     item.addEventListener('click', () => {
@@ -26,42 +27,24 @@ sideBarMenuOptions.forEach(item => {
             }
         });
         li.classList.add('active');
-        sideBar.classList.add('close');
+        sideMenu.classList.add('close');
     });
 });
 
+// Opens the editprofile modal when you click the editprofile button
 const editprofilebutton = document.querySelector('.content #profile .profile-header .profile-info #edit-profile-settings ');
-var modal = document.querySelector(".content div#profile div.modal");
-var span = document.querySelector('.content div#profile div.modal span.close')
-
-console.log(editprofilebutton);
-console.log(modal);
+const editprofilewindow = document.querySelector(".content div#profile div.modal");
+const editprofilemodalclosebutton = document.querySelector('.content div#profile div.modal span.close-modal')
 editprofilebutton.addEventListener('click', () => {
-    modal.style.display = "block"
+    editprofilewindow.style.display = "block"
 });
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-  }
-  
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-if (event.target == modal) {
-    modal.style.display = "none";
-}
-}
-
-
-
-
-
-const settingsButtons = document.querySelectorAll('.content #profile div#edit-profile-settings div > button');
-const settingsDivs = document.querySelectorAll('.content #profile div#edit-profile-settings div > div');
-
-settingsButtons.forEach(button => {
+// Opens content belonging to the buttons inside editprofile modal
+const editProfileButtons = document.querySelectorAll('.content #profile div#edit-profile-settings div > button');
+const editProfileDivs = document.querySelectorAll('.content #profile div#edit-profile-settings div > div');
+editProfileButtons.forEach(button => {
     button.addEventListener('click', () => {
-        settingsDivs.forEach(div => {
+        editProfileDivs.forEach(div => {
             if (div.id === button.id) {
                 div.classList.toggle('hidden');
             } else {
@@ -70,6 +53,39 @@ settingsButtons.forEach(button => {
         });
     });
 });
+
+// When the user clicks on <span> (x), close the modal
+editprofilemodalclosebutton.onclick = function() {
+    editprofilewindow.style.display = "none";
+}
+  
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == editprofilewindow) {
+        editprofilewindow.style.display = "none";
+        editProfileDivs.forEach(div => {
+            div.classList.add('hidden');
+        });
+    }
+    if (event.target != menuBarButton){
+        sideMenu.classList.add('close');
+    }
+}
+
+// Allows alerts to be dismissed
+const alerts = document.querySelectorAll(".content .container > div.alert")
+const dismissAlertButton = document.querySelectorAll(".content .container .alert button.close")
+dismissAlertButton.forEach(dismissButton => {
+    if (dismissButton) {
+        dismissButton.addEventListener("click", (event) => {
+            alerts.forEach(alert => {
+                if (alert == dismissButton.parentElement) {
+                    alert.classList.add("alert-hidden")
+                }
+            })
+        })
+    }    
+})
 
 //not currently used
 function toggleDiv(id) {
