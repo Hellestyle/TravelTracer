@@ -126,7 +126,7 @@ class Sight:
             LEFT OUTER JOIN sight_type_meta AS stm ON st.id = stm.sight_type_id
             WHERE sm.language_id = %s AND cm.language_id = %s AND ctrm.language_id = %s AND stm.language_id = %s AND acm.language_id = %s AND s.id = %s;""", (language_id, language_id, language_id, language_id, language_id, sight_id))
 
-        if len(sight) == 0:
+        if sight is None:
             return None
 
         sight = sight[0]
