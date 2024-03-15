@@ -52,30 +52,32 @@
       </ul>
     </div>
 
-    
     <div class="content">
       <nav>
         <button class="bx bx-menu-alt-left"></button>
         <h3>Menu</h3>
-        
+
         <a href="{{ url_for('index') }}" class="home-button"
-        >Home<i class="bx bx-home-alt"></i
-          ></a>
+          >Home<i class="bx bx-home-alt"></i
+        ></a>
       </nav>
 
       <div class="container">
         {% for message in get_flashed_messages() %}
-        <div style="position: relative; top: 10px;" class="alert alert-warning">
-          <button type="button" class="close" >&times;</button>
+        <div style="position: relative; top: 10px" class="alert alert-warning">
+          <button type="button" class="close">&times;</button>
           {{ message }}
         </div>
         {% endfor %}
       </div>
-        
+
       <div id="profile" class="">
         <div class="profile-header">
           <!-- profile header row start red-->
-          <div style="display: flex; flex-direction: row; flex-wrap: wrap" class="profile-info">
+          <div
+            style="display: flex; flex-direction: row; flex-wrap: wrap"
+            class="profile-info"
+          >
             <!-- profile info row start  green-->
             <div>
               <!-- profile avatar col  blue-->
@@ -90,7 +92,10 @@
               <div style="display: flex; flex-direction: row">
                 <!-- real name row-->
                 <h1>John Doe</h1>
-                <h3 id="edit-profile-settings" style="right: 0; padding-right: 40px; position: fixed">
+                <h3
+                  id="edit-profile-settings"
+                  style="right: 0; padding-right: 40px; position: fixed"
+                >
                   Edit profile<i
                     style="position: relative; top: 5px"
                     class="bx bx-cog"
@@ -147,26 +152,27 @@
         </div>
         <!-- profile header end-->
 
-        <div><!-- profile body start-->
-        </div><!-- profile body end-->
-        
+        <div><!-- profile body start--></div>
+        <!-- profile body end-->
 
-        <div id="edit-profile-settings" class="modal"> <!-- Edit profile settings-->
+        <div id="edit-profile-settings" class="modal">
+          <!-- Edit profile settings-->
           <div class="modal-content">
-            <div style="display: flex; flex-direction: row;">
-              <h1 style="text-align: center;flex-grow: 1;">Settings</h1>
-              <span style="text-align: end;" class="close-modal">&times;</span>
+            <div style="display: flex; flex-direction: row">
+              <h1 style="text-align: center; flex-grow: 1">Settings</h1>
+              <span style="text-align: end" class="close-modal">&times;</span>
             </div>
-            <button id="changePassword">Change Password</button>
-            <button id="changeUsername">Change Username</button>
+            <button id="changePassword" class="modal-button">Change Password</button>
+            <button id="changeUsername" class="modal-button">Change Username</button>
             <div id="changePassword" class="content_info hidden">
               <p>ChnagePassword</p>
               <form
                 action="{{ url_for('user_profile.user_profileMain') }}"
                 method="post"
               >
-                {{ changePassForm.csrf_token }} {{ changePassForm.oldPassword.label
-                }} {{ changePassForm.oldPassword() }} <br />
+                {{ changePassForm.csrf_token }} {{
+                changePassForm.oldPassword.label }} {{
+                changePassForm.oldPassword() }} <br />
                 {{ changePassForm.newPassword.label }} {{
                 changePassForm.newPassword() }} <br />
                 {{ changePassForm.verifyNewPassword.label }} {{
@@ -180,13 +186,15 @@
                 action="{{ url_for('user_profile.user_profileMain') }}"
                 method="post"
               >
-                {{ changeUserForm.csrf_token }} {{ changeUserForm.newUsername.label
-                }} {{ changeUserForm.newUsername() }} <br />
+                {{ changeUserForm.csrf_token }} {{
+                changeUserForm.newUsername.label }} {{
+                changeUserForm.newUsername() }} <br />
                 {{ changeUserForm.newFirstName.label }} {{
                 changeUserForm.newFirstName() }} <br />
                 {{ changeUserForm.newLastName.label }} {{
                 changeUserForm.newLastName() }} <br />
-                {{ changeUserForm.password.label }} {{ changeUserForm.password() }}
+                {{ changeUserForm.password.label }} {{ changeUserForm.password()
+                }}
                 <br />
                 {{ changeUserForm.submitUsernameChange() }}
               </form>
@@ -196,7 +204,9 @@
       </div>
 
       <div id="visited" class="hidden">
-        <h1 style="text-align: center;">This is a list of all the sights you have visited.</h1>
+        <h1 style="text-align: center">
+          This is a list of all the sights you have visited.
+        </h1>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -230,7 +240,7 @@
       </div>
 
       <div id="achievements" class="hidden">
-        <h1 style="text-align: center;">Achievements</h1>
+        <h1 style="text-align: center">Achievements</h1>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -263,7 +273,7 @@
         </table>
       </div>
       <div id="friends" class="hidden">
-        <h1 style="text-align: center;">This is the page for friends.</h1>
+        <h1 style="text-align: center">This is the page for friends.</h1>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -295,11 +305,7 @@
           </tbody>
         </table>
       </div>
-      <div id="settings" class="content_info hidden">
-        
-      </div>
+      <div id="settings" class="content_info hidden"></div>
     </div>
-
-    
   </body>
 </html>

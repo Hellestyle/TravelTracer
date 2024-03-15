@@ -26,10 +26,12 @@ def user_profileMain():
             user = current_user
             success, message = user.changePassword(oldPassword, newPassword, verifyNewPassword)
             if success:
-                return f"Succsesfully changes password !"
+                message = "Succsesfully changed password !"
+                flash(message)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
             else:
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
             
 
         elif changeUserForm.submitUsernameChange.data and changeUserForm.validate():
@@ -42,10 +44,12 @@ def user_profileMain():
             user = current_user
             success, message = user.changeNames(password,newUsername,newFirstName,newLastName)
             if success:
-                return f"Succsesfully changed User names !"
+                message = "Succsesfully changed User names !"
+                flash(message)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
             else:
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
         
         # Error handling
         else:
