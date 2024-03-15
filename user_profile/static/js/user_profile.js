@@ -28,8 +28,7 @@ menuBar.addEventListener('click', () => {
 
 const settingsButtons = document.querySelectorAll('.content div#settings > button');
 const settingsDivs = document.querySelectorAll('.content div#settings > div');
-console.log(settingsButtons);
-console.log(settingsDivs);
+
 settingsButtons.forEach(button => {
     button.addEventListener('click', () => {
         settingsDivs.forEach(div => {
@@ -44,9 +43,9 @@ settingsButtons.forEach(button => {
 
 //not currently used
 function toggleDiv(id) {
-      var settingsDiv = document.getElementById(id);
+    var settingsDiv = document.getElementById(id);
       // Toggle between 'none' and 'block' for display property
-      settingsDiv.style.display = (settingsDiv.style.display === 'none' || settingsDiv.style.display === '') ? 'block' : 'none';
+    settingsDiv.style.display = (settingsDiv.style.display === 'none' || settingsDiv.style.display === '') ? 'block' : 'none';
     };
 
 //not currently used

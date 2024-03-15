@@ -204,10 +204,6 @@ body {
     left: 0;
 }
 
-.content nav a{
-    color: var(--dark);
-}
-
 .content nav .bx.bx-menu-alt-left {
     cursor: pointer;
     color: var(--dark);
@@ -216,7 +212,26 @@ body {
 
 .content nav h3 {
     padding: 0;
-    margin-left: -25px;
+    margin-left: -15px;
+    position: absolute;
+    top: 20px;
+    left: 60px;
+}
+
+.home-button{
+    color: var(--dark);
+    text-decoration: none;
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.bx.bx-home-alt {
+    position: absolute;
+    top: -5px;
+    left: 55px;
 }
 
 .content_info {
