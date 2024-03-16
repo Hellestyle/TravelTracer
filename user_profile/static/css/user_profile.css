@@ -299,7 +299,7 @@ body {
 .modal-content {
   background-color: #fefefe;
   margin: 10% auto; /* 10% from the top and centered */
-  padding: 50px;
+  padding: 30px;
   width: 30%; /* Could be more or less, depending on screen size */
   gap: 10px;
 }
@@ -334,7 +334,7 @@ body {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease-in-out;
 }
 
 .modal-button#changePassword {
