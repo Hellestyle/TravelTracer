@@ -334,7 +334,7 @@ body {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.2s ease-in-out;
 }
 
 .modal-button#changePassword {
@@ -349,4 +349,5 @@ body {
 
 .modal-button:hover {
   opacity: 0.8;
+  padding: 12px 16px;
 }
