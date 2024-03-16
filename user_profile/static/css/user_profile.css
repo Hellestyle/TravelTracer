@@ -214,18 +214,19 @@ body {
   padding: 0;
   margin-left: -15px;
   position: absolute;
-  top: 20px;
-  left: 60px;
+  top: 15px;
+  left: 50px;
+  font-size: 1.5rem;
 }
 
 .home-button {
   color: var(--dark);
   text-decoration: none;
   position: absolute;
-  top: 20px;
-  right: 50px;
-  font-size: 18px;
-  font-weight: 700;
+  top: 15px;
+  right: 40px;
+  font: 1.2rem bold;
+  justify-content: center;
 }
 
 .bx.bx-home-alt {
@@ -271,12 +272,12 @@ body {
 }
 
 .profile-info h1 {
-  font-size: 24px;
+  font-size: 1.5rem;
   margin-bottom: 10px;
 }
 
 .profile-info p {
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 /* ----------------- */
@@ -308,7 +309,7 @@ body {
 .close-modal {
   color: #aaa;
   float: right;
-  font-size: 28px;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
@@ -329,7 +330,7 @@ body {
 }
 
 .modal-button {
-  font-size: 14px;
+  font-size: 1rem;
   padding: 8px 16px;
   border: none;
   border-radius: 10px;
