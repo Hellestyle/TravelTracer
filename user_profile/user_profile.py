@@ -26,7 +26,8 @@ def user_profileMain():
             user = current_user
             success, message = user.changePassword(oldPassword, newPassword, verifyNewPassword)
             if success:
-                return f"Succsesfully changes password !"
+                flash(f"Succsesfully changed password !")
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
             else:
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
@@ -42,7 +43,8 @@ def user_profileMain():
             user = current_user
             success, message = user.changeNames(password,newUsername,newFirstName,newLastName)
             if success:
-                return f"Succsesfully changed User names !"
+                flash(f"Succsesfully changed User names !")
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
             else:
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
