@@ -35,7 +35,7 @@ def sights():
         sight_names = [sight_name["name"] for sight_name in sight_names]
     )
 
-@sight.route("/sight/<int:sight_id>")
+@sight.route("/sight/id/<int:sight_id>")
 def sight_details(sight_id):
     
     with Database(dict_cursor=True) as db:
