@@ -23,7 +23,7 @@ class RegistrationForm(FlaskForm):
 class ChangePasswordForm(FlaskForm):
     oldPassword = PasswordField("Old Password",validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
     newPassword = PasswordField("New Password",validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
-    verifyNewPassword = PasswordField('Confirm new Password', validators=[EqualTo('newPassword', message="The two passwords must match")])
+    verifyNewPassword = PasswordField('Confirm Password', validators=[EqualTo('newPassword', message="The two passwords must match")])
     submitPasswordChange = SubmitField("Change Password")
 
 class ChangeUsername(FlaskForm):
