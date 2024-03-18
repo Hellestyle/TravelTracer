@@ -61,7 +61,7 @@ def sight_details(sight_id):
 
 
 @sight.route("/sight/<string:category>/<string:age>")
-def sight_category(category, age):
+def sight_by_category(category, age):
         
         with Database(dict_cursor=True) as db:
 
@@ -92,21 +92,21 @@ def sight_category(category, age):
 
 @sight.route("/sight/<string:age>")
 def sight_by_age(age):
+    age_categories = {
+        "children": 1,
+        "family_friendly": 2,
+        "teenagers": 3,
+        "young_adults": 4,
+        "adults": 5,
+        "seniors": 6
+    }
 
-    if age == "All":
+    if age == "family_friendly":
         return redirect(url_for("sight.sights"))
     
-    # get sights by age from database
+    # get sights by age category from database
     else:
-        if age == "0-18":
-            # get sights for age group 0-18
-            return render_template("sight/sights.html", age=age)
-        elif age == "19-30":
-            # get sights for age group 19-30
-            return render_template("sight/sights.html", age=age)
-        elif age == "31-60":
-            # get sights for age group 31-60
-            return render_template("sight/sights.html", age=age)
-        else:
-            # get sights for age group 61 and above
-            return render_template("sight/sights.html", age=age)
+        # Saw this in the database
+        age_category_id = age_categories[age]
+        
+        return render_template("sight/sights.html", age=age)

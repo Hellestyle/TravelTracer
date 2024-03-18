@@ -12,7 +12,7 @@
   <div class="row">
     <input type="text" id="input-box" 
     placeholder="Search the category or sight name here" autocomplete="off">
-    <a href="{{ url_for('sight.sight_category', category='', age='') }}"><button class="search-button"><i class='bx bx-search'></i></button></a>
+    <a href="{{ url_for('sight.sight_by_category', category='', age='') }}"><button class="search-button"><i class='bx bx-search'></i></button></a>
   </div>
 
   <div class="result-box"></div>
@@ -21,11 +21,12 @@
 <div class="choose-age-container">
   <label for="age">Please select age group:</label>
   <select id="age" name="age">
-      <option value="All">All</option>
-      <option value="0-18">0 - 18</option>
-      <option value="19-30">19 - 30</option>
-      <option value="31-60">31 - 60</option>
-      <option value="61+">61+</option>
+      <option value="family_friendly">All</option>
+      <option value="children">0 - 12</option>
+      <option value="teenagers">13 - 19</option>
+      <option value="young_adults">20 - 30</option>
+      <option value="adults">31 - 60</option>
+      <option value="seniors">60+</option>
   </select>
 </div>
 
@@ -107,7 +108,7 @@
   initKeywords("{{ sight_type_names|join(',') }}" + "," + "{{ sight_names|join(',') }}");
 
   var url = {
-    sight_category: "{{ url_for('sight.sight_category', category='_category_', age='_age_') }}",
+    sight_category: "{{ url_for('sight.sight_by_category', category='_category_', age='_age_') }}",
     age_category: "{{ url_for('sight.sight_by_age', age='_age_') }}"
   };
 
