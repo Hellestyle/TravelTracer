@@ -100,13 +100,13 @@ def sight_by_age(age):
     else:
         if age == "0-18":
             # get sights for age group 0-18
-            return "Here are the sights for the age group: " + age
+            return render_template("sight/sights.html", age=age)
         elif age == "19-30":
             # get sights for age group 19-30
-            return "Here are the sights for the age group: " + age
+            return render_template("sight/sights.html", age=age)
         elif age == "31-60":
             # get sights for age group 31-60
-            return "Here are the sights for the age group: " + age
+            return render_template("sight/sights.html", age=age)
         else:
             # get sights for age group 61 and above
-            return "Here are the sights for the age group: " + age
+            return render_template("sight/sights.html", age=age)
