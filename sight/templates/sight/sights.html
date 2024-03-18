@@ -12,7 +12,7 @@
   <div class="row">
     <input type="text" id="input-box" 
     placeholder="Search the category or sight name here" autocomplete="off">
-    <a href="{{ url_for('sight.sight_category', category='') }}"><button class="search-button"><i class='bx bx-search'></i></button></a>
+    <a href="{{ url_for('sight.sight_category', category='', age='') }}"><button class="search-button"><i class='bx bx-search'></i></button></a>
   </div>
 
   <div class="result-box"></div>
@@ -21,13 +21,19 @@
 <div class="choose-age-container">
   <label for="age">Please select age group:</label>
   <select id="age" name="age">
+      <option value="All">All</option>
       <option value="0-18">0 - 18</option>
       <option value="19-30">19 - 30</option>
-      <option value="31-50">31 - 60</option>
-      <option value="51+">61 or more</option>
+      <option value="31-60">31 - 60</option>
+      <option value="61+">61+</option>
   </select>
-  <button id="sendButton" class="send-age-button">Send</button>
 </div>
+
+{% if age %}
+  <div class="message">
+    <h3> {{ age }} </h3>
+  </div>
+{% endif %}
 
 {% if message %}
   <div class="message">
@@ -97,18 +103,27 @@
 
 <script src="{{ url_for('.static', filename='js/pagination.js') }}"> </script>
 <script src="{{ url_for('.static', filename='js/search.js') }} "> </script>
-<script src="{{ url_for('.static', filename='js/get_age.js') }}"></script>
 <script>
+  initKeywords("{{ sight_type_names|join(',') }}" + "," + "{{ sight_names|join(',') }}");
 
-  initKeywords("{{ sight_type_names|join(',') }}" + "," + "{{ sight_names|join(',') }}")
+  var url = {
+    sight_category: "{{ url_for('sight.sight_category', category='_category_', age='_age_') }}",
+    age_category: "{{ url_for('sight.sight_by_age', age='_age_') }}"
+  };
 
   document.querySelector('.search-button').addEventListener('click', function(event) {
     event.preventDefault();
     var inputBoxValue = document.querySelector('#input-box').value;
-    var newHref = "{{ url_for('sight.sight_category', category='') }}" + inputBoxValue;
-    window.location.href = newHref;
-  });
+    var selectedAge = document.getElementById("age").value;
 
+    if (inputBoxValue && selectedAge) {
+      var newHref = url.sight_category.replace('_category_', inputBoxValue).replace('_age_', selectedAge);
+      window.location.href = newHref;
+    } else {
+      var newHref = url.age_category.replace('_age_', selectedAge);
+      window.location.href = newHref;
+    }
+  });
 </script>
 
 {% endblock %}

@@ -60,8 +60,8 @@ def sight_details(sight_id):
         return render_template("sight/sights.html", message=message)
 
 
-@sight.route("/sight/<string:category>")
-def sight_category(category):
+@sight.route("/sight/<string:category>/<string:age>")
+def sight_category(category, age):
         
         with Database(dict_cursor=True) as db:
 
@@ -72,7 +72,7 @@ def sight_category(category):
             sight_types = sight_type_meta.getAllSightTypes()
 
             if sights is not None:
-                return render_template("sight/sights.html", sights=sights, sight_type_names=[sight_type["name"] for sight_type in sight_types])
+                return render_template("sight/sights.html", sights=sights, sight_type_names=[sight_type["name"] for sight_type in sight_types], age=age)
             else:
                 sight_model = Sight(db)
                 sights = sight_model.getAllSights()
@@ -88,10 +88,25 @@ def sight_category(category):
                 else:
                     message = "No sights found"
                     return render_template("sight/sights.html", message=message)
-                
 
-@sight.route("/sight/age/<string:age>", methods=["GET", "POST"])
-def get_sights_by_age(age):
-    selected_age = age
 
-    return "Received age: " + selected_age
+@sight.route("/sight/<string:age>")
+def sight_by_age(age):
+
+    if age == "All":
+        return redirect(url_for("sight.sights"))
+    
+    # get sights by age from database
+    else:
+        if age == "0-18":
+            # get sights for age group 0-18
+            return "Here are the sights for the age group: " + age
+        elif age == "19-30":
+            # get sights for age group 19-30
+            return "Here are the sights for the age group: " + age
+        elif age == "31-60":
+            # get sights for age group 31-60
+            return "Here are the sights for the age group: " + age
+        else:
+            # get sights for age group 61 and above
+            return "Here are the sights for the age group: " + age
