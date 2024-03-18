@@ -97,6 +97,11 @@ body {
     overflow-y: scroll;
 }
 
+.choose-age-container {
+    color: white;
+    padding-left: 40%;
+}
+
 .message h3 {
     color: #fff;
     font-size: 24px;

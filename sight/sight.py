@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, redirect
+from flask import Blueprint, render_template, url_for, redirect, request
 
 from database import  Database
 from models.sight import Sight
@@ -88,3 +88,10 @@ def sight_category(category):
                 else:
                     message = "No sights found"
                     return render_template("sight/sights.html", message=message)
+                
+
+@sight.route("/sight/age/<string:age>", methods=["GET", "POST"])
+def get_sights_by_age(age):
+    selected_age = age
+
+    return "Received age: " + selected_age

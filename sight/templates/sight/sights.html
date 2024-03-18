@@ -18,6 +18,17 @@
   <div class="result-box"></div>
 </div>
 
+<div class="choose-age-container">
+  <label for="age">Please select age group:</label>
+  <select id="age" name="age">
+      <option value="0-18">0 - 18</option>
+      <option value="19-30">19 - 30</option>
+      <option value="31-50">31 - 60</option>
+      <option value="51+">61 or more</option>
+  </select>
+  <button id="sendButton" class="send-age-button">Send</button>
+</div>
+
 {% if message %}
   <div class="message">
     <h3> {{ message }} </h3>
@@ -86,7 +97,7 @@
 
 <script src="{{ url_for('.static', filename='js/pagination.js') }}"> </script>
 <script src="{{ url_for('.static', filename='js/search.js') }} "> </script>
-
+<script src="{{ url_for('.static', filename='js/get_age.js') }}"></script>
 <script>
 
   initKeywords("{{ sight_type_names|join(',') }}" + "," + "{{ sight_names|join(',') }}")
