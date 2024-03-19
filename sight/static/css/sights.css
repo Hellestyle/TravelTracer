@@ -1,270 +1,280 @@
 #dark-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
 }
-  
+
 #img-backgroud {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/sight/static/images/brige.jpg');
-    background-size: cover;
-    background-position: center;
-    z-index: -2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/sight/static/images/brige.jpg");
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Helvetica, sans-serif;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, sans-serif;
+  box-sizing: border-box;
 }
 
 .search-box {
-    width: 425px;
-    height: 80px;
-    background: #fff;
-    margin: 0 auto;
-    margin-bottom: 100px;
-    border-radius: 5px;
+  width: 425px;
+  height: 80px;
+  background: #fff;
+  margin: 0 auto;
+  margin-bottom: 100px;
+  border-radius: 5px;
 }
 
 .row {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
 }
 
 .row input {
-    flex: 1;
-    height: 50px;
-    background: transparent;
-    border: 0;
-    outline: 0;
-    font-size: 18px;
-    color: black;
+  flex: 1;
+  height: 50px;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 18px;
+  color: black;
 }
 
 .row a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .search-button {
-    background: transparent;
-    border: 0;
-    outline: 0;
+  background: transparent;
+  border: 0;
+  outline: 0;
 }
 
 .search-button .bx-search {
-    width: 25px;
-    color: black;
-    font-size: 22px;
-    cursor: pointer;
+  width: 25px;
+  color: black;
+  font-size: 22px;
+  cursor: pointer;
 }
 
 ::placeholder {
-    color: grey;
+  color: grey;
 }
 
 .result-box ul {
-    background-color: #fff;
-    border-top: 2px solid #999;
-    padding: 15px 10px;
-    margin-top: 0;
-    border-radius: 5px;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  padding: 15px 10px;
+  margin-top: 0;
+  border-radius: 5px;
 }
 
 .result-box ul li {
-    list-style: none;
-    border-radius: 5px;
-    padding: 15px 10px;
-    cursor: pointer;
+  list-style: none;
+  border-radius: 5px;
+  padding: 15px 10px;
+  cursor: pointer;
 }
 
 .result-box ul li:hover {
-    background: #e9f3ff;
+  background: #e9f3ff;
 }
 
 .result-box {
-    max-height: 200px;
-    overflow-y: scroll;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.choose-age-container {
+  color: white;
+  margin-top: -80px;
+  margin-left: 40%;
+  margin-right: 40%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
 }
 
 .message h3 {
-    color: #fff;
-    font-size: 24px;
-    font-weight: 700;
-    text-align: center;
-    justify-content: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  justify-content: center;
 }
 
 .back-button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 100px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
 }
 
-.back-button-container a{
-    text-decoration: none;
+.back-button-container a {
+  text-decoration: none;
 }
 
 .back-button {
-    color: #fff;
-    background-color: transparent;
-    padding: 25px 50px;
-    font-size: 18px;
-    font-weight: 500;
-    transition: .3s ease-in-out;
-    box-shadow: inset 2px 5px 10px rgba(0,0,0,0.2);
-    letter-spacing: 0.2em;
-    border: 2px solid #fff;
-    border-radius: 5px;
+  color: #fff;
+  background-color: transparent;
+  padding: 25px 50px;
+  font-size: 18px;
+  font-weight: 500;
+  transition: 0.3s ease-in-out;
+  box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.2em;
+  border: 2px solid #fff;
+  border-radius: 5px;
 }
-  
+
 .back-button:hover {
-    letter-spacing: 0.5em;
-    transform: translateY(-0.8em);
-    background: #fff;
-    color: black;
+  letter-spacing: 0.5em;
+  transform: translateY(-0.8em);
+  background: #fff;
+  color: black;
 }
-  
+
 .back-button:active {
-    letter-spacing: 0.4em;
-    transition: 0.1s all;
-    transform: translateY(-0.6em);
-    background: #171717;
-    color: white;
+  letter-spacing: 0.4em;
+  transition: 0.1s all;
+  transform: translateY(-0.6em);
+  background: #171717;
+  color: white;
 }
 
 .container {
-    padding: 60px 60px;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    left: 0;
-    display: flex;
+  padding: 60px 60px;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  display: flex;
 }
 
-.container .sights{
-    display: flex;
-    justify-content: center;
-    gap: 5vh;
-    flex-wrap: wrap;
+.container .sights {
+  display: flex;
+  justify-content: center;
+  gap: 5vh;
+  flex-wrap: wrap;
 }
 
-.container .sights .sight-item{
-    padding: 10px;
-    max-height: 100%;
-    max-width: 100%;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    border: hidden;    
-    border-radius: 15px;
+.container .sights .sight-item {
+  padding: 10px;
+  max-height: 100%;
+  max-width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border: hidden;
+  border-radius: 15px;
 }
 
-.container .sights .sight-item h3{
-    font-size: 26px;
-    margin-bottom: 15px;
+.container .sights .sight-item h3 {
+  font-size: 26px;
+  margin-bottom: 15px;
 }
 
-.container .sights .sight-item .info{
-    display: flex;
-    gap: 10px;
+.container .sights .sight-item .info {
+  display: flex;
+  gap: 10px;
 }
 
-.container .sights .sight-item .info h5{
-    font-size: 18px;
-    font-weight: 400;
+.container .sights .sight-item .info h5 {
+  font-size: 18px;
+  font-weight: 400;
 }
 
-.container .sights .sight-item p{
-    width: 100%;
+.container .sights .sight-item p {
+  width: 100%;
 }
 
 .button-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
-.button-container .bn{
-    width: 8em;
-    height: 3em;
+.button-container .bn {
+  width: 8em;
+  height: 3em;
 }
 
 .button-container .pagination-button {
-    width: 3em;
-    height: 3em;
+  width: 3em;
+  height: 3em;
 }
 
 .button-container .pagination-button-active {
-    background-color: #aaa;
+  background-color: #aaa;
 }
 
 button {
-    background-color: white;
-    color: black;
-    border-radius: 10em;
-    font-size: 17px;
-    font-weight: 600;
-    padding: 1em 1em;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    border: 1px solid black;
-    box-shadow: 0 0 0 0 black;
+  background-color: white;
+  color: black;
+  border-radius: 10em;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 1em 1em;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid black;
+  box-shadow: 0 0 0 0 black;
 }
 
 button:hover {
-    transform: translateY(-4px) translateX(-2px);
-    box-shadow: 2px 5px 0 0 black;
+  transform: translateY(-4px) translateX(-2px);
+  box-shadow: 2px 5px 0 0 black;
 }
 
 button:active {
-    transform: translateY(2px) translateX(1px);
-    box-shadow: 0 0 0 0 black;
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
 }
 
 .sight-link {
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.5s ease-in-out;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.5s ease-in-out;
 }
 
 .sight-link:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    transition: all 0.5s ease-in-out;
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: all 0.5s ease-in-out;
 }
 
 .sight-photo {
-    width: 400px;
-    height: 300px;
-    border-radius: 15px;
+  width: 400px;
+  height: 300px;
+  border-radius: 15px;
 }
 
 .sight-info {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .sight-info h5 {
-    margin: 2px 5px;
-    color: #585858;
+  margin: 2px 5px;
+  color: #585858;
 }
 
 .sight-info h5 .sight-type {
-    margin-right: 5px;
-    padding: 3px;
-    border-radius: 5px;
-    color: #333;
-    background-color: #858585;
+  margin-right: 5px;
+  padding: 3px;
+  border-radius: 5px;
+  color: #333;
+  background-color: #858585;
 }

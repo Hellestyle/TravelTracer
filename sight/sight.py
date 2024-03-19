@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, redirect
+from flask import Blueprint, render_template, url_for, redirect, request
 
 from database import  Database
 from models.sight import Sight
@@ -60,8 +60,9 @@ def sight_details(sight_id):
         return render_template("sight/sights.html", message=message)
 
 
-@sight.route("/sight/<string:category>")
-def sight_category(category):
+# Handling cases where the inputbox is not empty and the age is selected
+@sight.route("/sight/<string:category>/<string:age>")
+def sight_by_category(category, age):
         
         with Database(dict_cursor=True) as db:
 
@@ -72,7 +73,14 @@ def sight_category(category):
             sight_types = sight_type_meta.getAllSightTypes()
 
             if sights is not None:
-                return render_template("sight/sights.html", sights=sights, sight_type_names=[sight_type["name"] for sight_type in sight_types])
+                # TODO
+                # We need to check the value of "age" parameter
+                # If it's "all" by default (it means age == "family_friendly"), just return the sights
+                # If it's not "all", we need to filter the sights by age
+                return render_template("sight/sights.html", sights=sights, sight_type_names=[sight_type["name"] for sight_type in sight_types], age=age)
+
+            # Check if the "category" parameter matches any sight name
+            # If it does, redirect to the sight details page
             else:
                 sight_model = Sight(db)
                 sights = sight_model.getAllSights()
@@ -88,3 +96,27 @@ def sight_category(category):
                 else:
                     message = "No sights found"
                     return render_template("sight/sights.html", message=message)
+
+
+# Handling cases where the inputbox is empty but the age is selected
+@sight.route("/sight/<string:age>")
+def sight_by_age(age):
+    age_categories = {
+        "children": 1,
+        "family_friendly": 2,
+        "teenagers": 3,
+        "young_adults": 4,
+        "adults": 5,
+        "seniors": 6
+    }
+
+    if age == "family_friendly":
+        return redirect(url_for("sight.sights"))
+    
+    # TODO
+    # No needs to check category, just get the sights by age, because inputbox is empty
+    else:
+        # Saw this in the database
+        age_category_id = age_categories[age]
+        
+        return render_template("sight/sights.html", age=age)
