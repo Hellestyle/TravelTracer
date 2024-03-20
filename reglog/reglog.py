@@ -41,7 +41,7 @@ def login():
                 else:
                     return render_template(
                         "reglog/email_sent.html",
-                        title="Verify your email adress",
+                        title="Verify your email address",
                         message=f"We have sent you an email with a link to {email} to verify your email address. Please check your inbox and click the link to verify your email address.",
                         link=f"{APPLICATION_URL}/reglog/resend/{user.get_id()}",
                         link_title="Resend verification email"
