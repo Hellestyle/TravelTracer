@@ -13,3 +13,4 @@ mysql-connector-python==8.0.28
 protobuf==3.19.4
 Werkzeug==2.0.3
 WTForms==3.0.1
+Flask_mail==0.9.1

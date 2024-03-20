@@ -1,13 +1,14 @@
 import mysql.connector
+from config.mariadb import *
 
 
 class Database:
     def __init__(self, dict_cursor=False) -> None:
 
-        dbconfig = {'host': 'kark.uit.no',
-                    'user': 'stud_v23_she199',
-                    'password': 'Q7TOeuhlLTSj2lfT',
-                    'database': 'stud_v23_she199', }
+        dbconfig = {'host': HOST,
+                    'user': USER,
+                    'password': PASSWORD,
+                    'database': DATABASE, }
         
         self.configuration = dbconfig
 
@@ -40,6 +41,9 @@ class Database:
             return result
         else:
             return None
+
+    def commit(self):
+        self.conn.commit()
     
 
 if __name__ == "__main__":
