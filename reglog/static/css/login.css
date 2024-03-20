@@ -16,7 +16,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('/reglog/static/images/aurora.jpg');
+  background-image: url("/reglog/static/images/aurora.jpg");
   background-size: cover;
   background-position: center;
   z-index: -2;
@@ -40,7 +40,6 @@ body {
   background: azure;
   border-radius: 1rem;
 }
-
 
 .center h1 {
   font-size: 2em;
@@ -86,8 +85,8 @@ body {
   font-family: sans-serif;
 }
 
-.center .inputbox input:focus~span,
-.center .inputbox input:valid~span {
+.center .inputbox input:focus ~ span,
+.center .inputbox input:valid ~ span {
   transform: translateX(-13px) translateY(-35px);
   font-size: 1em;
 }

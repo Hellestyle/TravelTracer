@@ -1,5 +1,19 @@
-<h1> {{title}} </h1>
+<div class="email-content" style="text-align: center">
+  <h1>{{title}}</h1>
 
-<p> {{message}} </p>
+  <p style="font: 18px; color: black">{{message}}</p>
 
-<a href="{{ link }}"> {{ link_title }} </a>
+  <a
+    href="{{ link }}"
+    style="
+      text-decoration: none;
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      border: 1px hidden;
+      border-radius: 15px;
+    "
+  >
+    {{ link_title }}
+  </a>
+</div>

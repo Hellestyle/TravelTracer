@@ -2,16 +2,19 @@
 <link
   rel="stylesheet"
   type="text/css"
-  href="{{ url_for('.static', filename='css/email_sent.css') }}"
+  href="/reglog/static/css/email_sent.css"
 />
+{% endblock %} {% block title %}Email verification{% endblock %} {% block
+content %}
+<div id="img-background"></div>
+<div id="dark-overlay"></div>
 
-{% endblock %} {% block content %}
+<div class="email-sent-container">
+  <h1>{{ title }}</h1>
 
-    <h1> {{title}} </h1>
+  <p>{{ message }}</p>
 
-    <p> {{message}} </p>
-
-    <a href="{{ link }}"> {{ link_title }} </a>
-    <a href="{{ url_for('index') }}"> Back </a>
-
+  <a href="{{ link }}" class="resend-button">{{ link_title }}</a>
+  <a href="url_for('index')" class="back-button">Back</a>
+</div>
 {% endblock %}
