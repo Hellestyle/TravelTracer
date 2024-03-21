@@ -7,6 +7,10 @@ from models.sight_name import SightName
 
 import json
 from datetime import datetime as dt
+from flask import redirect, url_for
+import json
+from flask import redirect, url_for
+import json
 
 
 sight = Blueprint("sight", __name__, template_folder="templates", static_folder="static")
@@ -62,6 +66,8 @@ def sight_details(sight_id):
 # Handling cases where the inputbox is not empty and the age is selected
 @sight.route("/sight/<string:category>/<string:age>")
 def sight_by_category(category, age):
+    user_input = category
+
     age_categories = {
         "children": 1,
         "family_friendly": 2,
@@ -73,7 +79,6 @@ def sight_by_category(category, age):
     age_category_id = age_categories[age]
 
     with Database(dict_cursor=True) as db:
-
         sight_model = Sight(db)
         sights = sight_model.getSightByCategory(category)
 
@@ -87,14 +92,28 @@ def sight_by_category(category, age):
             # We need to check the value of "age" parameter
             # If it's "all" by default (it means age == "family_friendly"), just return the sights
             if age_category_id == 2:
-                return render_template("sight/sights.html",
-                                    sights=sights,
+                return render_template("sight/sights.html", sights=sights,
                                     sight_type_names=[sight_type["name"] for sight_type in sight_types],
                                     sight_names = [sight_name["name"] for sight_name in sight_names],
+                                    user_input=user_input
                                 )    
             # If it's not "all", we need to filter the sights by age
             else:
-                sights_by_category_and_age = 
+                filtered_sights = [sight for sight in sights if sight["age_id"] == age_category_id]
+                
+                if not filtered_sights:
+                    message = "No sights found"
+                    return render_template("sight/sights.html", message=message,
+                                        sight_type_names=[sight_type["name"] for sight_type in sight_types],
+                                        sight_names = [sight_name["name"] for sight_name in sight_names],
+                                        user_input=user_input
+                                    )
+                else:
+                    return render_template("sight/sights.html", sights=filtered_sights,
+                                    sight_type_names=[sight_type["name"] for sight_type in sight_types],
+                                    sight_names = [sight_name["name"] for sight_name in sight_names],
+                                    user_input=user_input
+                                )
 
         # Check if the "category" parameter matches any sight name
         # If it does, redirect to the sight details page
@@ -112,7 +131,11 @@ def sight_by_category(category, age):
                 return redirect(url_for("sight.sight_details", sight_id=sight_id))
             else:
                 message = "No sights found"
-                return render_template("sight/sights.html", message=message)
+                return render_template("sight/sights.html", message=message,
+                                       sight_type_names=[sight_type["name"] for sight_type in sight_types],
+                                       sight_names = [sight_name["name"] for sight_name in sight_names],
+                                       user_input=user_input
+                                    )
 
 
 # Handling cases where the inputbox is empty but the age is selected
