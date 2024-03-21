@@ -1,0 +1,59 @@
+#dark-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+#img-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/reglog/static/images/aurora.jpg");
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+}
+
+.email-sent-container {
+  display: grid;
+  justify-content: center;
+  border: 1px solid black;
+  border-radius: 15px;
+  margin-top: 8%;
+  margin-left: 35%;
+  background-color: white;
+  padding: 20px 20px;
+  width: 30%;
+  overflow: scroll;
+  gap: 10px;
+  text-align: center;
+  color: black;
+}
+
+.email-sent-container p {
+  font-size: 1.2rem;
+}
+
+.email-sent-container a {
+  text-decoration: none;
+}
+
+.back-button,
+.resend-button {
+  background-color: #60c79a;
+  color: white;
+  padding: 10px 20px;
+  border: 1px hidden;
+  border-radius: 15px;
+}
+
+.back-button:hover,
+.resend-button:hover {
+  opacity: 0.8;
+}

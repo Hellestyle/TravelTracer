@@ -12,10 +12,16 @@ from user_profile.user_profile import user_profile
 import random as rand
 from database import  Database
 from models.sight import Sight
+from config.email import *
 
 
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
+
+app.config['MAIL_SERVER'] = MAIL_SERVER
+app.config['MAIL_PORT'] = MAIL_PORT
+app.config['MAIL_USERNAME'] = MAIL_USERNAME
+app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
 
 loginManager = LoginManager()
 loginManager.init_app(app)
