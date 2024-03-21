@@ -15,6 +15,6 @@ content %}
   <p>{{ message }}</p>
 
   <a href="{{ link }}" class="resend-button">{{ link_title }}</a>
-  <a href="url_for('index')" class="back-button">Back</a>
+  <a href="{{ url_for('index') }}" class="back-button">Back</a>
 </div>
 {% endblock %}
