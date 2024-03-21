@@ -116,7 +116,19 @@ def sight_by_age(age):
     # TODO
     # No needs to check category, just get the sights by age, because inputbox is empty
     else:
-        # Saw this in the database
         age_category_id = age_categories[age]
-        
-        return render_template("sight/sights.html", age=age)
+        with Database(dict_cursor=True) as db:
+            sight_model = Sight(db)
+            sights = sight_model.getSightByAge(age_category_id)
+
+            sight_name_model = SightName(db)
+            sight_names = sight_name_model.getAllSightNames()
+
+            sight_type_meta = SightType(db)
+            sight_types = sight_type_meta.getAllSightTypes()
+            
+            return render_template("sight/sights.html",
+                                sights=sights, 
+                                sight_names = [sight_name["name"] for sight_name in sight_names], 
+                                sight_type_names=[sight_type["name"] for sight_type in sight_types],
+                                age=age)
