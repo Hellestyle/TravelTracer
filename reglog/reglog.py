@@ -41,8 +41,8 @@ def login():
                 else:
                     return render_template(
                         "reglog/email_sent.html",
-                        title="Verify your email address",
-                        message=f"We have sent you an email with a link to {email} to verify your email address. Please check your inbox and click the link to verify your email address.",
+                        title="Check your inbox",
+                        message=f"Click on the link we sent to {email} to finish your account setup. No email in your inbox or spam folder? Let's resend it.",
                         link=f"{APPLICATION_URL}/reglog/resend/{user.get_id()}",
                         link_title="Resend verification email"
                     )
@@ -74,17 +74,17 @@ def sign_up():
             if success:
                 user_model = User()
                 usr = user_model.get_user_by_email(email)
-                send_email(current_app, [email], "Registration Verification", render_template(
+                send_email(current_app, [email], "Verify your email address", render_template(
                     "reglog/email.html",
                     title="Verify your email address",
-                    message="To verify your email address, please click the link below.",
+                    message="To start using TravelTracer, just click the verify email button below:",
                     link=f"{APPLICATION_URL}/reglog/verify/{usr.get_verification_uuid()}",
-                    link_title="Verify email address"
+                    link_title="Verify email"
                 ))
                 return render_template(
                     "reglog/email_sent.html",
-                    title="Verify your email address",
-                    message=f"We have sent you an email with a link to {email} to verify your email address. Please check your inbox and click the link to verify your email address.",
+                    title="Check your inbox",
+                    message=f"Click on the link we sent to {email} to finish your account setup. No email in your inbox or spam folder? Let's resend it.",
                     link=f"{APPLICATION_URL}/reglog/resend/{usr.get_id()}",
                     link_title="Resend verification email"
                 )
@@ -128,18 +128,18 @@ def resend(user_id):
 
         email = user.get_email()
 
-        send_email(current_app, [email], "Registration Verification", render_template(
+        send_email(current_app, [email], "Verify your email address", render_template(
             "reglog/email.html",
             title="Verify your email address",
-            message="To verify your email address, please click the link below.",
+            message="To start using TravelTracer, just click the verify email button below.",
             link=f"{APPLICATION_URL}/reglog/verify/{user.get_verification_uuid()}",
-            link_title="Verify email address"
+            link_title="Verify email"
         ))
 
         return render_template(
             "reglog/email_sent.html",
-            title="Verify your email address",
-            message=f"We have sent you an email with a link to {email} to verify your email address. Please check your inbox and click the link to verify your email address.",
+            title="Check your inbox",
+            message=f"Click on the link we sent to {email} to finish your account setup. No email in your inbox or spam folder? Let's resend it.",
             link=f"{APPLICATION_URL}/reglog/resend/{user_id}",
             link_title="Resend verification email"
         )
