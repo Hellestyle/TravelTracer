@@ -186,7 +186,12 @@ class User(UserMixin):
                 result = db.queryOne("SELECT email, password FROM user Where email = %s ", (self.__email,))
             except:
                 return False, Errors.DATABASE_ERROR.value
-            
+            if newUsername == "":
+                newUsername = self.getUsername()
+            if newFirstName == "":
+                newFirstName = self.getFirstName()
+            if newLastName == "":
+                newLastName = self.getLastName()
             if check_password_hash(result[1], password):
                 username_availible = self.isUsernameAvailible(newUsername)
                 if username_availible:
@@ -232,6 +237,15 @@ class User(UserMixin):
 
     def isVerified(self):
         return self.__verified
+    
+    def getFirstName(self):
+        return self.__firstName
+    
+    def getUsername(self):
+        return self.__username
+    
+    def getLastName(self):
+        return self.__lastName
 
     def __str__(self) -> str:
         string = f"User(id={self.__id}, username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName}"
