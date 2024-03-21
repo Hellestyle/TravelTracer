@@ -6,8 +6,6 @@ from models.sight_type import SightType
 from models.sight_name import SightName
 
 import json
-import os
-
 from datetime import datetime as dt
 
 
@@ -34,6 +32,7 @@ def sights():
         sight_type_names=[sight_type["name"] for sight_type in sight_types],
         sight_names = [sight_name["name"] for sight_name in sight_names]
     )
+
 
 @sight.route("/sight/id/<int:sight_id>")
 def sight_details(sight_id):
@@ -63,39 +62,57 @@ def sight_details(sight_id):
 # Handling cases where the inputbox is not empty and the age is selected
 @sight.route("/sight/<string:category>/<string:age>")
 def sight_by_category(category, age):
-        
-        with Database(dict_cursor=True) as db:
+    age_categories = {
+        "children": 1,
+        "family_friendly": 2,
+        "teenagers": 3,
+        "young_adults": 4,
+        "adults": 5,
+        "seniors": 6
+    }
+    age_category_id = age_categories[age]
 
-            sight_model = Sight(db)
-            sights = sight_model.getSightByCategory(category)
+    with Database(dict_cursor=True) as db:
 
-            sight_type_meta = SightType(db)
-            sight_types = sight_type_meta.getAllSightTypes()
+        sight_model = Sight(db)
+        sights = sight_model.getSightByCategory(category)
 
-            if sights is not None:
-                # TODO
-                # We need to check the value of "age" parameter
-                # If it's "all" by default (it means age == "family_friendly"), just return the sights
-                # If it's not "all", we need to filter the sights by age
-                return render_template("sight/sights.html", sights=sights, sight_type_names=[sight_type["name"] for sight_type in sight_types], age=age)
+        sight_type_meta = SightType(db)
+        sight_types = sight_type_meta.getAllSightTypes()
 
-            # Check if the "category" parameter matches any sight name
-            # If it does, redirect to the sight details page
+        sight_name_model = SightName(db)
+        sight_names = sight_name_model.getAllSightNames()
+
+        if sights is not None:
+            # We need to check the value of "age" parameter
+            # If it's "all" by default (it means age == "family_friendly"), just return the sights
+            if age_category_id == 2:
+                return render_template("sight/sights.html",
+                                    sights=sights,
+                                    sight_type_names=[sight_type["name"] for sight_type in sight_types],
+                                    sight_names = [sight_name["name"] for sight_name in sight_names],
+                                )    
+            # If it's not "all", we need to filter the sights by age
             else:
-                sight_model = Sight(db)
-                sights = sight_model.getAllSights()
+                sights_by_category_and_age = 
 
-                sight_id = None
-                for sight in sights:
-                    if category.lower() == sight['name'].lower():
-                        sight_id = sight['id']
-                        break
-                
-                if sight_id is not None:
-                    return redirect(url_for("sight.sight_details", sight_id=sight_id))
-                else:
-                    message = "No sights found"
-                    return render_template("sight/sights.html", message=message)
+        # Check if the "category" parameter matches any sight name
+        # If it does, redirect to the sight details page
+        else:
+            sight_model = Sight(db)
+            sights = sight_model.getAllSights()
+
+            sight_id = None
+            for sight in sights:
+                if category.lower() == sight['name'].lower():
+                    sight_id = sight['id']
+                    break
+            
+            if sight_id is not None:
+                return redirect(url_for("sight.sight_details", sight_id=sight_id))
+            else:
+                message = "No sights found"
+                return render_template("sight/sights.html", message=message)
 
 
 # Handling cases where the inputbox is empty but the age is selected
@@ -112,9 +129,7 @@ def sight_by_age(age):
 
     if age == "family_friendly":
         return redirect(url_for("sight.sights"))
-    
-    # TODO
-    # No needs to check category, just get the sights by age, because inputbox is empty
+
     else:
         age_category_id = age_categories[age]
         with Database(dict_cursor=True) as db:
@@ -130,5 +145,5 @@ def sight_by_age(age):
             return render_template("sight/sights.html",
                                 sights=sights, 
                                 sight_names = [sight_name["name"] for sight_name in sight_names], 
-                                sight_type_names=[sight_type["name"] for sight_type in sight_types],
-                                age=age)
+                                sight_type_names=[sight_type["name"] for sight_type in sight_types]
+                            )

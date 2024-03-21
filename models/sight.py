@@ -152,7 +152,7 @@ class Sight:
             language_id = self.__db.query("SELECT id FROM language WHERE `default` = 1;")[0]['id']
 
         query = """SELECT s.id AS id, sm.name AS name, sm.description AS description, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
-            acm.name AS age_category, stm.name AS sight_type,
+            ac.id AS age_id, acm.name AS age_category, stm.name AS sight_type,
             (SELECT COUNT(*) FROM visited_list WHERE user_id IS NOT NULL AND sight_id = s.id) AS visited
             FROM sight AS s
             LEFT OUTER JOIN city AS c ON s.city_id = c.id
@@ -206,7 +206,7 @@ class Sight:
             language_id = self.__db.query("SELECT id FROM language WHERE `default` = 1;")[0]['id']
         
         query = """SELECT s.id AS id, sm.name AS name, sm.description AS description, cm.name AS city, ctrm.name AS country, s.active AS active, stm.name AS sight_type,
-            acm.age_category_id AS age_category_id, acm.name AS age_category,
+            ac.id AS age_id, acm.name AS age_category,
             (SELECT COUNT(*) FROM visited_list WHERE user_id IS NOT NULL AND sight_id = s.id) AS visited
             FROM sight AS s
             LEFT OUTER JOIN sight_meta AS sm ON s.id = sm.sight_id
@@ -219,14 +219,14 @@ class Sight:
             LEFT OUTER JOIN sight_type_meta AS stm ON st.id = stm.sight_type_id
             LEFT OUTER JOIN age_category AS ac ON s.age_category_id = ac.id
             LEFT OUTER JOIN age_category_meta AS acm ON ac.id = acm.age_category_id
-            WHERE sm.language_id = %s AND cm.language_id = %s AND ctrm.language_id = %s AND stm.language_id = %s AND acm.language_id = %s AND acm.name = %s"""
+            WHERE sm.language_id = %s AND cm.language_id = %s AND ctrm.language_id = %s AND stm.language_id = %s AND acm.language_id = %s"""
         
         if active_only:
             query += " AND s.active = 1"
 
         query += ";"
 
-        sights = self.__db.query(query, (language_id, language_id, language_id, language_id, language_id, age))
+        sights = self.__db.query(query, (language_id, language_id, language_id, language_id, language_id))
 
         if sights is None:
             return None
@@ -234,25 +234,26 @@ class Sight:
         sights_dict = {}
 
         for sight in sights:
+            if sight['age_id'] == age:
+                sight_id = sight['id']
 
-            sight_id = sight['id']
+                if sight_id not in sights_dict:
+                    sights_dict[sight_id] = {
+                        'id': sight_id,
+                        'name': sight['name'],
+                        'description': sight['description'],
+                        'city': sight['city'],
+                        'country': sight['country'],
+                        'active': sight['active'],
+                        'sight_types': [],
+                        'age_id': sight['age_id'],
+                        'age_category': sight['age_category'],
+                        'visited': sight['visited']
+                    }
+                
+                sights_dict[sight_id]['sight_types'].append(sight['sight_type'])
 
-            if sight_id not in sights_dict:
-                sights_dict[sight_id] = {
-                    'id': sight_id,
-                    'name': sight['name'],
-                    'description': sight['description'],
-                    'city': sight['city'],
-                    'country': sight['country'],
-                    'active': sight['active'],
-                    'age_category': sight['age_category'],
-                    'visited': sight['visited'],
-                    'sight_types': []
-                }
-
-            sights_dict[sight_id]['sight_types'].append(sight['sight_type'])
-
-        sights = list(sights.values())
+        sights = list(sights_dict.values())
 
         for i in range(len(sights)):
             sights[i]['achievements'] = self.__db.query("""SELECT a.*, am.name AS name, am.description AS description FROM achievement AS a
