@@ -74,7 +74,7 @@ def sign_up():
             if success:
                 user_model = User()
                 usr = user_model.get_user_by_email(email)
-                send_email(current_app, [email], "Registration Verification", render_template(
+                send_email(current_app, [email], "Verify your email address", render_template(
                     "reglog/email.html",
                     title="Verify your email address",
                     message="To verify your email address, please click the link below.",
@@ -128,7 +128,7 @@ def resend(user_id):
 
         email = user.get_email()
 
-        send_email(current_app, [email], "Registration Verification", render_template(
+        send_email(current_app, [email], "Verify your email address", render_template(
             "reglog/email.html",
             title="Verify your email address",
             message="To verify your email address, please click the link below.",
