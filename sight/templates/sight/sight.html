@@ -4,6 +4,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/sight.css') }}" />
 
   <script src="{{ url_for('.static', filename='js/toggle-description.js') }}"> </script>
@@ -19,7 +20,7 @@
       <h1> {{ sight.name }} </h1>
       <div class="header-buttons">
         <button class="header-button">Visited</button>
-        <button class="header-button">Like</button>
+        <button class="header-button" id="wishlist-button">Add to wishlist <i class='bx bx-heart' ></i></button>
       </div>
     </div>
 

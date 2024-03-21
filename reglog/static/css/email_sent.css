@@ -36,6 +36,11 @@
   color: black;
 }
 
+.email-sent-container img {
+  display: block;
+  margin: auto;
+}
+
 .email-sent-container p {
   font-size: 1.2rem;
 }

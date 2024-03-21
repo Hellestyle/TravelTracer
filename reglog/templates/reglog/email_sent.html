@@ -12,9 +12,11 @@ content %}
 <div class="email-sent-container">
   <h1>{{ title }}</h1>
 
-  <p>{{ message }}</p>
+  <img src="/reglog/static/images/email-icon.png" alt="email" />
+
+  <p id="message">{{ message }}</p>
 
   <a href="{{ link }}" class="resend-button">{{ link_title }}</a>
-  <a href="url_for('index')" class="back-button">Back</a>
+  <a href="{{ url_for('index') }}" class="back-button">Back</a>
 </div>
 {% endblock %}
