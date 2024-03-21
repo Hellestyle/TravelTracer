@@ -175,11 +175,11 @@ INSERT INTO wishlist (user_id, group_id, sight_id) VALUES
 	(NULL, 1, 5), (NULL, 1, 6),
 	(NULL, 2, 1), (NULL, 2, 4);
 
-INSERT INTO visited_list (user_id, group_id, sight_id) VALUES
-	(NULL, 1, 4),
-	(NULL, 2, 5),
-	(1, NULL, 4), (1, NULL, 2),
-	(2, NULL, 4),
-	(5, NULL, 4),
-	(3, NULL, 5),
-	(4, NULL, 5);
+INSERT INTO visited_list (user_id, group_id, sight_id, liked) VALUES
+	(NULL, 1, 4, 1),
+	(NULL, 2, 5, 0),
+	(1, NULL, 4, 1), (1, NULL, 2, 0),
+	(2, NULL, 4, NULL),
+	(5, NULL, 4, NULL),
+	(3, NULL, 5, 1),
+	(4, NULL, 5, 1);

@@ -2,7 +2,8 @@ from database import Database
 from werkzeug.security import generate_password_hash, check_password_hash
 from enum import Enum
 from flask_login import UserMixin
-import mysql.connector 
+import mysql.connector
+from uuid import uuid4
 
 
 class Errors(Enum):
@@ -17,7 +18,11 @@ class Errors(Enum):
 
 
 class User(UserMixin):
-    def __init__(self, id=None, username=None, email=None, firstName=None, lastName=None, avatar=None, isAdmin=False, passhash=None) -> None:
+    def __init__(
+            self, id=None, username=None, email=None, firstName=None, lastName=None, avatar=None, isAdmin=False, passhash=None,
+            verified=False, open_profile=True, show_real_name=False, show_friend_list=True, current_language=None, current_city=None
+        ) -> None:
+
         self.__id = id
         self.__username = username
         self.__email = email
@@ -26,6 +31,13 @@ class User(UserMixin):
         self.__avatar = avatar
         self.__isAdmin = isAdmin
         self.__passhash = passhash
+
+        self.__verified = bool(verified)
+        self.__open_profile = bool(open_profile)
+        self.__show_real_name = bool(show_real_name)
+        self.__show_friend_list = bool(show_friend_list)
+        self.__current_language = current_language
+        self.__current_city = current_city
 
 
     def login(self, email, password):
@@ -57,7 +69,7 @@ class User(UserMixin):
     def get_user_by_email(self, email):
         with Database() as db:
             try:
-                result = db.queryOne("SELECT * FROM user WHERE  email=(%s)", (email,))
+                result = db.queryOne("SELECT u.*, usm.verified, usm.open_profile, usm.show_real_name, usm.show_friend_list, usm.current_language, usm.current_city FROM user AS u LEFT OUTER JOIN user_system_meta AS usm ON u.id = usm.user_id WHERE u.email=(%s)", (email,))
                 if result:
                     return User(*result)
                 else:
@@ -69,7 +81,7 @@ class User(UserMixin):
     def get_user_by_id(self, id):
         with Database() as db:
             try:
-                result = db.queryOne("SELECT * FROM user WHERE  id=(%s)", (id,))
+                result = db.queryOne("SELECT u.*, usm.verified, usm.open_profile, usm.show_real_name, usm.show_friend_list, usm.current_language, usm.current_city FROM user AS u LEFT OUTER JOIN user_system_meta AS usm ON u.id = usm.user_id WHERE u.id=(%s)", (id,))
                 if result:
                     return User(*result)
                 else:
@@ -80,6 +92,10 @@ class User(UserMixin):
 
     def get_id(self):
         return str(self.__id)    
+
+
+    def get_email(self):
+        return self.__email
 
 
     def check_password(self, password):
@@ -117,6 +133,17 @@ class User(UserMixin):
         with Database() as db:
             try:
                 db.query('INSERT INTO user (username, email, firstname, lastname, password, admin) VALUES (%s, %s, %s, %s, %s, %s)', (username, email, firstName, lastName, passhash, 0,))
+
+                db.commit()
+
+                user_id = db.queryOne('SELECT id FROM user WHERE email = %s', (email,))[0]
+
+                db.query('INSERT INTO user_system_meta (user_id) VALUES (%s)', (user_id,))
+
+                db.query('INSERT INTO verification (user_id, uuid) VALUES (%s, %s)', (user_id, str(uuid4())))
+
+                db.commit()
+
                 return True, "No errors"
             except:
                 return False, Errors.DATABASE_ERROR.value
@@ -159,7 +186,12 @@ class User(UserMixin):
                 result = db.queryOne("SELECT email, password FROM user Where email = %s ", (self.__email,))
             except:
                 return False, Errors.DATABASE_ERROR.value
-            
+            if newUsername == "":
+                newUsername = self.getUsername()
+            if newFirstName == "":
+                newFirstName = self.getFirstName()
+            if newLastName == "":
+                newLastName = self.getLastName()
             if check_password_hash(result[1], password):
                 username_availible = self.isUsernameAvailible(newUsername)
                 if username_availible:
@@ -173,6 +205,47 @@ class User(UserMixin):
             else:
                 return False, Errors.PASSWORD_ERROR.value
 
+    def get_verification_uuid(self):
+        with Database() as db:
+            try:
+                result = db.queryOne("SELECT uuid FROM verification WHERE user_id = %s", (self.__id,))
+                return result[0]
+            except:
+                return False, Errors.DATABASE_ERROR.value
+            
+    def verify(self, uuid):
+
+        with Database() as db:
+            try:
+                result = db.queryOne("SELECT user_id FROM verification WHERE uuid = %s", (uuid,))
+                if result:
+                    db.queryOne("UPDATE user_system_meta SET verified = 1 WHERE user_id = %s", (result[0],))
+                    db.queryOne("DELETE FROM verification WHERE uuid = %s", (uuid,))
+                    return True, "Success", self.get_user_by_id(result[0])
+                else:
+                    return False, "Invalid verification link", None
+            except:
+                return False, Errors.DATABASE_ERROR.value, None
+            
+    def update_uuid(self):
+        with Database() as db:
+            try:
+                db.queryOne("UPDATE verification SET uuid = %s WHERE user_id = %s", (str(uuid4()), self.__id))
+                return True, "Success"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+
+    def isVerified(self):
+        return self.__verified
+    
+    def getFirstName(self):
+        return self.__firstName
+    
+    def getUsername(self):
+        return self.__username
+    
+    def getLastName(self):
+        return self.__lastName
 
     def __str__(self) -> str:
         string = f"User(id={self.__id}, username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName}"
