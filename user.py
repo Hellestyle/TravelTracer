@@ -235,6 +235,53 @@ class User(UserMixin):
             except:
                 return False, Errors.DATABASE_ERROR.value
 
+    def add_password_recovery_uuid(self, uuid):
+
+        with Database() as db:
+
+            try:
+
+                old_uuid = db.queryOne("SELECT uuid FROM password_recovery WHERE user_id = %s", (self.__id,))
+
+                if old_uuid:
+                    db.queryOne("UPDATE password_recovery SET uuid = %s WHERE user_id = %s", (uuid, self.__id))
+                else:
+                    db.queryOne("INSERT INTO password_recovery (user_id, uuid) VALUES (%s, %s)", (self.__id, uuid))
+
+                return True, "Success"
+            
+            except:
+                return False, Errors.DATABASE_ERROR.value
+            
+    def get_user_by_password_recovery_uuid(self, uuid):
+
+        with Database() as db:
+
+            try:
+
+                result = db.queryOne("SELECT user_id FROM password_recovery WHERE uuid = %s", (uuid,))
+
+                if result:
+                    return self.get_user_by_id(result[0])
+                else:
+                    return None
+            
+            except:
+                return None
+            
+    def recover_password(self, password):
+
+        with Database() as db:
+
+            try:
+
+                db.queryOne("UPDATE user SET password = %s WHERE id = %s", (generate_password_hash(password), self.__id))
+
+                return True, "Success"
+            
+            except:
+                return False, Errors.DATABASE_ERROR.value
+
     def isVerified(self):
         return self.__verified
     
