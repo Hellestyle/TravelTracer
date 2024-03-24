@@ -154,7 +154,12 @@
                 </div>
                 <div>
                   <p>friends</p>
+
+                  {% if friend_list["friends"] %}
+                  <p>{{ friend_list["friends"] }}</p>
+                  {% else %}
                   <p>0</p>
+                  {% endif %}
                 </div>
               </div>
             </div>
