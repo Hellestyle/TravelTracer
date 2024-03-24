@@ -291,8 +291,8 @@ class User(UserMixin):
         with Database() as db:
             try:
                 user = db.query("SELECT u.id, u.username, u.email, u.firstname, u.lastname, u.avatar, COUNT(DISTINCT vl.sight_id) AS visited, COUNT(DISTINCT wl.sight_id) AS wishlist FROM user AS u LEFT OUTER JOIN visited_list AS vl ON vl.user_id = u.id LEFT OUTER JOIN wishlist AS wl ON wl.user_id = u.id WHERE u.id = %s GROUP BY u.id;", (self.__id,))
-            except Exception as err:
-                return False, err
+            except:
+                return False, Errors.DATABASE_ERROR.value
             
             if user:
                 user_tuple = user[0]
@@ -309,13 +309,14 @@ class User(UserMixin):
                 return True, user_info
             else:
                 return False, Errors.USER_DOES_NOT_EXIST.value
-    
+
+
     def get_friend_amount(self):
         with Database() as db:
             try:
                 friend = db.query("SELECT f1.follower AS user_id, COUNT(f2.follower) AS friends FROM friend AS f1 JOIN friend AS f2 ON f1.follower = f2.following AND f1.following = f2.follower WHERE f1.follower = %s GROUP BY f1.follower;", (self.__id,))
-            except Exception as err:
-                return False, err
+            except:
+                return False, Errors.DATABASE_ERROR.value
         
         if friend:
             friend_tuple = friend[0]

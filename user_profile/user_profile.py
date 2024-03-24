@@ -21,7 +21,10 @@ def user_profileMain():
         if result_01 and result_02:
             return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_list=friend_list)
         else:
-            flash(user_info)
+            if result_01:
+                flash(friend_list)
+            else:
+                flash(user_info)
             return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_list=friend_list)
 
     else:
