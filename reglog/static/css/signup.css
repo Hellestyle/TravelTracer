@@ -94,3 +94,11 @@ body {
 .center p {
   font-family: sans-serif;
 }
+
+@media screen and (max-width: 768px) {
+  /* CSS adjustments for smaller screens */
+  .center {
+    margin-top: 80%;
+    width: 100%;
+  }
+}
