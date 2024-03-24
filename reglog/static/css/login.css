@@ -113,3 +113,11 @@ body {
 .register:hover {
   color: blue;
 }
+
+@media screen and (max-width: 768px) {
+  /* CSS adjustments for smaller screens */
+  .center {
+    margin-top: 55%;
+    width: 100%;
+  }
+}
