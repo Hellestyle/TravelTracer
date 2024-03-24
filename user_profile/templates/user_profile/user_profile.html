@@ -81,17 +81,31 @@
             <!-- profile info row start  green-->
             <div>
               <!-- profile avatar col  blue-->
+              {% if user_info["avatar"] %}
+              <img
+                class="profile-picture"
+                src="static/images/{{ user_info['avatar'] }}"
+                alt="Profile Picture"
+              />
+              {% else %}
               <img
                 class="profile-picture"
                 src="static/images/avatar.png"
                 alt="Profile Picture"
               />
+              {% endif %}
             </div>
             <div>
               <!-- profile info col blue-->
               <div style="display: flex; flex-direction: row">
                 <!-- real name row-->
-                <h1>John Doe</h1>
+                {% if user_info["first_name"] or user_info["last_name"] %}
+                <h1>
+                  {{ user_info["first_name"] }} {{ user_info["last_name"] }}
+                </h1>
+                {% else %}
+                <h1>" "</h1>
+                {% endif %}
                 <h3
                   id="edit-profile-settings"
                   style="right: 0; padding-right: 40px; position: fixed"
@@ -104,7 +118,11 @@
               </div>
               <div>
                 <!-- username row -->
-                <p style="margin-bottom: 15px">@johndoe123</p>
+                {% if user_info["username"] %}
+                <p style="margin-bottom: 15px">@{{ user_info["username"] }}</p>
+                {% else %}
+                <p style="margin-bottom: 15px">"@ "</p>
+                {% endif %}
               </div>
               <div
                 style="
@@ -118,11 +136,21 @@
                 <!-- data label row-->
                 <div>
                   <p>visited list</p>
+
+                  {% if user_info["visited"] %}
+                  <p>{{ user_info["visited"] }}</p>
+                  {% else %}
                   <p>0</p>
+                  {% endif %}
                 </div>
                 <div>
                   <p>wishlist</p>
+
+                  {% if user_info["wishlist"] %}
+                  <p>{{ user_info["wishlist"] }}</p>
+                  {% else %}
                   <p>0</p>
+                  {% endif %}
                 </div>
                 <div>
                   <p>friends</p>

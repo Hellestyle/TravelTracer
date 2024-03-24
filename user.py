@@ -212,7 +212,8 @@ class User(UserMixin):
                 return result[0]
             except:
                 return False, Errors.DATABASE_ERROR.value
-            
+
+
     def verify(self, uuid):
 
         with Database() as db:
@@ -235,6 +236,7 @@ class User(UserMixin):
             except:
                 return False, Errors.DATABASE_ERROR.value
 
+
     def add_password_recovery_uuid(self, uuid):
 
         with Database() as db:
@@ -252,7 +254,8 @@ class User(UserMixin):
             
             except:
                 return False, Errors.DATABASE_ERROR.value
-            
+
+
     def get_user_by_password_recovery_uuid(self, uuid):
 
         with Database() as db:
@@ -268,7 +271,8 @@ class User(UserMixin):
             
             except:
                 return None
-            
+
+
     def recover_password(self, password):
 
         with Database() as db:
@@ -281,6 +285,32 @@ class User(UserMixin):
             
             except:
                 return False, Errors.DATABASE_ERROR.value
+
+
+    def get_user_info(self):
+
+        with Database() as db:
+            try:
+                user = db.query("SELECT u.id, u.username, u.email, u.firstname, u.lastname, u.avatar, COUNT(DISTINCT vl.sight_id) AS visited, COUNT(DISTINCT wl.sight_id) AS wishlist FROM user AS u LEFT OUTER JOIN visited_list AS vl ON vl.user_id = u.id LEFT OUTER JOIN wishlist AS wl ON wl.user_id = u.id WHERE u.id = %s GROUP BY u.id;", (self.__id,))
+            except Exception as err:
+                return False, err
+            
+            if user:
+                user_tuple = user[0]
+                user_info = {
+                    "id": user_tuple[0],
+                    "username": user_tuple[1],
+                    "email": user_tuple[2],
+                    "first_name": user_tuple[3],
+                    "last_name": user_tuple[4],
+                    "avatar": user_tuple[5],
+                    "visited": user_tuple[6],
+                    "wishlist": user_tuple[7]
+                }
+                return True, user_info
+            else:
+                return False, Errors.USER_DOES_NOT_EXIST.value
+
 
     def isVerified(self):
         return self.__verified
@@ -295,9 +325,8 @@ class User(UserMixin):
         return self.__lastName
 
     def __str__(self) -> str:
-        string = f"User(id={self.__id}, username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName}"
+        string = f"User(id={self.__id}, username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName})"
         return string
-
 
 
 if __name__ == "__main__":
