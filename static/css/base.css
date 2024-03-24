@@ -8,6 +8,8 @@ html {
 
 img {
     display: block;
+    max-width: 100%;
+    height: auto;
 }
 
 #hero {
@@ -56,9 +58,6 @@ nav ul a {
     padding: .75rem 1.5rem;
     border-radius: 10em;
     border: 1px solid #60c79a;
-}
-
-.btn {
     transition: background-color .3s ease-in-out, color .3s ease-in-out, border-color .3s ease-in-out;
 }
 
@@ -71,3 +70,16 @@ nav ul a {
 .buttons:hover {
     color: #60c79a;
 }
+
+@media screen and (max-width: 768px) {
+    .nav-container {
+        padding: 2rem 0;
+        width: 90%; /* Adjust container width */
+    }
+    nav ul {
+      flex-direction:column; /* Stack navigation items vertically */
+      gap: 1rem; /* Reduce gap between navigation items */
+    }
+}
+
+
