@@ -57,3 +57,13 @@
 .resend-button:hover {
   opacity: 0.8;
 }
+
+@media screen and (max-width: 768px) {
+  /* CSS adjustments for smaller screens */
+  .email-sent-container {
+    margin:30%;
+    display:flexbox;
+    margin-left: 0%;
+    width: 80%;
+  }
+}
