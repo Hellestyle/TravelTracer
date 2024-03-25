@@ -155,8 +155,8 @@
                 <div>
                   <p>friends</p>
 
-                  {% if friend_list["friends"] %}
-                  <p>{{ friend_list["friends"] }}</p>
+                  {% if friend_amount["friends"] %}
+                  <p>{{ friend_amount["friends"] }}</p>
                   {% else %}
                   <p>0</p>
                   {% endif %}
@@ -165,23 +165,7 @@
             </div>
           </div>
           <!-- profile info row end-->
-          <div
-            style="
-              display: flex;
-              flex-direction: row;
-              flex-wrap: wrap;
-              gap: 20px;
-            "
-          >
-            <!-- tab row start-->
-            <h4>Activity feed</h4>
-            <h4>Trips</h4>
-            <h4>Photos</h4>
-            <h4>Reviews</h4>
-            <h4>Forums</h4>
-            <h4>Travel map</h4>
-          </div>
-          <!-- tab row end-->
+
         </div>
         <!-- profile header end-->
 
@@ -310,35 +294,30 @@
         </table>
       </div>
       <div id="friends" class="hidden">
-        <h1 style="text-align: center">This is the page for friends.</h1>
+        <h2 style="text-align: center">Friendlist</h2>
+
         <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">Number</th>
               <th scope="col">Username</th>
-              <th scope="col">Name</th>
-              <th scope="col">Added</th>
+              <th scope="col">First name</th>
+              <th scope="col">Last name</th>
             </tr>
           </thead>
           <tbody>
+            {% set ns = namespace(number=1) %}
+            {% for friend in friend_list %}
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>2-feb-2024</td>
+              {% if friend %}
+                <th scope="row">{{ ns.number }}</th>
+                {% set ns.number = ns.number + 1 %}
+                <td>{{ friend["username"] }}</td>
+                <td>{{ friend["first_name"] }}</td>
+                <td>{{ friend["last_name"] }}</td>
+              {% endif %}
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>11-nov-2022</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>30-may-2020</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
