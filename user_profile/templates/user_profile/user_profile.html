@@ -165,7 +165,6 @@
             </div>
           </div>
           <!-- profile info row end-->
-
         </div>
         <!-- profile header end-->
 
@@ -306,16 +305,19 @@
             </tr>
           </thead>
           <tbody>
-            {% set ns = namespace(number=1) %}
-            {% for friend in friend_list %}
+            {% set ns = namespace(number=1) %} {% for friend in friend_list %}
             <tr>
               {% if friend %}
-                <th scope="row">{{ ns.number }}</th>
-                {% set ns.number = ns.number + 1 %}
-                <td>{{ friend["username"] }}</td>
-                <td>{{ friend["first_name"] }}</td>
-                <td>{{ friend["last_name"] }}</td>
-              {% endif %}
+              <th scope="row">{{ ns.number }}</th>
+              {% set ns.number = ns.number + 1 %}
+              <td>{{ friend["username"] }}</td>
+              {% if friend["show_real_name"] %}
+              <td>{{ friend["first_name"] }}</td>
+              <td>{{ friend["last_name"] }}</td>
+              {% else %}
+              <td style="color: grey">Name is hidden</td>
+              <td style="color: grey">Name is hidden</td>
+              {% endif %} {% endif %}
             </tr>
             {% endfor %}
           </tbody>

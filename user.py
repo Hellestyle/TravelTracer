@@ -331,7 +331,11 @@ class User(UserMixin):
     def get_friendlist(self):
         with Database() as db:
             try:
-                friendlist = db.query("SELECT f1.follower AS user_id, f2.follower AS friend_id, u.username, u.firstname, u.lastname FROM friend AS f1 LEFT OUTER JOIN friend AS f2 ON f1.follower = f2.following AND f1.following = f2.follower LEFT OUTER JOIN user AS u ON u.id = f2.follower WHERE f2.follower IS NOT NULL AND f1.follower = %s;", (self.__id,))
+                friendlist = db.query("SELECT f1.follower AS user_id, f2.follower AS friend_id, u.username, u.firstname, u.lastname, usm.open_profile, usm.show_real_name, usm.show_friend_list FROM friend AS f1 \
+                                    LEFT OUTER JOIN friend AS f2 ON f1.follower = f2.following AND f1.following = f2.follower \
+                                    LEFT OUTER JOIN user AS u ON u.id = f2.follower \
+                                    LEFT OUTER JOIN user_system_meta AS usm ON usm.user_id = f2.follower \
+                                    WHERE f2.follower IS NOT NULL AND f1.follower = %s;", (self.__id,))
             except:
                 return False, Errors.DATABASE_ERROR.value
 
@@ -343,7 +347,10 @@ class User(UserMixin):
                         "friend_id": friend[1],
                         "username": friend[2],
                         "first_name": friend[3],
-                        "last_name": friend[4]
+                        "last_name": friend[4],
+                        "open_profile": friend[5],
+                        "show_real_name": friend[6],
+                        "show_friend_list": friend[7]
                     })
                 return True, friends
             else:
