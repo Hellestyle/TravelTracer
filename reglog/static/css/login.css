@@ -113,3 +113,8 @@ body {
 .register:hover {
   color: blue;
 }
+
+.password-recovery, .sign-up {
+  display: block;
+  margin: 10px 0;
+}

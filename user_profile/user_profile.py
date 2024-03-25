@@ -13,8 +13,19 @@ def user_profileMain():
     user = current_user
     changePassForm = ChangePasswordForm()
     changeUserForm = ChangeUsername()
+
     if request.method == "GET":
-        return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
+        result_01, user_info = user.get_user_info()
+        result_02, friend_list = user.get_friend_amount()
+
+        if result_01 and result_02:
+            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_list=friend_list)
+        else:
+            if result_01:
+                flash(friend_list)
+            else:
+                flash(user_info)
+            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_list=friend_list)
 
     else:
         if changePassForm.submitPasswordChange.data and changePassForm.validate():
