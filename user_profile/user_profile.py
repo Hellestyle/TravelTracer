@@ -1,4 +1,4 @@
-from forms import ChangePasswordForm, ChangeUsername
+from forms import ChangePasswordForm, ChangeUsername, ChangePrivacySettings
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from user import User
@@ -13,14 +13,24 @@ def user_profileMain():
     user = current_user
     changePassForm = ChangePasswordForm()
     changeUserForm = ChangeUsername()
+    changePrivacySettingsForm = ChangePrivacySettings()
+    
+    result_01, user_info = user.get_user_info()
+    result_02, friend_amount = user.get_friend_amount()
+    result_03, friend_list = user.get_friendlist()
+    
+    
 
     if request.method == "GET":
-        result_01, user_info = user.get_user_info()
-        result_02, friend_amount = user.get_friend_amount()
-        result_03, friend_list = user.get_friendlist()
+        
+        
+        # Set current privacy settings as defaults in form
+        changePrivacySettingsForm.showFriendslist.data = user.isPublicFriendslist()
+        changePrivacySettingsForm.openProfile.data =  user.isOpenProfile()
+        changePrivacySettingsForm.showRealName.data = user.isPublicRealName()
 
         if result_01 and result_02 and result_03:
-            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list)
+            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
         else:
             if result_01 is False:
                 flash(user_info)
@@ -28,8 +38,7 @@ def user_profileMain():
                 flash(friend_amount)
             else:
                 flash(friend_list)
-            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list)
-
+            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
     else:
         if changePassForm.submitPasswordChange.data and changePassForm.validate():
             # Password change
@@ -42,10 +51,10 @@ def user_profileMain():
             if success:
                 message = "Succsesfully changed password !"
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
             else:
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
             
 
         elif changeUserForm.submitUsernameChange.data and changeUserForm.validate():
@@ -60,10 +69,24 @@ def user_profileMain():
             if success:
                 message = "Succsesfully changed User names !"
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
             else:
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+            
+
+        
+        elif changePrivacySettingsForm.submitPrivacySettings.data and changePrivacySettingsForm.validate():
+            # Privacy settings change
+            success, message = user.updatePrivacySettings( changePrivacySettingsForm.openProfile.data,changePrivacySettingsForm.showFriendslist.data,changePrivacySettingsForm.showRealName.data)
+            if success:
+                message = "Succsesfully changed privacy settings !"
+                flash(message)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+            else:
+                flash(message)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+            
         
         # Error handling
         else:
@@ -75,5 +98,5 @@ def user_profileMain():
                 for errors in changeUserForm.errors.values():
                     for error in errors:
                         flash(error)
-            return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
+            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
 

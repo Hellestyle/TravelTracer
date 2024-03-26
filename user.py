@@ -355,10 +355,35 @@ class User(UserMixin):
                 return True, friends
             else:
                 return False, Errors.USER_DOES_NOT_EXIST.value
-
+            
+    def updatePrivacySettings(self,showProfile,showFriendslist,showRealName):
+        
+        showProfileInt = 1 if showProfile else 0
+        showFriendslistInt = 1 if showFriendslist else 0
+        showRealNameInt = 1 if showRealName else 0
+        
+        with Database() as db:
+            try:
+                db.queryOne("UPDATE `user_system_meta` SET `open_profile` = '%s', `show_real_name` = '%s', `show_friend_list` = '%s' WHERE `user_system_meta`.`user_id` = %s", (showProfileInt,showRealNameInt,showFriendslistInt,self.__id,))
+            except:
+                return False, Errors.DATABASE_ERROR.value
+        self.__open_profile = showProfile
+        self.__show_real_name = showRealName
+        self.__show_friend_list = showFriendslist
+        return True, "Changes to privacy settings made succsessfully"
+        
 
     def isVerified(self):
         return self.__verified
+    
+    def isOpenProfile(self):
+        return self.__open_profile
+    
+    def isPublicFriendslist(self):
+        return self.__show_friend_list
+    
+    def isPublicRealName(self):
+        return self.__show_real_name
     
     def getFirstName(self):
         return self.__firstName
