@@ -414,6 +414,15 @@ class User(UserMixin):
                 return False, Errors.DATABASE_ERROR.value
 
 
+    def decline_friend_request(self, sender_id):
+        with Database() as db:
+            try:
+                db.query("DELETE FROM friend WHERE follower = %s AND following = %s;", (sender_id, self.__id))
+                return True, "Friend request declined!"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+
+
     def isVerified(self):
         return self.__verified
     

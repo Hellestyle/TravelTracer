@@ -87,7 +87,7 @@ def user_profileMain():
             return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
 
 
-@user_profile.route("/user-profile/friend-request/<string:sender_name>", methods=["POST", "GET"])
+@user_profile.route("/user-profile/accept-friend-request/<string:sender_name>", methods=["POST", "GET"])
 @login_required
 def accept_friend_request(sender_name):
     user = current_user
@@ -100,6 +100,27 @@ def accept_friend_request(sender_name):
                 break
 
         result_02, message = user.accept_friend_request(sender_id)
+        flash(message)
+        return redirect(url_for("user_profile.user_profileMain"))
+            
+    else:
+        flash(users_info)
+        return redirect(url_for("user_profile.user_profileMain"))
+
+
+@user_profile.route("/user-profile/decline-friend-request/<string:sender_name>", methods=["POST", "GET"])
+@login_required
+def decline_friend_request(sender_name):
+    user = current_user
+
+    result_01, users_info = user.get_usernames_and_user_id()
+    if result_01:
+        for user_info in users_info:
+            if user_info["username"] == sender_name:
+                sender_id = user_info["id"]
+                break
+
+        result_02, message = user.decline_friend_request(sender_id)
         flash(message)
         return redirect(url_for("user_profile.user_profileMain"))
             

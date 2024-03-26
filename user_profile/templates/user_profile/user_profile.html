@@ -325,7 +325,11 @@
                   class="accept-button"
                   >Accept</a
                 >
-                <a class="decline-button">Decline</a>
+                <a
+                  href="{{ url_for('user_profile.decline_friend_request', sender_name='') }}"
+                  class="decline-button"
+                  >Decline</a
+                >
               </td>
             </tr>
             {% endfor %}
@@ -372,22 +376,30 @@
       let urls = {
         accept_friend_request:
           "{{ url_for('user_profile.accept_friend_request', sender_name='_sender_name_') }}",
+        decline_friend_request:
+          "{{ url_for('user_profile.decline_friend_request', sender_name='_sender_name_') }}",
       };
+
+      function handleButtonClick(event, action) {
+        event.preventDefault();
+
+        let username = event.target
+          .closest("tr")
+          .querySelector(".username-data").textContent;
+        let newUrl = urls[action].replace("_sender_name_", username);
+
+        window.location.href = newUrl;
+      }
 
       document.querySelectorAll(".accept-button").forEach(function (button) {
         button.addEventListener("click", function (event) {
-          event.preventDefault();
+          handleButtonClick(event, "accept_friend_request");
+        });
+      });
 
-          let username = event.target
-            .closest("tr")
-            .querySelector(".username-data").textContent;
-
-          let newUrl = urls.accept_friend_request.replace(
-            "_sender_name_",
-            username
-          );
-
-          window.location.href = newUrl;
+      document.querySelectorAll(".decline-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          handleButtonClick(event, "decline_friend_request");
         });
       });
     </script>
