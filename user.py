@@ -290,7 +290,10 @@ class User(UserMixin):
     def get_user_info(self):
         with Database() as db:
             try:
-                user = db.query("SELECT u.id, u.username, u.email, u.firstname, u.lastname, u.avatar, COUNT(DISTINCT vl.sight_id) AS visited, COUNT(DISTINCT wl.sight_id) AS wishlist FROM user AS u LEFT OUTER JOIN visited_list AS vl ON vl.user_id = u.id LEFT OUTER JOIN wishlist AS wl ON wl.user_id = u.id WHERE u.id = %s GROUP BY u.id;", (self.__id,))
+                user = db.query("SELECT u.id, u.username, u.email, u.firstname, u.lastname, u.avatar, \
+                            COUNT(DISTINCT vl.sight_id) AS visited, COUNT(DISTINCT wl.sight_id) AS wishlist \
+                            FROM user AS u LEFT OUTER JOIN visited_list AS vl ON vl.user_id = u.id \
+                            LEFT OUTER JOIN wishlist AS wl ON wl.user_id = u.id WHERE u.id = %s GROUP BY u.id;", (self.__id,))
             except:
                 return False, Errors.DATABASE_ERROR.value
             
@@ -314,7 +317,9 @@ class User(UserMixin):
     def get_friend_amount(self):
         with Database() as db:
             try:
-                friend = db.query("SELECT f1.follower AS user_id, COUNT(f2.follower) AS friends FROM friend AS f1 JOIN friend AS f2 ON f1.follower = f2.following AND f1.following = f2.follower WHERE f1.follower = %s GROUP BY f1.follower;", (self.__id,))
+                friend = db.query("SELECT f1.follower AS user_id, COUNT(f2.follower) AS friends \
+                                FROM friend AS f1 JOIN friend AS f2 ON f1.follower = f2.following AND f1.following = f2.follower \
+                                WHERE f1.follower = %s GROUP BY f1.follower;", (self.__id,))
             except:
                 return False, Errors.DATABASE_ERROR.value
         
@@ -353,6 +358,35 @@ class User(UserMixin):
                         "show_friend_list": friend[7]
                     })
                 return True, friends
+            else:
+                return False, Errors.USER_DOES_NOT_EXIST.value
+
+
+    def get_friend_requests(self):
+        with Database() as db:
+            try:
+                friend_requests = db.query("SELECT f2.follower AS user_id, u.username, u.firstname, u.lastname, usm.open_profile, usm.show_real_name, usm.show_friend_list \
+                                        FROM stud_v23_she199.friend AS f2 \
+                                        LEFT OUTER JOIN stud_v23_she199.friend AS f1 ON f1.following = f2.follower AND f1.follower = f2.following \
+                                        LEFT OUTER JOIN stud_v23_she199.user AS u ON u.id = f2.follower \
+                                        LEFT OUTER JOIN stud_v23_she199.user_system_meta AS usm ON usm.user_id = f2.follower \
+                                        WHERE f1.follower IS NULL AND f2.following = %s;", (self.__id,))
+            except:
+                return False, Errors.DATABASE_ERROR.value
+        
+            if friend_requests:
+                requests = []
+                for request in friend_requests:
+                    requests.append({
+                        "user_id": request[0],
+                        "username": request[1],
+                        "first_name": request[2],
+                        "last_name": request[3],
+                        "open_profile": request[4],
+                        "show_real_name": request[5],
+                        "show_friend_list": request[6]
+                    })
+                return True, requests
             else:
                 return False, Errors.USER_DOES_NOT_EXIST.value
 

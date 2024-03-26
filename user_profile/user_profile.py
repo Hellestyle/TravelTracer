@@ -18,9 +18,14 @@ def user_profileMain():
         result_01, user_info = user.get_user_info()
         result_02, friend_amount = user.get_friend_amount()
         result_03, friend_list = user.get_friendlist()
+        result_04, friend_requests = user.get_friend_requests()
 
         if result_01 and result_02 and result_03:
-            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list)
+            return render_template("user_profile/user_profile.html", \
+                                changePassForm=changePassForm, changeUserForm=changeUserForm, \
+                                user_info=user_info, friend_amount=friend_amount, \
+                                friend_list=friend_list, friend_requests=friend_requests
+                            )
         else:
             if result_01 is False:
                 flash(user_info)
@@ -28,7 +33,11 @@ def user_profileMain():
                 flash(friend_amount)
             else:
                 flash(friend_list)
-            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list)
+            return render_template("user_profile/user_profile.html", \
+                                changePassForm=changePassForm, changeUserForm=changeUserForm, \
+                                user_info=user_info, friend_amount=friend_amount, \
+                                friend_list=friend_list, friend_requests=friend_requests
+                            )
 
     else:
         if changePassForm.submitPasswordChange.data and changePassForm.validate():
