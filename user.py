@@ -391,6 +391,29 @@ class User(UserMixin):
                 return False, Errors.USER_DOES_NOT_EXIST.value
 
 
+    def get_usernames_and_user_id(self):
+        with Database() as db:
+            try:
+                usernames = db.query("SELECT id, username FROM user;")
+            except:
+                return False, Errors.DATABASE_ERROR.value
+            
+            if usernames:
+                users = [{"id": user[0], "username": user[1]} for user in usernames]
+                return True, users
+            else:
+                return False, Errors.UNKNOWN_ERROR.value
+
+
+    def accept_friend_request(self, sender_id):
+        with Database() as db:
+            try:
+                db.query("INSERT INTO friend (follower, following) VALUES (%s, %s);", (self.__id, sender_id))
+                return True, "Friend request accepted!"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+
+
     def isVerified(self):
         return self.__verified
     

@@ -311,7 +311,7 @@
               {% if friend_request %}
               <th scope="row">{{ ns_01.number }}</th>
               {% set ns_01.number = ns_01.number + 1 %}
-              <td>{{ friend_request["username"] }}</td>
+              <td class="username-data">{{ friend_request["username"] }}</td>
               {% if friend_request["show_real_name"] %}
               <td>{{ friend_request["first_name"] }}</td>
               <td>{{ friend_request["last_name"] }}</td>
@@ -320,8 +320,12 @@
               <td style="color: grey">Name is hidden</td>
               {% endif %} {% endif %}
               <td>
-                <button class="accept-button" onclick="">Accept</button>
-                <button class="decline-button" onclick="">Decline</button>
+                <a
+                  href="{{ url_for('user_profile.accept_friend_request', sender_name='') }}"
+                  class="accept-button"
+                  >Accept</a
+                >
+                <a class="decline-button">Decline</a>
               </td>
             </tr>
             {% endfor %}
@@ -355,7 +359,7 @@
               <td style="color: grey">Name is hidden</td>
               {% endif %} {% endif %}
               <td>
-                <button class="remove-button" onclick="">Remove</button>
+                <a class="remove-button">Remove</a>
               </td>
             </tr>
             {% endfor %}
@@ -364,9 +368,28 @@
       </div>
       <div id="settings" class="content_info hidden"></div>
     </div>
-
     <script>
-      // This script is used to get the "accept" and "decline" buttons to work
+      let urls = {
+        accept_friend_request:
+          "{{ url_for('user_profile.accept_friend_request', sender_name='_sender_name_') }}",
+      };
+
+      document.querySelectorAll(".accept-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+
+          let username = event.target
+            .closest("tr")
+            .querySelector(".username-data").textContent;
+
+          let newUrl = urls.accept_friend_request.replace(
+            "_sender_name_",
+            username
+          );
+
+          window.location.href = newUrl;
+        });
+      });
     </script>
   </body>
 </html>

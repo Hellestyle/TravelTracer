@@ -1,5 +1,5 @@
 from forms import ChangePasswordForm, ChangeUsername
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
 from user import User
 from flask import flash
@@ -86,3 +86,23 @@ def user_profileMain():
                         flash(error)
             return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
 
+
+@user_profile.route("/user-profile/friend-request/<string:sender_name>", methods=["POST", "GET"])
+@login_required
+def accept_friend_request(sender_name):
+    user = current_user
+
+    result_01, users_info = user.get_usernames_and_user_id()
+    if result_01:
+        for user_info in users_info:
+            if user_info["username"] == sender_name:
+                sender_id = user_info["id"]
+                break
+
+        result_02, message = user.accept_friend_request(sender_id)
+        flash(message)
+        return redirect(url_for("user_profile.user_profileMain"))
+            
+    else:
+        flash(users_info)
+        return redirect(url_for("user_profile.user_profileMain"))
