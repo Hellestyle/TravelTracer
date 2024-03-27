@@ -39,8 +39,10 @@ def user_profileMain():
                 flash(user_info)
             elif result_02 is False:
                 flash(friend_amount)
-            else:
+            elif result_03 is False:
                 flash(friend_list)
+            else:
+                flash(friend_requests)
             return render_template("user_profile/user_profile.html", \
                                 changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                 user_info=user_info, friend_amount=friend_amount, \
@@ -59,10 +61,12 @@ def user_profileMain():
             if success:
                 message = "Succsesfully changed password !"
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
             else:
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
             
 
         elif changeUserForm.submitUsernameChange.data and changeUserForm.validate():
@@ -77,10 +81,12 @@ def user_profileMain():
             if success:
                 message = "Succsesfully changed User names !"
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
             else:
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
             
 
         
@@ -90,10 +96,12 @@ def user_profileMain():
             if success:
                 message = "Succsesfully changed privacy settings !"
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
             else:
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
             
         
         # Error handling
@@ -110,7 +118,8 @@ def user_profileMain():
                 for errors in changePrivacySettingsForm.errors.values():
                     for error in errors:
                         flash(error)
-            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
+                                changePrivacySettingsForm=changePrivacySettingsForm, user_info=user_info, friend_amount=friend_amount)
 
 
 @user_profile.route("/user-profile/accept-friend-request/<string:sender_name>", methods=["POST", "GET"])
