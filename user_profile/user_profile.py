@@ -18,6 +18,7 @@ def user_profileMain():
     result_01, user_info = user.get_user_info()
     result_02, friend_amount = user.get_friend_amount()
     result_03, friend_list = user.get_friendlist()
+    result_04, friend_requests = user.get_friend_requests()
     
     
 
