@@ -382,10 +382,10 @@ class User(UserMixin):
         with Database() as db:
             try:
                 friend_requests = db.query("SELECT f2.follower AS user_id, u.username, u.firstname, u.lastname, usm.open_profile, usm.show_real_name, usm.show_friend_list \
-                                        FROM stud_v23_she199.friend AS f2 \
-                                        LEFT OUTER JOIN stud_v23_she199.friend AS f1 ON f1.following = f2.follower AND f1.follower = f2.following \
-                                        LEFT OUTER JOIN stud_v23_she199.user AS u ON u.id = f2.follower \
-                                        LEFT OUTER JOIN stud_v23_she199.user_system_meta AS usm ON usm.user_id = f2.follower \
+                                        FROM friend AS f2 \
+                                        LEFT OUTER JOIN friend AS f1 ON f1.following = f2.follower AND f1.follower = f2.following \
+                                        LEFT OUTER JOIN user AS u ON u.id = f2.follower \
+                                        LEFT OUTER JOIN user_system_meta AS usm ON usm.user_id = f2.follower \
                                         WHERE f1.follower IS NULL AND f2.following = %s;", (self.__id,))
             except:
                 return False, Errors.DATABASE_ERROR.value
