@@ -102,8 +102,12 @@ def user_profileMain():
                 for errors in changePassForm.errors.values():
                     for error in errors:
                         flash(error)
-            else:
+            elif changeUserForm.errors:
                 for errors in changeUserForm.errors.values():
+                    for error in errors:
+                        flash(error)
+            else:
+                for errors in changePrivacySettingsForm.errors.values():
                     for error in errors:
                         flash(error)
             return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
