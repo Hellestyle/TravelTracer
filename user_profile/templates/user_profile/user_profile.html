@@ -327,6 +327,7 @@
         </div>
 
         <h2 style="text-align: center">Friend request</h2>
+        {% if friend_requests %}
         <table class="table table-striped">
           <thead>
             <tr>
@@ -368,8 +369,12 @@
             {% endfor %}
           </tbody>
         </table>
+        {% else %}
+        <p style="text-align: center">No friend requests</p>
+        {% endif %}
 
         <h2 style="text-align: center">Friendlist</h2>
+        {% if friend_list %}
         <table class="table table-striped">
           <thead>
             <tr>
@@ -406,7 +411,11 @@
             {% endfor %}
           </tbody>
         </table>
+        {% else %}
+        <p style="text-align: center">No friends</p>
+        {% endif %}
       </div>
+
       <div id="settings" class="content_info hidden"></div>
     </div>
     <script>

@@ -331,7 +331,7 @@ class User(UserMixin):
             }
             return True, friend_list
         else:
-            return False, Errors.USER_DOES_NOT_EXIST.value
+            return True, {"user_id": self.__id, "friends": 0}
     
     def get_friendlist(self):
         with Database() as db:
@@ -359,7 +359,7 @@ class User(UserMixin):
                     })
                 return True, friends
             else:
-                return False, Errors.USER_DOES_NOT_EXIST.value
+                return True, []
             
     def updatePrivacySettings(self,showProfile,showFriendslist,showRealName):
         
@@ -404,7 +404,7 @@ class User(UserMixin):
                     })
                 return True, requests
             else:
-                return False, Errors.USER_DOES_NOT_EXIST.value
+                return True, []
 
 
     def get_usernames_and_user_id(self):
