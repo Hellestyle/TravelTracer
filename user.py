@@ -423,6 +423,16 @@ class User(UserMixin):
                 return False, Errors.DATABASE_ERROR.value
 
 
+    def remove_friend(self, friend_id):
+        with Database() as db:
+            try:
+                db.query("DELETE FROM friend WHERE follower = %s AND following = %s;", (self.__id, friend_id))
+                db.query("DELETE FROM friend WHERE follower = %s AND following = %s;", (friend_id, self.__id))
+                return True, "Friend removed!"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+
+
     def isVerified(self):
         return self.__verified
     

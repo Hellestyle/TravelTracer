@@ -354,7 +354,7 @@
               {% if friend %}
               <th scope="row">{{ ns_02.number }}</th>
               {% set ns_02.number = ns_02.number + 1 %}
-              <td>{{ friend["username"] }}</td>
+              <td class="username-data">{{ friend["username"] }}</td>
               {% if friend["show_real_name"] %}
               <td>{{ friend["first_name"] }}</td>
               <td>{{ friend["last_name"] }}</td>
@@ -363,7 +363,11 @@
               <td style="color: grey">Name is hidden</td>
               {% endif %} {% endif %}
               <td>
-                <a class="remove-button">Remove</a>
+                <a
+                  href="{{ url_for('user_profile.remove_friend', friend_name='') }}"
+                  class="remove-button"
+                  >Remove</a
+                >
               </td>
             </tr>
             {% endfor %}
@@ -378,6 +382,8 @@
           "{{ url_for('user_profile.accept_friend_request', sender_name='_sender_name_') }}",
         decline_friend_request:
           "{{ url_for('user_profile.decline_friend_request', sender_name='_sender_name_') }}",
+        remove_friend:
+          "{{ url_for('user_profile.remove_friend', friend_name='_friend_name_') }}",
       };
 
       function handleButtonClick(event, action) {
@@ -386,8 +392,13 @@
         let username = event.target
           .closest("tr")
           .querySelector(".username-data").textContent;
-        let newUrl = urls[action].replace("_sender_name_", username);
 
+        let newUrl;
+        if (action == "remove_friend") {
+          newUrl = urls[action].replace("_friend_name_", username);
+        } else {
+          newUrl = urls[action].replace("_sender_name_", username);
+        }
         window.location.href = newUrl;
       }
 
@@ -400,6 +411,12 @@
       document.querySelectorAll(".decline-button").forEach(function (button) {
         button.addEventListener("click", function (event) {
           handleButtonClick(event, "decline_friend_request");
+        });
+      });
+
+      document.querySelectorAll(".remove-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          handleButtonClick(event, "remove_friend");
         });
       });
     </script>

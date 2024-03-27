@@ -127,3 +127,24 @@ def decline_friend_request(sender_name):
     else:
         flash(users_info)
         return redirect(url_for("user_profile.user_profileMain"))
+
+
+@user_profile.route("/user-profile/remove-friend/<string:friend_name>", methods=["POST", "GET"])
+@login_required
+def remove_friend(friend_name):
+    user = current_user
+
+    result_01, users_info = user.get_usernames_and_user_id()
+    if result_01:
+        for user_info in users_info:
+            if user_info["username"] == friend_name:
+                friend_id = user_info["id"]
+                break
+
+        result_02, message = user.remove_friend(friend_id)
+        flash(message)
+        return redirect(url_for("user_profile.user_profileMain"))
+
+    else:
+        flash(users_info)
+        return redirect(url_for("user_profile.user_profileMain"))
