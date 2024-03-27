@@ -28,10 +28,6 @@ a {
   font-size: 1.7rem;
 }
 
-a {
-  text-decoration: none;
-}
-
 li {
   list-style: none;
 }
@@ -362,24 +358,93 @@ body {
   padding: 12px 16px;
 }
 
-.accept-button,
-.decline-button,
-.remove-button {
-  padding: 0;
-  background-color: white;
-  color: black;
-  padding: 6px 12px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border: 1px hidden;
-  border-radius: 15px;
+.send-friend-request-div {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f8f8f8;
 }
 
-.accept-button:hover,
-.decline-button:hover,
-.remove-button:hover {
+.send-friend-request-input {
+  margin-right: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.send-friend-request-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 10px;
   text-decoration: none;
-  background-color: #f3f3f3;
+}
+
+.send-friend-request-button:hover {
+  background-color: #0056b3;
+  color: white;
+  text-decoration: none;
+}
+
+#friends {
+  background-color: transparent;
+}
+
+#friends h2 {
+  margin: 20px;
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+  background-color: transparent;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody + tbody {
+  border-top: 2px solid #dee2e6;
+}
+
+.table .username-data {
+  color: #007bff;
+}
+
+.table .accept-button,
+.table .decline-button,
+.table .remove-button {
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 10px;
+  padding: 5px 10px;
+  text-decoration: none;
+}
+
+.table .decline-button,
+.table .remove-button {
+  background-color: #dc3545;
+}
+
+.table .accept-button:hover {
+  background-color: #0056b3;
+}
+
+.table .decline-button:hover,
+.table .remove-button:hover {
+  background-color: #c82333;
 }

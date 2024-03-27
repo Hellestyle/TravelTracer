@@ -437,6 +437,15 @@ class User(UserMixin):
                 return True, "Friend request declined!"
             except:
                 return False, Errors.DATABASE_ERROR.value
+            
+        
+    def send_friend_request(self, receiver_id):
+        with Database() as db:
+            try:
+                db.query("INSERT INTO friend (follower, following) VALUES (%s, %s);", (self.__id, receiver_id))
+                return True, "Friend request sent!"
+            except:
+                return False, Errors.DATABASE_ERROR.value
 
 
     def remove_friend(self, friend_id):

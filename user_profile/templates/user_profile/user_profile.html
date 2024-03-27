@@ -313,6 +313,19 @@
         </table>
       </div>
       <div id="friends" class="hidden">
+        <div id="friends" class="send-friend-request-div">
+          <input
+            type="text"
+            placeholder="Type the username here"
+            class="send-friend-request-input"
+          />
+          <a
+            href="{{ url_for('user_profile.send_friend_request', receiver_name='') }}"
+            class="send-friend-request-button"
+            >Add</a
+          >
+        </div>
+
         <h2 style="text-align: center">Friend request</h2>
         <table class="table table-striped">
           <thead>
@@ -404,6 +417,8 @@
           "{{ url_for('user_profile.decline_friend_request', sender_name='_sender_name_') }}",
         remove_friend:
           "{{ url_for('user_profile.remove_friend', friend_name='_friend_name_') }}",
+        send_friend_request:
+          "{{ url_for('user_profile.send_friend_request', receiver_name='_receiver_name_') }}",
       };
 
       function handleButtonClick(event, action) {
@@ -439,6 +454,22 @@
           handleButtonClick(event, "remove_friend");
         });
       });
+
+      document
+        .querySelector(".send-friend-request-button")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+
+          let receiver_name = document.querySelector(
+            ".send-friend-request-input"
+          ).value;
+
+          let newUrl = urls["send_friend_request"].replace(
+            "_receiver_name_",
+            receiver_name
+          );
+          window.location.href = newUrl;
+        });
     </script>
   </body>
 </html>
