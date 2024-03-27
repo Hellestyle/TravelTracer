@@ -1,4 +1,4 @@
-from forms import ChangePasswordForm, ChangeUsername
+from forms import ChangePasswordForm, ChangeUsername, ChangePrivacySettings
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
 from user import User
@@ -13,6 +13,14 @@ def user_profileMain():
     user = current_user
     changePassForm = ChangePasswordForm()
     changeUserForm = ChangeUsername()
+    changePrivacySettingsForm = ChangePrivacySettings()
+    
+    result_01, user_info = user.get_user_info()
+    result_02, friend_amount = user.get_friend_amount()
+    result_03, friend_list = user.get_friendlist()
+    result_04, friend_requests = user.get_friend_requests()
+    
+    
 
     if request.method == "GET":
         result_01, user_info = user.get_user_info()
@@ -20,11 +28,11 @@ def user_profileMain():
         result_03, friend_list = user.get_friendlist()
         result_04, friend_requests = user.get_friend_requests()
 
-        if result_01 and result_02 and result_03:
+        if result_01 and result_02 and result_03 and result_04:
             return render_template("user_profile/user_profile.html", \
                                 changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                 user_info=user_info, friend_amount=friend_amount, \
-                                friend_list=friend_list, friend_requests=friend_requests
+                                friend_list=friend_list, friend_requests=friend_requests, changePrivacySettingsForm=changePrivacySettingsForm
                             )
         else:
             if result_01 is False:
@@ -36,7 +44,7 @@ def user_profileMain():
             return render_template("user_profile/user_profile.html", \
                                 changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                 user_info=user_info, friend_amount=friend_amount, \
-                                friend_list=friend_list, friend_requests=friend_requests
+                                friend_list=friend_list, friend_requests=friend_requests,changePrivacySettingsForm=changePrivacySettingsForm
                             )
 
     else:
@@ -51,10 +59,10 @@ def user_profileMain():
             if success:
                 message = "Succsesfully changed password !"
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
             else:
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
             
 
         elif changeUserForm.submitUsernameChange.data and changeUserForm.validate():
@@ -69,10 +77,24 @@ def user_profileMain():
             if success:
                 message = "Succsesfully changed User names !"
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
             else:
                 flash(message)
-                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+            
+
+        
+        elif changePrivacySettingsForm.submitPrivacySettings.data and changePrivacySettingsForm.validate():
+            # Privacy settings change
+            success, message = user.updatePrivacySettings( changePrivacySettingsForm.openProfile.data,changePrivacySettingsForm.showFriendslist.data,changePrivacySettingsForm.showRealName.data)
+            if success:
+                message = "Succsesfully changed privacy settings !"
+                flash(message)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+            else:
+                flash(message)
+                return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
+            
         
         # Error handling
         else:
@@ -84,7 +106,7 @@ def user_profileMain():
                 for errors in changeUserForm.errors.values():
                     for error in errors:
                         flash(error)
-            return render_template("user_profile/user_profile.html", changePassForm=changePassForm,changeUserForm=changeUserForm)
+            return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, user_info=user_info, friend_amount=friend_amount, friend_list=friend_list, changePrivacySettingsForm=changePrivacySettingsForm)
 
 
 @user_profile.route("/user-profile/accept-friend-request/<string:sender_name>", methods=["POST", "GET"])

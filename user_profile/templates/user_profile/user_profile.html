@@ -15,7 +15,7 @@
     />
     <link rel="stylesheet" href="static/css/user_profile.css" />
     <script src="static/js/user_profile.js" defer></script>
-    <title>Document</title>
+    <title> Profile: {{ user_info["username"] }}</title>
   </head>
 
   <body>
@@ -184,6 +184,9 @@
             <button id="changeUsername" class="modal-button">
               Change Username
             </button>
+            <button id="changePrivacySettings" class="modal-button">
+              Change Privacy Settings
+            </button>
             <div id="changePassword" class="content_info hidden">
               <p>Change Password</p>
               <form
@@ -217,6 +220,23 @@
                 }}
                 <br />
                 {{ changeUserForm.submitUsernameChange() }}
+              </form>
+            </div>
+            <div id="changePrivacySettings" class="content_info hidden">
+              <p>Change Privacy Settings</p>
+              <form
+                action="{{ url_for('user_profile.user_profileMain') }}"
+                method="post"
+              >
+                {{ changePrivacySettingsForm.csrf_token }} {{
+                changePrivacySettingsForm.openProfile.label }} {{
+                changePrivacySettingsForm.openProfile() }} <br />
+                {{ changePrivacySettingsForm.showFriendslist.label }} {{
+                changePrivacySettingsForm.showFriendslist() }} <br />
+                {{ changePrivacySettingsForm.showRealName.label }} {{
+                changePrivacySettingsForm.showRealName() }}
+                <br />
+                {{ changePrivacySettingsForm.submitPrivacySettings() }}
               </form>
             </div>
           </div>
