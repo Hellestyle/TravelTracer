@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, url_for, redirect, request
+from flask import Blueprint, render_template, url_for, redirect, flash, request
+from flask_login import current_user, login_required
 
 from database import  Database
 from models.sight import Sight
 from models.sight_type import SightType
 from models.sight_name import SightName
+from models.wishlist import Wishlist
 
 import json
 from datetime import datetime as dt
@@ -42,8 +44,13 @@ def sights():
 def sight_details(sight_id):
     
     with Database(dict_cursor=True) as db:
+
         sight_model = Sight(db)
+        wishlist_model = Wishlist(db)
+
         sight = sight_model.getSight(sight_id)
+
+        in_wishlist = wishlist_model.sightInWishlist(sight_id, current_user.get_id()) if current_user.is_authenticated else None
 
     if sight is not None:
         now = dt.now().time()
@@ -56,7 +63,8 @@ def sight_details(sight_id):
         return render_template(
             "sight/sight.html",
             sight=sight, images=json.dumps(images),
-            is_open=is_open
+            is_open=is_open,
+            in_wishlist=in_wishlist
         )
     else:
         message = "No sights found"
@@ -170,3 +178,39 @@ def sight_by_age(age):
                                 sight_names = [sight_name["name"] for sight_name in sight_names], 
                                 sight_type_names=[sight_type["name"] for sight_type in sight_types]
                             )
+
+
+@sight.route("/wishlist/add/<int:sight_id>")
+@login_required
+def add_to_wishlist(sight_id):
+
+    next_page = request.args.get("next", url_for("sight.sight_details", sight_id=sight_id))
+
+    with Database(dict_cursor=True) as db:
+
+        wishlist_model = Wishlist(db)
+
+        success, message = wishlist_model.addSightToWishlist(sight_id, current_user.get_id())
+
+    if not success:
+        flash(message)
+    
+    return redirect(next_page)
+
+
+@sight.route("/wishlist/remove/<int:sight_id>")
+@login_required
+def remove_from_wishlist(sight_id):
+
+    next_page = request.args.get("next", url_for("sight.sight_details", sight_id=sight_id))
+
+    with Database(dict_cursor=True) as db:
+
+        wishlist_model = Wishlist(db)
+
+        success, message = wishlist_model.removeSightFromWishlist(sight_id, current_user.get_id())
+
+    if not success:
+        flash(message)
+    
+    return redirect(next_page)
