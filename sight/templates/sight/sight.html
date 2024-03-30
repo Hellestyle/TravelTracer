@@ -24,12 +24,18 @@ content %}
 
     {% if current_user.is_authenticated %}
 
-      <a class="header-button" href="#">Visited</a>
-
-      {% if in_wishlist %}
-        <a class="header-button" id="wishlist-button" href="{{ url_for('sight.remove_from_wishlist', sight_id=sight.id, next=url_for('sight.sight_details', sight_id=sight.id)) }}">Added to wishlist <i class="bx bx-heart"></i></a>
+      {% if in_visited_list %}
+        <a class="header-button" disabled>Visited</a>
       {% else %}
-        <a class="header-button" id="wishlist-button" href="{{ url_for('sight.add_to_wishlist', sight_id=sight.id, next=url_for('sight.sight_details', sight_id=sight.id)) }}">Add to wishlist <i class="bx bx-heart"></i></a>
+
+        <a class="header-button" href="{{ url_for('sight.add_to_visited_list', sight_id=sight.id, next=url_for('sight.sight_details', sight_id=sight.id)) }}">Mark as visited</a>
+
+        {% if in_wishlist %}
+          <a class="header-button" id="wishlist-button" href="{{ url_for('sight.remove_from_wishlist', sight_id=sight.id, next=url_for('sight.sight_details', sight_id=sight.id)) }}">Added to wishlist <i class="bx bx-heart"></i></a>
+        {% else %}
+          <a class="header-button" id="wishlist-button" href="{{ url_for('sight.add_to_wishlist', sight_id=sight.id, next=url_for('sight.sight_details', sight_id=sight.id)) }}">Add to wishlist <i class="bx bx-heart"></i></a>
+        {% endif %}
+
       {% endif %}
 
     {% else %}

@@ -6,6 +6,7 @@ from models.sight import Sight
 from models.sight_type import SightType
 from models.sight_name import SightName
 from models.wishlist import Wishlist
+from models.visited_list import VisitedList
 
 import json
 from datetime import datetime as dt
@@ -47,10 +48,13 @@ def sight_details(sight_id):
 
         sight_model = Sight(db)
         wishlist_model = Wishlist(db)
+        visited_list_model = VisitedList(db)
 
         sight = sight_model.getSight(sight_id)
 
         in_wishlist = wishlist_model.sightInWishlist(sight_id, current_user.get_id()) if current_user.is_authenticated else None
+
+        in_visited_list = visited_list_model.sightInVisitedList(sight_id, current_user.get_id()) if current_user.is_authenticated else None
 
     if sight is not None:
         now = dt.now().time()
@@ -64,7 +68,8 @@ def sight_details(sight_id):
             "sight/sight.html",
             sight=sight, images=json.dumps(images),
             is_open=is_open,
-            in_wishlist=in_wishlist
+            in_wishlist=in_wishlist,
+            in_visited_list=in_visited_list
         )
     else:
         message = "No sights found"
@@ -209,6 +214,24 @@ def remove_from_wishlist(sight_id):
         wishlist_model = Wishlist(db)
 
         success, message = wishlist_model.removeSightFromWishlist(sight_id, current_user.get_id())
+
+    if not success:
+        flash(message)
+    
+    return redirect(next_page)
+
+
+@sight.route("/visited-list/add/<int:sight_id>")
+@login_required
+def add_to_visited_list(sight_id):
+
+    next_page = request.args.get("next", url_for("sight.sight_details", sight_id=sight_id))
+
+    with Database(dict_cursor=True) as db:
+
+        visited_list_model = VisitedList(db)
+
+        success, message = visited_list_model.addSightToVisitedList(sight_id, current_user.get_id())
 
     if not success:
         flash(message)
