@@ -448,3 +448,25 @@ body {
 .table .remove-button:hover {
   background-color: #c82333;
 }
+
+@media screen and (max-width: 768px) {
+  .modal-content {
+    margin: 15% auto; 
+    padding: 20px; 
+    width: 90%; 
+    box-sizing: border-box; 
+  }
+
+  .close-modal {
+    font-size: 1.2rem; 
+    
+  }
+
+   .modal-button {
+    padding: 10px 20px;
+    font-size: 0.9rem; 
+  }
+
+}
+
+
