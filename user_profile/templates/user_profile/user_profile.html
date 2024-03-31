@@ -15,7 +15,7 @@
     />
     <link rel="stylesheet" href="static/css/user_profile.css" />
     <script src="static/js/user_profile.js" defer></script>
-    <title>Document</title>
+    <title>Profile: {{ user_info["username"] }}</title>
   </head>
 
   <body>
@@ -155,8 +155,8 @@
                 <div>
                   <p>friends</p>
 
-                  {% if friend_list["friends"] %}
-                  <p>{{ friend_list["friends"] }}</p>
+                  {% if friend_amount["friends"] %}
+                  <p>{{ friend_amount["friends"] }}</p>
                   {% else %}
                   <p>0</p>
                   {% endif %}
@@ -165,23 +165,6 @@
             </div>
           </div>
           <!-- profile info row end-->
-          <div
-            style="
-              display: flex;
-              flex-direction: row;
-              flex-wrap: wrap;
-              gap: 20px;
-            "
-          >
-            <!-- tab row start-->
-            <h4>Activity feed</h4>
-            <h4>Trips</h4>
-            <h4>Photos</h4>
-            <h4>Reviews</h4>
-            <h4>Forums</h4>
-            <h4>Travel map</h4>
-          </div>
-          <!-- tab row end-->
         </div>
         <!-- profile header end-->
 
@@ -200,6 +183,9 @@
             </button>
             <button id="changeUsername" class="modal-button">
               Change Username
+            </button>
+            <button id="changePrivacySettings" class="modal-button">
+              Change Privacy Settings
             </button>
             <div id="changePassword" class="content_info hidden">
               <p>Change Password</p>
@@ -234,6 +220,23 @@
                 }}
                 <br />
                 {{ changeUserForm.submitUsernameChange() }}
+              </form>
+            </div>
+            <div id="changePrivacySettings" class="content_info hidden">
+              <p>Change Privacy Settings</p>
+              <form
+                action="{{ url_for('user_profile.user_profileMain') }}"
+                method="post"
+              >
+                {{ changePrivacySettingsForm.csrf_token }} {{
+                changePrivacySettingsForm.openProfile.label }} {{
+                changePrivacySettingsForm.openProfile() }} <br />
+                {{ changePrivacySettingsForm.showFriendslist.label }} {{
+                changePrivacySettingsForm.showFriendslist() }} <br />
+                {{ changePrivacySettingsForm.showRealName.label }} {{
+                changePrivacySettingsForm.showRealName() }}
+                <br />
+                {{ changePrivacySettingsForm.submitPrivacySettings() }}
               </form>
             </div>
           </div>
@@ -310,39 +313,172 @@
         </table>
       </div>
       <div id="friends" class="hidden">
-        <h1 style="text-align: center">This is the page for friends.</h1>
+        <div id="friends" class="send-friend-request-div">
+          <input
+            type="text"
+            placeholder="Type the username here"
+            class="send-friend-request-input"
+          />
+          <a
+            href="{{ url_for('user_profile.send_friend_request', receiver_name='') }}"
+            class="send-friend-request-button"
+            >Add</a
+          >
+        </div>
+
+        <h2 style="text-align: center">Friend request</h2>
+        {% if friend_requests %}
         <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">Number</th>
               <th scope="col">Username</th>
-              <th scope="col">Name</th>
-              <th scope="col">Added</th>
+              <th scope="col">First name</th>
+              <th scope="col">Last name</th>
+              <th scope="col">Option</th>
             </tr>
           </thead>
           <tbody>
+            {% set ns_01 = namespace(number=1) %} {% for friend_request in
+            friend_requests %}
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>2-feb-2024</td>
+              {% if friend_request %}
+              <th scope="row">{{ ns_01.number }}</th>
+              {% set ns_01.number = ns_01.number + 1 %}
+              <td class="username-data">{{ friend_request["username"] }}</td>
+              {% if friend_request["show_real_name"] %}
+              <td>{{ friend_request["first_name"] }}</td>
+              <td>{{ friend_request["last_name"] }}</td>
+              {% else %}
+              <td style="color: grey">Name is hidden</td>
+              <td style="color: grey">Name is hidden</td>
+              {% endif %} {% endif %}
+              <td>
+                <a
+                  href="{{ url_for('user_profile.accept_friend_request', sender_name='') }}"
+                  class="accept-button"
+                  >Accept</a
+                >
+                <a
+                  href="{{ url_for('user_profile.decline_friend_request', sender_name='') }}"
+                  class="decline-button"
+                  >Decline</a
+                >
+              </td>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>11-nov-2022</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>30-may-2020</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
+        {% else %}
+        <p style="text-align: center">No friend requests</p>
+        {% endif %}
+
+        <h2 style="text-align: center">Friendlist</h2>
+        {% if friend_list %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Number</th>
+              <th scope="col">Username</th>
+              <th scope="col">First name</th>
+              <th scope="col">Last name</th>
+              <th scope="col">Option</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set ns_02 = namespace(number=1) %} {% for friend in friend_list
+            %}
+            <tr>
+              {% if friend %}
+              <th scope="row">{{ ns_02.number }}</th>
+              {% set ns_02.number = ns_02.number + 1 %}
+              <td class="username-data">{{ friend["username"] }}</td>
+              {% if friend["show_real_name"] %}
+              <td>{{ friend["first_name"] }}</td>
+              <td>{{ friend["last_name"] }}</td>
+              {% else %}
+              <td style="color: grey">Name is hidden</td>
+              <td style="color: grey">Name is hidden</td>
+              {% endif %} {% endif %}
+              <td>
+                <a
+                  href="{{ url_for('user_profile.remove_friend', friend_name='') }}"
+                  class="remove-button"
+                  >Remove</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p style="text-align: center">No friends</p>
+        {% endif %}
       </div>
+
       <div id="settings" class="content_info hidden"></div>
     </div>
+    <script>
+      let urls = {
+        accept_friend_request:
+          "{{ url_for('user_profile.accept_friend_request', sender_name='_sender_name_') }}",
+        decline_friend_request:
+          "{{ url_for('user_profile.decline_friend_request', sender_name='_sender_name_') }}",
+        remove_friend:
+          "{{ url_for('user_profile.remove_friend', friend_name='_friend_name_') }}",
+        send_friend_request:
+          "{{ url_for('user_profile.send_friend_request', receiver_name='_receiver_name_') }}",
+      };
+
+      function handleButtonClick(event, action) {
+        event.preventDefault();
+
+        let username = event.target
+          .closest("tr")
+          .querySelector(".username-data").textContent;
+
+        let newUrl;
+        if (action == "remove_friend") {
+          newUrl = urls[action].replace("_friend_name_", username);
+        } else {
+          newUrl = urls[action].replace("_sender_name_", username);
+        }
+        window.location.href = newUrl;
+      }
+
+      document.querySelectorAll(".accept-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          handleButtonClick(event, "accept_friend_request");
+        });
+      });
+
+      document.querySelectorAll(".decline-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          handleButtonClick(event, "decline_friend_request");
+        });
+      });
+
+      document.querySelectorAll(".remove-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          handleButtonClick(event, "remove_friend");
+        });
+      });
+
+      document
+        .querySelector(".send-friend-request-button")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+
+          let receiver_name = document.querySelector(
+            ".send-friend-request-input"
+          ).value;
+
+          let newUrl = urls["send_friend_request"].replace(
+            "_receiver_name_",
+            receiver_name
+          );
+          window.location.href = newUrl;
+        });
+    </script>
   </body>
 </html>

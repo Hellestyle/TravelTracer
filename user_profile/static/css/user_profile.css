@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+}
+
 :root {
   --light: #f6f6f9;
   --primary: #1976d2;
@@ -22,10 +26,6 @@
 
 .bx {
   font-size: 1.7rem;
-}
-
-a {
-  text-decoration: none;
 }
 
 li {
@@ -348,7 +348,103 @@ body {
   color: white;
 }
 
+.modal-button#changePrivacySettings {
+  background-color: #fbc02d;
+  color: white;
+}
+
 .modal-button:hover {
   opacity: 0.8;
   padding: 12px 16px;
+}
+
+.send-friend-request-div {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f8f8f8;
+}
+
+.send-friend-request-input {
+  margin-right: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.send-friend-request-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.send-friend-request-button:hover {
+  background-color: #0056b3;
+  color: white;
+  text-decoration: none;
+}
+
+#friends {
+  background-color: transparent;
+}
+
+#friends h2 {
+  margin: 20px;
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 2rem;
+  background-color: transparent;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody + tbody {
+  border-top: 2px solid #dee2e6;
+}
+
+.table .username-data {
+  color: #007bff;
+}
+
+.table .accept-button,
+.table .decline-button,
+.table .remove-button {
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 10px;
+  padding: 5px 10px;
+  text-decoration: none;
+}
+
+.table .decline-button,
+.table .remove-button {
+  background-color: #dc3545;
+}
+
+.table .accept-button:hover {
+  background-color: #0056b3;
+}
+
+.table .decline-button:hover,
+.table .remove-button:hover {
+  background-color: #c82333;
 }

@@ -290,7 +290,10 @@ class User(UserMixin):
     def get_user_info(self):
         with Database() as db:
             try:
-                user = db.query("SELECT u.id, u.username, u.email, u.firstname, u.lastname, u.avatar, COUNT(DISTINCT vl.sight_id) AS visited, COUNT(DISTINCT wl.sight_id) AS wishlist FROM user AS u LEFT OUTER JOIN visited_list AS vl ON vl.user_id = u.id LEFT OUTER JOIN wishlist AS wl ON wl.user_id = u.id WHERE u.id = %s GROUP BY u.id;", (self.__id,))
+                user = db.query("SELECT u.id, u.username, u.email, u.firstname, u.lastname, u.avatar, \
+                            COUNT(DISTINCT vl.sight_id) AS visited, COUNT(DISTINCT wl.sight_id) AS wishlist \
+                            FROM user AS u LEFT OUTER JOIN visited_list AS vl ON vl.user_id = u.id \
+                            LEFT OUTER JOIN wishlist AS wl ON wl.user_id = u.id WHERE u.id = %s GROUP BY u.id;", (self.__id,))
             except:
                 return False, Errors.DATABASE_ERROR.value
             
@@ -314,7 +317,9 @@ class User(UserMixin):
     def get_friend_amount(self):
         with Database() as db:
             try:
-                friend = db.query("SELECT f1.follower AS user_id, COUNT(f2.follower) AS friends FROM friend AS f1 JOIN friend AS f2 ON f1.follower = f2.following AND f1.following = f2.follower WHERE f1.follower = %s GROUP BY f1.follower;", (self.__id,))
+                friend = db.query("SELECT f1.follower AS user_id, COUNT(f2.follower) AS friends \
+                                FROM friend AS f1 JOIN friend AS f2 ON f1.follower = f2.following AND f1.following = f2.follower \
+                                WHERE f1.follower = %s GROUP BY f1.follower;", (self.__id,))
             except:
                 return False, Errors.DATABASE_ERROR.value
         
@@ -326,11 +331,144 @@ class User(UserMixin):
             }
             return True, friend_list
         else:
-            return False, Errors.USER_DOES_NOT_EXIST.value
+            return True, {"user_id": self.__id, "friends": 0}
+    
+    def get_friendlist(self):
+        with Database() as db:
+            try:
+                friendlist = db.query("SELECT f1.follower AS user_id, f2.follower AS friend_id, u.username, u.firstname, u.lastname, usm.open_profile, usm.show_real_name, usm.show_friend_list FROM friend AS f1 \
+                                    LEFT OUTER JOIN friend AS f2 ON f1.follower = f2.following AND f1.following = f2.follower \
+                                    LEFT OUTER JOIN user AS u ON u.id = f2.follower \
+                                    LEFT OUTER JOIN user_system_meta AS usm ON usm.user_id = f2.follower \
+                                    WHERE f2.follower IS NOT NULL AND f1.follower = %s;", (self.__id,))
+            except:
+                return False, Errors.DATABASE_ERROR.value
+
+            if friendlist:
+                friends = []
+                for friend in friendlist:
+                    friends.append({
+                        "user_id": friend[0],
+                        "friend_id": friend[1],
+                        "username": friend[2],
+                        "first_name": friend[3],
+                        "last_name": friend[4],
+                        "open_profile": friend[5],
+                        "show_real_name": friend[6],
+                        "show_friend_list": friend[7]
+                    })
+                return True, friends
+            else:
+                return True, []
+            
+    def updatePrivacySettings(self,showProfile,showFriendslist,showRealName):
+        
+        showProfileInt = 1 if showProfile else 0
+        showFriendslistInt = 1 if showFriendslist else 0
+        showRealNameInt = 1 if showRealName else 0
+        
+        with Database() as db:
+            try:
+                db.queryOne("UPDATE `user_system_meta` SET `open_profile` = '%s', `show_real_name` = '%s', `show_friend_list` = '%s' WHERE `user_system_meta`.`user_id` = %s", (showProfileInt,showRealNameInt,showFriendslistInt,self.__id,))
+            except:
+                return False, Errors.DATABASE_ERROR.value
+        self.__open_profile = showProfile
+        self.__show_real_name = showRealName
+        self.__show_friend_list = showFriendslist
+        return True, "Changes to privacy settings made succsessfully"
+        
+
+    def get_friend_requests(self):
+        with Database() as db:
+            try:
+                friend_requests = db.query("SELECT f2.follower AS user_id, u.username, u.firstname, u.lastname, usm.open_profile, usm.show_real_name, usm.show_friend_list \
+                                        FROM friend AS f2 \
+                                        LEFT OUTER JOIN friend AS f1 ON f1.following = f2.follower AND f1.follower = f2.following \
+                                        LEFT OUTER JOIN user AS u ON u.id = f2.follower \
+                                        LEFT OUTER JOIN user_system_meta AS usm ON usm.user_id = f2.follower \
+                                        WHERE f1.follower IS NULL AND f2.following = %s;", (self.__id,))
+            except:
+                return False, Errors.DATABASE_ERROR.value
+        
+            if friend_requests:
+                requests = []
+                for request in friend_requests:
+                    requests.append({
+                        "user_id": request[0],
+                        "username": request[1],
+                        "first_name": request[2],
+                        "last_name": request[3],
+                        "open_profile": request[4],
+                        "show_real_name": request[5],
+                        "show_friend_list": request[6]
+                    })
+                return True, requests
+            else:
+                return True, []
+
+
+    def get_usernames_and_user_id(self):
+        with Database() as db:
+            try:
+                usernames = db.query("SELECT id, username FROM user;")
+            except:
+                return False, Errors.DATABASE_ERROR.value
+            
+            if usernames:
+                users = [{"id": user[0], "username": user[1]} for user in usernames]
+                return True, users
+            else:
+                return False, Errors.UNKNOWN_ERROR.value
+
+
+    def accept_friend_request(self, sender_id):
+        with Database() as db:
+            try:
+                db.query("INSERT INTO friend (follower, following) VALUES (%s, %s);", (self.__id, sender_id))
+                return True, "Friend request accepted!"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+
+
+    def decline_friend_request(self, sender_id):
+        with Database() as db:
+            try:
+                db.query("DELETE FROM friend WHERE follower = %s AND following = %s;", (sender_id, self.__id))
+                return True, "Friend request declined!"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+            
+        
+    def send_friend_request(self, receiver_id):
+        with Database() as db:
+            try:
+                db.query("INSERT INTO friend (follower, following) VALUES (%s, %s);", (self.__id, receiver_id))
+                return True, "Friend request sent!"
+            except:
+                return False, Errors.DATABASE_ERROR.value
+
+
+    def remove_friend(self, friend_id):
+        with Database() as db:
+            try:
+                db.query("DELETE FROM friend WHERE follower = %s AND following = %s;", (self.__id, friend_id))
+                db.query("DELETE FROM friend WHERE follower = %s AND following = %s;", (friend_id, self.__id))
+                return True, "Friend removed!"
+            except:
+                return False, Errors.DATABASE_ERROR.value
 
 
     def isVerified(self):
         return self.__verified
+    
+    def isOpenProfile(self):
+        return self.__open_profile
+    
+    def isPublicFriendslist(self):
+        return self.__show_friend_list
+    
+    def isPublicRealName(self):
+        return self.__show_real_name
     
     def getFirstName(self):
         return self.__firstName
