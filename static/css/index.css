@@ -153,17 +153,12 @@ h1 span {
 
 
 @media screen and (max-width: 768px) {
-    /* CSS adjustments for smaller screens */
     h1 {
-        font-size: 2rem; /* Adjust font size for smaller screens */
+        font-size: 2rem; 
     }
     .container {
-      margin-top: 200px; /* Adjust margin-top for smaller screens */
+      margin-top: 55%; 
+      padding: 10px;
     }
-    .sight-item {
-    width: 100%; /* Adjust width for smaller screens */
-    }
-    /* Add more adjustments as needed */
-    
-    
+
 }
