@@ -4,6 +4,89 @@
   box-sizing: border-box;
 }
 
+#popup-background {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+#popup {
+  width: 40%;
+  margin: 0 auto;
+  margin-top: 20%;
+  padding: 10px;
+  border-radius: 20px;
+  background: white;
+}
+
+#popup .close-button {
+  float: right;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+#popup .close-button::before, #popup .close-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 2px;
+  background-color: black;
+  transform: translate(-50%, -50%);
+}
+
+#popup .close-button::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#popup .close-button::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+#popup h1 {
+  text-align: center;
+}
+
+#popup .button-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+#popup .button-container .button-dislike {
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#popup .button-container .button-dislike:hover {
+  background-color: darkred;
+}
+
+#popup .button-container .button-like {
+  padding: 10px 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#popup .button-container .button-like:hover {
+  background-color: darkgreen;
+}
+
 #img-backgroud {
   position: fixed;
   top: 0;
@@ -64,10 +147,26 @@ img {
   text-decoration: none;
 }
 
-#wishlist-button {
+#wishlist-button, #wishlist-button-added {
   align-content: center;
   margin-left: -10px;
   text-decoration: none;
+}
+
+#wishlist-button-added, #visited-button {
+  color: white;
+  background: black;
+}
+
+#wishlist-button-added:hover {
+  cursor: pointer;
+  background: gray;
+  box-shadow: inset 0 -100px 0 0 gray;
+}
+
+#visited-button:hover {
+  cursor: initial;
+  box-shadow: none;
 }
 
 .image-container {

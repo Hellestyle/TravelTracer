@@ -21,12 +21,18 @@
       type="text/css"
       href="{{ url_for('static', filename='css/base.css') }}"
     />
+
+    <script src="{{ url_for('static', filename='js/lib/jquery-3.7.1.min.js') }}"> </script>
+
     {% block head %}{% endblock %}
 
     <title>{% block title %}{% endblock %}</title>
   </head>
 
   <body>
+
+    {% block popup %} {% endblock %}
+
     <section id="hero">
       <div class="nav-container">
         <header>

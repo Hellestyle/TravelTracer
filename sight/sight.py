@@ -225,13 +225,18 @@ def remove_from_wishlist(sight_id):
 @login_required
 def add_to_visited_list(sight_id):
 
+    liked = request.args.get("liked", None)
+
     next_page = request.args.get("next", url_for("sight.sight_details", sight_id=sight_id))
+
+    if liked is not None:
+        liked = bool(int(liked))
 
     with Database(dict_cursor=True) as db:
 
         visited_list_model = VisitedList(db)
 
-        success, message = visited_list_model.addSightToVisitedList(sight_id, current_user.get_id())
+        success, message = visited_list_model.addSightToVisitedList(sight_id, current_user.get_id(), liked)
 
     if not success:
         flash(message)
