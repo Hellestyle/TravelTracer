@@ -79,21 +79,31 @@
             class="profile-info"
           >
             <!-- profile info row start  green-->
-            <div>
+            <div class="profile-picture-container">
+
+              {% if 'label' in points_level %}
+                <div class="profile-picture-label" style="background: {{ points_level['color'] }};">
+                  <p> {{ points_level["label"] }} </p>
+                </div>
+              {% endif %}
+
               <!-- profile avatar col  blue-->
               {% if user_info["avatar"] %}
               <img
                 class="profile-picture"
                 src="static/images/{{ user_info['avatar'] }}"
                 alt="Profile Picture"
+                style="border-color: {{ points_level['color'] }}"
               />
               {% else %}
               <img
                 class="profile-picture"
                 src="static/images/avatar.png"
                 alt="Profile Picture"
+                style="border-color: {{ points_level['color'] }}"
               />
               {% endif %}
+
             </div>
             <div>
               <!-- profile info col blue-->
@@ -124,6 +134,10 @@
                 <p style="margin-bottom: 15px">"@ "</p>
                 {% endif %}
               </div>
+               <!-- Points level row -->
+               <div>
+                <p style="margin-bottom: 15px; font-weight: bold; color: {{ points_level['color'] }};"> {{ points_level["level"] }} </p>
+              </div>
               <div
                 style="
                   display: flex;
@@ -134,6 +148,12 @@
                 "
               >
                 <!-- data label row-->
+                <div>
+                  <p>Points</p>
+
+                  <p>{{ points }}</p>
+
+                </div>
                 <div>
                   <p>visited list</p>
 
