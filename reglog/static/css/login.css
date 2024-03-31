@@ -118,10 +118,17 @@ body {
   display: block;
   margin: 10px 0;
 }
+
 @media screen and (max-width: 768px) {
-  /* CSS adjustments for smaller screens */
-  .center {
-    margin-top: 55%;
-    width: 100%;
+  .center .inputbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+  }
+
+  .center{
+      margin-top: 50%;
+      max-width: 98%;
   }
 }
