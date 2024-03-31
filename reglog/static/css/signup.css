@@ -96,9 +96,16 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-  /* CSS adjustments for smaller screens */
-  .center {
-    margin-top: 80%;
-    width: 100%;
+  .center .inputbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+  }
+
+  .center{
+      margin-top: 80%;
+      max-width: 98%;
   }
 }
+
