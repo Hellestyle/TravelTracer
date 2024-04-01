@@ -71,15 +71,80 @@ nav ul a {
     color: #60c79a;
 }
 
-@media screen and (max-width: 768px) {
-    .nav-container {
-        padding: 2rem 0;
-        width: 90%; 
-    }
-    nav ul {
-      flex-direction:column; 
-      gap: 1rem; 
-    }
+ .icon {
+    display: none;
 }
 
+@media screen and (max-width: 768px) {
+    nav ul li:not(:last-child) {
+        display: none;
+    }
 
+    .nav-container.responsive nav ul {
+        flex-direction: column;
+        width: 100%; 
+        max-height: 100vh; 
+        overflow-y: auto; 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        background-color: #333; 
+        z-index: 999;
+        padding-top: 50px; 
+    }
+
+   .nav-container.responsive nav ul li {
+        display: block;
+        width: 100%;
+    }
+
+   .nav-container.responsive nav ul li a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px; 
+        color: white; 
+        text-decoration: none; 
+        
+    }
+
+    .nav-container.responsive nav ul li a:hover {
+        background-color: #60c79a; 
+    }
+
+    .nav-container a.icon {
+        display: block;
+        position: absolute; 
+        right: 0;
+        top: 0;
+        padding: 1rem;
+        z-index: 1000; 
+        font-size: 1.5rem; 
+    }
+
+    header a img {
+        max-height: 50px; 
+        max-width: 200px; 
+    }
+
+    header {
+        position: absolute; 
+        top: 0;
+        left: 0;
+        width: 100%; 
+        background-color: transparent; 
+        z-index: 1000; 
+        display: flex; 
+        justify-content: space-between;
+        align-items: center; 
+        padding: 0.5rem 1rem; 
+    }
+
+    nav ul a {
+        padding: 10px; 
+    }
+
+    .nav-container.responsive nav ul li:last-child a {
+        border-bottom: none;
+    }
+}
