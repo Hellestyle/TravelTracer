@@ -353,7 +353,7 @@ img {
     flex-direction: column;
     padding: 20px;
     height: auto;
-    margin-top: 50px;
+    margin-top: auto;
     text-align: center;
   }
 

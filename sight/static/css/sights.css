@@ -286,9 +286,9 @@ button:active {
     }
     
     .search-box {
-      width: auto;
+      width: 91%;
       height: auto;
-      margin-top: 140px;
+      margin-top: auto;
       margin-bottom: 50px;
     }
   

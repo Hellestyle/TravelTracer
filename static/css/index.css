@@ -154,11 +154,19 @@ h1 span {
 
 @media screen and (max-width: 768px) {
     h1 {
-        font-size: 2rem; 
+        margin-top: auto;
+        font-size: 1.4rem; 
     }
     .container {
-      margin-top: 55%; 
-      padding: 10px;
+        width: auto;
+        height: auto;
+        padding: 10px;
+        margin-top: auto;
+    }
+
+    .button-holder {
+        position:relative;
+        margin-bottom: 10px;
     }
 
 }
