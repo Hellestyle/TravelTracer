@@ -478,6 +478,19 @@ class User(UserMixin):
     
     def getLastName(self):
         return self.__lastName
+    
+    def get_points(self):
+
+        try:
+
+            with Database() as db:
+
+                points = db.queryOne("SELECT SUM(st.points) AS points FROM visited_list AS vl JOIN sight AS s ON vl.sight_id = s.id JOIN sight_has_sight_type AS sst ON s.id = sst.sight_id JOIN sight_type AS st ON st.id = sst.sight_type_id WHERE user_id = %s;", (self.__id,))[0]
+
+                return True, "Success", points if points else 0
+            
+        except Exception as exception:
+            return False, str(exception), None
 
     def __str__(self) -> str:
         string = f"User(id={self.__id}, username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName})"

@@ -3,6 +3,11 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_login import login_required, current_user
 from user import User
 from flask import flash
+from database import Database
+
+from models.achievement import Achievement
+
+from config.application import POINTS_THRESHOLDS, ACHIEVEMENT_LEVEL_THRESHOLDS
 
 
 user_profile = Blueprint("user_profile", __name__, template_folder="templates", static_folder="static")
@@ -20,7 +25,49 @@ def user_profileMain():
     result_03, friend_list = user.get_friendlist()
     result_04, friend_requests = user.get_friend_requests()
     
-    
+    success, message, points = current_user.get_points()
+
+    if not success:
+        return message
+
+    points_level = None
+
+    for threshold, level in POINTS_THRESHOLDS.items():
+        if points >= threshold:
+            points_level = level
+        else:
+            break
+
+    with Database(dict_cursor=True) as db:
+
+        achievement_model = Achievement(db)
+
+        success, message, achievements = achievement_model.getAchievements()
+
+        if not success:
+            return message
+        
+        success, message, user_achievements_db = achievement_model.getUserAchievements(user.get_id())
+
+        if not success:
+            return message
+        
+        user_achievements = {}
+
+        for achievement_id, count in user_achievements_db.items():
+
+            current_level = None
+
+            for threshold, level in ACHIEVEMENT_LEVEL_THRESHOLDS.items():
+                if count >= threshold:
+                    current_level = level
+                else:
+                    break
+
+            user_achievements[achievement_id] = {
+                "count": count,
+                "level": current_level
+            }
 
     if request.method == "GET":
         result_01, user_info = user.get_user_info()
@@ -32,7 +79,9 @@ def user_profileMain():
             return render_template("user_profile/user_profile.html", \
                                 changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                 user_info=user_info, friend_amount=friend_amount, \
-                                friend_list=friend_list, friend_requests=friend_requests, changePrivacySettingsForm=changePrivacySettingsForm
+                                friend_list=friend_list, friend_requests=friend_requests, changePrivacySettingsForm=changePrivacySettingsForm,
+                                points=points, points_level=points_level,
+                                achievements=achievements, user_achievements=user_achievements
                             )
         else:
             if result_01 is False:
@@ -46,7 +95,9 @@ def user_profileMain():
             return render_template("user_profile/user_profile.html", \
                                 changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                 user_info=user_info, friend_amount=friend_amount, \
-                                friend_list=friend_list, friend_requests=friend_requests,changePrivacySettingsForm=changePrivacySettingsForm
+                                friend_list=friend_list, friend_requests=friend_requests,changePrivacySettingsForm=changePrivacySettingsForm,
+                                points=points, points_level=points_level,
+                                achievements=achievements, user_achievements=user_achievements
                             )
 
     else:
@@ -62,11 +113,17 @@ def user_profileMain():
                 message = "Succsesfully changed password !"
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
-                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
+                                    points=points, points_level=points_level,
+                                    achievements=achievements, user_achievements=user_achievements
+                                )
             else:
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
-                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
+                                    points=points, points_level=points_level,
+                                    achievements=achievements, user_achievements=user_achievements
+                                )
             
 
         elif changeUserForm.submitUsernameChange.data and changeUserForm.validate():
@@ -82,11 +139,17 @@ def user_profileMain():
                 message = "Succsesfully changed User names !"
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
-                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
+                                    points=points, points_level=points_level,
+                                    achievements=achievements, user_achievements=user_achievements
+                                )
             else:
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
-                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
+                                    points=points, points_level=points_level,
+                                    achievements=achievements, user_achievements=user_achievements
+                                )
             
 
         
@@ -97,11 +160,17 @@ def user_profileMain():
                 message = "Succsesfully changed privacy settings !"
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
-                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
+                                    points=points, points_level=points_level,
+                                    achievements=achievements, user_achievements=user_achievements
+                                )
             else:
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
-                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm)
+                                    user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
+                                    points=points, points_level=points_level,
+                                    achievements=achievements, user_achievements=user_achievements
+                                )
             
         
         # Error handling
@@ -119,7 +188,10 @@ def user_profileMain():
                     for error in errors:
                         flash(error)
             return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
-                                changePrivacySettingsForm=changePrivacySettingsForm, user_info=user_info, friend_amount=friend_amount)
+                                changePrivacySettingsForm=changePrivacySettingsForm, user_info=user_info, friend_amount=friend_amount,
+                                points=points, points_level=points_level,
+                                achievements=achievements, user_achievements=user_achievements
+                            )
 
 
 @user_profile.route("/user-profile/accept-friend-request/<string:sender_name>", methods=["POST", "GET"])

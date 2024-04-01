@@ -13,28 +13,74 @@
 />
 
 <script src="{{ url_for('.static', filename='js/toggle-description.js') }}"></script>
+<script src="{{ url_for('.static', filename='js/popup.js') }}"></script>
 
-{% endblock %} {% block title %} {{ sight.name }} {% endblock %} {% block
-content %}
+{% endblock %} {% block title %} {{ sight.name }} {% endblock %}
+
+{% block popup %}
+
+  <div id="popup-background">
+
+    <div id="popup">
+
+      <div> <button class="close-button" onclick="closePopup('{{ url_for('sight.add_to_visited_list', sight_id=sight.id, next=url_for('sight.sight_details', sight_id=sight.id)) }}')"> </button> </div>
+
+      <h1> Did you like this place? </h1>
+
+      <div class="button-container">
+
+        <a href="{{ url_for('sight.add_to_visited_list', sight_id=sight.id, liked='0', next=url_for('sight.sight_details', sight_id=sight.id)) }}">
+          <button class="button-dislike"> No </button>
+        </a>
+
+        <a href="{{ url_for('sight.add_to_visited_list', sight_id=sight.id, liked='1', next=url_for('sight.sight_details', sight_id=sight.id)) }}">
+          <button class="button-like"> Yes </button>
+        </a>
+
+      </div>
+    
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block content %}
 <div id="img-backgroud"></div>
 
 <div class="header">
   <h1>{{ sight.name }}</h1>
   <div class="header-buttons">
+
     {% if current_user.is_authenticated %}
-    <a class="header-button" href="#">Visited</a>
-    <a class="header-button" id="wishlist-button" href="#"
-      >Add to wishlist <i class="bx bx-heart"></i
-    ></a>
+
+      {% if in_visited_list %}
+        <a class="header-button" id="visited-button" disabled>Visited</a>
+      {% else %}
+
+        <a class="header-button" onclick="openPopup();">Mark as visited</a>
+
+        {% if in_wishlist %}
+          <a class="header-button" id="wishlist-button-added" href="{{ url_for('sight.remove_from_wishlist', sight_id=sight.id, next=url_for('sight.sight_details', sight_id=sight.id)) }}"> Remove from wishlist <i class="bx bx-heart"></i></a>
+        {% else %}
+          <a class="header-button" id="wishlist-button" href="{{ url_for('sight.add_to_wishlist', sight_id=sight.id, next=url_for('sight.sight_details', sight_id=sight.id)) }}"> Add to wishlist <i class="bx bx-heart"></i></a>
+        {% endif %}
+
+      {% endif %}
+
     {% else %}
-    <a class="header-button" href="{{ url_for('reglog.login') }}">Visited</a>
-    <a
-      class="header-button"
-      id="wishlist-button"
-      href="{{ url_for('reglog.login') }}"
-      >Add to wishlist <i class="bx bx-heart"></i
-    ></a>
+
+      <a class="header-button" href="{{ url_for('reglog.login') }}">Visited</a>
+
+      <a
+        class="header-button"
+        id="wishlist-button"
+        href="{{ url_for('reglog.login') }}"
+        >Add to wishlist <i class="bx bx-heart"></i
+      ></a>
+
     {% endif %}
+
   </div>
 </div>
 
@@ -188,6 +234,17 @@ content %}
   }
 
   showImage(0);
+</script>
+
+<!-- Javascript for popup -->
+<script>
+  
+  document.getElementById("popup-background").addEventListener("click", function(event) {
+    if (event.target === document.getElementById("popup-background")) {
+      closePopup("{{ url_for('sight.add_to_visited_list', sight_id=sight.id, next=url_for('sight.sight_details', sight_id=sight.id)) }}");
+    }
+  });
+
 </script>
 
 {% endblock %}
