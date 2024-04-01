@@ -13,8 +13,9 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="static/css/user_profile.css" />
-    <script src="static/js/user_profile.js" defer></script>
+    <link rel="stylesheet" href="{{ url_for('.static', filename='css/user_profile.css') }}" />
+    <script src="{{ url_for('.static', filename='js/user_profile.js') }}" defer> </script>
+    <script src="{{ url_for('.static', filename='js/profile_navbar.js') }}" defer> </script>
     <title>Profile: {{ user_info["username"] }}</title>
   </head>
 
@@ -155,16 +156,7 @@
 
                 </div>
                 <div>
-                  <p>visited list</p>
-
-                  {% if user_info["visited"] %}
-                  <p>{{ user_info["visited"] }}</p>
-                  {% else %}
-                  <p>0</p>
-                  {% endif %}
-                </div>
-                <div>
-                  <p>wishlist</p>
+                  <p>Wishlist</p>
 
                   {% if user_info["wishlist"] %}
                   <p>{{ user_info["wishlist"] }}</p>
@@ -173,7 +165,22 @@
                   {% endif %}
                 </div>
                 <div>
-                  <p>friends</p>
+                  <p>Visited list</p>
+
+                  {% if user_info["visited"] %}
+                  <p>{{ user_info["visited"] }}</p>
+                  {% else %}
+                  <p>0</p>
+                  {% endif %}
+                </div>
+                <div>
+                  <p>Achievements</p>
+
+                  <p>{{ user_achievements|length }}/{{ achievements|length }}</p>
+
+                </div>
+                <div>
+                  <p>Friends</p>
 
                   {% if friend_amount["friends"] %}
                   <p>{{ friend_amount["friends"] }}</p>
@@ -185,10 +192,87 @@
             </div>
           </div>
           <!-- profile info row end-->
+
+          <nav class="profile-navbar">
+
+            <button class="profile-nav-button profile-nav-button-active" id="profile-nav-button-wishlist" onclick="switchNavbar('wishlist');"> Wishlist </button>
+            <button class="profile-nav-button" id="profile-nav-button-visited-list" onclick="switchNavbar('visited-list');"> Visited list </button>
+            <button class="profile-nav-button" id="profile-nav-button-achievements" onclick="switchNavbar('achievements');"> Achievements </button>
+            <button class="profile-nav-button" id="profile-nav-button-friends" onclick="switchNavbar('friends');"> Friends </button>
+
+          </nav>
+
         </div>
         <!-- profile header end-->
 
-        <div><!-- profile body start--></div>
+        <!-- profile body start-->
+        <div>
+
+          <div class="profile-body" id="profile-body-wishlist">
+
+          </div>
+
+          <div class="profile-body hidden" id="profile-body-visited-list">
+
+          </div>
+
+          <div class="profile-body hidden" id="profile-body-achievements" class="hidden">
+
+            <div class="achievement-container">
+
+              <h2> Achievements </h2>
+
+              {% for i in range(0, achievements|length, 3) %}
+
+                <div class="achievements-row">
+
+                  {% for j in range(i, i + 3) %}
+
+                    {% if j < achievements|length %}
+
+                      <div class="achievement-box">
+
+                        <div class="achievement-icon-container">
+
+                          {% if achievements[j]['id'] in user_achievements and user_achievements[achievements[j]['id']]['count'] > 1 %}
+                            <div class="achievement-counter" style="background: {{ user_achievements[achievements[j]['id']]['level']['color'] }};">
+                              <p class="achievement-counter-text"> {{ user_achievements[achievements[j]['id']]['count'] }} </p>
+                            </div>
+                          {% endif %}
+
+                          {% if achievements[j]['id'] in user_achievements %}
+                            <img class="achievement-icon" src="{{ url_for('static', filename='images/achievement/' + achievements[j]['icon']) }}" alt="{{ achievements[j]['name'] }}" title="{{ achievements[j]['description'] }}" style="border-color: {{ user_achievements[achievements[j]['id']]['level']['color'] }};">
+                          {% else %}
+                            <img class="achievement-icon" src="{{ url_for('static', filename='images/achievement/default.png') }}" alt="{{ achievements[j]['name'] }}" title="{{ achievements[j]['description'] }}" style="border-color: grey;">
+                          {% endif %}
+
+                        </div>
+
+                        {% if achievements[j]['id'] in user_achievements and 'level' in user_achievements[achievements[j]['id']]['level'] %}
+                          <p class="achievement-level" style="color: {{ user_achievements[achievements[j]['id']]['level']['color'] }};"> {{ user_achievements[achievements[j]['id']]['level']['level'] }} </p>
+                        {% endif %}
+
+                        <h3 class="achievement-name"> {{ achievements[j]['name'] }} </h3>
+
+                      </div>
+
+                    {% endif %}
+
+                  {% endfor %}
+
+                </div>
+
+              {% endfor %}
+
+            </div>
+
+          </div>
+
+          <div class="profile-body hidden" id="profile-body-friends" class="hidden">
+
+          </div>
+
+        </div>
         <!-- profile body end-->
 
         <div id="edit-profile-settings" class="modal">

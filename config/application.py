@@ -14,7 +14,7 @@ POINTS_THRESHOLDS = {
         'color': "orange",
         'level': "Advanced"
     },
-    35: {
+    30: {
         'color': "#006666",
         'level': "Expert"
     },
@@ -22,5 +22,23 @@ POINTS_THRESHOLDS = {
         'color': "purple",
         'level': "PRO",
         'label': "PRO"
+    }
+}
+
+ACHIEVEMENT_LEVEL_THRESHOLDS = {
+    1: {
+        'color': "green"
+    },
+    3: {
+        'level': "Bronze",
+        'color': "#CD7F32"
+    },
+    5: {
+        'level': "Silver",
+        'color': "silver"
+    },
+    10: {
+        'level': "Gold",
+        'color': "gold"
     }
 }
