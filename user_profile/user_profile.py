@@ -5,6 +5,8 @@ from user import User
 from flask import flash
 from database import Database
 
+from models.wishlist import Wishlist
+from models.visited_list import VisitedList
 from models.achievement import Achievement
 
 from config.application import POINTS_THRESHOLDS, ACHIEVEMENT_LEVEL_THRESHOLDS
@@ -40,7 +42,19 @@ def user_profileMain():
 
     with Database(dict_cursor=True) as db:
 
+        wishlist_model = Wishlist(db)
+        visited_list_model = VisitedList(db)
         achievement_model = Achievement(db)
+
+        success, message, wishlist = wishlist_model.getWishlist(user.get_id())
+
+        if not success:
+            return message
+        
+        success, message, visited_list = visited_list_model.getVisitedList(user.get_id())
+
+        if not success:
+            return message
 
         success, message, achievements = achievement_model.getAchievements()
 
@@ -81,7 +95,8 @@ def user_profileMain():
                                 user_info=user_info, friend_amount=friend_amount, \
                                 friend_list=friend_list, friend_requests=friend_requests, changePrivacySettingsForm=changePrivacySettingsForm,
                                 points=points, points_level=points_level,
-                                achievements=achievements, user_achievements=user_achievements
+                                achievements=achievements, user_achievements=user_achievements,
+                                wishlist=wishlist, visited_list=visited_list
                             )
         else:
             if result_01 is False:
@@ -97,7 +112,8 @@ def user_profileMain():
                                 user_info=user_info, friend_amount=friend_amount, \
                                 friend_list=friend_list, friend_requests=friend_requests,changePrivacySettingsForm=changePrivacySettingsForm,
                                 points=points, points_level=points_level,
-                                achievements=achievements, user_achievements=user_achievements
+                                achievements=achievements, user_achievements=user_achievements,
+                                wishlist=wishlist, visited_list=visited_list
                             )
 
     else:
@@ -115,14 +131,16 @@ def user_profileMain():
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                     user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
                                     points=points, points_level=points_level,
-                                    achievements=achievements, user_achievements=user_achievements
+                                    achievements=achievements, user_achievements=user_achievements,
+                                    wishlist=wishlist, visited_list=visited_list
                                 )
             else:
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                     user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
                                     points=points, points_level=points_level,
-                                    achievements=achievements, user_achievements=user_achievements
+                                    achievements=achievements, user_achievements=user_achievements,
+                                    wishlist=wishlist, visited_list=visited_list
                                 )
             
 
@@ -141,14 +159,16 @@ def user_profileMain():
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                     user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
                                     points=points, points_level=points_level,
-                                    achievements=achievements, user_achievements=user_achievements
+                                    achievements=achievements, user_achievements=user_achievements,
+                                    wishlist=wishlist, visited_list=visited_list
                                 )
             else:
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                     user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
                                     points=points, points_level=points_level,
-                                    achievements=achievements, user_achievements=user_achievements
+                                    achievements=achievements, user_achievements=user_achievements,
+                                    wishlist=wishlist, visited_list=visited_list
                                 )
             
 
@@ -162,14 +182,16 @@ def user_profileMain():
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                     user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
                                     points=points, points_level=points_level,
-                                    achievements=achievements, user_achievements=user_achievements
+                                    achievements=achievements, user_achievements=user_achievements,
+                                    wishlist=wishlist, visited_list=visited_list
                                 )
             else:
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                     user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
                                     points=points, points_level=points_level,
-                                    achievements=achievements, user_achievements=user_achievements
+                                    achievements=achievements, user_achievements=user_achievements,
+                                    wishlist=wishlist, visited_list=visited_list
                                 )
             
         
@@ -190,7 +212,8 @@ def user_profileMain():
             return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                 changePrivacySettingsForm=changePrivacySettingsForm, user_info=user_info, friend_amount=friend_amount,
                                 points=points, points_level=points_level,
-                                achievements=achievements, user_achievements=user_achievements
+                                achievements=achievements, user_achievements=user_achievements,
+                                wishlist=wishlist, visited_list=visited_list
                             )
 
 

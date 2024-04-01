@@ -5,6 +5,89 @@
   box-sizing: border-box;
 }
 
+#popup-background {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+#popup {
+  width: 40%;
+  margin: 0 auto;
+  margin-top: 20%;
+  padding: 10px;
+  border-radius: 20px;
+  background: white;
+}
+
+#popup .close-button {
+  float: right;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+#popup .close-button::before, #popup .close-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 2px;
+  background-color: black;
+  transform: translate(-50%, -50%);
+}
+
+#popup .close-button::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#popup .close-button::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+#popup h1 {
+  text-align: center;
+}
+
+#popup .button-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+#popup .button-container .button-dislike {
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#popup .button-container .button-dislike:hover {
+  background-color: darkred;
+}
+
+#popup .button-container .button-like {
+  padding: 10px 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#popup .button-container .button-like:hover {
+  background-color: darkgreen;
+}
+
 a {
   text-decoration: none;
 }
@@ -559,6 +642,121 @@ body {
   border-width: 5px;
   border-style: solid;
   border-radius: 50%;
+}
+
+.wishlist-container, .visited-list-container {
+  width: 80%;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 30px;
+  background: white;
+}
+
+.navbar-tab-label {
+  margin: 20px auto;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #787878;
+}
+
+.wishlist-container .sight-photo, .visited-list-container .sight-photo {
+  width: 400px;
+  height: 300px;
+  border-radius: 15px;
+}
+
+.sight-container {
+  padding: 60px 60px;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  display: flex;
+}
+
+.sight-container .sights {
+  display: flex;
+  justify-content: center;
+  gap: 5vh;
+  flex-wrap: wrap;
+}
+
+.sight-container .sights .sight-link {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.5s ease-in-out;
+}
+
+.sight-container .sights .sight-link:hover {
+  transform: scale(1.05);
+}
+
+.sight-container .sight-link-inactive:hover {
+  cursor: initial;
+}
+
+.sight-container .sights .sight-item {
+  padding: 10px;
+  max-height: 100%;
+  max-width: 100%;
+  backdrop-filter: blur(10px);
+  border: hidden;
+  border-radius: 15px;
+}
+
+.sight-container .sights .sight-item {
+  background: rgba(200, 200, 200, 0.5);
+}
+
+.sight-container .sights .sight-item-inactive {
+  background: rgba(120, 120, 120, 0.5);
+}
+
+.sight-container .sights .sight-item h3 {
+  font-size: 26px;
+  margin-bottom: 15px;
+}
+
+.sight-container .sights .sight-item .info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sight-container .sights .sight-item .info h5 {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 2px 5px;
+  color: #585858;
+}
+
+.sight-container .sights .sight-item h5 .sight-type {
+  margin-right: 5px;
+  padding: 3px;
+  border-radius: 5px;
+  color: #333;
+  background-color: #858585;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.button-container .bn {
+  width: 8em;
+  height: 3em;
+}
+
+.button-container .pagination-button {
+  width: 3em;
+  height: 3em;
+}
+
+.button-container .pagination-button-active {
+  background-color: #aaa;
 }
 
 @media screen and (max-width: 768px) {

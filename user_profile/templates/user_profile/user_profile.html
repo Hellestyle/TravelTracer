@@ -14,12 +14,40 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="{{ url_for('.static', filename='css/user_profile.css') }}" />
+
+    <script src="{{ url_for('static', filename='js/lib/jquery-3.7.1.min.js') }}"> </script>
+
     <script src="{{ url_for('.static', filename='js/user_profile.js') }}" defer> </script>
     <script src="{{ url_for('.static', filename='js/profile_navbar.js') }}" defer> </script>
+    <script src="{{ url_for('.static', filename='js/pagination.js') }}" defer> </script>
+    <script src="{{ url_for('.static', filename='js/popup.js') }}" defer> </script>
+    
     <title>Profile: {{ user_info["username"] }}</title>
+
   </head>
 
   <body>
+
+    <div id="popup-background">
+
+      <div id="popup">
+
+        <div> <button class="close-button"> </button> </div>
+
+        <h1> Did you like this place? </h1>
+
+        <div class="button-container">
+
+          <a class="button-dislike"> No </a>
+
+          <a class="button-like"> Yes </a>
+
+        </div>
+      
+      </div>
+
+    </div>
+
     <div class="sidebar close">
       <a href="{{ url_for('index') }}" target="_self" class="logo">
         <i class="bx bx-trip"></i>
@@ -210,9 +238,154 @@
 
           <div class="profile-body" id="profile-body-wishlist">
 
+            <div class="wishlist-container">
+
+              {% if wishlist|length > 0 %}
+
+                {% for i in range(0, wishlist|length, 2) %}
+
+                  <div class="sight-container" style="display: {{ 'block' if loop.index <= 2 else 'none' }};">
+                    <div class="sights">
+
+                      {% for sight in wishlist[i:i+2] %}
+                        <a class="{{ 'sight-link' if sight.active else 'sight-link sight-link-inactive' }}" href="{{ url_for('sight.sight_details', sight_id=sight.id) if sight.active else 'javascript:void(0);' }}">
+                          <div class="{{ 'sight-item' if sight.active else 'sight-item sight-item-inactive' }}">
+                            <img class="sight-photo" src="{{ url_for('static', filename='images/sight/' + sight.photos[0]) }}" alt="{{ sight.name }}" />
+                              <h3> {{ sight.name }} </h3>
+                              <div class="info sight-info">
+                                <h5>
+                                  {% if sight.visited == 0 %}
+                                    No people visited this sight yet
+                                  {% elif sight.visited == 1 %}
+                                    1 person visited this sight
+                                  {% else %}
+                                    {{ sight.visited }} people visited this sight
+                                  {% endif %}
+                                </h5>
+                                <h5>
+                                  {% for sight_type in sight.types %}
+                                    <span class="sight-type"> {{ sight_type }} </span>
+                                  {% endfor %}
+                                </h5>
+                                <h5> {{ sight.age_category }} </h5>
+                              </div>
+                              <a href="{{ url_for('sight.remove_from_wishlist', sight_id=sight.id, next=url_for('user_profile.user_profileMain')) }}" class="remove-from-wishlist"> Remove from wishlist </a>
+
+                              {% if sight.active %}
+                                <a href="javascript:void(0);" onclick="openPopup(
+                                  '{{ url_for('sight.add_to_visited_list', sight_id=sight.id, liked='1', next=url_for('user_profile.user_profileMain', sight_id=sight.id)) }}',
+                                  '{{ url_for('sight.add_to_visited_list', sight_id=sight.id, liked='0', next=url_for('user_profile.user_profileMain', sight_id=sight.id)) }}',
+                                  '{{ url_for('sight.add_to_visited_list', sight_id=sight.id, next=url_for('user_profile.user_profileMain', sight_id=sight.id)) }}'
+                                );"> Mark as visited </a>
+                              {% endif %}
+
+                          </div>
+                        </a>
+                      {% endfor %}
+
+                    </div>
+                  </div>
+    
+                {% endfor %}
+
+                {% if wishlist|length > 4 %}
+
+                  <div class="button-container">
+
+                    <button class="bn" onclick="previousPage('profile-body-wishlist');"> Previous </button>
+
+                    {% for i in range(0, wishlist|length, 4) %}
+                      <button class="pagination-button {{ 'pagination-button-active' if loop.index == 1 else '' }}" onclick="switchPage('profile-body-wishlist', {{ loop.index }});"> {{ loop.index }} </button>
+                    {% endfor %} 
+
+                    <button class="bn" onclick="nextPage('profile-body-wishlist');"> Next </button>
+
+                  </div>
+
+                {% endif %}
+
+              {% else %}
+
+                <h1 class="navbar-tab-label"> No sights in wishlist </h1>
+
+              {% endif %}
+
+            </div>
+
           </div>
 
           <div class="profile-body hidden" id="profile-body-visited-list">
+
+            <div class="visited-list-container">
+
+              {% if visited_list|length > 0 %}
+
+                {% for i in range(0, visited_list|length, 2) %}
+
+                  <div class="sight-container" style="display: {{ 'block' if loop.index <= 2 else 'none' }};">
+                    <div class="sights">
+
+                      {% for sight in visited_list[i:i+2] %}
+                        <a class="{{ 'sight-link' if sight.active else 'sight-link sight-link-inactive' }}" href="{{ url_for('sight.sight_details', sight_id=sight.id) if sight.active else 'javascript:void(0);' }}">
+                          <div class="{{ 'sight-item' if sight.active else 'sight-item sight-item-inactive' }}">
+                            <img class="sight-photo" src="{{ url_for('static', filename='images/sight/' + sight.photos[0]) }}" alt="{{ sight.name }}" />
+                              <h3> {{ sight.name }} </h3>
+                              <div class="info sight-info">
+                                <h5>
+                                  {% if sight.visited == 0 %}
+                                    No people visited this sight yet
+                                  {% elif sight.visited == 1 %}
+                                    1 person visited this sight
+                                  {% else %}
+                                    {{ sight.visited }} people visited this sight
+                                  {% endif %}
+                                </h5>
+                                <h5>
+                                  {% for sight_type in sight.types %}
+                                    <span class="sight-type"> {{ sight_type }} </span>
+                                  {% endfor %}
+                                </h5>
+                                <h5> {{ sight.age_category }} </h5>
+                              </div>
+                              {% if sight.liked is not none %}
+                                {% if sight.liked %}
+                                  <span> Like </span>
+                                {% else %}
+                                  <span> Dislike </span>
+                                {% endif %}
+                              {% endif %}
+                          </div>
+                        </a>
+                      {% endfor %}
+
+                    </div>
+                  </div>
+    
+                {% endfor %}
+
+                {% if visited_list|length > 4 %}
+
+                  <div class="button-container">
+
+                    <button class="bn" onclick="previousPage('profile-body-visited-list');"> Previous </button>
+
+                    {% for i in range(0, visited_list|length, 4) %}
+                      <button class="pagination-button {{ 'pagination-button-active' if loop.index == 1 else '' }}" onclick="switchPage('profile-body-visited-list', {{ loop.index }});"> {{ loop.index }} </button>
+                    {% endfor %} 
+
+                    <button class="bn" onclick="nextPage('profile-body-visited-list');"> Next </button>
+
+                  </div>
+
+                {% endif %}
+
+              {% else %}
+
+                <h1 class="navbar-tab-label"> No sights in visited list </h1>
+
+              {% endif %}
+
+            </div>
 
           </div>
 
