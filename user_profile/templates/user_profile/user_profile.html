@@ -234,8 +234,6 @@
         <!-- profile header end-->
 
         <!-- profile body start-->
-        <div>
-
           <div class="profile-body" id="profile-body-wishlist">
 
             <div class="wishlist-container">
@@ -269,14 +267,14 @@
                                 </h5>
                                 <h5> {{ sight.age_category }} </h5>
                               </div>
-                              <a href="{{ url_for('sight.remove_from_wishlist', sight_id=sight.id, next=url_for('user_profile.user_profileMain')) }}" class="remove-from-wishlist"> Remove from wishlist </a>
+                              <a href="{{ url_for('sight.remove_from_wishlist', sight_id=sight.id, next=url_for('user_profile.user_profileMain')) }}" class="remove-from-wishlist"> <i class='bx bx-bookmark-minus'></i>Remove from wishlist </a>
 
                               {% if sight.active %}
-                                <a href="javascript:void(0);" onclick="openPopup(
+                                <a href="javascript:void(0);" class="mark-as-visited" onclick="openPopup(
                                   '{{ url_for('sight.add_to_visited_list', sight_id=sight.id, liked='1', next=url_for('user_profile.user_profileMain', sight_id=sight.id)) }}',
                                   '{{ url_for('sight.add_to_visited_list', sight_id=sight.id, liked='0', next=url_for('user_profile.user_profileMain', sight_id=sight.id)) }}',
                                   '{{ url_for('sight.add_to_visited_list', sight_id=sight.id, next=url_for('user_profile.user_profileMain', sight_id=sight.id)) }}'
-                                );"> Mark as visited </a>
+                                );"> <i class='bx bx-check-square'></i>Mark as visited </a>
                               {% endif %}
 
                           </div>
@@ -349,9 +347,9 @@
                               </div>
                               {% if sight.liked is not none %}
                                 {% if sight.liked %}
-                                  <span> Like </span>
+                                  <span> <i class='bx bx-like'></i> </span>
                                 {% else %}
-                                  <span> Dislike </span>
+                                  <span> <i class='bx bx-dislike' ></i> </span>
                                 {% endif %}
                               {% endif %}
                           </div>
@@ -442,7 +440,107 @@
           </div>
 
           <div class="profile-body hidden" id="profile-body-friends" class="hidden">
-
+            <div id="friends" class="send-friend-request-div">
+              <input
+                type="text"
+                placeholder="Type the username here"
+                class="send-friend-request-input"
+              />
+              <a
+                href="{{ url_for('user_profile.send_friend_request', receiver_name='') }}"
+                class="send-friend-request-button"
+                >Add</a
+              >
+            </div>
+    
+            <h2 style="text-align: center">Friend request</h2>
+            {% if friend_requests %}
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col" class="col-1">Number</th>
+                  <th scope="col" class="col-2">Username</th>
+                  <th scope="col" class="col-3">First name</th>
+                  <th scope="col" class="col-4">Last name</th>
+                  <th scope="col" class="col-5">Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% set ns_01 = namespace(number=1) %} {% for friend_request in
+                friend_requests %}
+                <tr>
+                  {% if friend_request %}
+                  <th scope="row">{{ ns_01.number }}</th>
+                  {% set ns_01.number = ns_01.number + 1 %}
+                  <td class="username-data">{{ friend_request["username"] }}</td>
+                  {% if friend_request["show_real_name"] %}
+                  <td>{{ friend_request["first_name"] }}</td>
+                  <td>{{ friend_request["last_name"] }}</td>
+                  {% else %}
+                  <td style="color: grey">Name is hidden</td>
+                  <td style="color: grey">Name is hidden</td>
+                  {% endif %} {% endif %}
+                  <td>
+                    <a
+                      href="{{ url_for('user_profile.accept_friend_request', sender_name='') }}"
+                      class="accept-button"
+                      >Accept</a
+                    >
+                    <a
+                      href="{{ url_for('user_profile.decline_friend_request', sender_name='') }}"
+                      class="decline-button"
+                      >Decline</a
+                    >
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center">No friend requests</p>
+            {% endif %}
+    
+            <h2 style="text-align: center">Friendlist</h2>
+            {% if friend_list %}
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col" class="col-1">Number</th>
+                  <th scope="col" class="col-2">Username</th>
+                  <th scope="col" class="col-3">First name</th>
+                  <th scope="col" class="col-4">Last name</th>
+                  <th scope="col" class="col-5">Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% set ns_02 = namespace(number=1) %} {% for friend in friend_list
+                %}
+                <tr>
+                  {% if friend %}
+                  <th scope="row">{{ ns_02.number }}</th>
+                  {% set ns_02.number = ns_02.number + 1 %}
+                  <td class="username-data">{{ friend["username"] }}</td>
+                  {% if friend["show_real_name"] %}
+                  <td>{{ friend["first_name"] }}</td>
+                  <td>{{ friend["last_name"] }}</td>
+                  {% else %}
+                  <td style="color: grey">Name is hidden</td>
+                  <td style="color: grey">Name is hidden</td>
+                  {% endif %} {% endif %}
+                  <td>
+                    <a
+                      href="{{ url_for('user_profile.remove_friend', friend_name='') }}"
+                      class="remove-button"
+                      >Remove</a
+                    >
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center">No friends</p>
+            {% endif %}
           </div>
 
         </div>
@@ -589,109 +687,8 @@
           </tbody>
         </table>
       </div>
-      <div id="friends" class="hidden">
-        <div id="friends" class="send-friend-request-div">
-          <input
-            type="text"
-            placeholder="Type the username here"
-            class="send-friend-request-input"
-          />
-          <a
-            href="{{ url_for('user_profile.send_friend_request', receiver_name='') }}"
-            class="send-friend-request-button"
-            >Add</a
-          >
-        </div>
 
-        <h2 style="text-align: center">Friend request</h2>
-        {% if friend_requests %}
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Number</th>
-              <th scope="col">Username</th>
-              <th scope="col">First name</th>
-              <th scope="col">Last name</th>
-              <th scope="col">Option</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% set ns_01 = namespace(number=1) %} {% for friend_request in
-            friend_requests %}
-            <tr>
-              {% if friend_request %}
-              <th scope="row">{{ ns_01.number }}</th>
-              {% set ns_01.number = ns_01.number + 1 %}
-              <td class="username-data">{{ friend_request["username"] }}</td>
-              {% if friend_request["show_real_name"] %}
-              <td>{{ friend_request["first_name"] }}</td>
-              <td>{{ friend_request["last_name"] }}</td>
-              {% else %}
-              <td style="color: grey">Name is hidden</td>
-              <td style="color: grey">Name is hidden</td>
-              {% endif %} {% endif %}
-              <td>
-                <a
-                  href="{{ url_for('user_profile.accept_friend_request', sender_name='') }}"
-                  class="accept-button"
-                  >Accept</a
-                >
-                <a
-                  href="{{ url_for('user_profile.decline_friend_request', sender_name='') }}"
-                  class="decline-button"
-                  >Decline</a
-                >
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        {% else %}
-        <p style="text-align: center">No friend requests</p>
-        {% endif %}
-
-        <h2 style="text-align: center">Friendlist</h2>
-        {% if friend_list %}
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Number</th>
-              <th scope="col">Username</th>
-              <th scope="col">First name</th>
-              <th scope="col">Last name</th>
-              <th scope="col">Option</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% set ns_02 = namespace(number=1) %} {% for friend in friend_list
-            %}
-            <tr>
-              {% if friend %}
-              <th scope="row">{{ ns_02.number }}</th>
-              {% set ns_02.number = ns_02.number + 1 %}
-              <td class="username-data">{{ friend["username"] }}</td>
-              {% if friend["show_real_name"] %}
-              <td>{{ friend["first_name"] }}</td>
-              <td>{{ friend["last_name"] }}</td>
-              {% else %}
-              <td style="color: grey">Name is hidden</td>
-              <td style="color: grey">Name is hidden</td>
-              {% endif %} {% endif %}
-              <td>
-                <a
-                  href="{{ url_for('user_profile.remove_friend', friend_name='') }}"
-                  class="remove-button"
-                  >Remove</a
-                >
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        {% else %}
-        <p style="text-align: center">No friends</p>
-        {% endif %}
-      </div>
+      <div id="friends" class="hidden"></div>
 
       <div id="settings" class="content_info hidden"></div>
     </div>
