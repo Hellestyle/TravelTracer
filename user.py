@@ -456,7 +456,7 @@ class User(UserMixin):
                                             ON f1.follower = f2.following AND f1.following = f2.follower \
                                             LEFT JOIN user AS u ON u.id = f1.following \
                                             LEFT JOIN user_system_meta AS usm ON usm.user_id = f1.following \
-                                            WHERE f2.follower IS NULL AND f1.follower = %s;", (self.__id))
+                                            WHERE f2.follower IS NULL AND f1.follower = %s;", (self.__id,))
             except:
                 return False, Errors.DATABASE_ERROR.value
             

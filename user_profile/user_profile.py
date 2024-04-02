@@ -22,11 +22,6 @@ def user_profileMain():
     changeUserForm = ChangeUsername()
     changePrivacySettingsForm = ChangePrivacySettings()
     
-    result_01, user_info = user.get_user_info()
-    result_02, friend_amount = user.get_friend_amount()
-    result_03, friend_list = user.get_friendlist()
-    result_04, friend_requests = user.get_friend_requests()
-    
     success, message, points = current_user.get_points()
 
     if not success:
@@ -88,15 +83,16 @@ def user_profileMain():
         result_02, friend_amount = user.get_friend_amount()
         result_03, friend_list = user.get_friendlist()
         result_04, friend_requests = user.get_friend_requests()
+        result_05, sent_requests = user.show_sent_friend_request()
 
-        if result_01 and result_02 and result_03 and result_04:
+        if result_01 and result_02 and result_03 and result_04 and result_05:
             return render_template("user_profile/user_profile.html", \
                                 changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                 user_info=user_info, friend_amount=friend_amount, \
                                 friend_list=friend_list, friend_requests=friend_requests, changePrivacySettingsForm=changePrivacySettingsForm,
                                 points=points, points_level=points_level,
                                 achievements=achievements, user_achievements=user_achievements,
-                                wishlist=wishlist, visited_list=visited_list
+                                wishlist=wishlist, visited_list=visited_list, sent_requests=sent_requests
                             )
         else:
             if result_01 is False:
@@ -105,15 +101,17 @@ def user_profileMain():
                 flash(friend_amount)
             elif result_03 is False:
                 flash(friend_list)
-            else:
+            elif result_04 is False:
                 flash(friend_requests)
+            else:
+                flash(sent_requests)
             return render_template("user_profile/user_profile.html", \
                                 changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                 user_info=user_info, friend_amount=friend_amount, \
                                 friend_list=friend_list, friend_requests=friend_requests,changePrivacySettingsForm=changePrivacySettingsForm,
                                 points=points, points_level=points_level,
                                 achievements=achievements, user_achievements=user_achievements,
-                                wishlist=wishlist, visited_list=visited_list
+                                wishlist=wishlist, visited_list=visited_list, sent_requests=sent_requests
                             )
 
     else:
