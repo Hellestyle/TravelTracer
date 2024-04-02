@@ -448,6 +448,33 @@ class User(UserMixin):
                 return False, Errors.DATABASE_ERROR.value
 
 
+    def show_sent_friend_request(self):
+        with Database() as db:
+            try:
+                sent_friend_requests = db.query("SELECT f1.follower, f1.following, u.username, u.firstname, u.lastname, usm.show_real_name \
+                                            FROM friend AS f1 LEFT JOIN friend AS f2 \
+                                            ON f1.follower = f2.following AND f1.following = f2.follower \
+                                            LEFT JOIN user AS u ON u.id = f1.following \
+                                            LEFT JOIN user_system_meta AS usm ON usm.user_id = f1.following \
+                                            WHERE f2.follower IS NULL AND f1.follower = %s;", (self.__id))
+            except:
+                return False, Errors.DATABASE_ERROR.value
+            
+            if sent_friend_requests:
+                sent_requests = []
+                for request in sent_friend_requests:
+                    sent_requests.append({
+                        "user_id": request[1],
+                        "username": request[2],
+                        "first_name": request[3],
+                        "last_name": request[4],
+                        "show_real_name": request[5]
+                    })
+                return True, sent_requests
+            else:
+                return True, []
+
+
     def remove_friend(self, friend_id):
         with Database() as db:
             try:

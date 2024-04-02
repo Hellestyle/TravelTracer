@@ -520,6 +520,23 @@ body {
   border-collapse: collapse;
 }
 
+
+.table .col_1 {
+  width: 9%;
+}
+
+.table .col_2 {
+  width: 16%;
+}
+
+.table .col_3 {
+  width: 20%;
+}
+
+.table .col_4 {
+  width: 35%;
+}
+
 .table .col-1 {
   width: 15%;
 }
