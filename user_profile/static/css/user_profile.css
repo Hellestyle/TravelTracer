@@ -520,23 +520,6 @@ body {
   border-collapse: collapse;
 }
 
-
-.table .col_1 {
-  width: 9%;
-}
-
-.table .col_2 {
-  width: 16%;
-}
-
-.table .col_3 {
-  width: 20%;
-}
-
-.table .col_4 {
-  width: 35%;
-}
-
 .table .col-1 {
   width: 15%;
 }
@@ -579,7 +562,8 @@ body {
 
 .table .accept-button,
 .table .decline-button,
-.table .remove-button {
+.table .remove-button,
+.table .cancel-button {
   color: #fff;
   background-color: #007bff;
   border-radius: 10px;
@@ -588,7 +572,8 @@ body {
 }
 
 .table .decline-button,
-.table .remove-button {
+.table .remove-button,
+.table .cancel-button {
   background-color: #dc3545;
 }
 
@@ -597,7 +582,8 @@ body {
 }
 
 .table .decline-button:hover,
-.table .remove-button:hover {
+.table .remove-button:hover,
+.table .cancel-button:hover {
   background-color: #c82333;
 }
 

@@ -459,10 +459,11 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th scope="col" class="col_1">Number</th>
-                  <th scope="col" class="col_2">Username</th>
-                  <th scope="col" class="col_3">First name</th>
-                  <th scope="col" class="col_4">Last name</th>
+                  <th scope="col" class="col-1">Number</th>
+                  <th scope="col" class="col-2">Username</th>
+                  <th scope="col" class="col-3">First name</th>
+                  <th scope="col" class="col-4">Last name</th>
+                  <th scope="col" class="col-5">Option</th>
                 </tr>
               </thead>
               <tbody>
@@ -480,6 +481,13 @@
                   <td style="color: grey">Name is hidden</td>
                   <td style="color: grey">Name is hidden</td>
                   {% endif %} {% endif %}
+                  <td>
+                    <a
+                      href="{{ url_for('user_profile.cancel_friend_request', receiver_name='') }}"
+                      class="cancel-button"
+                      >Cancel</a
+                    >
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -737,6 +745,8 @@
           "{{ url_for('user_profile.remove_friend', friend_name='_friend_name_') }}",
         send_friend_request:
           "{{ url_for('user_profile.send_friend_request', receiver_name='_receiver_name_') }}",
+        cancel_friend_request:
+          "{{ url_for('user_profile.cancel_friend_request', receiver_name='_receiver_name_') }}",
       };
 
       function handleButtonClick(event, action) {
@@ -749,6 +759,8 @@
         let newUrl;
         if (action == "remove_friend") {
           newUrl = urls[action].replace("_friend_name_", username);
+        } else if (action == "cancel_friend_request") {
+          newUrl = urls[action].replace("_receiver_name_", username);
         } else {
           newUrl = urls[action].replace("_sender_name_", username);
         }
@@ -772,6 +784,13 @@
           handleButtonClick(event, "remove_friend");
         });
       });
+
+      document.querySelectorAll(".cancel-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          handleButtonClick(event, "cancel_friend_request");
+        });
+      });
+
 
       document
         .querySelector(".send-friend-request-button")

@@ -473,6 +473,15 @@ class User(UserMixin):
                 return True, sent_requests
             else:
                 return True, []
+    
+
+    def cancel_friend_request(self, receiver_id):
+        with Database() as db:
+            try:
+                db.query("DELETE FROM friend WHERE follower = %s AND following = %s;", (self.__id, receiver_id))
+                return True, "Friend request canceled!"
+            except:
+                return False, Errors.DATABASE_ERROR.value
 
 
     def remove_friend(self, friend_id):
