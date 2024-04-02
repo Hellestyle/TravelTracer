@@ -33,8 +33,9 @@
   cursor: pointer;
 }
 
-#popup .close-button::before, #popup .close-button::after {
-  content: '';
+#popup .close-button::before,
+#popup .close-button::after {
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -469,6 +470,18 @@ body {
   padding: 12px 16px;
 }
 
+#profile-body-friends {
+  margin: 20px 20px 0 20px;
+  padding: 0;
+  margin-bottom: -20px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+#friends {
+  background-color: transparent;
+}
+
 .send-friend-request-div {
   display: flex;
   justify-content: center;
@@ -477,8 +490,8 @@ body {
 }
 
 .send-friend-request-input {
-  margin-right: 10px;
-  padding: 10px;
+  margin-right: 20px;
+  padding: 10px 25px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -500,20 +513,31 @@ body {
   text-decoration: none;
 }
 
-#friends {
-  background-color: transparent;
-}
-
-#friends h2 {
-  margin: 20px;
-}
-
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 2rem;
   background-color: transparent;
   border-collapse: collapse;
+}
+
+.table .col-1 {
+  width: 15%;
+}
+
+.table .col-2 {
+  width: 30%;
+}
+
+.table .col-3 {
+  width: 20%;
+}
+
+.table .col-4 {
+  width: 20%;
+}
+
+.table .col-5 {
+  width: 15%;
 }
 
 .table th,
@@ -561,8 +585,8 @@ body {
 }
 
 .profile-navbar {
-  background: white!important;
-  z-index: 1!important;
+  background: white !important;
+  z-index: 1 !important;
 }
 
 .profile-navbar .profile-nav-button {
@@ -577,9 +601,9 @@ body {
 
 .achievement-container {
   width: 50%;
-  margin: 50px auto;
+  margin: 20px auto;
   padding: 20px;
-  border-radius: 30px;
+  border-radius: 5px;
   background: white;
 }
 
@@ -591,7 +615,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin: 40px 0;
+  margin: 20px 0;
 }
 
 .achievement-container .achievements-row .achievement-box {
@@ -612,11 +636,18 @@ body {
   margin: 3px auto;
 }
 
-.achievement-container .achievements-row .achievement-box .achievement-icon-container {
+.achievement-container
+  .achievements-row
+  .achievement-box
+  .achievement-icon-container {
   position: relative;
 }
 
-.achievement-container .achievements-row .achievement-box .achievement-icon-container .achievement-counter {
+.achievement-container
+  .achievements-row
+  .achievement-box
+  .achievement-icon-container
+  .achievement-counter {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -628,14 +659,23 @@ body {
   border-radius: 50%;
 }
 
-.achievement-container .achievements-row .achievement-box .achievement-icon-container .achievement-counter p {
+.achievement-container
+  .achievements-row
+  .achievement-box
+  .achievement-icon-container
+  .achievement-counter
+  p {
   margin: 0;
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
 }
 
-.achievement-container .achievements-row .achievement-box .achievement-icon-container img {
+.achievement-container
+  .achievements-row
+  .achievement-box
+  .achievement-icon-container
+  img {
   width: 128px;
   height: 128px;
   padding: 5px;
@@ -644,11 +684,11 @@ body {
   border-radius: 50%;
 }
 
-.wishlist-container, .visited-list-container {
-  width: 80%;
-  margin: 50px auto;
+.wishlist-container,
+.visited-list-container {
+  margin: 20px 20px 0 20px;
   padding: 20px;
-  border-radius: 30px;
+  border-radius: 5px;
   background: white;
 }
 
@@ -660,7 +700,8 @@ body {
   color: #787878;
 }
 
-.wishlist-container .sight-photo, .visited-list-container .sight-photo {
+.wishlist-container .sight-photo,
+.visited-list-container .sight-photo {
   width: 400px;
   height: 300px;
   border-radius: 15px;
@@ -761,22 +802,56 @@ body {
 
 @media screen and (max-width: 768px) {
   .modal-content {
-    margin: 15% auto; 
-    padding: 20px; 
-    width: 90%; 
-    box-sizing: border-box; 
+    margin: 15% auto;
+    padding: 20px;
+    width: 90%;
+    box-sizing: border-box;
   }
 
   .close-modal {
-    font-size: 1.2rem; 
-    
+    font-size: 1.2rem;
   }
 
-   .modal-button {
+  .modal-button {
     padding: 10px 20px;
-    font-size: 0.9rem; 
+    font-size: 0.9rem;
   }
-
 }
 
+.remove-from-wishlist,
+.mark-as-visited {
+  display: flex;
+  align-content: center;
+  text-decoration: none;
+}
 
+.remove-from-wishlist:hover,
+.mark-as-visited:hover {
+  text-decoration: none;
+}
+
+.remove-from-wishlist {
+  color: #bb2e3c;
+  font-size: 14px;
+}
+
+.remove-from-wishlist:hover {
+  color: #eb485b;
+}
+
+.mark-as-visited {
+  color: #388e3c;
+  font-size: 14px;
+}
+
+.mark-as-visited:hover {
+  color: #4caf50;
+}
+
+.bx-like {
+  color: #388e3c;
+}
+
+.bx-dislike {
+  color: #d32f2f;
+}
