@@ -453,6 +453,48 @@
                 >Add</a
               >
             </div>
+
+            <h2 style="text-align: center;">Sent friend request</h2>
+            {% if sent_requests %}
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col" class="col-1">Number</th>
+                  <th scope="col" class="col-2">Username</th>
+                  <th scope="col" class="col-3">First name</th>
+                  <th scope="col" class="col-4">Last name</th>
+                  <th scope="col" class="col-5">Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% set ns_01 = namespace(number=1) %} {% for sent_request in
+                sent_requests %}
+                <tr>
+                  {% if sent_request %}
+                  <th scope="row">{{ ns_01.number }}</th>
+                  {% set ns_01.number = ns_01.number + 1 %}
+                  <td class="username-data">{{ sent_request["username"] }}</td>
+                  {% if sent_request["show_real_name"] %}
+                  <td>{{ sent_request["first_name"] }}</td>
+                  <td>{{ sent_request["last_name"] }}</td>
+                  {% else %}
+                  <td style="color: grey">Name is hidden</td>
+                  <td style="color: grey">Name is hidden</td>
+                  {% endif %} {% endif %}
+                  <td>
+                    <a
+                      href="{{ url_for('user_profile.cancel_friend_request', receiver_name='') }}"
+                      class="cancel-button"
+                      >Cancel</a
+                    >
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center">No sent friend request</p>
+            {% endif %}
     
             <h2 style="text-align: center">Friend request</h2>
             {% if friend_requests %}
@@ -498,7 +540,7 @@
               </tbody>
             </table>
             {% else %}
-            <p style="text-align: center">No friend requests</p>
+            <p style="text-align: center">No friend request</p>
             {% endif %}
     
             <h2 style="text-align: center">Friendlist</h2>
@@ -540,7 +582,7 @@
               </tbody>
             </table>
             {% else %}
-            <p style="text-align: center">No friends</p>
+            <p style="text-align: center">No friend</p>
             {% endif %}
           </div>
 
@@ -703,6 +745,8 @@
           "{{ url_for('user_profile.remove_friend', friend_name='_friend_name_') }}",
         send_friend_request:
           "{{ url_for('user_profile.send_friend_request', receiver_name='_receiver_name_') }}",
+        cancel_friend_request:
+          "{{ url_for('user_profile.cancel_friend_request', receiver_name='_receiver_name_') }}",
       };
 
       function handleButtonClick(event, action) {
@@ -715,6 +759,8 @@
         let newUrl;
         if (action == "remove_friend") {
           newUrl = urls[action].replace("_friend_name_", username);
+        } else if (action == "cancel_friend_request") {
+          newUrl = urls[action].replace("_receiver_name_", username);
         } else {
           newUrl = urls[action].replace("_sender_name_", username);
         }
@@ -738,6 +784,13 @@
           handleButtonClick(event, "remove_friend");
         });
       });
+
+      document.querySelectorAll(".cancel-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          handleButtonClick(event, "cancel_friend_request");
+        });
+      });
+
 
       document
         .querySelector(".send-friend-request-button")
