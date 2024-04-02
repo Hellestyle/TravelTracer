@@ -562,8 +562,7 @@ body {
 
 .table .accept-button,
 .table .decline-button,
-.table .remove-button,
-.table .cancel-button {
+.table .remove-button {
   color: #fff;
   background-color: #007bff;
   border-radius: 10px;
@@ -572,8 +571,7 @@ body {
 }
 
 .table .decline-button,
-.table .remove-button,
-.table .cancel-button {
+.table .remove-button {
   background-color: #dc3545;
 }
 
@@ -582,8 +580,7 @@ body {
 }
 
 .table .decline-button:hover,
-.table .remove-button:hover,
-.table .cancel-button:hover {
+.table .remove-button:hover {
   background-color: #c82333;
 }
 
@@ -803,24 +800,6 @@ body {
   background-color: #aaa;
 }
 
-@media screen and (max-width: 768px) {
-  .modal-content {
-    margin: 15% auto;
-    padding: 20px;
-    width: 90%;
-    box-sizing: border-box;
-  }
-
-  .close-modal {
-    font-size: 1.2rem;
-  }
-
-  .modal-button {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-  }
-}
-
 .remove-from-wishlist,
 .mark-as-visited {
   display: flex;
@@ -858,3 +837,185 @@ body {
 .bx-dislike {
   color: #d32f2f;
 }
+
+
+@media screen and (max-width: 768px) {
+  .modal-content {
+    margin: 30% auto;
+    padding: 20px;
+    width: 90%;
+    box-sizing: border-box;
+  }
+
+  .close-modal {
+    font-size: 1.2rem;
+  }
+
+  .modal-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  #profile-body-friends {
+    margin: 10px;
+    padding: 0;
+    background-color: white;
+    border-radius: 5px;
+  }
+
+  .send-friend-request-div {
+    flex-direction: column;
+    padding: 10px; 
+  }
+
+  .send-friend-request-input {
+    align-self: center;
+    text-align: center;
+    margin-right: 0; 
+    margin-bottom: 10px; 
+    padding: 8px 15px; 
+    font-size: 14px; 
+    width: auto; 
+  }
+
+  .send-friend-request-button {
+    text-align: center;
+    align-self: center;
+    padding: 8px 15px; 
+    font-size: 14px; 
+    width: 100px; 
+  }
+
+  .table {
+    width: 100%; 
+    table-layout: fixed; 
+  }
+
+  .table th,
+  .table td {
+    font-size: 12px;
+    padding: 0.5rem; 
+    word-wrap: break-word; 
+  }
+  
+  .table .username-data,
+  .table .col-1,
+  .table .col-2,
+  .table .col-3,
+  .table .col-4,
+  .table .col-5 {
+    font-size: 12px;
+    width: auto;
+  }
+
+  .table .accept-button,
+  .table .decline-button,
+  .table .remove-button,
+  .table .cancel-button {
+    font-size: 12px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    display: inline-block;
+  }
+
+  .wishlist-container,
+  .visited-list-container {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .wishlist-container .sight-photo,
+  .visited-list-container .sight-photo {
+    width: 100%;
+    height: auto; 
+    border-radius: 10px;
+  }
+
+  .sight-container {
+    padding: 20px;
+  }
+
+  .sight-container .sights {
+    gap: 3vh;
+  }
+
+  .sight-container .sights .sight-item {
+    padding: 5px;
+  }
+
+  .sight-container .sights .sight-item h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .sight-container .sights .sight-item .info h5 {
+    font-size: 16px;
+  }
+
+  .sight-container .sights .sight-item h5 .sight-type {
+    margin-right: 3px;
+    padding: 2px;
+    font-size: 14px;
+  }
+
+  .button-container {
+    gap: 10px;
+  }
+
+  .button-container .bn,
+  .button-container .pagination-button {
+    width: 6em;
+    height: 2.5em;
+    font-size: 0.8rem;
+  }
+
+  .remove-from-wishlist,
+  .mark-as-visited {
+    font-size: 12px;
+  }
+
+  .remove-from-wishlist:hover,
+  .mark-as-visited:hover {
+    text-decoration: underline;
+  }
+
+  .achievement-container {
+    width: 90%; 
+    padding: 15px; 
+  }
+
+  .achievement-container .achievements-row {
+    flex-direction: row; 
+    align-items: center; 
+    flex-wrap: wrap;
+  }
+
+  .achievement-container .achievements-row .achievement-box {
+    margin-bottom: 15px; 
+  }
+
+  .achievement-container
+    .achievements-row
+    .achievement-box
+    .achievement-icon-container
+    .achievement-counter {
+    bottom: 80px; 
+    left: 50px; 
+  }
+
+  .achievement-container
+  .achievements-row
+  .achievement-box
+  .achievement-icon-container
+  img {
+  width: 100px; 
+  height: 100px; 
+  padding: 3px; 
+  border-width: 3px; 
+}
+
+}
+
+
+
+
