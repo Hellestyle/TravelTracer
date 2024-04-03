@@ -77,8 +77,22 @@ def user_profileMain():
                 "count": count,
                 "level": current_level
             }
+    
+        #Denne må være her for å sende inn info etter man har endret pass,navn eller personvern innstillinger
+        result_01, user_info = user.get_user_info()
+        result_02, friend_amount = user.get_friend_amount()
+        result_03, friend_list = user.get_friendlist()
+        result_04, friend_requests = user.get_friend_requests()
+        result_05, sent_requests = user.show_sent_friend_request()
 
     if request.method == "GET":
+        # Fill forms with data from DB
+        changePrivacySettingsForm.showRealName.data = user.isPublicRealName()
+        changePrivacySettingsForm.showFriendslist.data = user.isPublicFriendslist()
+        changePrivacySettingsForm.openProfile.data = user.isOpenProfile()
+        #
+        changeUserForm.newUsername.data = user.getUsername()
+
         result_01, user_info = user.get_user_info()
         result_02, friend_amount = user.get_friend_amount()
         result_03, friend_list = user.get_friendlist()

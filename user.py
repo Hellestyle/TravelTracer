@@ -225,8 +225,8 @@ class User(UserMixin):
                 result = db.queryOne("SELECT email, password FROM user Where email = %s ", (self.__email,))
             except:
                 return False, Errors.DATABASE_ERROR.value
-            if newUsername == "":
-                newUsername = self.getUsername()
+            if newUsername == "" or newUsername == self.__username:
+                newUsername = self.__username
             if newFirstName == "":
                 newFirstName = self.getFirstName()
             if newLastName == "":
