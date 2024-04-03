@@ -400,6 +400,27 @@ class User(UserMixin):
             else:
                 return True, []
             
+    def is_friend(self, user_id):
+
+        with Database() as db:
+
+            try:
+
+                result = db.queryOne("SELECT * FROM friend WHERE follower = %s AND following = %s", (self.__id, user_id))
+
+                if not result:
+                    return False
+                
+                result = db.queryOne("SELECT * FROM friend WHERE follower = %s AND following = %s", (user_id, self.__id))
+
+                if not result:
+                    return False
+                
+                return True
+            
+            except:
+                return False
+            
     def updatePrivacySettings(self,showProfile,showFriendslist,showRealName):
         
         showProfileInt = 1 if showProfile else 0
@@ -420,7 +441,7 @@ class User(UserMixin):
     def get_friend_requests(self):
         with Database() as db:
             try:
-                friend_requests = db.query("SELECT f2.follower AS user_id, u.username, u.firstname, u.lastname, usm.open_profile, usm.show_real_name, usm.show_friend_list \
+                friend_requests = db.query("SELECT f2.follower AS user_id, u.id, u.username, u.firstname, u.lastname, usm.open_profile, usm.show_real_name, usm.show_friend_list \
                                         FROM friend AS f2 \
                                         LEFT OUTER JOIN friend AS f1 ON f1.following = f2.follower AND f1.follower = f2.following \
                                         LEFT OUTER JOIN user AS u ON u.id = f2.follower \
@@ -434,12 +455,13 @@ class User(UserMixin):
                 for request in friend_requests:
                     requests.append({
                         "user_id": request[0],
-                        "username": request[1],
-                        "first_name": request[2],
-                        "last_name": request[3],
-                        "open_profile": request[4],
-                        "show_real_name": request[5],
-                        "show_friend_list": request[6]
+                        "following_id": request[1],
+                        "username": request[2],
+                        "first_name": request[3],
+                        "last_name": request[4],
+                        "open_profile": request[5],
+                        "show_real_name": request[6],
+                        "show_friend_list": request[7]
                     })
                 return True, requests
             else:
@@ -490,7 +512,7 @@ class User(UserMixin):
     def show_sent_friend_request(self):
         with Database() as db:
             try:
-                sent_friend_requests = db.query("SELECT f1.follower, f1.following, u.username, u.firstname, u.lastname, usm.show_real_name \
+                sent_friend_requests = db.query("SELECT f1.follower, f1.following, u.id, u.username, u.firstname, u.lastname, usm.show_real_name \
                                             FROM friend AS f1 LEFT JOIN friend AS f2 \
                                             ON f1.follower = f2.following AND f1.following = f2.follower \
                                             LEFT JOIN user AS u ON u.id = f1.following \
@@ -504,10 +526,11 @@ class User(UserMixin):
                 for request in sent_friend_requests:
                     sent_requests.append({
                         "user_id": request[1],
-                        "username": request[2],
-                        "first_name": request[3],
-                        "last_name": request[4],
-                        "show_real_name": request[5]
+                        "follower_id": request[2],
+                        "username": request[3],
+                        "first_name": request[4],
+                        "last_name": request[5],
+                        "show_real_name": request[6]
                     })
                 return True, sent_requests
             else:

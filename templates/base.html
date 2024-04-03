@@ -59,9 +59,9 @@
                 >
               </li>
               <li>
-                <a href="#" target="_self" class="buttons">Achievements</a>
+                <a href="#" target="_self" class="buttons">Find Friends</a>
               </li>
-              <li><a href="{{ url_for('user_profile.user_profileMain') }}" target="_self" class="buttons">Profile</a></li>
+              <li><a href="{{ url_for('user_profile.user_profileMain') }}" target="_self" class="buttons">My Profile</a></li>
               
               {% if current_user.is_authenticated %}
               <li><a href="{{ url_for('reglog.logout') }}" target="_self" class="btn"
