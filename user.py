@@ -39,6 +39,39 @@ class User(UserMixin):
         self.__current_language = current_language
         self.__current_city = current_city
 
+    def update(self):
+
+        with Database(dict_cursor=True) as db:
+
+            try:
+            
+                user_info = db.queryOne("SELECT * FROM user AS u LEFT OUTER JOIN user_system_meta AS usm ON u.id = usm.user_id WHERE u.id = %s", (self.__id,))
+
+                if user_info:
+
+                    self.__username = user_info["username"]
+                    self.__email = user_info["email"]
+                    self.__firstName = user_info["firstname"]
+                    self.__lastName = user_info["lastname"]
+                    self.__avatar = user_info["avatar"]
+                    self.__isAdmin = user_info["admin"]
+                    self.__passhash = user_info["password"]
+
+                    self.__verified = bool(user_info["verified"])
+                    self.__open_profile = bool(user_info["open_profile"])
+                    self.__show_real_name = bool(user_info["show_real_name"])
+                    self.__show_friend_list = bool(user_info["show_friend_list"])
+                    self.__current_language = user_info["current_language"]
+                    self.__current_city = user_info["current_city"]
+
+                    return True, "Success"
+                
+                else:
+                    return False, Errors.USER_DOES_NOT_EXIST.value
+                
+            except:
+                return False, Errors.DATABASE_ERROR.value
+            
 
     def login(self, email, password):
         with Database() as db:
@@ -102,9 +135,15 @@ class User(UserMixin):
         return check_password_hash(self.__passhash, password)
 
 
-    def isUsernameAvailible(self, username):
+    def isUsernameAvailible(self, username, exclude_current_user=False):
+
         with Database() as db:
-            usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
+
+            if exclude_current_user:
+                usernameResult = db.query("SELECT * FROM user Where username = %s AND id != %s", (username, self.__id))
+            else:
+                usernameResult = db.query("SELECT * FROM user Where username = %s ", (username,))
+
             if usernameResult == None:
                 return True
             else:
@@ -193,7 +232,7 @@ class User(UserMixin):
             if newLastName == "":
                 newLastName = self.getLastName()
             if check_password_hash(result[1], password):
-                username_availible = self.isUsernameAvailible(newUsername)
+                username_availible = self.isUsernameAvailible(newUsername, exclude_current_user=True)
                 if username_availible:
                     try:
                         db.queryOne('UPDATE user SET username = %s , firstname = %s , lastname = %s WHERE `user`.`email` = %s', (newUsername, newFirstName, newLastName, self.__email,))

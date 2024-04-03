@@ -629,11 +629,11 @@
               >
                 {{ changeUserForm.csrf_token }} {{
                 changeUserForm.newUsername.label }} {{
-                changeUserForm.newUsername() }} <br />
+                changeUserForm.newUsername(value=current_user.getUsername()) }} <br />
                 {{ changeUserForm.newFirstName.label }} {{
-                changeUserForm.newFirstName() }} <br />
+                changeUserForm.newFirstName(value=current_user.getFirstName()) }} <br />
                 {{ changeUserForm.newLastName.label }} {{
-                changeUserForm.newLastName() }} <br />
+                changeUserForm.newLastName(value=current_user.getLastName()) }} <br />
                 {{ changeUserForm.password.label }} {{ changeUserForm.password()
                 }}
                 <br />
@@ -648,11 +648,11 @@
               >
                 {{ changePrivacySettingsForm.csrf_token }} {{
                 changePrivacySettingsForm.openProfile.label }} {{
-                changePrivacySettingsForm.openProfile() }} <br />
+                changePrivacySettingsForm.openProfile(checked=current_user.isOpenProfile()) }} <br />
                 {{ changePrivacySettingsForm.showFriendslist.label }} {{
-                changePrivacySettingsForm.showFriendslist() }} <br />
+                changePrivacySettingsForm.showFriendslist(checked=current_user.isPublicFriendslist()) }} <br />
                 {{ changePrivacySettingsForm.showRealName.label }} {{
-                changePrivacySettingsForm.showRealName() }}
+                changePrivacySettingsForm.showRealName(checked=current_user.isPublicRealName()) }}
                 <br />
                 {{ changePrivacySettingsForm.submitPrivacySettings() }}
               </form>

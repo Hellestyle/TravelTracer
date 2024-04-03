@@ -115,6 +115,12 @@ def user_profileMain():
                             )
 
     else:
+    
+        result_01, user_info = user.get_user_info()
+        result_02, friend_amount = user.get_friend_amount()
+        result_03, friend_list = user.get_friendlist()
+        result_04, friend_requests = user.get_friend_requests()
+
         if changePassForm.submitPasswordChange.data and changePassForm.validate():
             # Password change
             oldPassword = changePassForm.oldPassword.data
@@ -152,7 +158,11 @@ def user_profileMain():
             user = current_user
             success, message = user.changeNames(password,newUsername,newFirstName,newLastName)
             if success:
-                message = "Succsesfully changed User names !"
+                user_info["username"] = newUsername
+                user_info["first_name"] = newFirstName
+                user_info["last_name"] = newLastName
+                current_user.update()
+                message = "Succesfully changed User names !"
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                     user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
@@ -175,7 +185,11 @@ def user_profileMain():
             # Privacy settings change
             success, message = user.updatePrivacySettings( changePrivacySettingsForm.openProfile.data,changePrivacySettingsForm.showFriendslist.data,changePrivacySettingsForm.showRealName.data)
             if success:
-                message = "Succsesfully changed privacy settings !"
+                user_info["open_profile"] = changePrivacySettingsForm.openProfile.data
+                user_info["show_friendslist"] = changePrivacySettingsForm.showFriendslist.data
+                user_info["show_real_name"] = changePrivacySettingsForm.showRealName.data
+                current_user.update()
+                message = "Succesfully changed privacy settings !"
                 flash(message)
                 return render_template("user_profile/user_profile.html", changePassForm=changePassForm, changeUserForm=changeUserForm, \
                                     user_info=user_info, friend_amount=friend_amount, changePrivacySettingsForm=changePrivacySettingsForm,
