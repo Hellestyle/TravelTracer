@@ -186,15 +186,15 @@ class User(UserMixin):
                 result = db.queryOne("SELECT email, password FROM user Where email = %s ", (self.__email,))
             except:
                 return False, Errors.DATABASE_ERROR.value
-            if newUsername == "":
-                newUsername = self.getUsername()
+            if newUsername == "" or newUsername == self.__username:
+                newUsername = self.__username
             if newFirstName == "":
                 newFirstName = self.getFirstName()
             if newLastName == "":
                 newLastName = self.getLastName()
             if check_password_hash(result[1], password):
                 username_availible = self.isUsernameAvailible(newUsername)
-                if username_availible:
+                if username_availible or newUsername == self.__username:
                     try:
                         db.queryOne('UPDATE user SET username = %s , firstname = %s , lastname = %s WHERE `user`.`email` = %s', (newUsername, newFirstName, newLastName, self.__email,))
                         return True, "Success"
