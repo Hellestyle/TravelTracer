@@ -10,8 +10,11 @@
     />
 
     <script src="{{ url_for('static', filename='js/mobile_menu.js') }}"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,7 +29,7 @@
       href="{{ url_for('static', filename='css/base.css') }}"
     />
 
-    <script src="{{ url_for('static', filename='js/lib/jquery-3.7.1.min.js') }}"> </script>
+    <script src="{{ url_for('static', filename='js/lib/jquery-3.7.1.min.js') }}"></script>
 
     {% block head %}{% endblock %}
 
@@ -34,7 +37,6 @@
   </head>
 
   <body>
-
     {% block popup %} {% endblock %}
 
     <section id="hero">
@@ -50,6 +52,17 @@
 
           <nav>
             <ul>
+              {% if admin %}
+              <li>
+                <a
+                  href="{{ url_for('admin.admin_main') }}"
+                  target="_self"
+                  class="buttons"
+                  >Admin page</a
+                >
+              </li>
+              {% endif %}
+
               <li>
                 <a
                   href="{{ url_for('sight.sights') }}"
@@ -61,24 +74,42 @@
               <li>
                 <a href="#" target="_self" class="buttons">Find Friends</a>
               </li>
-              <li><a href="{{ url_for('user_profile.user_profileMain') }}" target="_self" class="buttons">My Profile</a></li>
-              
+              <li>
+                <a
+                  href="{{ url_for('user_profile.user_profileMain') }}"
+                  target="_self"
+                  class="buttons"
+                  >My Profile</a
+                >
+              </li>
+
               {% if current_user.is_authenticated %}
-              <li><a href="{{ url_for('reglog.logout') }}" target="_self" class="btn"
-                >Log out</a
-              >
+              <li>
+                <a
+                  href="{{ url_for('reglog.logout') }}"
+                  target="_self"
+                  class="btn"
+                  >Log out</a
+                >
               </li>
               {% else %}
               <li>
-              <a href="{{ url_for('reglog.login') }}" target="_self" class="btn"
-                >Log in</a  
-              >
+                <a
+                  href="{{ url_for('reglog.login') }}"
+                  target="_self"
+                  class="btn"
+                  >Log in</a
+                >
               </li>
               {% endif %}
               <li>
-              <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                <i class="fa fa-bars"></i>
-              </a>
+                <a
+                  href="javascript:void(0);"
+                  class="icon"
+                  onclick="myFunction()"
+                >
+                  <i class="fa fa-bars"></i>
+                </a>
               </li>
             </ul>
           </nav>
