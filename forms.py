@@ -38,3 +38,18 @@ class ChangePrivacySettings(FlaskForm):
     showFriendslist = BooleanField("Show friendslist")
     showRealName = BooleanField("Show Real Name")
     submitPrivacySettings = SubmitField("Save")
+    
+class EditSight(FlaskForm):
+    city_id = StringField("City ID", validators=[DataRequired()])
+    age_category_id = StringField("Age Category ID",validators=[DataRequired()])
+    google_maps_url = StringField("Google Maps Url")
+    active = BooleanField("Active sight",validators=[DataRequired()])
+    open_time = StringField("Open time")
+    close_time = StringField("Close time")
+    sight_type = StringField("Sight type ID",validators=[DataRequired()])
+    sight_name = StringField("Sight Name",validators=[DataRequired()])
+    sight_desc = StringField("Sight Description")
+    sight_address = StringField("Sight Adress")
+    sight_photo = StringField("Sight photo")
+    
+    
