@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block head %}
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/admin.css') }}">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+{% endblock %} {% block title %} Sights {% endblock %} {% block content %}
+
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Location</th>
+    </tr>
+    <tr>
+        <th>
+            {% for sight_name in sight_names %}
+                {{ sight_name }}
+            {% endfor %}
+        </th>
+        </th>
+            {% for sight_loaction in sight_locations %}
+                {{ sight_loaction }}
+            {% endfor %}
+    </tr>
+</table>
