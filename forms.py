@@ -38,18 +38,30 @@ class ChangePrivacySettings(FlaskForm):
     showFriendslist = BooleanField("Show friendslist")
     showRealName = BooleanField("Show Real Name")
     submitPrivacySettings = SubmitField("Save")
+
     
-class EditSight(FlaskForm):
-    city_id = StringField("City ID", validators=[DataRequired()])
-    age_category_id = StringField("Age Category ID",validators=[DataRequired()])
-    google_maps_url = StringField("Google Maps Url")
-    active = BooleanField("Active sight",validators=[DataRequired()])
-    open_time = StringField("Open time")
-    close_time = StringField("Close time")
-    sight_type = StringField("Sight type ID",validators=[DataRequired()])
+class TimeFormatValidator(object):
+    def __init__(self, message=None):
+        if not message:
+            message = u'Please enter the right format, for example: 12:38'
+        self.message = message
+
+    def __call__(self, form, field):
+        time_str = field.data
+        time_parts = time_str.split(':')
+        if len(time_parts) != 2:
+            raise ValidationError(self.message)
+        hour, minute = time_parts
+        if not hour.isdigit() or not minute.isdigit():
+            raise ValidationError(self.message)
+        if int(hour) < 0 or int(hour) > 23 or int(minute) < 0 or int(minute) > 59:
+            raise ValidationError(self.message)
+
+class Edit_sight_detail(FlaskForm):
     sight_name = StringField("Sight Name",validators=[DataRequired()])
-    sight_desc = StringField("Sight Description")
-    sight_address = StringField("Sight Adress")
-    sight_photo = StringField("Sight photo")
-    
-    
+    age_category = StringField("Age Category",validators=[DataRequired()])
+    address = StringField("Address",validators=[DataRequired()])
+    google_maps_url = StringField("Google Maps URL", validators=[DataRequired()])
+    open_time = StringField("Open Time", validators=[DataRequired(), TimeFormatValidator()])
+    close_time = StringField("Close Time", validators=[DataRequired(), TimeFormatValidator()])
+    description = StringField("Description", validators=[DataRequired()])

@@ -110,8 +110,8 @@ form .form-row .textarea {
 }
 
 .submit-btn {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .submit-btn .input-data {
@@ -162,6 +162,61 @@ form .form-row .textarea {
     margin: 35px 0 !important;
   }
   .submit-btn .input-data {
+    width: 40% !important;
+  }
+}
+
+.back-button {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  height: 45px !important;
+  width: 25% !important;
+  position: relative;
+  color: #fff; /* 设置文字颜色 */
+  z-index: 1; /* 确保文字在背景之上 */
+}
+
+.back-button:before {
+  content: "";
+  height: 100%;
+  width: 300%;
+  position: absolute;
+  left: -100%;
+  background: -webkit-linear-gradient(
+    right,
+    #56d8e4,
+    #9f01ea,
+    #56d8e4,
+    #9f01ea
+  );
+  transition: all 0.4s;
+  z-index: -1; /* 确保背景在文字之下 */
+}
+
+.back-button:hover:before {
+  left: 0;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 45px;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .back-button {
     width: 40% !important;
   }
 }

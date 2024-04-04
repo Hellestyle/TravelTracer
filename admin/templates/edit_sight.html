@@ -1,3 +1,5 @@
+<!-- referanse: https://codepen.io/Metty/pen/NWpzexj -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,27 +18,29 @@
       <div class="text">
         Edit sight
       </div>
-      <form action="#">
+      <form action="{{ url_for('admin.edit_sight', sight_id=sight_id ) }}" method="post">
+         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
          <div class="form-row">
             <div class="input-data">
-               <input type="text" value="{{ sight.name if sight.name else '' }}">
+               <input type="text" name="sight_name" value="{{ sight.name if sight.name else '' }}">
                <div class="underline"></div>
                <label for="">Sight name</label>
             </div>
             <div class="input-data">
-               <input type="text" value="{{ sight.age_category if sight.age_category else '' }}">
+               <input type="text" name="age_category" value="{{ sight.age_category if sight.age_category else '' }}">
                <div class="underline"></div>
                <label for="">Age category</label>
             </div>
          </div>
          <div class="form-row">
             <div class="input-data">
-               <input type="text" value="{{ sight.address if sight.address else '' }}">
+               <input type="text" name="address" value="{{ sight.address if sight.address else '' }}">
                <div class="underline"></div>
                <label for="">Address</label>
             </div>
             <div class="input-data">
-               <input type="text" value="{{ sight.google_maps_url if sight.google_maps_url else '' }}">
+               <input type="text" name="google_maps_url" value="{{ sight.google_maps_url if sight.google_maps_url else '' }}">
                <div class="underline"></div>
                <label for="">Google maps url</label>
             </div>
@@ -44,19 +48,19 @@
 
          <div class="form-row">
             <div class="input-data">
-               <input type="text" value="{{ sight.open_time if sight.open_time else '' }}">
+               <input type="text" name="open_time" value="{{ sight.open_time.strftime('%H:%M') if sight.open_time is not none else '' }}">
                <div class="underline"></div>
                <label for="">Open time</label>
             </div>
             <div class="input-data">
-               <input type="text" value="{{ sight.close_time if sight.close_time else '' }}">
+               <input type="text" name="close_time" value="{{ sight.close_time.strftime('%H:%M') if sight.close_time is not none else '' }}">
                <div class="underline"></div>
                <label for="">Close time</label>
             </div>
          </div>
          <div class="form-row">
          <div class="input-data textarea">
-            <textarea rows="8" cols="80">{{ sight.description if sight.description else '' }}</textarea>
+            <textarea rows="8" cols="80" name="description">{{ sight.description if sight.description else '' }}</textarea>
             <br />
             <div class="underline"></div>
             <label for="">Description</label>
@@ -66,8 +70,16 @@
                   <div class="inner"></div>
                   <input type="submit" value="submit">
                </div>
+
+               <a href="{{ url_for('admin.admin_main') }}" class="back-button">Back</a>
             </div>
       </form>
-      </div>
+
+      <ul>
+         {% for message in get_flashed_messages() %}
+         <li>{{ message }}</li>
+         {% endfor %}
+      </ul>
+   </div>
   </body>
 </html>

@@ -1,16 +1,17 @@
-from flask import Blueprint, render_template, url_for
+from flask import Blueprint, render_template, url_for, request, redirect, flash
 from database import  Database
-from models.sight_name import SightName
-from models.sight_location import Sight_location
-from forms import EditSight
 from models.sight import Sight
+from models.sight_name import SightName
 from models.sight_type import SightType
+from forms import Edit_sight_detail
 from datetime import datetime as dt
+from flask_login import login_required, current_user
 
 
 admin = Blueprint("admin", __name__, template_folder="templates", static_folder="static")
 
 @admin.route("/main-page")
+@login_required
 def admin_main():
     with Database(dict_cursor=True) as db:
 
@@ -31,18 +32,44 @@ def admin_main():
     )
 
 
-@admin.route("/sight/id/<int:sight_id>")
+@admin.route("/sight/id/<int:sight_id>", methods=["GET", "POST"])
+@login_required
 def edit_sight(sight_id):
-    with Database(dict_cursor=True) as db:
-        sight_model = Sight(db)
-        sight = sight_model.getSight(sight_id)
+    if request.method == "GET":
+        with Database(dict_cursor=True) as db:
+            sight_model = Sight(db)
+            sight = sight_model.getSight(sight_id)
 
-    if sight is not None:
-        now = dt.now().time()
-        is_open = sight["open_time"] is None and sight["close_time"] is None or \
-            sight["open_time"] <= now and sight["close_time"] >= now
+            return render_template(
+                "edit_sight.html",
+                sight=sight,
+                sight_id=sight_id,
+            )
+    
+    else:
+        edit_sight_form = Edit_sight_detail(request.form)
+        if edit_sight_form.validate():
+            sight_name = edit_sight_form.sight_name.data
+            age_category = edit_sight_form.age_category.data
+            address = edit_sight_form.address.data
+            google_maps_url = edit_sight_form.google_maps_url.data
+            open_time = edit_sight_form.open_time.data
+            close_time = edit_sight_form.close_time.data
+            description = edit_sight_form.description.data
+        
+            with Database(dict_cursor=True) as db:
+                sight_model = Sight(db)
+                result, message = sight_model.update_sight(sight_id, sight_name, age_category, address, google_maps_url, open_time, close_time, description)
 
-        return render_template(
-            "edit_sight.html",
-            sight=sight
-        )
+                if result:
+                    flash(message)
+                    return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
+                else:
+                    flash(message)
+                    return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
+        
+        else:
+            for errors in edit_sight_form.errors.values():
+                for error in errors:
+                    flash(error)
+            return redirect(url_for("admin.edit_sight" , sight_id=sight_id))

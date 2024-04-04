@@ -264,3 +264,13 @@ class Sight:
             sights[i]['photos'] = [photo['photo'] for photo in self.__db.query("SELECT photo FROM sight_photo WHERE sight_id = %s;", (sights[i]['id'],))]
 
         return sights
+    
+
+    def update_sight(self, id, name, age_category, address, google_maps_url, open_time, close_time, description):
+        try:
+            self.__db.query("UPDATE sight SET age_category_id = (SELECT age_category_id FROM age_category_meta WHERE name = %s), google_maps_url = %s, open_time = %s, close_time = %s WHERE id = %s;", (age_category, google_maps_url, open_time, close_time, id))
+            self.__db.query("UPDATE sight_meta SET name = %s, address = %s, description = %s WHERE sight_id = %s;", (name, address, description, id))
+            return True, "Sight updated successfully."
+        
+        except Exception as e:
+            return False, str(e)
