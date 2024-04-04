@@ -3,9 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('.static', filename='/css/edit_sight.css') }}"
+    />
     <title>Edit sight</title>
   </head>
+
   <body>
-    <h1>In this page we can edit sight details</h1>
+    <div class="container">
+      <div class="text">
+        Edit sight
+      </div>
+      <form action="#">
+         <div class="form-row">
+            <div class="input-data">
+               <input type="text" value="{{ sight.name if sight.name else '' }}">
+               <div class="underline"></div>
+               <label for="">Sight name</label>
+            </div>
+            <div class="input-data">
+               <input type="text" value="{{ sight.age_category if sight.age_category else '' }}">
+               <div class="underline"></div>
+               <label for="">Age category</label>
+            </div>
+         </div>
+         <div class="form-row">
+            <div class="input-data">
+               <input type="text" value="{{ sight.address if sight.address else '' }}">
+               <div class="underline"></div>
+               <label for="">Address</label>
+            </div>
+            <div class="input-data">
+               <input type="text" value="{{ sight.google_maps_url if sight.google_maps_url else '' }}">
+               <div class="underline"></div>
+               <label for="">Google maps url</label>
+            </div>
+         </div>
+
+         <div class="form-row">
+            <div class="input-data">
+               <input type="text" value="{{ sight.open_time if sight.open_time else '' }}">
+               <div class="underline"></div>
+               <label for="">Open time</label>
+            </div>
+            <div class="input-data">
+               <input type="text" value="{{ sight.close_time if sight.close_time else '' }}">
+               <div class="underline"></div>
+               <label for="">Close time</label>
+            </div>
+         </div>
+         <div class="form-row">
+         <div class="input-data textarea">
+            <textarea rows="8" cols="80">{{ sight.description if sight.description else '' }}</textarea>
+            <br />
+            <div class="underline"></div>
+            <label for="">Description</label>
+            <br />
+            <div class="form-row submit-btn">
+               <div class="input-data">
+                  <div class="inner"></div>
+                  <input type="submit" value="submit">
+               </div>
+            </div>
+      </form>
+      </div>
   </body>
 </html>
