@@ -22,7 +22,7 @@ def admin_main():
         sight_names = sight_name_model.getAllSightNames()
     
     return render_template(
-        "admin_2.html",
+        "admin.html",
         sights=sights,
         sight_type_names=[sight_type["name"] for sight_type in sight_types],
         sight_names=[sight_name["name"] for sight_name in sight_names]
