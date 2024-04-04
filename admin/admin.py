@@ -7,7 +7,7 @@ from forms import EditSight
 admin = Blueprint("admin", __name__, template_folder="templates", static_folder="static")
 
 @admin.route("/admin")
-def admin():
+def admin_page():
     with Database(dict_cursor=True) as db:
 
         sight_name = SightName(db)
