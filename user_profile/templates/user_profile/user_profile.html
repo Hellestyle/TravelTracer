@@ -48,7 +48,7 @@
 
     </div>
 
-    <div class="sidebar close">
+    <!-- div class="sidebar close">
       <a href="{{ url_for('index') }}" target="_self" class="logo">
         <i class="bx bx-trip"></i>
         <div class="logo-name"><span>Travel</span>Tracer</div>
@@ -79,17 +79,17 @@
           >
         </li>
       </ul>
-    </div>
+    </div> -->
 
     <div class="content">
-      <nav>
+      <!--<nav>
         <button class="bx bx-menu-alt-left"></button>
         <h3>Menu</h3>
 
         <a href="{{ url_for('index') }}" class="home-button"
           >Home<i class="bx bx-home-alt"></i
         ></a>
-      </nav>
+      </nav> -->
 
       <div class="container">
         {% for message in get_flashed_messages() %}
@@ -710,7 +710,7 @@
 
       </div>
 
-      <div id="visited" class="hidden">
+      <!--<div id="visited" class="hidden">
         <h1 style="text-align: center">
           This is a list of all the sights you have visited.
         </h1>
@@ -783,7 +783,7 @@
       <div id="friends" class="hidden"></div>
 
       <div id="settings" class="content_info hidden"></div>
-    </div>
+    </div> -->
     <script>
       let urls = {
         accept_friend_request:
