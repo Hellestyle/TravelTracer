@@ -21,6 +21,10 @@ sight = Blueprint("sight", __name__, template_folder="templates", static_folder=
 
 @sight.route("/sights")
 def sights():
+    admin = False
+    if current_user.is_authenticated:
+        user = current_user
+        admin = True if user.check_if_user_is_admin() else False
     
     with Database(dict_cursor=True) as db:
         
@@ -37,12 +41,17 @@ def sights():
         "sight/sights.html",
         sights=sights,
         sight_type_names=[sight_type["name"] for sight_type in sight_types],
-        sight_names = [sight_name["name"] for sight_name in sight_names]
+        sight_names = [sight_name["name"] for sight_name in sight_names],
+        admin=admin
     )
 
 
 @sight.route("/sight/id/<int:sight_id>")
 def sight_details(sight_id):
+    admin = False
+    if current_user.is_authenticated:
+        user = current_user
+        admin = True if user.check_if_user_is_admin() else False
     
     with Database(dict_cursor=True) as db:
 
@@ -69,7 +78,8 @@ def sight_details(sight_id):
             sight=sight, images=json.dumps(images),
             is_open=is_open,
             in_wishlist=in_wishlist,
-            in_visited_list=in_visited_list
+            in_visited_list=in_visited_list,
+            admin=admin
         )
     else:
         message = "No sights found"
@@ -91,6 +101,11 @@ def sight_by_category(category, age):
     }
     age_category_id = age_categories[age]
 
+    admin = False
+    if current_user.is_authenticated:
+        user = current_user
+        admin = True if user.check_if_user_is_admin() else False
+
     with Database(dict_cursor=True) as db:
         sight_model = Sight(db)
         sights = sight_model.getSightByCategory(category)
@@ -108,7 +123,7 @@ def sight_by_category(category, age):
                 return render_template("sight/sights.html", sights=sights,
                                     sight_type_names=[sight_type["name"] for sight_type in sight_types],
                                     sight_names = [sight_name["name"] for sight_name in sight_names],
-                                    user_input=user_input
+                                    user_input=user_input, admin=admin
                                 )    
             # If it's not "all", we need to filter the sights by age
             else:
@@ -119,13 +134,13 @@ def sight_by_category(category, age):
                     return render_template("sight/sights.html", message=message,
                                         sight_type_names=[sight_type["name"] for sight_type in sight_types],
                                         sight_names = [sight_name["name"] for sight_name in sight_names],
-                                        user_input=user_input
+                                        user_input=user_input, admin=admin
                                     )
                 else:
                     return render_template("sight/sights.html", sights=filtered_sights,
                                     sight_type_names=[sight_type["name"] for sight_type in sight_types],
                                     sight_names = [sight_name["name"] for sight_name in sight_names],
-                                    user_input=user_input
+                                    user_input=user_input, admin=admin
                                 )
 
         # Check if the "category" parameter matches any sight name
@@ -147,7 +162,7 @@ def sight_by_category(category, age):
                 return render_template("sight/sights.html", message=message,
                                        sight_type_names=[sight_type["name"] for sight_type in sight_types],
                                        sight_names = [sight_name["name"] for sight_name in sight_names],
-                                       user_input=user_input
+                                       user_input=user_input, admin=admin
                                     )
 
 
@@ -162,6 +177,11 @@ def sight_by_age(age):
         "adults": 5,
         "seniors": 6
     }
+    
+    admin = False
+    if current_user.is_authenticated:
+        user = current_user
+        admin = True if user.check_if_user_is_admin() else False
 
     if age == "family_friendly":
         return redirect(url_for("sight.sights"))
@@ -181,7 +201,8 @@ def sight_by_age(age):
             return render_template("sight/sights.html",
                                 sights=sights, 
                                 sight_names = [sight_name["name"] for sight_name in sight_names], 
-                                sight_type_names=[sight_type["name"] for sight_type in sight_types]
+                                sight_type_names=[sight_type["name"] for sight_type in sight_types],
+                                admin=admin
                             )
 
 
