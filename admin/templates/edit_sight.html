@@ -23,6 +23,14 @@
 
          <div class="form-row">
             <div class="input-data">
+               <input type="text" name="active" value="{{ sight.active if sight.active else '0' }}">
+               <div class="underline"></div>
+               <label for="">Active</label>
+            </div>
+         </div>
+
+         <div class="form-row">
+            <div class="input-data">
                <input type="text" name="sight_name" value="{{ sight.name if sight.name else '' }}">
                <div class="underline"></div>
                <label for="">Sight name</label>

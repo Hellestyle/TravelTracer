@@ -49,6 +49,7 @@ def edit_sight(sight_id):
     else:
         edit_sight_form = Edit_sight_detail(request.form)
         if edit_sight_form.validate():
+            active = edit_sight_form.active.data
             sight_name = edit_sight_form.sight_name.data
             age_category_id = edit_sight_form.age_category_id.data
             address = edit_sight_form.address.data
@@ -59,7 +60,7 @@ def edit_sight(sight_id):
         
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
-                result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, open_time, close_time, description)
+                result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description)
 
                 if result:
                     flash(message)
