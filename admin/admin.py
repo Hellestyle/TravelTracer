@@ -60,14 +60,15 @@ def edit_sight(sight_id):
             open_time = edit_sight_form.open_time.data
             close_time = edit_sight_form.close_time.data
             description = edit_sight_form.description.data
+            sight_type_id = edit_sight_form.sight_type.data
 
             image = edit_sight_form.image.data
-            image_name = f'{sight_id}_new'
+            image_name = fix_image_filename(sight_id=sight_id,originale_filename=image.filename)
             image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_name))
             
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
-                result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description)
+                result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description,image_name,sight_type_id)
 
                 if result:
                     flash(message)
@@ -86,10 +87,11 @@ def edit_sight(sight_id):
 @admin.route("/add-sight", methods=["GET", "POST"])
 @login_required
 def add_sight():
+    edit_sight_form = Add_sight_form()
     if request.method == "GET":
-        return render_template("add_sight.html")
+        return render_template("add_sight.html",edit_sight_form=edit_sight_form)
     else:
-        edit_sight_form = Add_sight_form(request.form)
+        
         if edit_sight_form.validate():
             active = edit_sight_form.active.data
             sight_name = edit_sight_form.sight_name.data
@@ -99,11 +101,22 @@ def add_sight():
             open_time = edit_sight_form.open_time.data
             close_time = edit_sight_form.close_time.data
             description = edit_sight_form.description.data
+            sight_type_id = edit_sight_form.sight_type.data
+            
+            image = edit_sight_form.image.data
+            
         
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
-                result, message = sight_model.add_sight(sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description)
-
+                result, message = sight_model.add_sight(sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description,sight_type_id)
+                sight_id = db.query("SELECT LAST_INSERT_ID();")[0]['LAST_INSERT_ID()']
+                image_name = fix_image_filename(sight_id=sight_id,originale_filename=image.filename)
+                try:
+                    image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_name))
+                    sight_model.add_sight_image(image_name)
+                except Exception as e:
+                    return str(e)
+                
                 if result:
                     flash(message)
                     return redirect(url_for("admin.add_sight"))
@@ -115,13 +128,13 @@ def add_sight():
             for errors in edit_sight_form.errors.values():
                 for error in errors:
                     flash(error)
-            return redirect(url_for("admin.add_sight"))
+            return redirect(url_for("admin.add_sight",edit_sight_form=edit_sight_form))
         
 
 def fix_image_filename(originale_filename,sight_id):
     filename = secure_filename(originale_filename)
-    index = filename.find(".",len(filename)-1,0)
-    suffix = filename[index:]
+    suffix = os.path.splitext(filename)[1]
+    print(suffix)
     path = f"{current_app.config['UPLOAD_FOLDER']}/{sight_id}"
     exist = os.path.isdir(path)
     if not exist:
@@ -129,4 +142,4 @@ def fix_image_filename(originale_filename,sight_id):
         
     length = len([name for name in os.listdir(path)])
         
-    return f'/{sight_id}/{length+1}{suffix}'
+    return f"{sight_id}/{length+1}{suffix}"

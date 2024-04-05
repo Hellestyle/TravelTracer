@@ -67,6 +67,7 @@ class Edit_sight_detail(FlaskForm):
     close_time = StringField("Close Time", validators=[DataRequired(), TimeFormatValidator()])
     description = StringField("Description", validators=[DataRequired()])
     image = FileField("Image")
+    sight_type = StringField("Sight type ID",validators=[DataRequired()])
     submit = SubmitField("submit")
 
 
@@ -79,5 +80,7 @@ class Add_sight_form(FlaskForm):
     open_time = StringField("Open Time", validators=[DataRequired(), TimeFormatValidator()])
     close_time = StringField("Close Time", validators=[DataRequired(), TimeFormatValidator()])
     description = StringField("Description", validators=[DataRequired()])
+    image = FileField("Image")
+    sight_type = StringField("Sight type ID",validators=[DataRequired()])
     submit = SubmitField("submit")
 

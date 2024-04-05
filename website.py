@@ -19,7 +19,7 @@ from config.email import *
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
 
-UPLOAD_PATH = 'static/images/sight'
+UPLOAD_PATH = 'static/images/sight/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_PATH
 app.config['MAIL_SERVER'] = MAIL_SERVER
