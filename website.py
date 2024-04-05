@@ -33,7 +33,7 @@ csrf = CSRFProtect(app)
 app.register_blueprint(sight, url_prefix="/sight")
 app.register_blueprint(reglog, url_prefix="/reglog")
 app.register_blueprint(user_profile, url_prefix="/user-profile")
-app.register_blueprint(admin,url_prefix="/admin" )
+app.register_blueprint(admin, url_prefix="/admin")
 
 
 @loginManager.user_loader
@@ -44,12 +44,15 @@ def load_user(user_id):
 def index():
 
     with Database(dict_cursor=True) as db:
-        
         sight_model = Sight(db)
-
         sights = sight_model.getAllSights()
+    
+    admin = False
+    if current_user.is_authenticated:
+        user = current_user
+        admin = True if user.check_if_user_is_admin() else False
 
-    return render_template("index.html", sights=(rand.sample(sights,3)))
+    return render_template("index.html", sights=(rand.sample(sights,3)), admin=admin)
 
 if __name__ == "__main__":
     app.run(debug=True)

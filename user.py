@@ -554,7 +554,10 @@ class User(UserMixin):
                 return True, "Friend removed!"
             except:
                 return False, Errors.DATABASE_ERROR.value
-
+            
+    
+    def check_if_user_is_admin(self):
+        return self.__isAdmin
 
     def isVerified(self):
         return self.__verified
