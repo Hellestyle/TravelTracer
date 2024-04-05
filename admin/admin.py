@@ -18,7 +18,7 @@ def admin_main():
     with Database(dict_cursor=True) as db:
 
         sight_model = Sight(db)
-        sights = sight_model.getAllSights()
+        sights = sight_model.getAllSights(active_only=False)
 
         sight_type_model = SightType(db)
         sight_types = sight_type_model.getAllSightTypes()
@@ -42,6 +42,7 @@ def edit_sight(sight_id):
         with Database(dict_cursor=True) as db:
             sight_model = Sight(db)
             sight = sight_model.getSight(sight_id)
+            sight["active"] = bool(sight["active"])
 
             return render_template(
                 "edit_sight.html",
