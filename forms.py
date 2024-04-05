@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField
 from wtforms.validators import DataRequired, Email, Length, InputRequired, EqualTo
 from wtforms import ValidationError
 from database import Database
@@ -66,6 +66,7 @@ class Edit_sight_detail(FlaskForm):
     open_time = StringField("Open Time", validators=[DataRequired(), TimeFormatValidator()])
     close_time = StringField("Close Time", validators=[DataRequired(), TimeFormatValidator()])
     description = StringField("Description", validators=[DataRequired()])
+    image = FileField("Image")
     submit = SubmitField("submit")
 
 
@@ -79,3 +80,4 @@ class Add_sight_form(FlaskForm):
     close_time = StringField("Close Time", validators=[DataRequired(), TimeFormatValidator()])
     description = StringField("Description", validators=[DataRequired()])
     submit = SubmitField("submit")
+
