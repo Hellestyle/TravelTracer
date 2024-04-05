@@ -84,6 +84,7 @@ def add_sight():
     else:
         edit_sight_form = Add_sight_form(request.form)
         if edit_sight_form.validate():
+            active = edit_sight_form.active.data
             sight_name = edit_sight_form.sight_name.data
             age_category_id = edit_sight_form.age_category_id.data
             address = edit_sight_form.address.data
@@ -94,7 +95,7 @@ def add_sight():
         
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
-                result, message = sight_model.add_sight(sight_name, age_category_id, address, google_maps_url, open_time, close_time, description)
+                result, message = sight_model.add_sight(sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description)
 
                 if result:
                     flash(message)

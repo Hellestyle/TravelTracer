@@ -276,7 +276,7 @@ class Sight:
             return False, str(e)
         
     
-    def add_sight(self, name, age_category_id, address, google_maps_url, open_time, close_time, description, city_id=None, active=True, language_id=None):
+    def add_sight(self, name, age_category_id, address, google_maps_url, active, open_time, close_time, description, city_id=None, language_id=None):
         try:
             city_id = 3 if city_id is None else city_id
             language_id = 1 if language_id is None else language_id

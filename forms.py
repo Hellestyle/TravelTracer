@@ -70,6 +70,7 @@ class Edit_sight_detail(FlaskForm):
 
 
 class Add_sight_form(FlaskForm):
+    active = BooleanField("Active")
     sight_name = StringField("Sight Name",validators=[DataRequired()])
     age_category_id = StringField("Age Category ID",validators=[DataRequired()])
     address = StringField("Address",validators=[DataRequired()])
