@@ -59,6 +59,10 @@
       </nav>
 
       <div id="sights" class="">
+        <a href="{{ url_for('admin.add_sight') }}" class="add-sight-button"
+          >Add sight</a
+        >
+
         {% for i in range(0, sights|length, 3) %}
 
         <div

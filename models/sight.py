@@ -112,7 +112,7 @@ class Sight:
             language_id = self.__db.query("SELECT id FROM language WHERE `default` = 1;")[0]['id']
 
         sight = self.__db.query("""SELECT s.id AS id, sm.name AS name, sm.description AS description, sm.address AS address, cm.name AS city, ctrm.name AS country, s.google_maps_url AS google_maps_url, s.active AS active, s.open_time AS open_time, s.close_time AS close_time,
-            acm.name AS age_category, stm.name AS sight_type
+            acm.age_category_id, acm.name AS age_category, stm.name AS sight_type
             FROM sight AS s
             LEFT OUTER JOIN city AS c ON s.city_id = c.id
             LEFT OUTER JOIN country AS ctr ON ctr.id = c.country_id
@@ -266,11 +266,24 @@ class Sight:
         return sights
     
 
-    def update_sight(self, id, name, age_category, address, google_maps_url, open_time, close_time, description):
+    def update_sight(self, id, name, age_category_id, address, google_maps_url, open_time, close_time, description):
         try:
-            self.__db.query("UPDATE sight SET age_category_id = (SELECT age_category_id FROM age_category_meta WHERE name = %s), google_maps_url = %s, open_time = %s, close_time = %s WHERE id = %s;", (age_category, google_maps_url, open_time, close_time, id))
+            self.__db.query("UPDATE sight SET age_category_id = %s, google_maps_url = %s, open_time = %s, close_time = %s WHERE id = %s;", (age_category_id, google_maps_url, open_time, close_time, id))
             self.__db.query("UPDATE sight_meta SET name = %s, address = %s, description = %s WHERE sight_id = %s;", (name, address, description, id))
             return True, "Sight updated successfully."
+        
+        except Exception as e:
+            return False, str(e)
+        
+    
+    def add_sight(self, name, age_category_id, address, google_maps_url, open_time, close_time, description, city_id=None, active=True, language_id=None):
+        try:
+            city_id = 3 if city_id is None else city_id
+            language_id = 1 if language_id is None else language_id
+            self.__db.query("INSERT INTO sight (city_id, age_category_id, google_maps_url, active, open_time, close_time) VALUES (%s, %s, %s, %s, %s, %s);", (city_id, age_category_id, google_maps_url, active, open_time, close_time))
+            sight_id = self.__db.query("SELECT LAST_INSERT_ID();")[0]['LAST_INSERT_ID()']
+            self.__db.query("INSERT INTO sight_meta (sight_id, language_id, name, address, description) VALUES (%s, %s, %s, %s, %s);", (sight_id, language_id, name, address, description))
+            return True, "Sight added successfully."
         
         except Exception as e:
             return False, str(e)

@@ -59,9 +59,21 @@ class TimeFormatValidator(object):
 
 class Edit_sight_detail(FlaskForm):
     sight_name = StringField("Sight Name",validators=[DataRequired()])
-    age_category = StringField("Age Category",validators=[DataRequired()])
+    age_category_id = StringField("Age Category ID",validators=[DataRequired()])
     address = StringField("Address",validators=[DataRequired()])
     google_maps_url = StringField("Google Maps URL", validators=[DataRequired()])
     open_time = StringField("Open Time", validators=[DataRequired(), TimeFormatValidator()])
     close_time = StringField("Close Time", validators=[DataRequired(), TimeFormatValidator()])
     description = StringField("Description", validators=[DataRequired()])
+    submit = SubmitField("submit")
+
+
+class Add_sight_form(FlaskForm):
+    sight_name = StringField("Sight Name",validators=[DataRequired()])
+    age_category_id = StringField("Age Category ID",validators=[DataRequired()])
+    address = StringField("Address",validators=[DataRequired()])
+    google_maps_url = StringField("Google Maps URL", validators=[DataRequired()])
+    open_time = StringField("Open Time", validators=[DataRequired(), TimeFormatValidator()])
+    close_time = StringField("Close Time", validators=[DataRequired(), TimeFormatValidator()])
+    description = StringField("Description", validators=[DataRequired()])
+    submit = SubmitField("submit")
