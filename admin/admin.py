@@ -61,6 +61,8 @@ def edit_sight(sight_id):
             open_time = edit_sight_form.open_time.data
             close_time = edit_sight_form.close_time.data
             description = edit_sight_form.description.data
+
+            old_sight_type_id = edit_sight_form.old_sight_type.data
             sight_type_id = edit_sight_form.sight_type.data
 
             image = edit_sight_form.image.data
@@ -69,7 +71,7 @@ def edit_sight(sight_id):
             
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
-                result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description,image_name,sight_type_id)
+                result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_name, sight_type_id, old_sight_type_id)
 
                 if result:
                     flash(message)

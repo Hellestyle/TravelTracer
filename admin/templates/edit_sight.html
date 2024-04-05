@@ -41,6 +41,8 @@
                <label for="">Age category</label>
             </div>
             <div class="input-data">
+               <input type="hidden" name="old_sight_type" value="{{ sight.sight_type_id if sight.sight_type_id else '' }}">
+
                <input type="text" name="sight_type" value="{{ sight.sight_type_id if sight.sight_type_id else '' }}">>
                <div class="underline"></div>
                <label for="">Sight type ID</label>

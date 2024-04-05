@@ -266,12 +266,12 @@ class Sight:
         return sights
     
 
-    def update_sight(self, id, name, age_category_id, address, google_maps_url, active, open_time, close_time, description,filename, sight_type_id):
+    def update_sight(self, id, name, age_category_id, address, google_maps_url, active, open_time, close_time, description, filename, sight_type_id, old_sight_type_id):
         try:
             self.__db.query("UPDATE sight SET age_category_id = %s, google_maps_url = %s, active = %s, open_time = %s, close_time = %s WHERE id = %s;", (age_category_id, google_maps_url, active, open_time, close_time, id))
             self.__db.query("UPDATE sight_meta SET name = %s, address = %s, description = %s WHERE sight_id = %s;", (name, address, description, id))
-            self.__db.query("INSERT INTO `sight_photo` (`id`, `sight_id`, `photo`) VALUES (NULL, %s,%s)",(id,filename,))
-            self.__db.query("UPDATE `sight_has_sight_type` SET `sight_type_id` = %s WHERE `sight_has_sight_type`.`sight_id` = %s AND `sight_has_sight_type`.`sight_type_id` = %s",(sight_type_id,id,sight_type_id))
+            self.__db.query("UPDATE sight_photo SET photo = %s WHERE sight_id = %s;", (filename, id))
+            self.__db.query("UPDATE sight_has_sight_type SET sight_type_id = %s WHERE sight_id = %s AND sight_type_id = %s",(sight_type_id, id, old_sight_type_id))
             return True, "Sight updated successfully."
         
         except Exception as e:

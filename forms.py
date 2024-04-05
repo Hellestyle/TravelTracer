@@ -67,6 +67,7 @@ class Edit_sight_detail(FlaskForm):
     close_time = StringField("Close Time", validators=[DataRequired(), TimeFormatValidator()])
     description = StringField("Description", validators=[DataRequired()])
     image = FileField("Image")
+    old_sight_type = StringField("Old Sight type ID",validators=[DataRequired()])
     sight_type = StringField("Sight type ID",validators=[DataRequired()])
     submit = SubmitField("submit")
 
