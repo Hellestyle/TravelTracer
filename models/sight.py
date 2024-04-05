@@ -280,7 +280,6 @@ class Sight:
         try:
             city_id = 3 if city_id is None else city_id
             language_id = 1 if language_id is None else language_id
-            active = 1 if active == True else 0
             self.__db.query("INSERT INTO sight (city_id, age_category_id, google_maps_url, active, open_time, close_time) VALUES (%s, %s, %s, %s, %s, %s);", (city_id, age_category_id, google_maps_url, active, open_time, close_time))
             sight_id = self.__db.query("SELECT LAST_INSERT_ID();")[0]['LAST_INSERT_ID()']
             self.__db.query("INSERT INTO sight_meta (sight_id, language_id, name, address, description) VALUES (%s, %s, %s, %s, %s);", (sight_id, language_id, name, address, description))
