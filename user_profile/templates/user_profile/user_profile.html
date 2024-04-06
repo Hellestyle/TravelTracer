@@ -1,744 +1,814 @@
 {% extends "base.html" %} {% block head %}
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="{{ url_for('.static', filename='css/user_profile.css') }}" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+  crossorigin="anonymous"
+/>
+<link
+  href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('.static', filename='css/user_profile.css') }}"
+/>
 
-    <script src="{{ url_for('.static', filename='js/user_profile.js') }}" defer> </script>
-    <script src="{{ url_for('.static', filename='js/profile_navbar.js') }}" defer> </script>
-    <script src="{{ url_for('.static', filename='js/pagination.js') }}" defer> </script>
-    <script src="{{ url_for('.static', filename='js/popup.js') }}" defer> </script>
+<script
+  src="{{ url_for('.static', filename='js/user_profile.js') }}"
+  defer
+></script>
+<script
+  src="{{ url_for('.static', filename='js/profile_navbar.js') }}"
+  defer
+></script>
+<script
+  src="{{ url_for('.static', filename='js/pagination.js') }}"
+  defer
+></script>
+<script src="{{ url_for('.static', filename='js/popup.js') }}" defer></script>
 
-{% endblock %} {% block title %} Profile: {{ user_info["username"] }} {% endblock %}
+{% endblock %} {% block title %} Profile: {{ user_info["username"] }} {%
+endblock %} {% block popup %}
 
-{% block popup %}
+<div id="popup-background">
+  <div id="popup">
+    <div><button class="close-button"></button></div>
 
-    <div id="popup-background">
+    <h1>Did you like this place?</h1>
 
-      <div id="popup">
+    <div class="button-container">
+      <a class="button-dislike"> No </a>
 
-        <div> <button class="close-button"> </button> </div>
-
-        <h1> Did you like this place? </h1>
-
-        <div class="button-container">
-
-          <a class="button-dislike"> No </a>
-
-          <a class="button-like"> Yes </a>
-
-        </div>
-      
-      </div>
-
+      <a class="button-like"> Yes </a>
     </div>
+  </div>
+</div>
 
-{% endblock %}
+{% endblock %} {% block content %}
+<div class="content">
+  <div class="container">
+    {% for message in get_flashed_messages() %}
+    <div style="position: relative; top: 10px" class="alert alert-warning">
+      <button type="button" class="close">&times;</button>
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
 
-
-{% block content %}
-    <div class="content">
-      <div class="container">
-        {% for message in get_flashed_messages() %}
-        <div style="position: relative; top: 10px" class="alert alert-warning">
-          <button type="button" class="close">&times;</button>
-          {{ message }}
-        </div>
-        {% endfor %}
-      </div>
-
-      <div id="profile" class="">
-        <div class="profile-header">
-          <!-- profile header row start red-->
+  <div id="profile" class="">
+    <div class="profile-header">
+      <!-- profile header row start red-->
+      <div
+        style="display: flex; flex-direction: row; flex-wrap: wrap"
+        class="profile-info"
+      >
+        <!-- profile info row start  green-->
+        <div class="profile-picture-container">
+          {% if 'label' in points_level %}
           <div
-            style="display: flex; flex-direction: row; flex-wrap: wrap"
-            class="profile-info"
+            class="profile-picture-label"
+            style="background: {{ points_level['color'] }};"
           >
-            <!-- profile info row start  green-->
-            <div class="profile-picture-container">
-
-              {% if 'label' in points_level %}
-                <div class="profile-picture-label" style="background: {{ points_level['color'] }};">
-                  <p> {{ points_level["label"] }} </p>
-                </div>
-              {% endif %}
-
-              <!-- profile avatar col  blue-->
-              {% if user_info["avatar"] %}
-              <img
-                class="profile-picture"
-                src="{{ url_for('.static', filename='images/' + user_info['avatar']) }}"
-                alt="Profile Picture"
-                style="border-color: {{ points_level['color'] }}"
-              />
-              {% else %}
-              <img
-                class="profile-picture"
-                src="{{ url_for('.static', filename='images/avatar.png') }}"
-                alt="Profile Picture"
-                style="border-color: {{ points_level['color'] }}"
-              />
-              {% endif %}
-
-            </div>
-            <div>
-              <!-- profile info col blue-->
-              <div style="display: flex; flex-direction: row;">
-
-                <!-- username row -->
-                {% if user_info["username"] %}
-                <h1 style="margin-bottom: 10px">@{{ user_info["username"] }}</h1>
-                {% else %}
-                <h1 style="margin-bottom: 10px">"@ "</h1>
-                {% endif %}
-
-                {% if user_id is none or user_id == current_user.get_id()|int %}
-                  <h3
-                    id="edit-profile-settings"
-                    style="right: 0; padding-right: 40px; position:absolute"
-                  >
-                    Edit profile<i
-                      style="position: relative; top: 5px"
-                      class="bx bx-cog"
-                    ></i>
-                  </h3>
-                {% endif %}
-
-              </div>
-              <div>
-                <!-- real name row-->
-                {% if user_id is none or user_id == current_user.get_id()|int or user.isPublicRealName() %}
-                  <p style="font-weight: bold">
-                    {{ user_info["first_name"] }} {{ user_info["last_name"] }}
-                  </p>
-                {% endif %}
-              </div>
-               <!-- Points level row -->
-               <div>
-                <p style="margin-bottom: 15px; font-size: 20px; font-weight: bold; text-shadow: 1px  1px 0 #000; letter-spacing: 2.5px; color: {{ points_level['color'] }};"> {{ points_level["level"] }} </p>
-              </div>
-              <div
-                style="
-                  display: flex;
-                  flex-direction: row;
-                  flex-wrap: wrap;
-                  gap: 30px;
-                  margin-bottom: 15px;
-                "
-              >
-                <!-- data label row-->
-                <div>
-                  <p>Points</p>
-
-                  <p>{{ points }}</p>
-
-                </div>
-
-                {% if user_id is none or user_id == current_user.get_id()|int %}
-                  <div>
-                    <p>Wishlist</p>
-
-                    {% if user_info["wishlist"] %}
-                    <p>{{ user_info["wishlist"] }}</p>
-                    {% else %}
-                    <p>0</p>
-                    {% endif %}
-                  </div>
-                {% endif %}
-
-                <div>
-                  <p>Visited list</p>
-
-                  {% if user_info["visited"] %}
-                  <p>{{ user_info["visited"] }}</p>
-                  {% else %}
-                  <p>0</p>
-                  {% endif %}
-                </div>
-                <div>
-                  <p>Achievements</p>
-
-                  <p>{{ user_achievements|length }}/{{ achievements|length }}</p>
-
-                </div>
-                <div>
-                  <p>Friends</p>
-
-                  {% if friend_amount["friends"] %}
-                  <p>{{ friend_amount["friends"] }}</p>
-                  {% else %}
-                  <p>0</p>
-                  {% endif %}
-                </div>
-              </div>
-            </div>
+            <p>{{ points_level["label"] }}</p>
           </div>
-          <!-- profile info row end-->
-
-          {% if user_id is none or user_id == current_user.get_id()|int or current_user.is_friend(user_id) or user.isOpenProfile() %}
-
-            <nav class="profile-navbar">
-
-              {% if user_id is none or user_id == current_user.get_id()|int %}
-                <button class="profile-nav-button profile-nav-button-active" id="profile-nav-button-wishlist" onclick="switchNavbar('wishlist');"> Wishlist </button>
-              {% endif %}
-
-              <button class="profile-nav-button {{ 'profile-nav-button-active' if user_id is not none and user_id != current_user.get_id()|int else '' }}" id="profile-nav-button-visited-list" onclick="switchNavbar('visited-list');"> Visited list </button>
-              <button class="profile-nav-button" id="profile-nav-button-achievements" onclick="switchNavbar('achievements');"> Achievements </button>
-              <button class="profile-nav-button" id="profile-nav-button-friends" onclick="switchNavbar('friends');"> Friends </button>
-
-            </nav>
-
           {% endif %}
 
+          <!-- profile avatar col  blue-->
+          {% if user_info["avatar"] %}
+          <img
+            class="profile-picture"
+            src="{{ url_for('.static', filename='images/' + user_info['avatar']) }}"
+            alt="Profile Picture"
+            style="border-color: {{ points_level['color'] }}"
+          />
+          {% else %}
+          <img
+            class="profile-picture"
+            src="{{ url_for('.static', filename='images/avatar.png') }}"
+            alt="Profile Picture"
+            style="border-color: {{ points_level['color'] }}"
+          />
+          {% endif %}
         </div>
-        <!-- profile header end-->
-
-        <!-- profile body start-->
         <div>
+          <!-- profile info col blue-->
+          <div style="display: flex; flex-direction: row">
+            <!-- username row -->
+            {% if user_info["username"] %}
+            <h1 style="margin-bottom: 10px">@{{ user_info["username"] }}</h1>
+            {% else %}
+            <h1 style="margin-bottom: 10px">"@ "</h1>
+            {% endif %} {% if user_id is none or user_id ==
+            current_user.get_id()|int %}
+            <h3
+              id="edit-profile-settings"
+              style="right: 0; padding-right: 40px; position: absolute"
+            >
+              Edit profile<i
+                style="position: relative; top: 5px"
+                class="bx bx-cog"
+              ></i>
+            </h3>
+            {% endif %}
+          </div>
+          <div>
+            <!-- real name row-->
+            {% if user_id is none or user_id == current_user.get_id()|int or
+            user.isPublicRealName() %}
+            <p style="font-weight: bold">
+              {{ user_info["first_name"] }} {{ user_info["last_name"] }}
+            </p>
+            {% endif %}
+          </div>
+          <!-- Points level row -->
+          <div>
+            <p
+              style="margin-bottom: 15px; font-size: 20px; font-weight: bold; text-shadow: 1px  1px 0 #000; letter-spacing: 2.5px; color: {{ points_level['color'] }};"
+            >
+              {{ points_level["level"] }}
+            </p>
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              gap: 30px;
+              margin-bottom: 15px;
+            "
+          >
+            <!-- data label row-->
+            <div>
+              <p>Points</p>
 
-          {% if user_id is none or user_id == current_user.get_id()|int or current_user.is_friend(user_id) or user.isOpenProfile() %}
+              <p>{{ points }}</p>
+            </div>
 
             {% if user_id is none or user_id == current_user.get_id()|int %}
+            <div>
+              <p>Wishlist</p>
 
-              <div class="profile-body" id="profile-body-wishlist">
+              {% if user_info["wishlist"] %}
+              <p>{{ user_info["wishlist"] }}</p>
+              {% else %}
+              <p>0</p>
+              {% endif %}
+            </div>
+            {% endif %}
 
-                <div class="wishlist-container">
+            <div>
+              <p>Visited list</p>
 
-                  {% if wishlist|length > 0 %}
+              {% if user_info["visited"] %}
+              <p>{{ user_info["visited"] }}</p>
+              {% else %}
+              <p>0</p>
+              {% endif %}
+            </div>
+            <div>
+              <p>Achievements</p>
 
-                    {% for i in range(0, wishlist|length, 2) %}
+              <p>{{ user_achievements|length }}/{{ achievements|length }}</p>
+            </div>
+            <div>
+              <p>Friends</p>
 
-                      <div class="sight-container" style="display: {{ 'block' if loop.index <= 2 else 'none' }};">
-                        <div class="sights">
+              {% if friend_amount["friends"] %}
+              <p>{{ friend_amount["friends"] }}</p>
+              {% else %}
+              <p>0</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- profile info row end-->
 
-                          {% for sight in wishlist[i:i+2] %}
-                            <a class="{{ 'sight-link' if sight.active else 'sight-link sight-link-inactive' }}" href="{{ url_for('sight.sight_details', sight_id=sight.id) if sight.active else 'javascript:void(0);' }}">
-                              <div class="{{ 'sight-item' if sight.active else 'sight-item sight-item-inactive' }}">
-                                <img class="sight-photo" src="{{ url_for('static', filename='images/sight/' + sight.photos[0]) }}" alt="{{ sight.name }}" />
-                                  <h3> {{ sight.name }} </h3>
-                                  <div class="info sight-info">
-                                    <h5>
-                                      {% if sight.visited == 0 %}
-                                        No people visited this sight yet
-                                      {% elif sight.visited == 1 %}
-                                        1 person visited this sight
-                                      {% else %}
-                                        {{ sight.visited }} people visited this sight
-                                      {% endif %}
-                                    </h5>
-                                    <h5>
-                                      {% for sight_type in sight.types %}
-                                        <span class="sight-type"> {{ sight_type }} </span>
-                                      {% endfor %}
-                                    </h5>
-                                    <h5> {{ sight.age_category }} </h5>
-                                  </div>
-                                  <a href="{{ url_for('sight.remove_from_wishlist', sight_id=sight.id, next=url_for('user_profile.user_profileMain')) }}" class="remove-from-wishlist"> <i class='bx bx-bookmark-minus'></i>Remove from wishlist </a>
+      {% if user_id is none or user_id == current_user.get_id()|int or
+      current_user.is_friend(user_id) or user.isOpenProfile() %}
 
-                                  {% if sight.active %}
-                                    <a href="javascript:void(0);" class="mark-as-visited" onclick="openPopup(
+      <nav class="profile-navbar">
+        {% if user_id is none or user_id == current_user.get_id()|int %}
+        <button
+          class="profile-nav-button profile-nav-button-active"
+          id="profile-nav-button-wishlist"
+          onclick="switchNavbar('wishlist');"
+        >
+          Wishlist
+        </button>
+        {% endif %}
+
+        <button
+          class="profile-nav-button {{ 'profile-nav-button-active' if user_id is not none and user_id != current_user.get_id()|int else '' }}"
+          id="profile-nav-button-visited-list"
+          onclick="switchNavbar('visited-list');"
+        >
+          Visited list
+        </button>
+        <button
+          class="profile-nav-button"
+          id="profile-nav-button-achievements"
+          onclick="switchNavbar('achievements');"
+        >
+          Achievements
+        </button>
+        <button
+          class="profile-nav-button"
+          id="profile-nav-button-friends"
+          onclick="switchNavbar('friends');"
+        >
+          Friends
+        </button>
+      </nav>
+
+      {% endif %}
+    </div>
+    <!-- profile header end-->
+
+    <!-- profile body start-->
+    <div>
+      {% if user_id is none or user_id == current_user.get_id()|int or
+      current_user.is_friend(user_id) or user.isOpenProfile() %} {% if user_id
+      is none or user_id == current_user.get_id()|int %}
+
+      <div class="profile-body" id="profile-body-wishlist">
+        <div class="wishlist-container">
+          {% if wishlist|length > 0 %} {% for i in range(0, wishlist|length, 2)
+          %}
+
+          <div
+            class="sight-container"
+            style="display: {{ 'block' if loop.index <= 2 else 'none' }};"
+          >
+            <div class="sights">
+              {% for sight in wishlist[i:i+2] %}
+              <a
+                class="{{ 'sight-link' if sight.active else 'sight-link sight-link-inactive' }}"
+                href="{{ url_for('sight.sight_details', sight_id=sight.id) if sight.active else 'javascript:void(0);' }}"
+              >
+                <div
+                  class="{{ 'sight-item' if sight.active else 'sight-item sight-item-inactive' }}"
+                >
+                  <img
+                    class="sight-photo"
+                    src="{{ url_for('static', filename='images/sight/' + sight.photos[0]) }}"
+                    alt="{{ sight.name }}"
+                  />
+                  <h3>{{ sight.name }}</h3>
+                  <div class="info sight-info">
+                    <h5>
+                      {% if sight.visited == 0 %} No people visited this sight
+                      yet {% elif sight.visited == 1 %} 1 person visited this
+                      sight {% else %} {{ sight.visited }} people visited this
+                      sight {% endif %}
+                    </h5>
+                    <h5>
+                      {% for sight_type in sight.types %}
+                      <span class="sight-type"> {{ sight_type }} </span>
+                      {% endfor %}
+                    </h5>
+                    <h5>{{ sight.age_category }}</h5>
+                  </div>
+                  <a
+                    href="{{ url_for('sight.remove_from_wishlist', sight_id=sight.id, next=url_for('user_profile.user_profileMain')) }}"
+                    class="remove-from-wishlist"
+                  >
+                    <i class="bx bx-bookmark-minus"></i>Remove from wishlist
+                  </a>
+
+                  {% if sight.active %}
+                  <a
+                    href="javascript:void(0);"
+                    class="mark-as-visited"
+                    onclick="openPopup(
                                       '{{ url_for('sight.add_to_visited_list', sight_id=sight.id, liked='1', next=url_for('user_profile.user_profileMain', sight_id=sight.id)) }}',
                                       '{{ url_for('sight.add_to_visited_list', sight_id=sight.id, liked='0', next=url_for('user_profile.user_profileMain', sight_id=sight.id)) }}',
                                       '{{ url_for('sight.add_to_visited_list', sight_id=sight.id, next=url_for('user_profile.user_profileMain', sight_id=sight.id)) }}'
-                                    );"> <i class='bx bx-check-square'></i>Mark as visited </a>
-                                  {% endif %}
-
-                              </div>
-                            </a>
-                          {% endfor %}
-
-                        </div>
-                      </div>
-        
-                    {% endfor %}
-
-                    {% if wishlist|length > 4 %}
-
-                      <div class="button-container">
-
-                        <button class="bn" onclick="previousPage('profile-body-wishlist');"> Previous </button>
-
-                        {% for i in range(0, wishlist|length, 4) %}
-                          <button class="pagination-button {{ 'pagination-button-active' if loop.index == 1 else '' }}" onclick="switchPage('profile-body-wishlist', {{ loop.index }});"> {{ loop.index }} </button>
-                        {% endfor %} 
-
-                        <button class="bn" onclick="nextPage('profile-body-wishlist');"> Next </button>
-
-                      </div>
-
-                    {% endif %}
-
-                  {% else %}
-
-                    <h1 class="navbar-tab-label"> No sights in wishlist </h1>
-
+                                    );"
+                  >
+                    <i class="bx bx-check-square"></i>Mark as visited
+                  </a>
                   {% endif %}
-
                 </div>
-
-              </div>
-
-            {% endif %}
-
-            <div class="profile-body {{ 'hidden' if user_id is none or user_id == current_user.get_id()|int else '' }}" id="profile-body-visited-list">
-
-              <div class="visited-list-container">
-
-                {% if visited_list|length > 0 %}
-
-                  {% for i in range(0, visited_list|length, 2) %}
-
-                    <div class="sight-container" style="display: {{ 'block' if loop.index <= 2 else 'none' }};">
-                      <div class="sights">
-
-                        {% for sight in visited_list[i:i+2] %}
-                          <a class="{{ 'sight-link' if sight.active else 'sight-link sight-link-inactive' }}" href="{{ url_for('sight.sight_details', sight_id=sight.id) if sight.active else 'javascript:void(0);' }}">
-                            <div class="{{ 'sight-item' if sight.active else 'sight-item sight-item-inactive' }}">
-                              <img class="sight-photo" src="{{ url_for('static', filename='images/sight/' + sight.photos[0]) }}" alt="{{ sight.name }}" />
-                                <h3> {{ sight.name }} </h3>
-                                <div class="info sight-info">
-                                  <h5>
-                                    {% if sight.visited == 0 %}
-                                      No people visited this sight yet
-                                    {% elif sight.visited == 1 %}
-                                      1 person visited this sight
-                                    {% else %}
-                                      {{ sight.visited }} people visited this sight
-                                    {% endif %}
-                                  </h5>
-                                  <h5>
-                                    {% for sight_type in sight.types %}
-                                      <span class="sight-type"> {{ sight_type }} </span>
-                                    {% endfor %}
-                                  </h5>
-                                  <h5> {{ sight.age_category }} </h5>
-                                </div>
-                                {% if sight.liked is not none %}
-                                  {% if sight.liked %}
-                                    <span> <i class='bx bx-like'></i> </span>
-                                  {% else %}
-                                    <span> <i class='bx bx-dislike' ></i> </span>
-                                  {% endif %}
-                                {% endif %}
-                            </div>
-                          </a>
-                        {% endfor %}
-
-                      </div>
-                    </div>
-      
-                  {% endfor %}
-
-                  {% if visited_list|length > 4 %}
-
-                    <div class="button-container">
-
-                      <button class="bn" onclick="previousPage('profile-body-visited-list');"> Previous </button>
-
-                      {% for i in range(0, visited_list|length, 4) %}
-                        <button class="pagination-button {{ 'pagination-button-active' if loop.index == 1 else '' }}" onclick="switchPage('profile-body-visited-list', {{ loop.index }});"> {{ loop.index }} </button>
-                      {% endfor %} 
-
-                      <button class="bn" onclick="nextPage('profile-body-visited-list');"> Next </button>
-
-                    </div>
-
-                  {% endif %}
-
-                {% else %}
-
-                  <h1 class="navbar-tab-label"> No sights in visited list </h1>
-
-                {% endif %}
-
-              </div>
-
-            </div>
-
-            <div class="profile-body hidden" id="profile-body-achievements" class="hidden">
-
-              <div class="achievement-container">
-
-                <h2> Achievements </h2>
-
-                {% for i in range(0, achievements|length, 3) %}
-
-                  <div class="achievements-row">
-
-                    {% for j in range(i, i + 3) %}
-
-                      {% if j < achievements|length %}
-
-                        <div class="achievement-box">
-
-                          <div class="achievement-icon-container">
-
-                            {% if achievements[j]['id'] in user_achievements and user_achievements[achievements[j]['id']]['count'] > 1 %}
-                              <div class="achievement-counter" style="background: {{ user_achievements[achievements[j]['id']]['level']['color'] }};">
-                                <p class="achievement-counter-text"> {{ user_achievements[achievements[j]['id']]['count'] }} </p>
-                              </div>
-                            {% endif %}
-
-                            {% if achievements[j]['id'] in user_achievements %}
-                              <img class="achievement-icon" src="{{ url_for('static', filename='images/achievement/' + achievements[j]['icon']) }}" alt="{{ achievements[j]['name'] }}" title="{{ achievements[j]['description'] }}" style="border-color: {{ user_achievements[achievements[j]['id']]['level']['color'] }};">
-                            {% else %}
-                              <img class="achievement-icon" src="{{ url_for('static', filename='images/achievement/default.png') }}" alt="{{ achievements[j]['name'] }}" title="{{ achievements[j]['description'] }}" style="border-color: grey;">
-                            {% endif %}
-
-                          </div>
-
-                          {% if achievements[j]['id'] in user_achievements and 'level' in user_achievements[achievements[j]['id']]['level'] %}
-                            <p class="achievement-level" style="color: {{ user_achievements[achievements[j]['id']]['level']['color'] }};"> {{ user_achievements[achievements[j]['id']]['level']['level'] }} </p>
-                          {% endif %}
-
-                          <h3 class="achievement-name"> {{ achievements[j]['name'] }} </h3>
-
-                        </div>
-
-                      {% endif %}
-
-                    {% endfor %}
-
-                  </div>
-
-                {% endfor %}
-
-              </div>
-
-            </div>
-
-            <div class="profile-body hidden" id="profile-body-friends" class="hidden">
-
-              {% if user_id is none or user_id == current_user.get_id()|int or user.isPublicFriendslist() %}
-
-                {% if user_id is none or user_id == current_user.get_id()|int %}
-
-                  <div id="friends" class="send-friend-request-div">
-                    <input
-                      type="text"
-                      placeholder="Type the username here"
-                      class="send-friend-request-input"
-                    />
-                    <a
-                      href="{{ url_for('user_profile.send_friend_request', receiver_name='') }}"
-                      class="send-friend-request-button"
-                      >Add</a
-                    >
-                  </div>
-
-                  <h2 style="text-align: center;">Sent friend request</h2>
-                  {% if sent_requests %}
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col" class="col-1">Number</th>
-                        <th scope="col" class="col-2">Username</th>
-                        <th scope="col" class="col-3">First name</th>
-                        <th scope="col" class="col-4">Last name</th>
-                        <th scope="col" class="col-5">Option</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% set ns_01 = namespace(number=1) %} {% for sent_request in
-                      sent_requests %}
-                      <tr>
-                        {% if sent_request %}
-                        <th scope="row">{{ ns_01.number }}</th>
-                        {% set ns_01.number = ns_01.number + 1 %}
-                        <td class="username-data"> <a href="{{ url_for('user_profile.user_profileMain', user_id=sent_request['follower_id']) }}"> {{ sent_request["username"] }} </a> </td>
-                        {% if sent_request["show_real_name"] %}
-                        <td>{{ sent_request["first_name"] }}</td>
-                        <td>{{ sent_request["last_name"] }}</td>
-                        {% else %}
-                        <td style="color: grey">Name is hidden</td>
-                        <td style="color: grey">Name is hidden</td>
-                        {% endif %} {% endif %}
-                        <td>
-                          <a
-                            href="{{ url_for('user_profile.cancel_friend_request', receiver_name='') }}"
-                            class="cancel-button"
-                            >Cancel</a
-                          >
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                  {% else %}
-                  <p style="text-align: center">No sent friend request</p>
-                  {% endif %}
-        
-                  <h2 style="text-align: center">Friend request</h2>
-                  {% if friend_requests %}
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col" class="col-1">Number</th>
-                        <th scope="col" class="col-2">Username</th>
-                        <th scope="col" class="col-3">First name</th>
-                        <th scope="col" class="col-4">Last name</th>
-                        <th scope="col" class="col-5">Option</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% set ns_01 = namespace(number=1) %} {% for friend_request in
-                      friend_requests %}
-                      <tr>
-                        {% if friend_request %}
-                        <th scope="row">{{ ns_01.number }}</th>
-                        {% set ns_01.number = ns_01.number + 1 %}
-                        <td class="username-data"> <a href="{{ url_for('user_profile.user_profileMain', user_id=friend_request['following_id']) }}"> {{ friend_request["username"] }} </a> </td>
-                        {% if friend_request["show_real_name"] %}
-                        <td>{{ friend_request["first_name"] }}</td>
-                        <td>{{ friend_request["last_name"] }}</td>
-                        {% else %}
-                        <td style="color: grey">Name is hidden</td>
-                        <td style="color: grey">Name is hidden</td>
-                        {% endif %} {% endif %}
-                        <td>
-                          <a
-                            href="{{ url_for('user_profile.accept_friend_request', sender_name='') }}"
-                            class="accept-button"
-                            >Accept</a
-                          >
-                          <a
-                            href="{{ url_for('user_profile.decline_friend_request', sender_name='') }}"
-                            class="decline-button"
-                            >Decline</a
-                          >
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                  {% else %}
-                  <p style="text-align: center">No friend request</p>
-                  {% endif %}
-
-                {% endif %}
-        
-                <h2 style="text-align: center">Friendlist</h2>
-                {% if friend_list %}
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col" class="col-1">Number</th>
-                      <th scope="col" class="col-2">Username</th>
-                      <th scope="col" class="col-3">First name</th>
-                      <th scope="col" class="col-4">Last name</th>
-                      {% if user_id is none or user_id == current_user.get_id()|int %}
-                        <th scope="col" class="col-5">Option</th>
-                      {% endif %}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% set ns_02 = namespace(number=1) %} {% for friend in friend_list
-                    %}
-                    <tr>
-                      {% if friend %}
-                      <th scope="row">{{ ns_02.number }}</th>
-                      {% set ns_02.number = ns_02.number + 1 %}
-                      <td class="username-data"> <a href="{{ url_for('user_profile.user_profileMain', user_id=friend['friend_id']) }}"> {{ friend["username"] }} </a> </td>
-                      {% if friend["show_real_name"] %}
-                      <td>{{ friend["first_name"] }}</td>
-                      <td>{{ friend["last_name"] }}</td>
-                      {% else %}
-                      <td style="color: grey">Name is hidden</td>
-                      <td style="color: grey">Name is hidden</td>
-                      {% endif %} {% endif %}
-                      {% if user_id is none or user_id == current_user.get_id()|int %}
-                        <td>
-                          <a
-                            href="{{ url_for('user_profile.remove_friend', friend_name='') }}"
-                            class="remove-button"
-                            >Remove</a
-                          >
-                        </td>
-                      {% endif %}
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-                {% else %}
-                <p style="text-align: center">No friend</p>
-                {% endif %}
-
-              {% else %}
-                <h1 class="navbar-tab-label"> Friends list is hidden </h1>
-              {% endif %}
-
-            </div>
-
-          {% else %}
-
-            <div class="profile-body">
-              <h1 class="navbar-tab-label"> User {{ user_info["username"] }} locked the profile </h1>
-            </div>
-
-          {% endif %}
-
-        </div>
-        <!-- profile body end-->
-
-        {% if user_id is none or user_id == current_user.get_id()|int %}
-
-          <div id="edit-profile-settings" class="modal">
-            <!-- Edit profile settings-->
-            <div class="modal-content">
-              <div style="display: flex; flex-direction: row">
-                <h1 style="text-align: center; flex-grow: 1">Settings</h1>
-                <span style="text-align: end" class="close-modal">&times;</span>
-              </div>
-              <button id="changePassword" class="modal-button">
-                Change Password
-              </button>
-              <button id="changeUsername" class="modal-button">
-                Change Username
-              </button>
-              <button id="changePrivacySettings" class="modal-button">
-                Change Privacy Settings
-              </button>
-              <div id="changePassword" class="content_info hidden">
-                <p>Change Password</p>
-                <form
-                  action="{{ url_for('user_profile.user_profileMain') }}"
-                  method="post"
-                >
-                  {{ changePassForm.csrf_token }} {{
-                  changePassForm.oldPassword.label }} {{
-                  changePassForm.oldPassword() }} <br />
-                  {{ changePassForm.newPassword.label }} {{
-                  changePassForm.newPassword() }} <br />
-                  {{ changePassForm.verifyNewPassword.label }} {{
-                  changePassForm.verifyNewPassword() }} <br />
-                  {{ changePassForm.submitPasswordChange() }}
-                </form>
-              </div>
-              <div id="changeUsername" class="content_info hidden">
-                <p>Change Username</p>
-                <form
-                  action="{{ url_for('user_profile.user_profileMain') }}"
-                  method="post"
-                >
-                  {{ changeUserForm.csrf_token }} {{
-                  changeUserForm.newUsername.label }} {{
-                  changeUserForm.newUsername(value=user.getUsername()) }} <br />
-                  {{ changeUserForm.newFirstName.label }} {{
-                  changeUserForm.newFirstName(value=user.getFirstName()) }} <br />
-                  {{ changeUserForm.newLastName.label }} {{
-                  changeUserForm.newLastName(value=user.getLastName()) }} <br />
-                  {{ changeUserForm.password.label }} {{ changeUserForm.password()
-                  }}
-                  <br />
-                  {{ changeUserForm.submitUsernameChange() }}
-                </form>
-              </div>
-              <div id="changePrivacySettings" class="content_info hidden">
-                <p>Change Privacy Settings</p>
-                <form
-                  action="{{ url_for('user_profile.user_profileMain') }}"
-                  method="post"
-                >
-                  {{ changePrivacySettingsForm.csrf_token }} {{
-                  changePrivacySettingsForm.openProfile.label }} {{
-                  changePrivacySettingsForm.openProfile(checked=current_user.isOpenProfile()) }} <br />
-                  {{ changePrivacySettingsForm.showFriendslist.label }} {{
-                  changePrivacySettingsForm.showFriendslist(checked=current_user.isPublicFriendslist()) }} <br />
-                  {{ changePrivacySettingsForm.showRealName.label }} {{
-                  changePrivacySettingsForm.showRealName(checked=current_user.isPublicRealName()) }}
-                  <br />
-                  {{ changePrivacySettingsForm.submitPrivacySettings() }}
-                </form>
-              </div>
+              </a>
+              {% endfor %}
             </div>
           </div>
 
-        {% endif %}
+          {% endfor %} {% if wishlist|length > 4 %}
 
+          <div class="button-container">
+            <button class="bn" onclick="previousPage('profile-body-wishlist');">
+              Previous
+            </button>
+
+            {% for i in range(0, wishlist|length, 4) %}
+            <button
+              class="pagination-button {{ 'pagination-button-active' if loop.index == 1 else '' }}"
+              onclick="switchPage('profile-body-wishlist', {{ loop.index }});"
+            >
+              {{ loop.index }}
+            </button>
+            {% endfor %}
+
+            <button class="bn" onclick="nextPage('profile-body-wishlist');">
+              Next
+            </button>
+          </div>
+
+          {% endif %} {% else %}
+
+          <h1 class="navbar-tab-label">No sights in wishlist</h1>
+
+          {% endif %}
+        </div>
       </div>
 
+      {% endif %}
+
+      <div
+        class="profile-body {{ 'hidden' if user_id is none or user_id == current_user.get_id()|int else '' }}"
+        id="profile-body-visited-list"
+      >
+        <div class="visited-list-container">
+          {% if visited_list|length > 0 %} {% for i in range(0,
+          visited_list|length, 2) %}
+
+          <div
+            class="sight-container"
+            style="display: {{ 'block' if loop.index <= 2 else 'none' }};"
+          >
+            <div class="sights">
+              {% for sight in visited_list[i:i+2] %}
+              <a
+                class="{{ 'sight-link' if sight.active else 'sight-link sight-link-inactive' }}"
+                href="{{ url_for('sight.sight_details', sight_id=sight.id) if sight.active else 'javascript:void(0);' }}"
+              >
+                <div
+                  class="{{ 'sight-item' if sight.active else 'sight-item sight-item-inactive' }}"
+                >
+                  <img
+                    class="sight-photo"
+                    src="{{ url_for('static', filename='images/sight/' + sight.photos[0]) }}"
+                    alt="{{ sight.name }}"
+                  />
+                  <h3>{{ sight.name }}</h3>
+                  <div class="info sight-info">
+                    <h5>
+                      {% if sight.visited == 0 %} No people visited this sight
+                      yet {% elif sight.visited == 1 %} 1 person visited this
+                      sight {% else %} {{ sight.visited }} people visited this
+                      sight {% endif %}
+                    </h5>
+                    <h5>
+                      {% for sight_type in sight.types %}
+                      <span class="sight-type"> {{ sight_type }} </span>
+                      {% endfor %}
+                    </h5>
+                    <h5>{{ sight.age_category }}</h5>
+                  </div>
+                  {% if sight.liked is not none %} {% if sight.liked %}
+                  <span> <i class="bx bx-like"></i> </span>
+                  {% else %}
+                  <span> <i class="bx bx-dislike"></i> </span>
+                  {% endif %} {% endif %}
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+
+          {% endfor %} {% if visited_list|length > 4 %}
+
+          <div class="button-container">
+            <button
+              class="bn"
+              onclick="previousPage('profile-body-visited-list');"
+            >
+              Previous
+            </button>
+
+            {% for i in range(0, visited_list|length, 4) %}
+            <button
+              class="pagination-button {{ 'pagination-button-active' if loop.index == 1 else '' }}"
+              onclick="switchPage('profile-body-visited-list', {{ loop.index }});"
+            >
+              {{ loop.index }}
+            </button>
+            {% endfor %}
+
+            <button class="bn" onclick="nextPage('profile-body-visited-list');">
+              Next
+            </button>
+          </div>
+
+          {% endif %} {% else %}
+
+          <h1 class="navbar-tab-label">No sights in visited list</h1>
+
+          {% endif %}
+        </div>
+      </div>
+
+      <div
+        class="profile-body hidden"
+        id="profile-body-achievements"
+        class="hidden"
+      >
+        <div class="achievement-container">
+          <h2>Achievements</h2>
+
+          {% for i in range(0, achievements|length, 3) %}
+
+          <div class="achievements-row">
+            {% for j in range(i, i + 3) %} {% if j < achievements|length %}
+
+            <div class="achievement-box">
+              <div class="achievement-icon-container">
+                {% if achievements[j]['id'] in user_achievements and
+                user_achievements[achievements[j]['id']]['count'] > 1 %}
+                <div
+                  class="achievement-counter"
+                  style="background: {{ user_achievements[achievements[j]['id']]['level']['color'] }};"
+                >
+                  <p class="achievement-counter-text">
+                    {{ user_achievements[achievements[j]['id']]['count'] }}
+                  </p>
+                </div>
+                {% endif %} {% if achievements[j]['id'] in user_achievements %}
+                <img
+                  class="achievement-icon"
+                  src="{{ url_for('static', filename='images/achievement/' + achievements[j]['icon']) }}"
+                  alt="{{ achievements[j]['name'] }}"
+                  title="{{ achievements[j]['description'] }}"
+                  style="border-color: {{ user_achievements[achievements[j]['id']]['level']['color'] }};"
+                />
+                {% else %}
+                <img
+                  class="achievement-icon"
+                  src="{{ url_for('static', filename='images/achievement/default.png') }}"
+                  alt="{{ achievements[j]['name'] }}"
+                  title="{{ achievements[j]['description'] }}"
+                  style="border-color: grey"
+                />
+                {% endif %}
+              </div>
+
+              {% if achievements[j]['id'] in user_achievements and 'level' in
+              user_achievements[achievements[j]['id']]['level'] %}
+              <p
+                class="achievement-level"
+                style="color: {{ user_achievements[achievements[j]['id']]['level']['color'] }};"
+              >
+                {{ user_achievements[achievements[j]['id']]['level']['level'] }}
+              </p>
+              {% endif %}
+
+              <h3 class="achievement-name">{{ achievements[j]['name'] }}</h3>
+            </div>
+
+            {% endif %} {% endfor %}
+          </div>
+
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="profile-body hidden" id="profile-body-friends" class="hidden">
+        {% if user_id is none or user_id == current_user.get_id()|int or
+        user.isPublicFriendslist() %} {% if user_id is none or user_id ==
+        current_user.get_id()|int %}
+
+        <div id="friends" class="send-friend-request-div">
+          <input
+            type="text"
+            placeholder="Type the username here"
+            class="send-friend-request-input"
+          />
+          <a
+            href="{{ url_for('user_profile.send_friend_request', receiver_name='') }}"
+            class="send-friend-request-button"
+            >Add</a
+          >
+        </div>
+
+        <h2 style="text-align: center">Sent friend request</h2>
+        {% if sent_requests %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col" class="col-1">Number</th>
+              <th scope="col" class="col-2">Username</th>
+              <th scope="col" class="col-3">First name</th>
+              <th scope="col" class="col-4">Last name</th>
+              <th scope="col" class="col-5">Option</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set ns_01 = namespace(number=1) %} {% for sent_request in
+            sent_requests %}
+            <tr>
+              {% if sent_request %}
+              <th scope="row">{{ ns_01.number }}</th>
+              {% set ns_01.number = ns_01.number + 1 %}
+              <td class="username-data">
+                <a
+                  href="{{ url_for('user_profile.user_profileMain', user_id=sent_request['follower_id']) }}"
+                >
+                  {{ sent_request["username"] }}
+                </a>
+              </td>
+              {% if sent_request["show_real_name"] %}
+              <td>{{ sent_request["first_name"] }}</td>
+              <td>{{ sent_request["last_name"] }}</td>
+              {% else %}
+              <td style="color: grey">Name is hidden</td>
+              <td style="color: grey">Name is hidden</td>
+              {% endif %} {% endif %}
+              <td>
+                <a
+                  href="{{ url_for('user_profile.cancel_friend_request', receiver_name='') }}"
+                  class="cancel-button"
+                  >Cancel</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p style="text-align: center">No sent friend request</p>
+        {% endif %}
+
+        <h2 style="text-align: center">Friend request</h2>
+        {% if friend_requests %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col" class="col-1">Number</th>
+              <th scope="col" class="col-2">Username</th>
+              <th scope="col" class="col-3">First name</th>
+              <th scope="col" class="col-4">Last name</th>
+              <th scope="col" class="col-5">Option</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set ns_01 = namespace(number=1) %} {% for friend_request in
+            friend_requests %}
+            <tr>
+              {% if friend_request %}
+              <th scope="row">{{ ns_01.number }}</th>
+              {% set ns_01.number = ns_01.number + 1 %}
+              <td class="username-data">
+                <a
+                  href="{{ url_for('user_profile.user_profileMain', user_id=friend_request['following_id']) }}"
+                >
+                  {{ friend_request["username"] }}
+                </a>
+              </td>
+              {% if friend_request["show_real_name"] %}
+              <td>{{ friend_request["first_name"] }}</td>
+              <td>{{ friend_request["last_name"] }}</td>
+              {% else %}
+              <td style="color: grey">Name is hidden</td>
+              <td style="color: grey">Name is hidden</td>
+              {% endif %} {% endif %}
+              <td>
+                <a
+                  href="{{ url_for('user_profile.accept_friend_request', sender_name='') }}"
+                  class="accept-button"
+                  >Accept</a
+                >
+                <a
+                  href="{{ url_for('user_profile.decline_friend_request', sender_name='') }}"
+                  class="decline-button"
+                  >Decline</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p style="text-align: center">No friend request</p>
+        {% endif %} {% endif %}
+
+        <h2 style="text-align: center">Friendlist</h2>
+        {% if friend_list %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col" class="col-1">Number</th>
+              <th scope="col" class="col-2">Username</th>
+              <th scope="col" class="col-3">First name</th>
+              <th scope="col" class="col-4">Last name</th>
+              {% if user_id is none or user_id == current_user.get_id()|int %}
+              <th scope="col" class="col-5">Option</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% set ns_02 = namespace(number=1) %} {% for friend in friend_list
+            %}
+            <tr>
+              {% if friend %}
+              <th scope="row">{{ ns_02.number }}</th>
+              {% set ns_02.number = ns_02.number + 1 %}
+              <td class="username-data">
+                <a
+                  href="{{ url_for('user_profile.user_profileMain', user_id=friend['friend_id']) }}"
+                >
+                  {{ friend["username"] }}
+                </a>
+              </td>
+              {% if friend["show_real_name"] %}
+              <td>{{ friend["first_name"] }}</td>
+              <td>{{ friend["last_name"] }}</td>
+              {% else %}
+              <td style="color: grey">Name is hidden</td>
+              <td style="color: grey">Name is hidden</td>
+              {% endif %} {% endif %} {% if user_id is none or user_id ==
+              current_user.get_id()|int %}
+              <td>
+                <a
+                  href="{{ url_for('user_profile.remove_friend', friend_name='') }}"
+                  class="remove-button"
+                  >Remove</a
+                >
+              </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p style="text-align: center">No friend</p>
+        {% endif %} {% else %}
+        <h1 class="navbar-tab-label">Friends list is hidden</h1>
+        {% endif %}
+      </div>
+
+      {% else %}
+
+      <div class="profile-body">
+        <h1 class="navbar-tab-label">
+          User {{ user_info["username"] }} locked the profile
+        </h1>
+      </div>
+
+      {% endif %}
     </div>
-    <script>
-      let urls = {
-        accept_friend_request:
-          "{{ url_for('user_profile.accept_friend_request', sender_name='_sender_name_') }}",
-        decline_friend_request:
-          "{{ url_for('user_profile.decline_friend_request', sender_name='_sender_name_') }}",
-        remove_friend:
-          "{{ url_for('user_profile.remove_friend', friend_name='_friend_name_') }}",
-        send_friend_request:
-          "{{ url_for('user_profile.send_friend_request', receiver_name='_receiver_name_') }}",
-        cancel_friend_request:
-          "{{ url_for('user_profile.cancel_friend_request', receiver_name='_receiver_name_') }}",
-      };
+    <!-- profile body end-->
 
-      function handleButtonClick(event, action) {
-        event.preventDefault();
+    {% if user_id is none or user_id == current_user.get_id()|int %}
 
-        let username = event.target
-          .closest("tr")
-          .querySelector(".username-data").textContent;
+    <div id="edit-profile-settings" class="modal">
+      <!-- Edit profile settings-->
+      <div class="modal-content">
+        <div style="display: flex; flex-direction: row">
+          <h1 style="text-align: center; flex-grow: 1">Settings</h1>
+          <span style="text-align: end" class="close-modal">&times;</span>
+        </div>
+        <button id="changePassword" class="modal-button">
+          Change Password
+        </button>
+        <button id="changeUsername" class="modal-button">
+          Change Username
+        </button>
+        <button id="changePrivacySettings" class="modal-button">
+          Change Privacy Settings
+        </button>
+        <div id="changePassword" class="content_info hidden">
+          <p>Change Password</p>
+          <form
+            action="{{ url_for('user_profile.user_profileMain') }}"
+            method="post"
+          >
+            {{ changePassForm.csrf_token }} {{ changePassForm.oldPassword.label
+            }} {{ changePassForm.oldPassword() }} <br />
+            {{ changePassForm.newPassword.label }} {{
+            changePassForm.newPassword() }} <br />
+            {{ changePassForm.verifyNewPassword.label }} {{
+            changePassForm.verifyNewPassword() }} <br />
+            {{ changePassForm.submitPasswordChange() }}
+          </form>
+        </div>
+        <div id="changeUsername" class="content_info hidden">
+          <p>Change Username</p>
+          <form
+            action="{{ url_for('user_profile.user_profileMain') }}"
+            method="post"
+          >
+            {{ changeUserForm.csrf_token }} {{ changeUserForm.newUsername.label
+            }} {{ changeUserForm.newUsername(value=user.getUsername()) }} <br />
+            {{ changeUserForm.newFirstName.label }} {{
+            changeUserForm.newFirstName(value=user.getFirstName()) }} <br />
+            {{ changeUserForm.newLastName.label }} {{
+            changeUserForm.newLastName(value=user.getLastName()) }} <br />
+            {{ changeUserForm.password.label }} {{ changeUserForm.password() }}
+            <br />
+            {{ changeUserForm.submitUsernameChange() }}
+          </form>
+        </div>
+        <div id="changePrivacySettings" class="content_info hidden">
+          <p>Change Privacy Settings</p>
+          <form
+            action="{{ url_for('user_profile.user_profileMain') }}"
+            method="post"
+          >
+            {{ changePrivacySettingsForm.csrf_token }} {{
+            changePrivacySettingsForm.openProfile.label }} {{
+            changePrivacySettingsForm.openProfile(checked=current_user.isOpenProfile())
+            }} <br />
+            {{ changePrivacySettingsForm.showFriendslist.label }} {{
+            changePrivacySettingsForm.showFriendslist(checked=current_user.isPublicFriendslist())
+            }} <br />
+            {{ changePrivacySettingsForm.showRealName.label }} {{
+            changePrivacySettingsForm.showRealName(checked=current_user.isPublicRealName())
+            }}
+            <br />
+            {{ changePrivacySettingsForm.submitPrivacySettings() }}
+          </form>
+        </div>
+      </div>
+    </div>
 
-        let newUrl;
-        if (action == "remove_friend") {
-          newUrl = urls[action].replace("_friend_name_", username);
-        } else if (action == "cancel_friend_request") {
-          newUrl = urls[action].replace("_receiver_name_", username);
-        } else {
-          newUrl = urls[action].replace("_sender_name_", username);
-        }
-        window.location.href = newUrl;
-      }
+    {% endif %}
+  </div>
+</div>
+<script>
+  let urls = {
+    accept_friend_request:
+      "{{ url_for('user_profile.accept_friend_request', sender_name='_sender_name_') }}",
+    decline_friend_request:
+      "{{ url_for('user_profile.decline_friend_request', sender_name='_sender_name_') }}",
+    remove_friend:
+      "{{ url_for('user_profile.remove_friend', friend_name='_friend_name_') }}",
+    send_friend_request:
+      "{{ url_for('user_profile.send_friend_request', receiver_name='_receiver_name_') }}",
+    cancel_friend_request:
+      "{{ url_for('user_profile.cancel_friend_request', receiver_name='_receiver_name_') }}",
+  };
 
-      document.querySelectorAll(".accept-button").forEach(function (button) {
-        button.addEventListener("click", function (event) {
-          handleButtonClick(event, "accept_friend_request");
-        });
-      });
+  function handleButtonClick(event, action) {
+    event.preventDefault();
 
-      document.querySelectorAll(".decline-button").forEach(function (button) {
-        button.addEventListener("click", function (event) {
-          handleButtonClick(event, "decline_friend_request");
-        });
-      });
+    let username = event.target
+      .closest("tr")
+      .querySelector(".username-data").textContent;
 
-      document.querySelectorAll(".remove-button").forEach(function (button) {
-        button.addEventListener("click", function (event) {
-          handleButtonClick(event, "remove_friend");
-        });
-      });
+    let newUrl;
+    if (action == "remove_friend") {
+      newUrl = urls[action].replace("_friend_name_", username);
+    } else if (action == "cancel_friend_request") {
+      newUrl = urls[action].replace("_receiver_name_", username);
+    } else {
+      newUrl = urls[action].replace("_sender_name_", username);
+    }
+    window.location.href = newUrl;
+  }
 
-      document.querySelectorAll(".cancel-button").forEach(function (button) {
-        button.addEventListener("click", function (event) {
-          handleButtonClick(event, "cancel_friend_request");
-        });
-      });
+  document.querySelectorAll(".accept-button").forEach(function (button) {
+    button.addEventListener("click", function (event) {
+      handleButtonClick(event, "accept_friend_request");
+    });
+  });
 
+  document.querySelectorAll(".decline-button").forEach(function (button) {
+    button.addEventListener("click", function (event) {
+      handleButtonClick(event, "decline_friend_request");
+    });
+  });
 
-      document
-        .querySelector(".send-friend-request-button")
-        .addEventListener("click", function (event) {
-          event.preventDefault();
+  document.querySelectorAll(".remove-button").forEach(function (button) {
+    button.addEventListener("click", function (event) {
+      handleButtonClick(event, "remove_friend");
+    });
+  });
 
-          let receiver_name = document.querySelector(
-            ".send-friend-request-input"
-          ).value;
+  document.querySelectorAll(".cancel-button").forEach(function (button) {
+    button.addEventListener("click", function (event) {
+      handleButtonClick(event, "cancel_friend_request");
+    });
+  });
 
-          let newUrl = urls["send_friend_request"].replace(
-            "_receiver_name_",
-            receiver_name
-          );
-          window.location.href = newUrl;
-        });
-    </script>
+  document
+    .querySelector(".send-friend-request-button")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+
+      let receiver_name = document.querySelector(
+        ".send-friend-request-input"
+      ).value;
+
+      let newUrl = urls["send_friend_request"].replace(
+        "_receiver_name_",
+        receiver_name
+      );
+      window.location.href = newUrl;
+    });
+</script>
 
 {% endblock %}
