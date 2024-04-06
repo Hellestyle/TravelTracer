@@ -6,6 +6,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE achievement; 
 TRUNCATE TABLE achievement_meta; 
 TRUNCATE TABLE age_category;
+TRUNCATE TABLE age_category_meta;
 TRUNCATE TABLE city;
 TRUNCATE TABLE city_meta;
 TRUNCATE TABLE country;
@@ -59,16 +60,18 @@ INSERT INTO city_meta (city_id, language_id, name) VALUES
 	(3, 1, 'Tromso'), (3, 2, 'Tromsø'),
 	(4, 1, 'New York'), (4, 2, 'New York');
 
-INSERT INTO sight_type (points) VALUES (5), (8), (4), (10), (4);
+INSERT INTO sight_type (points) VALUES (5), (8), (4), (10), (4), (3), (6);
 
 INSERT INTO sight_type_meta (sight_type_id, language_id, name, description) VALUES
 	(1, 1, 'Restaurants', 'Restaurants and cafes'), (1, 2, 'Restauranter', 'Restauranter og kafeer'),
 	(2, 1, 'Museums', 'Art, historical, and scientific museums'), (2, 2, 'Museer', 'Kunstmuseer, historiske og vitenskapelige museer'),
 	(3, 1, 'Parks', 'Parks and alleys'), (3, 2, 'Parker', 'Parker og smug'),
 	(4, 1, 'Natural attractions', 'Mountains, lakes, and other natural places'), (4, 2, 'Naturlig attraksjoner', 'Fjell, innsjøer og andre naturlige steder'),
-	(5, 1, 'Monuments', 'Famous monuments'), (5, 2, 'Monumenter', 'Kjente monumenter');
+	(5, 1, 'Monuments', 'Famous monuments'), (5, 2, 'Monumenter', 'Kjente monumenter'),
+    (6, 1, 'Libraries', NULL),
+    (7, 1, 'Cathedrals', NULL);
 
-INSERT INTO age_category () VALUES (), (), (), (), (), ();
+INSERT INTO age_category () VALUES (), (), (), (), (), (), ();
 
 INSERT INTO age_category_meta (age_category_id, language_id, name) VALUES
 	(1, 1, 'Children (0-12 years)'), 
@@ -76,7 +79,8 @@ INSERT INTO age_category_meta (age_category_id, language_id, name) VALUES
     (3, 1, 'Teenagers (13-19 years)'), 
     (4, 1, 'Young Adults (20-30 years)'), 
     (5, 1, 'Adults (31-60 years)'), 
-    (6, 1, 'Seniors (60+ years)');
+    (6, 1, 'Seniors (60+ years)'),
+    (7, 1, 'All ages');
 
 INSERT INTO sight (city_id, age_category_id, google_maps_url, active, open_time, close_time) VALUES
 	(1, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2000.365925839628!2d10.740637377483424!3d59.90947417490049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46416e88f67085cd%3A0xdcf2357905a03761!2sStatholdergaarden!5e0!3m2!1sno!2sno!4v1709823648099!5m2!1sno!2sno', 1, '6:00', '22:00'),
@@ -84,7 +88,9 @@ INSERT INTO sight (city_id, age_category_id, google_maps_url, active, open_time,
 	(3, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1386.3987020284865!2d18.968909578055616!3d69.66648738114753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45df105e7e017a9b%3A0x451a9b89b8677a2f!2sRestaurant%20Smak%20AS!5e0!3m2!1sno!2sno!4v1709823360328!5m2!1sno!2sno', 1, '6:00', '18:00'),
 	(3, 6, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1387.329332266788!2d18.96074607805482!3d69.65223428113663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45c4c4538f889c73%3A0x7072e24b8fa74ca8!2sPolarmuseet%20i%20Troms%C3%B8!5e0!3m2!1sno!2sno!4v1709823417696!5m2!1sno!2sno', 1, '11:00', '17:00'),
 	(3, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1386.5696721282113!2d18.944414978055505!3d69.6638689811456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45c4c445e2ebeb71%3A0x210cefa26c302f6f!2sCharlottenlund%20aktivitets-%20og%20friluftspark!5e0!3m2!1sno!2sno!4v1709823533949!5m2!1sno!2sno', 0, NULL, NULL),
-	(4, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3025.2676073911716!2d-74.04788002347213!3d40.69010357139694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c251435afe5fdd%3A0x961a3af922a7eeae!2sStatue%20of%20Liberty%20Museum!5e0!3m2!1sno!2sno!4v1709823582662!5m2!1sno!2sno', 1, NULL, NULL);
+	(4, 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3025.2676073911716!2d-74.04788002347213!3d40.69010357139694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c251435afe5fdd%3A0x961a3af922a7eeae!2sStatue%20of%20Liberty%20Museum!5e0!3m2!1sno!2sno!4v1709823582662!5m2!1sno!2sno', 1, NULL, NULL),
+    (3, 7, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1387.4295674942782!2d18.952586477539178!3d69.65069904657312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45c4c452d961edcf%3A0xb55f80bb0e84519c!2sTroms%C3%B8%20bibliotek%20og%20byarkiv!5e0!3m2!1sno!2sno!4v1712367327454!5m2!1sno!2sno', 1, '09:00', '19:00'),
+    (3, 7, 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2775.1893727644406!2d18.987263!3d69.64817!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45c4c4e4d949bb99%3A0xbaf6c8e4e9ccd3f4!2sArctic%20Cathedral!5e0!3m2!1sen!2sno!4v1712367443446!5m2!1sen!2sno', 1, '11:00', '17:00');
 
 INSERT INTO sight_meta (sight_id, language_id, name, address, description) VALUES
 	(1, 1, 'Statholdergaarden', 'Raadhusgata 11, Oslo 0151 Norway', 'Statholdergaarden is Bent Stiansen\'s gourmet restaurant. In 1993, Bent Stiansen became the world master of the culinary contest, Bocuse d`Or. He and his team have developed Statholdergaarden into one of Oslo\'s and Norway\'s best restaurants.'), -- https://statholdergaarden.no/en/home?mobile=no
@@ -92,15 +98,19 @@ INSERT INTO sight_meta (sight_id, language_id, name, address, description) VALUE
 	(3, 1, 'Restaurant Smak', 'Skippergata 16B, Tromso 9008 Norway', 'At Restaurant Smak located in Tromso, guests can enjoy delightful culinary creations made from locally sourced ingredients. The menu showcases the unique and diverse natural elements of Northern Norway and consists of the finest seasonal ingredients sourced from the region.'), -- https://www.restaurant-smak.no/en/
 	(4, 1, 'The Polar Museum', 'Sondre Tollbugt. 11B, Tromso 9008 Norway', 'The Polar Museum opened on June 18, 1978, 50 years to the day after Roald Amundsen left Tromsø on his last expedition, to search for Umberto Nobile and the airship ”Italy”. The museum is situated in an historic Customs warehouse, which dates back to 1830 and has an idyllic location on the waterfront in the historic Skansen area.'), -- https://uit.no/tmu/art?p_document_id=398471
 	(5, 1, 'Charlottenlund park', 'Conrad Holmboes veg 89, 9011 Tromso, Norway', NULL),
-	(6, 1, 'Statue of Liberty', 'Liberty Island, New York City, NY 10004', 'The Statue of Liberty Enlightening the World was a gift of friendship from the people of France to the people of the United States and is a universal symbol of freedom and democracy. The Statue of Liberty was dedicated on October 28, 1886, designated as a National Monument in 1924 and restored for her centennial on July 4, 1986.'); -- https://www.tripadvisor.com/Attraction_Review-g60763-d103887-Reviews-Statue_of_Liberty-New_York_City_New_York.html
-
+	(6, 1, 'Statue of Liberty', 'Liberty Island, New York City, NY 10004', 'The Statue of Liberty Enlightening the World was a gift of friendship from the people of France to the people of the United States and is a universal symbol of freedom and democracy. The Statue of Liberty was dedicated on October 28, 1886, designated as a National Monument in 1924 and restored for her centennial on July 4, 1986.'), -- https://www.tripadvisor.com/Attraction_Review-g60763-d103887-Reviews-Statue_of_Liberty-New_York_City_New_York.html
+	(7, 1, 'Arctic Cathedral', 'Hans Nilsens veg 41, 9020 Tromsdalen', 'Tromsdalen Church, also known as Ishavskatedralen (The Arctic Cathedral) was dedicated on November 19, 1965. Architect Jan Inge Hovig succeeded in creating a masterpiece. The cathedral is a landmark visible from the Tromsø Sound, the Tromsø Bridge and when landing in Tromsø by aircraft. The 11 aluminium-coated concrete panels on each side of the roof provide the cathedral’s form.'), -- https://www.ishavskatedralen.no/en/the-arctic-cathedral/
+    (8, 1, 'Public library and City Archives', 'Groennegata 94, Tromso 9008 Norway', 'The library counts its year of establishment as 1871. At that time, Tromsø Municipality and Tromsø Savings Bank joined forces to form Tromsø Municipal Library. Over the years, the library has been located in several premises around the city. In 2005, the main library moved from its old premises in Storgatbakken to the spectacular building in Fokuskvartalet.'); -- https://tromso.kommune.no/bibliotek/om-biblioteket 
+    
 INSERT INTO sight_has_sight_type (sight_id, sight_type_id) VALUES
 	(1, 1),
 	(2, 1),
 	(3, 1),
 	(4, 2), (4, 4),
 	(5, 3), (5, 4),
-	(6, 5);
+	(6, 5),
+    (7, 6),
+    (8, 7);
 
 INSERT INTO sight_photo (sight_id, photo) VALUES
 	(1, '1_1.jpg'), (1, '1_2.jpg'),
@@ -108,9 +118,11 @@ INSERT INTO sight_photo (sight_id, photo) VALUES
 	(3, '3_1.webp'), (3, '3_2.jpg'), (3, '3_3.jpg'),
 	(4, '4_1.webp'), (4, '4_2.jpg'),
 	(5, '5_1.JPG'),
-	(6, '6_1.webp'), (6, '6_2.jpg'), (6, '6_3.jpeg');
+	(6, '6_1.webp'), (6, '6_2.jpg'), (6, '6_3.jpeg'),
+    (7, '7_1.jpg'), (7, '7_2.jpg'), (7, '7_3.jpg'),
+    (8, '8_1.jpg'), (8, '8_2.jpeg'), (8, '8_3.jpg'), (8, '8_4.jpeg');
 
-INSERT INTO achievement (icon) VALUES ('1.png'), ('2.png'), ('3.png'), ('4.png'), ('5.png');
+INSERT INTO achievement (icon) VALUES ('1.png'), ('2.png'), ('3.png'), ('4.png'), ('5.png'), ('6.png'), ('7.png');
 
 INSERT INTO achievement_meta (achievement_id, language_id, name, description) VALUES
 	(1, 1, 'Traveler', 'Travel to some outstanding place'),
@@ -122,7 +134,9 @@ INSERT INTO achievement_meta (achievement_id, language_id, name, description) VA
 	(4, 1, 'Gourmet', 'Visit a restaurant'),
 	(4, 2, 'Gourmet', 'Besøk en restaurant'),
 	(5, 1, 'Coffee Lover', 'Drink some coffee'),
-	(5, 2, 'Kaffeelsker', 'drikke litt kaffe');
+	(5, 2, 'Kaffeelsker', 'Drikke litt kaffe'),
+    (6, 1, 'Between shelves', 'Explore. Learn. Be inspired'),
+    (7, 1, 'Echo of the Vaults', 'Learn about history and architecture through visiting cathedrals');
 
 INSERT INTO sight_has_achievement (achievement_id, sight_id) VALUES
 	(4, 1),
@@ -130,7 +144,9 @@ INSERT INTO sight_has_achievement (achievement_id, sight_id) VALUES
 	(4, 3), (5, 3),
 	(1, 4), (2, 4), (3, 4),
 	(2, 5),
-	(1, 6), (2, 6);
+	(1, 6), (2, 6),
+    (6, 7),
+    (7, 8);
 
 -- Navn generert ved hjelp av Faker Python-biblioteket (fake_names.py)
 INSERT INTO `user` (username, email, firstname, lastname, avatar, admin, password) VALUES
