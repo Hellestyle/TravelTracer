@@ -100,6 +100,23 @@ endblock %} {% block popup %}
             <h1 style="margin-bottom: 10px">@{{ user_info["username"] }}</h1>
             {% else %}
             <h1 style="margin-bottom: 10px">"@ "</h1>
+            {% endif %} {% if user_id is not none and user_id !=
+            current_user.get_id() | int %}
+            <div class="add-remove-friend-button-container">
+              {% if is_friend %}
+              <a
+                href="{{ url_for('remove_friend', friend_name='') }}"
+                class="profile-remove-button"
+                >Remove friend</a
+              >
+              {% else %}
+              <a
+                href="{{ url_for('send_friend_request', receiver_name='') }}"
+                class="profile-add-button"
+                >Add friend</a
+              >
+              {% endif %}
+            </div>
             {% endif %} {% if user_id is none or user_id ==
             current_user.get_id()|int %}
             <h3

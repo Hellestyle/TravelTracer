@@ -180,6 +180,35 @@ header {
   padding: 50px;
 }
 
+.add-remove-friend-button-container {
+  display: flex;
+  align-content: center;
+  margin-top: -10px;
+  margin-left: 10px;
+  padding: 10px;
+}
+
+.add-remove-friend-button-container .profile-add-button,
+.add-remove-friend-button-container .profile-remove-button{
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 10px;
+  text-decoration: none;
+  padding: 5px;
+}
+
+.add-remove-friend-button-container .profile-remove-button{
+  background-color: #dc3545;
+}
+
+.add-remove-friend-button-container .profile-add-button:hover{
+  background-color: #0056b3;
+}
+
+.add-remove-friend-button-container .profile-remove-button:hover{
+  background-color: #a71f2d;
+}
+
 .profile-header {
   display: flex;
   flex-direction: column;
@@ -426,7 +455,7 @@ header {
 .table .decline-button:hover,
 .table .remove-button:hover,
 .table .cancel-button:hover {
-  background-color: #c82333;
+  background-color: #a71f2d;
 }
 
 .profile-navbar {
