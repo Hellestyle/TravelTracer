@@ -109,13 +109,13 @@ endblock %} {% block popup %}
             <div class="add-remove-friend-button-container">
               {% if is_friend %}
               <a
-                href="{{ url_for('user_profile.remove_friend', friend_name='') }}"
+                href="{{ url_for('user_profile.remove_friend', friend_name=user_info['username']) }}"
                 class="user-profile-remove-button"
                 >Remove friend</a
               >
               {% else %}
               <a
-                href="{{ url_for('user_profile.send_friend_request', receiver_name='') }}"
+                href="{{ url_for('user_profile.send_friend_request', receiver_name=user_info['username']) }}"
                 class="user-profile-add-button"
                 >Add friend</a
               >
@@ -637,7 +637,8 @@ endblock %} {% block popup %}
               <td class="username-data">
                 <a
                   href="{{ url_for('user_profile.user_profileMain', user_id=friend['friend_id']) }}"
-                >{{ friend["username"] }}</a>
+                  >{{ friend["username"] }}</a
+                >
               </td>
               {% if friend["show_real_name"] %}
               <td>{{ friend["first_name"] }}</td>
@@ -813,7 +814,6 @@ endblock %} {% block popup %}
   document
     .querySelector(".send-friend-request-button")
     .addEventListener("click", function () {
-
       let receiver_name = document.querySelector(
         ".send-friend-request-input"
       ).value;
@@ -821,34 +821,6 @@ endblock %} {% block popup %}
       let newUrl = urls["send_friend_request"].replace(
         "_receiver_name_",
         receiver_name
-      );
-      window.location.href = newUrl;
-    });
-
-  document
-    .querySelector(".user-profile-add-button")
-    .addEventListener("click", function () {
-
-      let receiver_name = document.getElementById(
-        "user-profile-username"
-      ).textContent;
-      let newUrl = urls["send_friend_request"].replace(
-        "_receiver_name_",
-        receiver_name
-      );
-      window.location.href = newUrl;
-    });
-
-  document
-    .querySelector(".user-profile-remove-button")
-    .addEventListener("click", function () {
-      
-      let friend_name = document.getElementById(
-        "user-profile-username"
-        ).textContent;
-      let newUrl = urls["remove_friend"].replace(
-        "_friend_name_",
-        friend_name
       );
       window.location.href = newUrl;
     });
