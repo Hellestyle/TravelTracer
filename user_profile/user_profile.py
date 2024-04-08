@@ -27,7 +27,7 @@ def user_profileMain(user_id=None):
     changeUserForm = ChangeUsername()
     changePrivacySettingsForm = ChangePrivacySettings()
     
-    success, message, points = current_user.get_points()
+    success, message, points = user.get_points()
 
     if not success:
         return message
