@@ -3,7 +3,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 import secrets
-from user import User
+from models.user import User
 
 from sight.sight import sight
 from reglog.reglog import reglog

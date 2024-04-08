@@ -113,14 +113,14 @@ INSERT INTO sight_has_sight_type (sight_id, sight_type_id) VALUES
     (8, 7);
 
 INSERT INTO sight_photo (sight_id, photo) VALUES
-	(1, '1_1.jpg'), (1, '1_2.jpg'),
-	(2, '2_1.jpeg'), (2, '2_2.jpeg'), (2, '2_3.jpeg'),
-	(3, '3_1.webp'), (3, '3_2.jpg'), (3, '3_3.jpg'),
-	(4, '4_1.webp'), (4, '4_2.jpg'),
-	(5, '5_1.JPG'),
-	(6, '6_1.webp'), (6, '6_2.jpg'), (6, '6_3.jpeg'),
-    (7, '7_1.jpg'), (7, '7_2.jpg'), (7, '7_3.jpg'),
-    (8, '8_1.jpg'), (8, '8_2.jpeg'), (8, '8_3.jpg'), (8, '8_4.jpeg');
+	(1, '1/1.jpg'), (1, '1/2.jpg'),
+	(2, '2/1.jpeg'), (2, '2/2.jpeg'), (2, '2/3.jpeg'),
+	(3, '3/1.webp'), (3, '3/2.jpg'), (3, '3/3.jpg'),
+	(4, '4/1.webp'), (4, '4/2.jpg'),
+	(5, '5/1.JPG'),
+	(6, '6/1.webp'), (6, '6/2.jpg'), (6, '6/3.jpeg'),
+    (7, '7/1.jpg'), (7, '7/2.jpg'), (7, '7/3.jpg'),
+    (8, '8/1.jpg'), (8, '8/2.jpeg'), (8, '8/3.jpg'), (8, '8/4.jpeg');
 
 INSERT INTO achievement (icon) VALUES ('1.png'), ('2.png'), ('3.png'), ('4.png'), ('5.png'), ('6.png'), ('7.png');
 

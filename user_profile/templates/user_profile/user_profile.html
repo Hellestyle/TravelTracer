@@ -538,9 +538,7 @@ endblock %} {% block popup %}
               <td class="username-data">
                 <a
                   href="{{ url_for('user_profile.user_profileMain', user_id=sent_request['follower_id']) }}"
-                >
-                  {{ sent_request["username"] }}
-                </a>
+                >{{ sent_request["username"] }}</a>
               </td>
               {% if sent_request["show_real_name"] %}
               <td>{{ sent_request["first_name"] }}</td>
@@ -586,9 +584,7 @@ endblock %} {% block popup %}
               <td class="username-data">
                 <a
                   href="{{ url_for('user_profile.user_profileMain', user_id=friend_request['following_id']) }}"
-                >
-                  {{ friend_request["username"] }}
-                </a>
+                >{{ friend_request["username"] }}</a>
               </td>
               {% if friend_request["show_real_name"] %}
               <td>{{ friend_request["first_name"] }}</td>
@@ -641,9 +637,7 @@ endblock %} {% block popup %}
               <td class="username-data">
                 <a
                   href="{{ url_for('user_profile.user_profileMain', user_id=friend['friend_id']) }}"
-                >
-                  {{ friend["username"] }}
-                </a>
+                >{{ friend["username"] }}</a>
               </td>
               {% if friend["show_real_name"] %}
               <td>{{ friend["first_name"] }}</td>
@@ -779,7 +773,7 @@ endblock %} {% block popup %}
 
     let username = event.target
       .closest("tr")
-      .querySelector(".username-data").textContent;
+      .querySelector(".username-data > a").textContent;
 
     let newUrl;
     if (action == "remove_friend") {
