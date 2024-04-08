@@ -103,25 +103,27 @@ endblock %} {% block popup %}
             </p>
             {% else %}
             <h1 style="margin-bottom: 10px">"@ "</h1>
-            {% endif %} {% if user_id is not none and user_id !=
-            current_user.get_id() | int %}
+            {% endif %}
+            
+            {% if user_id is not none and user_id != current_user.get_id() | int %}
             <div class="add-remove-friend-button-container">
               {% if is_friend %}
               <a
-                href="{{ url_for('remove_friend', friend_name='') }}"
+                href="{{ url_for('user_profile.remove_friend', friend_name='') }}"
                 class="user-profile-remove-button"
                 >Remove friend</a
               >
               {% else %}
               <a
-                href="{{ url_for('send_friend_request', receiver_name='') }}"
+                href="{{ url_for('user_profile.send_friend_request', receiver_name='') }}"
                 class="user-profile-add-button"
                 >Add friend</a
               >
               {% endif %}
             </div>
-            {% endif %} {% if user_id is none or user_id ==
-            current_user.get_id()|int %}
+            {% endif %} 
+
+            {% if user_id is none or user_id == current_user.get_id()|int %}
             <h3
               id="edit-profile-settings"
               style="right: 0; padding-right: 40px; position: absolute"
@@ -816,8 +818,7 @@ endblock %} {% block popup %}
 
   document
     .querySelector(".send-friend-request-button")
-    .addEventListener("click", function (event) {
-      event.preventDefault();
+    .addEventListener("click", function () {
 
       let receiver_name = document.querySelector(
         ".send-friend-request-input"
@@ -832,12 +833,11 @@ endblock %} {% block popup %}
 
   document
     .querySelector(".user-profile-add-button")
-    .addEventListener("click", function (event) {
-      event.preventDefault();
+    .addEventListener("click", function () {
 
-      let receiver_name = document.querySelector(
-        "#user-profile-username"
-      ).value;
+      let receiver_name = document.getElementById(
+        "user-profile-username"
+      ).textContent;
       let newUrl = urls["send_friend_request"].replace(
         "_receiver_name_",
         receiver_name
@@ -847,15 +847,14 @@ endblock %} {% block popup %}
 
   document
     .querySelector(".user-profile-remove-button")
-    .addEventListener("click", function (event) {
-      event.preventDefault();
-
-      let receiver_name = document.querySelector(
-        "#user-profile-username"
-      ).value;
+    .addEventListener("click", function () {
+      
+      let friend_name = document.getElementById(
+        "user-profile-username"
+        ).textContent;
       let newUrl = urls["remove_friend"].replace(
         "_friend_name_",
-        receiver_name
+        friend_name
       );
       window.location.href = newUrl;
     });

@@ -183,29 +183,29 @@ header {
 .add-remove-friend-button-container {
   display: flex;
   align-content: center;
-  margin-top: -10px;
   margin-left: 10px;
   padding: 10px;
 }
 
-.add-remove-friend-button-container .profile-add-button,
-.add-remove-friend-button-container .profile-remove-button{
+.add-remove-friend-button-container .user-profile-add-button,
+.add-remove-friend-button-container .user-profile-remove-button{
+  font-size: 14px;
   color: #fff;
   background-color: #007bff;
   border-radius: 10px;
   text-decoration: none;
-  padding: 5px;
+  padding: 5px 10px;
 }
 
-.add-remove-friend-button-container .profile-remove-button{
+.add-remove-friend-button-container .user-profile-remove-button{
   background-color: #dc3545;
 }
 
-.add-remove-friend-button-container .profile-add-button:hover{
+.add-remove-friend-button-container .user-profile-add-button:hover{
   background-color: #0056b3;
 }
 
-.add-remove-friend-button-container .profile-remove-button:hover{
+.add-remove-friend-button-container .user-profile-remove-button:hover{
   background-color: #a71f2d;
 }
 
