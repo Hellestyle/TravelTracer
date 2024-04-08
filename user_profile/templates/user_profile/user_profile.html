@@ -98,6 +98,9 @@ endblock %} {% block popup %}
             <!-- username row -->
             {% if user_info["username"] %}
             <h1 style="margin-bottom: 10px">@{{ user_info["username"] }}</h1>
+            <p class="hidden" id="user-profile-username">
+              {{ user_info["username"] }}
+            </p>
             {% else %}
             <h1 style="margin-bottom: 10px">"@ "</h1>
             {% endif %} {% if user_id is not none and user_id !=
@@ -106,13 +109,13 @@ endblock %} {% block popup %}
               {% if is_friend %}
               <a
                 href="{{ url_for('remove_friend', friend_name='') }}"
-                class="profile-remove-button"
+                class="user-profile-remove-button"
                 >Remove friend</a
               >
               {% else %}
               <a
                 href="{{ url_for('send_friend_request', receiver_name='') }}"
-                class="profile-add-button"
+                class="user-profile-add-button"
                 >Add friend</a
               >
               {% endif %}
@@ -822,6 +825,36 @@ endblock %} {% block popup %}
 
       let newUrl = urls["send_friend_request"].replace(
         "_receiver_name_",
+        receiver_name
+      );
+      window.location.href = newUrl;
+    });
+
+  document
+    .querySelector(".user-profile-add-button")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+
+      let receiver_name = document.querySelector(
+        "#user-profile-username"
+      ).value;
+      let newUrl = urls["send_friend_request"].replace(
+        "_receiver_name_",
+        receiver_name
+      );
+      window.location.href = newUrl;
+    });
+
+  document
+    .querySelector(".user-profile-remove-button")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+
+      let receiver_name = document.querySelector(
+        "#user-profile-username"
+      ).value;
+      let newUrl = urls["remove_friend"].replace(
+        "_friend_name_",
         receiver_name
       );
       window.location.href = newUrl;
