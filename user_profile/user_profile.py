@@ -91,9 +91,13 @@ def user_profileMain(user_id=None):
     result_05, sent_requests = user.show_sent_friend_request()
 
     admin = False
+    is_friend = False
     if current_user.is_authenticated:
         user = current_user
         admin = True if user.check_if_user_is_admin() else False
+        
+        if user.is_friend(user_id):
+            is_friend = True
 
     if request.method == "GET":
         changeUserForm.newUsername.data = user.getUsername()
@@ -107,7 +111,7 @@ def user_profileMain(user_id=None):
                                 points=points, points_level=points_level,
                                 achievements=achievements, user_achievements=user_achievements,
                                 wishlist=wishlist, visited_list=visited_list, sent_requests=sent_requests,
-                                admin=admin
+                                admin=admin, is_friend=is_friend
                             )
         else:
             if result_01 is False:
@@ -128,7 +132,7 @@ def user_profileMain(user_id=None):
                                 points=points, points_level=points_level,
                                 achievements=achievements, user_achievements=user_achievements,
                                 wishlist=wishlist, visited_list=visited_list, sent_requests=sent_requests,
-                                admin=admin
+                                admin=admin, is_friend=is_friend
                             )
 
     else:
