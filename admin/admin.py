@@ -92,7 +92,7 @@ def edit_sight(sight_id):
 def add_sight():
     edit_sight_form = Add_sight_form()
     if request.method == "GET":
-        return render_template("add_sight.html",edit_sight_form=edit_sight_form)
+        return render_template("add_sight.html", edit_sight_form=edit_sight_form)
     else:
         
         if edit_sight_form.validate():
@@ -122,16 +122,16 @@ def add_sight():
                 
                 if result:
                     flash(message)
-                    return redirect(url_for("admin.add_sight"))
+                    return render_template("add_sight.html", edit_sight_form=edit_sight_form)
                 else:
                     flash(message)
-                    return redirect(url_for("admin.add_sight"))
+                    return render_template("add_sight.html", edit_sight_form=edit_sight_form)
         
         else:
             for errors in edit_sight_form.errors.values():
                 for error in errors:
                     flash(error)
-            return redirect(url_for("admin.add_sight",edit_sight_form=edit_sight_form))
+            return render_template("add_sight.html", edit_sight_form=edit_sight_form)
         
 
 def fix_image_filename(originale_filename,sight_id):

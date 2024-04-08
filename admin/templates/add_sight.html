@@ -23,7 +23,7 @@
 
          <div class="form-row">
             <div class="input-data">
-               <input type="text" name="active">
+               <input type="text" name="active" value="{{ edit_sight_form.active.data if edit_sight_form.active.data else '' }}">
                <div class="underline"></div>
                <label for="">Active</label>
             </div>
@@ -31,29 +31,29 @@
 
          <div class="form-row">
             <div class="input-data">
-               <input type="text" name="sight_name">
+               <input type="text" name="sight_name" value="{{ edit_sight_form.sight_name.data if edit_sight_form.sight_name.data else '' }}">
                <div class="underline"></div>
                <label for="">Sight name</label>
             </div>
             <div class="input-data">
-               <input type="text" name="age_category_id">
+               <input type="text" name="age_category_id" value="{{ edit_sight_form.age_category_id.data if edit_sight_form.age_category_id.data else '' }}">
                <div class="underline"></div>
                <label for="">Age category</label>
             </div>
             <div class="input-data">
-               <input type="text" name="sight_type">
+               <input type="text" name="sight_type" value="{{ edit_sight_form.sight_type.data if edit_sight_form.sight_type.data else '' }}">
                <div class="underline"></div>
                <label for="">Sight type ID</label>
             </div>
          </div>
          <div class="form-row">
             <div class="input-data">
-               <input type="text" name="address">
+               <input type="text" name="address" value="{{ edit_sight_form.address.data if edit_sight_form.address.data else '' }}">
                <div class="underline"></div>
                <label for="">Address</label>
             </div>
             <div class="input-data">
-               <input type="text" name="google_maps_url">
+               <input type="text" name="google_maps_url" value="{{ edit_sight_form.google_maps_url.data if edit_sight_form.google_maps_url.data else '' }}">
                <div class="underline"></div>
                <label for="">Google maps url</label>
             </div>
@@ -61,12 +61,12 @@
 
          <div class="form-row">
             <div class="input-data">
-               <input type="text" name="open_time">
+               <input type="text" name="open_time" value="{{ edit_sight_form.open_time.data if edit_sight_form.open_time.data else '' }}">
                <div class="underline"></div>
                <label for="">Open time</label>
             </div>
             <div class="input-data">
-               <input type="text" name="close_time">
+               <input type="text" name="close_time" value="{{ edit_sight_form.close_time.data if edit_sight_form.close_time.data else '' }}">
                <div class="underline"></div>
                <label for="">Close time</label>
             </div>
