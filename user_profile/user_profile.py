@@ -1,7 +1,7 @@
 from forms import ChangePasswordForm, ChangeUsername, ChangePrivacySettings
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
-from user import User
+from models.user import User
 from flask import flash
 from database import Database
 

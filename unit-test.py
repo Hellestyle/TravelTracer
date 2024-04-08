@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from user import User, Errors
+from models.user import User, Errors
 from database import Database
 
 
