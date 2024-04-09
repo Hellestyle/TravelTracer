@@ -502,11 +502,15 @@ class User(UserMixin):
         
     def send_friend_request(self, receiver_id):
         with Database() as db:
-            try:
-                db.query("INSERT INTO friend (follower, following) VALUES (%s, %s);", (self.__id, receiver_id))
-                return True, "Friend request sent!"
-            except:
-                return False, Errors.DATABASE_ERROR.value
+            result = db.queryOne("SELECT * FROM friend WHERE follower = %s AND following = %s;", (self.__id, receiver_id))
+            if result:
+                return False, "Friend request already sent!"
+            else:
+                try:
+                    db.query("INSERT INTO friend (follower, following) VALUES (%s, %s);", (self.__id, receiver_id))
+                    return True, "Friend request sent!"
+                except:
+                    return False, Errors.DATABASE_ERROR.value
 
 
     def show_sent_friend_request(self):

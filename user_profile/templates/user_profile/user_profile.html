@@ -813,7 +813,9 @@ endblock %} {% block popup %}
 
   document
     .querySelector(".send-friend-request-button")
-    .addEventListener("click", function () {
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+
       let receiver_name = document.querySelector(
         ".send-friend-request-input"
       ).value;
