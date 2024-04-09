@@ -189,7 +189,11 @@ header {
 
 .add-remove-friend-button-container .user-profile-add-button,
 .add-remove-friend-button-container .user-profile-remove-button{
-  font-size: 14px;
+  display: flex;
+  text-align: center;
+  gap: 5px;
+  margin-top: -5px;
+  font-size: 18px;
   color: #fff;
   background-color: #007bff;
   border-radius: 10px;
@@ -207,6 +211,15 @@ header {
 
 .add-remove-friend-button-container .user-profile-remove-button:hover{
   background-color: #a71f2d;
+}
+
+.friend-request-pending {
+  display: flex;
+  margin-top: -5px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: rgb(170, 170, 170);
+  font-size: 14px;
 }
 
 .profile-header {

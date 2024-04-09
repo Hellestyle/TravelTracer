@@ -111,14 +111,18 @@ endblock %} {% block popup %}
               <a
                 href="{{ url_for('user_profile.remove_friend', friend_name=user_info['username']) }}"
                 class="user-profile-remove-button"
-                >Remove friend</a
+                ><i class='bx bx-user-minus'></i> Remove friend</a
               >
               {% else %}
-              <a
-                href="{{ url_for('user_profile.send_friend_request', receiver_name=user_info['username']) }}"
-                class="user-profile-add-button"
-                >Add friend</a
-              >
+                {% if check_sent_request %}
+                  <p class="friend-request-pending">Friendship application pending</p>
+                {% else %}
+                  <a
+                    href="{{ url_for('user_profile.send_friend_request', receiver_name=user_info['username']) }}"
+                    class="user-profile-add-button"
+                    ><i class='bx bx-user-plus'></i> Add friend</a
+                  >
+                {% endif %}
               {% endif %}
             </div>
             {% endif %} 

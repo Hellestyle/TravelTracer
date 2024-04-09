@@ -512,6 +512,15 @@ class User(UserMixin):
                 except:
                     return False, Errors.DATABASE_ERROR.value
 
+           
+    def check_sent_friend_request(self, receiver_id):
+        with Database() as db:
+            result = db.queryOne("SELECT * FROM friend WHERE follower = %s AND following = %s;", (self.__id, receiver_id))
+            if result:
+                return True
+            else:
+                return False
+
 
     def show_sent_friend_request(self):
         with Database() as db:
