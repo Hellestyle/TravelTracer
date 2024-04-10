@@ -294,8 +294,7 @@ class Sight:
         except Exception as e:
             return False, str(e)
 
-    def add_sight_image(self,image_name):
-        sight_id = self.__db.query("SELECT LAST_INSERT_ID();")[0]['LAST_INSERT_ID()']
+    def add_sight_image(self,sight_id,image_name):
         try:
             self.__db.query("INSERT INTO `sight_photo` (`id`, `sight_id`, `photo`) VALUES (NULL, %s,%s)",(sight_id,image_name,))
             return True, "Image added to new sight successfully"

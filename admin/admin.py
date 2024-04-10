@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, request, redirect, flash, current_app
-from database import  Database
+from database import Database
 from models.sight import Sight
 from models.sight_name import SightName
 from models.sight_type import SightType
@@ -7,7 +7,7 @@ from forms import Edit_sight_detail, Add_sight_form
 from datetime import datetime as dt
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-import os
+import os, shutil
 
 
 admin = Blueprint("admin", __name__, template_folder="templates", static_folder="static")
@@ -109,21 +109,34 @@ def add_sight():
             description = edit_sight_form.description.data
             sight_type_id = edit_sight_form.sight_type.data
             
-            image = edit_sight_form.image.data
+            images = edit_sight_form.image.data
             
+
         
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
                 result, message = sight_model.add_sight(sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description,sight_type_id)
+                
                 sight_id = db.query("SELECT LAST_INSERT_ID();")[0]['LAST_INSERT_ID()']
-                image_name = fix_image_filename(sight_id=sight_id,originale_filename=image.filename)
-                if edit_sight_form.image.data != None:
+
+                if images[0]:
+                    image_names = fix_image_filename(images, sight_id=sight_id)
+                    number_of_images = len(image_names)
                     try:
-                        image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_name))
-                        sight_model.add_sight_image(image_name)
+                        for i in range(number_of_images):
+                            images[i].save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_names[i]))
+                            sight_model.add_sight_image(sight_id, image_names[i])
                     except Exception as e:
                         return str(e)
-                
+                else:
+                    image_name = str(sight_id)+'/1.png'
+                    upload_folder_path = f"{current_app.config['UPLOAD_FOLDER']}"
+                    exists = os.path.isdir(upload_folder_path+str(sight_id))
+                    if not exists:
+                        os.mkdir(upload_folder_path+str(sight_id))
+                    shutil.copy("static/images/TravelTracer.png", upload_folder_path + image_name)
+                    sight_model.add_sight_image(sight_id, image_name)
+
                 if result:
                     flash(message)
                     return render_template("add_sight.html", edit_sight_form=edit_sight_form)
@@ -138,15 +151,20 @@ def add_sight():
             return render_template("add_sight.html", edit_sight_form=edit_sight_form)
         
 
-def fix_image_filename(originale_filename,sight_id):
-    filename = secure_filename(originale_filename)
-    suffix = os.path.splitext(filename)[1]
-    print(suffix)
+def fix_image_filename(images,sight_id):
+    image_names = []
     path = f"{current_app.config['UPLOAD_FOLDER']}/{sight_id}"
-    exist = os.path.isdir(path)
-    if not exist:
+    exists = os.path.isdir(path)
+    if not exists:
         os.mkdir(path)
-        
-    length = len([name for name in os.listdir(path)])
-        
-    return f"{sight_id}/{length+1}{suffix}"
+    image_id = len([name for name in os.listdir(path)])
+    for image in images:
+        image_name = secure_filename(image.filename)
+        image_extention = os.path.splitext(image_name)[1]
+        if image_extention == '':
+            continue
+            
+        image_names.append(f"{sight_id}/{image_id+1}{image_extention}")
+        image_id += 1
+            
+    return image_names
