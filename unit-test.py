@@ -14,8 +14,7 @@ class UserClass(unittest.TestCase):
         user = User(email="testuser@uit.no")
         result, error = user.deleteUser()
         self.assertTrue(result)
-
-        
+ 
     def test_registreringAndDeletion(self):
         user = User()
         email = "testuser@uit.no"
@@ -28,7 +27,6 @@ class UserClass(unittest.TestCase):
         else:
             print("Registration succeed!")
             
-
     def test_registreringFAIL(self):
         user = User()
         success, error = user.registrer("Mathias", "Pettersen", "Mathiaspettersen@hotmail.no", "MP", "123456789")
@@ -39,7 +37,6 @@ class UserClass(unittest.TestCase):
         else:
             print("Registration succeed!")
             
-
     def test_loginSTOR(self):
         user = User()
         result, error = user.login("MATHIASPETTERSEN@hotMAIL.No","123456789")
@@ -50,12 +47,10 @@ class UserClass(unittest.TestCase):
         result = user.isEmailAvailible("donalduck1@andeby.no")
         self.assertTrue(result)
     
-
     def test_emailNOTAvailible(self):
         user = User()
         result = user.isEmailAvailible("Mathiaspettersen@hotmail.no")
         self.assertFalse(result)
-
 
     # Test if the new username is already taken
     def test_changeUsernameFAIL(self):
@@ -65,7 +60,6 @@ class UserClass(unittest.TestCase):
         expected = (False, Errors.USERNAME_ALREADY_EXISTS.value)
         return self.assertEqual((result, message), expected)
 
-
     # Test if the new passwords do not match
     def test_changePasswordFAIL(self):
         test_user = User()
@@ -74,14 +68,12 @@ class UserClass(unittest.TestCase):
         excepted = (False, Errors.PASSWORDS_MATCH_ERROR.value)
         return self.assertEqual((result, message), excepted)
     
-
     #Need to change password every time this test is run
     #def test_changePassword(self):
         #test_user = User()
         #test_user.login("test1234@uit.no", "newhashed")
         #result, message = test_user.changePassword("newhashed", "12345678", "12345678")
         #self.assertTrue(result)
-
 
     #Need to change username every time this test is run
     #def test_changeUsername(self):

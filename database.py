@@ -9,7 +9,7 @@ class Database:
                     'user': USER,
                     'password': PASSWORD,
                     'database': DATABASE, }
-        
+
         self.configuration = dbconfig
 
         self.__dict_cursor = dict_cursor
@@ -24,18 +24,16 @@ class Database:
         self.cursor.close()
         self.conn.close()
 
-    
-    def query(self,sql,params=None):
-        self.cursor.execute(sql,params)
+    def query(self, sql, params=None):
+        self.cursor.execute(sql, params)
         result = self.cursor.fetchall()
         if result:
             return result
         else:
             return None
 
-
-    def queryOne(self,sql,params=None):
-        self.cursor.execute(sql,params)
+    def queryOne(self, sql, params=None):
+        self.cursor.execute(sql, params)
         result = self.cursor.fetchone()
         if result:
             return result
@@ -44,7 +42,7 @@ class Database:
 
     def commit(self):
         self.conn.commit()
-    
+
 
 if __name__ == "__main__":
     pass

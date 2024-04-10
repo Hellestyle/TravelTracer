@@ -19,12 +19,14 @@ class RegistrationForm(FlaskForm):
     first_name = StringField('first_name', validators=[DataRequired()])
     last_name = StringField('last_name', validators=[DataRequired()])
     submit = SubmitField('submit')
-    
+
+
 class ChangePasswordForm(FlaskForm):
     oldPassword = PasswordField("Old Password",validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
     newPassword = PasswordField("New Password",validators=[DataRequired(), Length(min=8, max=30, message="Password must contain at least 8 characters")])
     verifyNewPassword = PasswordField('Confirm Password', validators=[EqualTo('newPassword', message="The two passwords must match")])
     submitPasswordChange = SubmitField("Change Password")
+
 
 class ChangeUsername(FlaskForm):
     newUsername = StringField('New Username', validators=[DataRequired(), Length(min=3, max=30, message="Username must contain at least 3 characters")])
@@ -32,6 +34,7 @@ class ChangeUsername(FlaskForm):
     newFirstName = StringField('New First Name', validators=[DataRequired()])
     newLastName = StringField('New Last Name', validators=[DataRequired()])
     submitUsernameChange = SubmitField("Save changes")
+
 
 class ChangePrivacySettings(FlaskForm):
     openProfile = BooleanField("Open profile")
@@ -56,6 +59,7 @@ class TimeFormatValidator(object):
             raise ValidationError(self.message)
         if int(hour) < 0 or int(hour) > 23 or int(minute) < 0 or int(minute) > 59:
             raise ValidationError(self.message)
+
 
 class Edit_sight_detail(FlaskForm):
     active = BooleanField("Active")
@@ -84,4 +88,3 @@ class Add_sight_form(FlaskForm):
     image = FileField("Image")
     sight_type = StringField("Sight type ID",validators=[DataRequired()])
     submit = SubmitField("submit")
-
