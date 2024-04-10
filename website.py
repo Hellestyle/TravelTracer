@@ -11,7 +11,7 @@ from user_profile.user_profile import user_profile
 from admin.admin import admin
 
 import random as rand
-from database import  Database
+from database import Database
 from models.sight import Sight
 from config.email import *
 
@@ -43,19 +43,21 @@ app.register_blueprint(admin, url_prefix="/admin")
 def load_user(user_id):
     return User().get_user_by_id(user_id)
 
+
 @app.route("/")
 def index():
 
     with Database(dict_cursor=True) as db:
         sight_model = Sight(db)
         sights = sight_model.getAllSights()
-    
+
     admin = False
     if current_user.is_authenticated:
         user = current_user
         admin = True if user.check_if_user_is_admin() else False
 
-    return render_template("index.html", sights=(rand.sample(sights,3)), admin=admin)
+    return render_template("index.html", sights=(rand.sample(sights, 3)), admin=admin)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
