@@ -66,8 +66,11 @@ def edit_sight(sight_id):
             sight_type_id = edit_sight_form.sight_type.data
 
             image = edit_sight_form.image.data
-            image_name = fix_image_filename(sight_id=sight_id,originale_filename=image.filename)
-            image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_name))
+            if edit_sight_form.image.data != None:
+                image_name = fix_image_filename(sight_id=sight_id,originale_filename=image.filename)
+                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_name))
+            else:
+                image_name = ""
             
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
@@ -114,11 +117,12 @@ def add_sight():
                 result, message = sight_model.add_sight(sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description,sight_type_id)
                 sight_id = db.query("SELECT LAST_INSERT_ID();")[0]['LAST_INSERT_ID()']
                 image_name = fix_image_filename(sight_id=sight_id,originale_filename=image.filename)
-                try:
-                    image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_name))
-                    sight_model.add_sight_image(image_name)
-                except Exception as e:
-                    return str(e)
+                if edit_sight_form.image.data != None:
+                    try:
+                        image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_name))
+                        sight_model.add_sight_image(image_name)
+                    except Exception as e:
+                        return str(e)
                 
                 if result:
                     flash(message)

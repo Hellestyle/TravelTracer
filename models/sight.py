@@ -270,7 +270,8 @@ class Sight:
         try:
             self.__db.query("UPDATE sight SET age_category_id = %s, google_maps_url = %s, active = %s, open_time = %s, close_time = %s WHERE id = %s;", (age_category_id, google_maps_url, active, open_time, close_time, id))
             self.__db.query("UPDATE sight_meta SET name = %s, address = %s, description = %s WHERE sight_id = %s;", (name, address, description, id))
-            self.__db.query("UPDATE sight_photo SET photo = %s WHERE sight_id = %s;", (filename, id))
+            if filename != "":
+                self.__db.query("UPDATE sight_photo SET photo = %s WHERE sight_id = %s;", (filename, id))
             self.__db.query("UPDATE sight_has_sight_type SET sight_type_id = %s WHERE sight_id = %s AND sight_type_id = %s",(sight_type_id, id, old_sight_type_id))
             return True, "Sight updated successfully."
         
