@@ -1,7 +1,6 @@
-{% extends "base.html" %} {% block head %}
+{% extends "base.html" %} 
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% block head %}
 <link
   href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
   rel="stylesheet"
@@ -14,11 +13,12 @@
 
 <script src="{{ url_for('.static', filename='js/toggle-description.js') }}"></script>
 <script src="{{ url_for('.static', filename='js/popup.js') }}"></script>
+<script src="{{ url_for('.static', filename='js/toggle-images.js') }} "> </script>
+{% endblock %} 
 
-{% endblock %} {% block title %} {{ sight.name }} {% endblock %}
+{% block title %} {{ sight.name }} {% endblock %}
 
 {% block popup %}
-
   <div id="popup-background">
 
     <div id="popup">
@@ -42,7 +42,6 @@
     </div>
 
   </div>
-
 {% endblock %}
 
 {% block content %}
@@ -199,52 +198,21 @@
 </div>
 
 <!-- Javascript for button-left and button-right -->
+
 <script>
   var images = {{ images | safe }};
   var index1 = 0;
   var index2 = 1;
-
-  function showImage(index) {
-    var imageElement1 = document.getElementById("image1");
-    var imageElement2 = document.getElementById("image2");
-
-    if (index < 0) {
-      index = images.length - 1;
-    } else if (index >= images.length) {
-      index = 0;
-    }
-    index1 = index;
-    index2 = (index1 + 1) % images.length;
-    imageElement1.src = images[index1];
-    imageElement2.src = images[index2];
-  }
-
-  function prevImage() {
-    index1 = (index1 - 1 + images.length) % images.length;
-    index2 = (index2 - 1 + images.length) % images.length;
-    document.getElementById("image1").src = images[index1];
-    document.getElementById("image2").src = images[index2];
-  }
-
-  function nextImage() {
-    index1 = (index1 + 1) % images.length;
-    index2 = (index2 + 1) % images.length;
-    document.getElementById("image1").src = images[index1];
-    document.getElementById("image2").src = images[index2];
-  }
 
   showImage(0);
 </script>
 
 <!-- Javascript for popup -->
 <script>
-  
   document.getElementById("popup-background").addEventListener("click", function(event) {
     if (event.target === document.getElementById("popup-background")) {
       closePopup("{{ url_for('sight.add_to_visited_list', sight_id=sight.id, next=url_for('sight.sight_details', sight_id=sight.id)) }}");
     }
   });
-
 </script>
-
 {% endblock %}

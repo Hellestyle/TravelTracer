@@ -1,9 +1,13 @@
-{% extends "base.html" %} {% block head %}
+{% extends "base.html" %} 
 
-  <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/sights.css') }}">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/sights.css') }}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %} 
 
-{% endblock %} {% block title %} Sights {% endblock %} {% block content %}
+{% block title %} Sights {% endblock %} 
+
+{% block content %}
 <div id="dark-overlay"></div>
 
 <div id="img-backgroud"></div>
@@ -98,7 +102,8 @@
 {% endif %}
 
 <script src="{{ url_for('.static', filename='js/pagination.js') }}"> </script>
-<script src="{{ url_for('.static', filename='js/search.js') }} "> </script>
+<script src="{{ url_for('.static', filename='js/search.js') }}"> </script>
+<script src="{{ url_for('.static', filename='js/select-age.js') }}"> </script>
 <script>
   initKeywords("{{ sight_type_names|join(',') }}" + "," + "{{ sight_names|join(',') }}");
 
@@ -106,24 +111,5 @@
     sight_category: "{{ url_for('sight.sight_by_category', category='_category_', age='_age_') }}",
     age_category: "{{ url_for('sight.sight_by_age', age='_age_') }}"
   };
-
-  document.querySelector('.search-button').addEventListener('click', function(event) {
-    event.preventDefault();
-    var inputBoxValue = document.querySelector('#input-box').value;
-
-    // ages is always selected, either "all" or other age categories
-    var selectedAge = document.getElementById("age").value;
-
-    // If the input box is not empty and age is either "all" or other age categories
-    if (inputBoxValue && selectedAge) {
-      var newHref = url.sight_category.replace('_category_', inputBoxValue).replace('_age_', selectedAge);
-      window.location.href = newHref;
-    } else {
-      // If the input box is empty but the age is either "all" or other age categories
-      var newHref = url.age_category.replace('_age_', selectedAge);
-      window.location.href = newHref;
-    }
-  });
 </script>
-
 {% endblock %}

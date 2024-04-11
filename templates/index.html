@@ -1,16 +1,23 @@
-{% extends "base.html" %} {% block head %}
+{% extends "base.html" %} 
+
+{% block head %}
 <link
   rel="stylesheet"
   type="text/css"
   href="{{ url_for('static', filename='css/index.css') }}"
 />
-{% endblock %} {% block title %} Welcome to TravelTracer {% endblock %} {% block
-container %}
+{% endblock %}
+
+{% block title %} Welcome to TravelTracer {% endblock %} 
+
+{% block container %}
 <h1>
   Explore the world with<br />
   <span>TravelTracer</span>
 </h1>
-{% endblock %} {% block content %}
+{% endblock %} 
+
+{% block content %}
 <div id="dark-overlay"></div>
 
 <video muted autoplay loop id="video-backgroud">
