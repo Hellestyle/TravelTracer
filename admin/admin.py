@@ -43,6 +43,8 @@ def edit_sight(sight_id):
             sight_model = Sight(db)
             sight = sight_model.getSight(sight_id)
             sight["active"] = bool(sight["active"])
+            edit_sight_form.age_category_id.data = sight["age_category_id"]
+            edit_sight_form.sight_type.data = sight["sight_type_id"]
 
             return render_template(
                 "edit_sight.html",
@@ -65,16 +67,25 @@ def edit_sight(sight_id):
             old_sight_type_id = edit_sight_form.old_sight_type.data
             sight_type_id = edit_sight_form.sight_type.data
 
-            image = edit_sight_form.image.data
-            if edit_sight_form.image.data != None:
-                image_name = fix_image_filename(sight_id=sight_id,originale_filename=image.filename)
-                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_name))
+            images = edit_sight_form.image.data
+            
+            if images[0]:
+                    image_names = fix_image_filename(images, sight_id=sight_id)
+                    number_of_images = len(image_names)
+                    try:
+                        for i in range(number_of_images):
+                            images[i].save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_names[i]))
+                            sight_model.add_sight_image(sight_id, image_names[i])
+                    except Exception as e:
+                        return str(e)
             else:
-                image_name = ""
+                image_names =""
+            
+
             
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
-                result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_name, sight_type_id, old_sight_type_id)
+                result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_names, sight_type_id, old_sight_type_id)
 
                 if result:
                     flash(message)
