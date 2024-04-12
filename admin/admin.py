@@ -3,7 +3,7 @@ from database import Database
 from models.sight import Sight
 from models.sight_name import SightName
 from models.sight_type import SightType
-from forms import Edit_sight_detail, Add_sight_form
+from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories
 from datetime import datetime as dt
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
@@ -43,6 +43,10 @@ def edit_sight(sight_id):
             sight_model = Sight(db)
             sight = sight_model.getSight(sight_id)
             sight["active"] = bool(sight["active"])
+            
+            edit_sight_form.sight_type.choices = sort_dropdown_by_id(sight["sight_type_id"],get_categories())
+            edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
+            
 
             return render_template(
                 "edit_sight.html",
@@ -65,16 +69,25 @@ def edit_sight(sight_id):
             old_sight_type_id = edit_sight_form.old_sight_type.data
             sight_type_id = edit_sight_form.sight_type.data
 
-            image = edit_sight_form.image.data
-            if edit_sight_form.image.data != None:
-                image_name = fix_image_filename(sight_id=sight_id,originale_filename=image.filename)
-                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_name))
+            images = edit_sight_form.image.data
+            
+            if images[0]:
+                    image_names = fix_image_filename(images, sight_id=sight_id)
+                    number_of_images = len(image_names)
+                    try:
+                        for i in range(number_of_images):
+                            images[i].save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_names[i]))
+                            sight_model.add_sight_image(sight_id, image_names[i])
+                    except Exception as e:
+                        return str(e)
             else:
-                image_name = ""
+                image_names =""
+            
+
             
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
-                result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_name, sight_type_id, old_sight_type_id)
+                result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_names, sight_type_id, old_sight_type_id)
 
                 if result:
                     flash(message)
@@ -168,3 +181,12 @@ def fix_image_filename(images,sight_id):
         image_id += 1
             
     return image_names
+
+
+def sort_dropdown_by_id(id,options):
+    new = []
+    selected = options.pop(id-1)
+    new.append(selected)
+    for option in options:
+        new.append(option)
+    return new

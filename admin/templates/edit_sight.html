@@ -11,6 +11,7 @@
       href="{{ url_for('.static', filename='/css/edit_sight.css') }}"
     />
     <title>Edit sight</title>
+    <script src="{{ url_for('.static', filename='js/edit_sight.js') }}" defer></script>
   </head>
 
   <body>
@@ -23,29 +24,31 @@
 
          <div class="form-row">
             <div class="input-data">
-               {{ edit_sight_form.active(checked = sight.active) }}
-               <div class="underline"></div>
-               <label for="">Active</label>
-            </div>
-         </div>
-
-         <div class="form-row">
-            <div class="input-data">
                <input type="text" name="sight_name" value="{{ sight.name if sight.name else '' }}">
                <div class="underline"></div>
                <label for="">Sight name</label>
             </div>
             <div class="input-data">
-               <input type="text" name="age_category_id" value="{{ sight.age_category_id if sight.age_category_id else '' }}">
-               <div class="underline"></div>
-               <label for="">Age category</label>
+               {{ edit_sight_form.active(checked = sight.active) }}
+               <label for="">Active</label>
             </div>
+         </div>
+
+         <div class="form-row">
+            
+            
+            <div class="input-data">
+               {{ edit_sight_form.age_category_id() }}
+               <div class="underline"></div>
+               
+            </div>
+            
             <div class="input-data">
                <input type="hidden" name="old_sight_type" value="{{ sight.sight_type_id if sight.sight_type_id else '' }}">
-
-               <input type="text" name="sight_type" value="{{ sight.sight_type_id if sight.sight_type_id else '' }}">>
+               {{ edit_sight_form.sight_type() }}
                <div class="underline"></div>
-               <label for="">Sight type ID</label>
+               
+               
             </div>
          </div>
          <div class="form-row">
@@ -73,8 +76,9 @@
                <label for="">Close time</label>
             </div>
             <div class="input-data">
-            {{ edit_sight_form.image() }}
-            <div class="underline"></div>
+               {{ edit_sight_form.image() }}
+               <div class="underline"></div>
+               <label for="">Upload Images</label>
             </div>
          </div>
          <div class="form-row">
@@ -95,11 +99,37 @@
          </div>
       </form>
 
+      
       <ul>
-         {% for message in get_flashed_messages() %}
-         <li>{{ message }}</li>
-         {% endfor %}
-      </ul>
-   </div>
+          {% for message in get_flashed_messages() %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+    </div>
+
+
+    
+    <div>
+        <form action="">
+            <div class="ms-boxes used-in-code">
+                <label for="Text-Field-2" class="ms-input-label">Drag n' Drop </label>
+                {% for photo in sight["photos"] %}
+                    <div draggable="true" class="ms-box used-in-code" style="opacity: 1;">
+                        <div class="ms-button-svg drag w-embed">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+                                <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                <path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+                            </svg>
+                        </div>
+                        <img style="width: 200px; height: 200px;" src="/static/images/sight/{{ photo }}"></img>
+                        <div data-value="true"> test {{ photo }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <input type="text" class="w-input" data-input="drag-order" maxlength="256" name="field" data-name="Field" placeholder="Example Text" id="field" data-ms-member="drag-order">
+            <input type="submit" value="Save to Profile" data-wait="Please wait..." class="w-button">
+        </form>
+    </div>
+    
   </body>
 </html>

@@ -267,6 +267,7 @@ class Sight:
     
 
     def update_sight(self, id, name, age_category_id, address, google_maps_url, active, open_time, close_time, description, filename, sight_type_id, old_sight_type_id):
+        #add a for loop to handle multiple images
         try:
             self.__db.query("UPDATE sight SET age_category_id = %s, google_maps_url = %s, active = %s, open_time = %s, close_time = %s WHERE id = %s;", (age_category_id, google_maps_url, active, open_time, close_time, id))
             self.__db.query("UPDATE sight_meta SET name = %s, address = %s, description = %s WHERE sight_id = %s;", (name, address, description, id))
