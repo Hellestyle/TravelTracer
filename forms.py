@@ -1,8 +1,25 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField,SelectField
 from wtforms.validators import DataRequired, Email, Length, InputRequired, EqualTo
 from wtforms import ValidationError
 from database import Database
+
+def get_categories():
+    categories = [None]
+    
+    with Database() as db:
+        try:
+            result = db.query("SELECT `sight_type_id`,`name` FROM `sight_type_meta` WHERE `language_id`= 1 ORDER BY sight_type_id")
+        except:
+            return [(1,"Error")]
+        return result
+def get_age_categories():
+    with Database() as db:
+        try:
+            result = db.query("SELECT age_category_id,name FROM `age_category_meta` WHERE `language_id`= 1 ORDER BY age_category_id")
+        except:
+            return [(1,"Error")]
+        return result
 
 
 class LoginForm(FlaskForm):
@@ -64,7 +81,8 @@ class TimeFormatValidator(object):
 class Edit_sight_detail(FlaskForm):
     active = BooleanField("Active")
     sight_name = StringField("Sight Name",validators=[DataRequired()])
-    age_category_id = StringField("Age Category ID",validators=[DataRequired()])
+    age_category_id = SelectField("Age Category", choices=get_age_categories())
+    #age_category_id = StringField("Age Category ID",validators=[DataRequired()])
     address = StringField("Address",validators=[DataRequired()])
     google_maps_url = StringField("Google Maps URL", validators=[])
     open_time = StringField("Open Time", validators=[TimeFormatValidator()])
@@ -72,7 +90,8 @@ class Edit_sight_detail(FlaskForm):
     description = StringField("Description", validators=[])
     image = MultipleFileField("Image")
     old_sight_type = StringField("Old Sight type ID",validators=[DataRequired()])
-    sight_type = StringField("Sight type ID",validators=[DataRequired()])
+    sight_type = SelectField("Category",choices=get_categories())
+    #sight_type = StringField("Sight type ID",validators=[DataRequired()])
     submit = SubmitField("submit")
 
 
@@ -88,3 +107,11 @@ class Add_sight_form(FlaskForm):
     image = MultipleFileField("Image")
     sight_type = StringField("Sight type ID",validators=[DataRequired()])
     submit = SubmitField("submit")
+
+
+
+        
+if __name__ == "__main__":
+    print(get_categories())
+    print(get_age_categories())
+    
