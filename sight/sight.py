@@ -37,14 +37,14 @@ def sights():
         user = current_user
         admin = True if user.check_if_user_is_admin() else False
 
-        result, message, user_wishlist, user_visted_list =  user.get_user_wishlist_and_visited_list()
+        result, message, user_wishlist, user_visited_list =  user.get_user_wishlist_and_visited_list()
         if result:
             return render_template(
                 "sight/sights.html",
                 sights=sights,
                 sight_type_names=[sight_type["name"] for sight_type in sight_types],
                 sight_names = [sight_name["name"] for sight_name in sight_names],
-                admin=admin, user_wishlist=user_wishlist, user_visted_list=user_visted_list
+                admin=admin, user_wishlist=user_wishlist, user_visited_list=user_visited_list
             )
         else:
             return render_template(
@@ -52,7 +52,7 @@ def sights():
                 sights=sights,
                 sight_type_names=[sight_type["name"] for sight_type in sight_types],
                 sight_names = [sight_name["name"] for sight_name in sight_names],
-                admin=admin, message=message, user_wishlist=None, user_visted_list=None
+                admin=admin, message=message, user_wishlist=None, user_visited_list=None
             )
     else:
         return render_template(

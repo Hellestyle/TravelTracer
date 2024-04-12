@@ -62,19 +62,15 @@
               
                 <div class="wishlist-and-visted-container">
                   {% if user_wishlist %}
-                    {% for wishlist in user_wishlist %}
-                      {% if wishlist.id == sight.id %}
-                        <i class='bx bx-bookmark mark-blue' >In wishlist</i>
-                      {% endif %}
-                    {% endfor %}
+                    {% if sight.id in user_wishlist %}
+                      <i class='bx bx-bookmark mark-blue' >In wishlist</i>
+                    {% endif %}
                   {% endif %}
 
                   {% if user_visited_list %}
-                    {% for visited in user_visited_list %}
-                      {% if visited.id == sight.id %}
-                        <i class='bx bx-check-circle check-green' >Visited</i>
-                      {% endif %}
-                    {% endfor %}
+                    {% if sight.id in user_visited_list %}
+                      <i class='bx bx-check-circle check-green' >Visited</i>
+                    {% endif %}
                   {% endif %}
                 </div>
 

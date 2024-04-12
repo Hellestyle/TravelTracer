@@ -247,12 +247,12 @@ button:active {
   display: flex;
   align-content: center;
   gap: 20px;
-  padding: 0 0 10px 5px;
+  padding: 0 5px;
 }
 
 .wishlist-and-visted-container .check-green {
   font-size: 18px;
-  color: green;
+  color: darkgreen;
 }
 
 .wishlist-and-visted-container .mark-blue {
