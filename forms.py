@@ -112,6 +112,6 @@ class Add_sight_form(FlaskForm):
 
         
 if __name__ == "__main__":
-    get_categories()
-    get_age_categories()
+    print(get_categories())
+    print(get_age_categories())
     
