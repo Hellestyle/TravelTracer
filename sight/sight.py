@@ -21,11 +21,6 @@ sight = Blueprint("sight", __name__, template_folder="templates", static_folder=
 
 @sight.route("/sights")
 def sights():
-    admin = False
-    if current_user.is_authenticated:
-        user = current_user
-        admin = True if user.check_if_user_is_admin() else False
-    
     with Database(dict_cursor=True) as db:
         
         sight_model = Sight(db)
@@ -36,14 +31,37 @@ def sights():
 
         sight_name_model = SightName(db)
         sight_names = sight_name_model.getAllSightNames()
+    
+    admin = False
+    if current_user.is_authenticated:
+        user = current_user
+        admin = True if user.check_if_user_is_admin() else False
 
-    return render_template(
-        "sight/sights.html",
-        sights=sights,
-        sight_type_names=[sight_type["name"] for sight_type in sight_types],
-        sight_names = [sight_name["name"] for sight_name in sight_names],
-        admin=admin
-    )
+        result, message, user_wishlist, user_visted_list =  user.get_user_wishlist_and_visited_list()
+        if result:
+            return render_template(
+                "sight/sights.html",
+                sights=sights,
+                sight_type_names=[sight_type["name"] for sight_type in sight_types],
+                sight_names = [sight_name["name"] for sight_name in sight_names],
+                admin=admin, user_wishlist=user_wishlist, user_visted_list=user_visted_list
+            )
+        else:
+            return render_template(
+                "sight/sights.html",
+                sights=sights,
+                sight_type_names=[sight_type["name"] for sight_type in sight_types],
+                sight_names = [sight_name["name"] for sight_name in sight_names],
+                admin=admin, message=message, user_wishlist=None, user_visted_list=None
+            )
+    else:
+        return render_template(
+            "sight/sights.html",
+            sights=sights,
+            sight_type_names=[sight_type["name"] for sight_type in sight_types],
+            sight_names = [sight_name["name"] for sight_name in sight_names],
+            admin=admin
+        )
 
 
 @sight.route("/sight/id/<int:sight_id>")

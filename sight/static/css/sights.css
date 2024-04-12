@@ -250,12 +250,12 @@ button:active {
   padding: 0 0 10px 5px;
 }
 
-.check-green {
+.wishlist-and-visted-container .check-green {
   font-size: 18px;
   color: green;
 }
 
-.mark-blue {
+.wishlist-and-visted-container .mark-blue {
   font-size: 18px;
   color: #0056b3;
 }

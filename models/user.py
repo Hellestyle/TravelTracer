@@ -605,6 +605,35 @@ class User(UserMixin):
             
         except Exception as exception:
             return False, str(exception), None
+        
+    
+    def get_user_wishlist_and_visited_list(self):
+        try:
+            with Database() as db:
+                wishlist = db.query("SELECT s.id, sm.name FROM sight AS s \
+                                JOIN wishlist AS wl \
+                                ON wl.sight_id = s.id \
+                                JOIN sight_meta AS sm \
+                                on sm.sight_id = s.id \
+                                WHERE wl.user_id = %s;", (self.__id,))
+
+                visited = db.query("SELECT s.id, sm.name \
+                                FROM sight AS s \
+                                JOIN visited_list AS vl \
+                                ON s.id = vl.sight_id \
+                                JOIN sight_meta AS sm \
+                                ON sm.sight_id = s.id \
+                                JOIN user AS u \
+                                ON u.id = vl.user_id \
+                                WHERE vl.user_id = %s;", (self.__id,))
+                
+                user_wishlist = [{"id": sight[0], "name": sight[1]} for sight in wishlist] if wishlist else []
+                user_visited_list = [{"id": sight[0], "name": sight[1]} for sight in visited] if visited else []
+                return True, "Success", user_wishlist, user_visited_list
+            
+        except Exception as exception:
+            return False, str(exception), [], []
+
 
     def __str__(self) -> str:
         string = f"User(id={self.__id}, username={self.__username}, passhash={self.__passhash}, email={self.__email}, isAdmin={self.__isAdmin}, firstName={self.__firstName}, lastName={self.__lastName})"
