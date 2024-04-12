@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('.static', filename='/css/achievements.css') }}"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Achievements page</title>
+  </head>
+
+    <body>
+        
+        <div>
+            <table>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Desc</th>
+                    <th>Image</th>
+                    <th>Edit</th>
+                </tr>
+                {% for achievement in achievements %}
+                <tr>
+                    <td>{{ achievement[0] }}</td>
+                    <td>{{ achievement[2] }}</td>
+                    <td>{{ achievement[3] }}</td>
+                    <td> <img class="achievement-image"src="{{ path + achievement[1]  }}" alt=""> </img></td>
+                    <td> <a href="{{ url_for('admin.achievement_edit', achievement_id = achievement[0]) }}">Edit</a> </td>  
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    
+
+        <script src="{{ url_for('.static', filename='js/admin_profile.js') }}"></script>
+    </body>
+</html>

@@ -19,13 +19,17 @@ from config.email import *
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
 
-UPLOAD_PATH = 'static/images/sight/'
+UPLOAD_PATH = 'static/'
+SIGHT_IMAGE_PATH = UPLOAD_PATH + 'images/sight/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_PATH
+app.config['SIGHT_IMAGE_FOLDER'] = SIGHT_IMAGE_PATH
 app.config['MAIL_SERVER'] = MAIL_SERVER
 app.config['MAIL_PORT'] = MAIL_PORT
 app.config['MAIL_USERNAME'] = MAIL_USERNAME
 app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
+
+ACHIEVEMENTS_PATH = '../' + UPLOAD_PATH + 'images/achievement/'
+app.config['ACHIEVEMENTS_FOLDER'] = ACHIEVEMENTS_PATH
 
 loginManager = LoginManager()
 loginManager.init_app(app)

@@ -109,6 +109,11 @@ class Add_sight_form(FlaskForm):
     submit = SubmitField("submit")
 
 
+class Edit_acheivements(FlaskForm):
+    name = StringField("Name",validators=[DataRequired()])
+    desc = StringField("Description",validators=[DataRequired()])
+    image = FileField("Image",validators=[])
+    submit = SubmitField("Submit")
 
         
 if __name__ == "__main__":
