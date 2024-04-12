@@ -58,7 +58,13 @@
           <a class="sight-link" href="{{ url_for('sight.sight_details', sight_id=sight.id) }}">
             <div class="sight-item">
               <img class="sight-photo" src="{{ url_for('static', filename='images/sight/' + sight.photos[0]) }}" alt="{{ sight.name }}" />
-                <h3> {{ sight.name }} </h3>
+              <h3> {{ sight.name }} </h3>
+
+              <div class="wishlist-and-visted-container">
+                <i class='bx bx-bookmark mark-blue' >In wishlist</i>
+                <i class='bx bx-check-square check-green'>Visited</i>
+              </div>
+
                 <div class="info sight-info">
                   <h5>
                     {% if sight.visited == 0 %}
