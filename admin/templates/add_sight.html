@@ -39,23 +39,43 @@
             <div class="input-data">
                {{ edit_sight_form.age_category_id() }}
                <div class="underline"></div>
-               
+               <label for="">Sight name</label>
+               {% for error in edit_sight_form.sight_name.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
             </div>
+            
             
             <div class="input-data">
                <input type="hidden" name="old_sight_type">
                {{ edit_sight_form.sight_type() }}
                <div class="underline"></div>
-               
-               
+               <label for="">Age category</label>
+               {% for error in edit_sight_form.age_category_id.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
+            </div>
+           
+            <div class="input-data">
+               <input type="text" name="sight_type" value="{{ edit_sight_form.sight_type.data if edit_sight_form.sight_type.data else '' }}">
+               <div class="underline"></div>
+               <label for="">Sight type ID</label>
+               {% for error in edit_sight_form.sight_type.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
             </div>
          </div>
+        
          <div class="form-row">
             <div class="input-data">
                <input type="text" name="address" >
                <div class="underline"></div>
                <label for="">Address</label>
+               {% for error in edit_sight_form.address.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
             </div>
+
             <div class="input-data">
                <input type="text" name="google_maps_url" >
                <div class="underline"></div>
@@ -68,12 +88,22 @@
                <input type="text" name="open_time" >
                <div class="underline"></div>
                <label for="">Open time</label>
+               {% for error in edit_sight_form.open_time.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
+         
             </div>
+            
             <div class="input-data">
                <input type="text" name="close_time" >
                <div class="underline"></div>
                <label for="">Close time</label>
+               {% for error in edit_sight_form.close_time.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
+         
             </div>
+            
             <div class="input-data">
                {{ edit_sight_form.image() }}
                <div class="underline"></div>
