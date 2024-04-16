@@ -3,35 +3,20 @@ from models.user import User
 
 class Achievement:
 
-    #def __init__(self,aId , icon = "" ,langId=None, name = "",desc="", level=0) -> None:
-    #    self.getAchievementData()
-    #    self.__name = name
-    #    self.__level = level
-    #    self.__aId = aId
-    #    self.__icon = icon
-    #    self.__desc = desc
-    #    self.__langID = langId
+
     
     def __init__(self, db):
         self.__db = db
 
-    def getLevel(self):
-        return self.__level
-    def getName(self):
-        return self.__name
-    def getId(self):
-        return self.__aId
+
     
-    def getAchievementData(self, id):
-        with Database() as db:
+    def get_achievement_data(self, id):
             try:
-                result = db.queryOne("SELECT a.id, a.icon, am.language_id, am.name, am.description FROM achievement a JOIN achievement_meta am ON a.id = am.achievement_id WHERE a.id = %s AND am.language_id = 1",(id,))
-            except:
-                return "Error with db"
-            self.__aId = id
-            self.__icon = result[1]
-            self.__name = result[3]
-            self.__desc = result[4]
+                result = self.__db.queryOne("SELECT a.id, a.icon,  am.name, am.description FROM achievement a JOIN achievement_meta am ON a.id = am.achievement_id WHERE a.id = %s AND am.language_id = 1",(id,))
+            except Exception as e:
+                print(f'{e=}')
+            
+            return result
     
     def getAchievements(self, language_id=None):
 
@@ -60,3 +45,16 @@ class Achievement:
         
         except Exception as exception:
             return False, str(exception), None
+
+    def update(self,a_id,name,desc,image_name):
+        print(f'{name=}')
+        try:
+            self.__db.query("UPDATE `achievement_meta` SET `name` = %s , `description` = %s WHERE `achievement_meta`.`achievement_id` = %s AND `achievement_meta`.`language_id` = 1 ",(name,desc,a_id,))
+            if image_name:
+                self.__db.query("UPDATE `achievement` SET `icon` = %s WHERE `achievement`.`id` = %s",(image_name,a_id,))
+            
+            return True
+        except Exception as e:
+            print(f'{e=}')
+            return False
+        

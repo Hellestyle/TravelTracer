@@ -12,6 +12,7 @@ menuBarButton.addEventListener("click", () => {
 });
 
 // Opens the correct content when you select from the sidemenu
+/*
 const sideBarMenuOptions = document.querySelectorAll(
   ".sidebar .side-menu li a:not(.logout)"
 );
@@ -34,6 +35,14 @@ sideBarMenuOptions.forEach((item) => {
     sideMenu.classList.add("close");
   });
 });
+*/
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target != menuBarButton){
+      sideMenu.classList.add('close');
+  }
+}
 
 function switchPage(page) {
   let containers = document.getElementsByClassName("container");

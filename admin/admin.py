@@ -3,7 +3,8 @@ from database import Database
 from models.sight import Sight
 from models.sight_name import SightName
 from models.sight_type import SightType
-from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories
+from models.achievement import Achievement
+from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories, Edit_acheivements
 from datetime import datetime as dt
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
@@ -76,7 +77,7 @@ def edit_sight(sight_id):
                     number_of_images = len(image_names)
                     try:
                         for i in range(number_of_images):
-                            images[i].save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_names[i]))
+                            images[i].save(os.path.join(current_app.config['SIGHT_IMAGE_FOLDER'], image_names[i]))
                             sight_model.add_sight_image(sight_id, image_names[i])
                     except Exception as e:
                         return str(e)
@@ -137,13 +138,13 @@ def add_sight():
                     number_of_images = len(image_names)
                     try:
                         for i in range(number_of_images):
-                            images[i].save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_names[i]))
+                            images[i].save(os.path.join(current_app.config['SIGHT_IMAGE_FOLDER'], image_names[i]))
                             sight_model.add_sight_image(sight_id, image_names[i])
                     except Exception as e:
                         return str(e)
                 else:
                     image_name = str(sight_id)+'/1.png'
-                    upload_folder_path = f"{current_app.config['UPLOAD_FOLDER']}"
+                    upload_folder_path = f"{current_app.config['SIGHT_IMAGE_FOLDER']}"
                     exists = os.path.isdir(upload_folder_path+str(sight_id))
                     if not exists:
                         os.mkdir(upload_folder_path+str(sight_id))
@@ -164,9 +165,63 @@ def add_sight():
             return render_template("add_sight.html", edit_sight_form=edit_sight_form)
         
 
+
+@admin.route("/achievements", methods=["GET", "POST"])
+def achievements_page():
+#@login_required
+    
+    path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}" 
+    
+    with Database() as db:
+        obj = Achievement(db)
+        success, message, achievements = obj.getAchievements(1)
+        
+    if request.method == "GET":
+        
+        return render_template("achievements.html", achievements = achievements, path=path)
+    
+
+@admin.route("/achievements/edit/<int:achievement_id>", methods=["GET", "POST"])
+def achievement_edit(achievement_id):
+#@login_required
+    edit_achievement_form = Edit_acheivements()
+    path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}"
+    message=False
+    with Database(dict_cursor=True) as db:
+        achievement = Achievement(db)
+        result = achievement.get_achievement_data(achievement_id)
+        print(f'{result=}') # (1, '1.png', 1, 'Traveler', 'Travel to some outstanding place')
+        
+    if request.method == "GET":
+        edit_achievement_form.name.data = result["name"]
+        edit_achievement_form.desc.data = result["description"]
+        return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id)
+    if edit_achievement_form.validate_on_submit():
+        
+        name = edit_achievement_form.name.data
+        desc = edit_achievement_form.desc.data
+        if edit_achievement_form.image.data:
+            image = edit_achievement_form.image.data
+            image_name = secure_filename(image.filename)
+            image_extention = os.path.splitext(image_name)[1]
+            image_name = f'{achievement_id}{image_extention}'
+        else:
+            image_name = False
+        with Database(dict_cursor=True) as db:
+            achievement = Achievement(db)
+            achievement.update(achievement_id,name,desc,image_name)
+        message = "Succsessfully updated achievement!"
+        return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id)
+    
+    else:
+        return "invalid form"
+        
+    
+        
+
 def fix_image_filename(images,sight_id):
     image_names = []
-    path = f"{current_app.config['UPLOAD_FOLDER']}/{sight_id}"
+    path = f"{current_app.config['SIGHT_IMAGE_FOLDER']}/{sight_id}"
     exists = os.path.isdir(path)
     if not exists:
         os.mkdir(path)
@@ -190,3 +245,4 @@ def sort_dropdown_by_id(id,options):
     for option in options:
         new.append(option)
     return new
+

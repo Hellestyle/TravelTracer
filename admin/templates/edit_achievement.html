@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('.static', filename='/css/achievements.css') }}"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Achievements edit</title>
+  </head>
+
+    <body>
+        
+        <div>
+            <form action="{{ url_for('admin.achievement_edit', achievement_id = achievement_id) }}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                {{ edit_achievement_form.name.label }}
+                {{ edit_achievement_form.name() }} <br>
+                {{ edit_achievement_form.desc.label }}
+                {{ edit_achievement_form.desc() }} <br>
+                {{ edit_achievement_form.image() }}
+                {{ edit_achievement_form.submit() }}
+
+            </form>
+        </div>
+    
+
+        <script src="{{ url_for('.static', filename='js/admin_profile.js') }}"></script>
+    </body>
+</html>
