@@ -107,8 +107,10 @@ def edit_sight(sight_id):
 @admin.route("/add-sight", methods=["GET", "POST"])
 @login_required
 def add_sight():
-    edit_sight_form = Add_sight_form()
+    edit_sight_form = Edit_sight_detail()
     if request.method == "GET":
+        edit_sight_form.sight_type.choices = get_categories()
+        edit_sight_form.age_category_id.choices = get_age_categories()
         return render_template("add_sight.html", edit_sight_form=edit_sight_form)
     else:
         
