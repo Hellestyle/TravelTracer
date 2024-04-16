@@ -193,11 +193,13 @@ def achievement_edit(achievement_id):
         achievement = Achievement(db)
         result = achievement.get_achievement_data(achievement_id)
         print(f'{result=}') # (1, '1.png', 1, 'Traveler', 'Travel to some outstanding place')
+        current_image = path + result["icon"]
         
     if request.method == "GET":
         edit_achievement_form.name.data = result["name"]
         edit_achievement_form.desc.data = result["description"]
-        return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id)
+        
+        return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image)
     if edit_achievement_form.validate_on_submit():
         
         name = edit_achievement_form.name.data
@@ -213,7 +215,7 @@ def achievement_edit(achievement_id):
             achievement = Achievement(db)
             achievement.update(achievement_id,name,desc,image_name)
         message = "Succsessfully updated achievement!"
-        return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id)
+        return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image)
     
     else:
         return "invalid form"

@@ -7,7 +7,7 @@
 .table {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 50%;
+  width: 100%;
 }
 
 .table td, .table th {
@@ -25,4 +25,64 @@
   text-align: left;
   background-color: #045aaa;
   color: white;
+}
+
+.center {
+  
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.achievement-form input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.achievement-form input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.achievement-form input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.achievement-form div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.achievement-form label {
+  font-size: large;
+  font-weight: bold;
+
+}
+
+
+.achievement-form input[type="file"]::file-selector-button {
+  border: 2px solid;
+  padding: 0;
+  margin: 10px;
+  scale: 100%;
+  border-radius: 0.2em;
+  background-color: #a29bfe;
+  transition: 1s;
+}
+
+.achievement-form input[type="file"]::file-selector-button:hover {
+  background-color: #81ecec;
+  border: 2px solid #00cec9;
 }
