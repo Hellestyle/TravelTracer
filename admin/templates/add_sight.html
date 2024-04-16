@@ -26,20 +26,6 @@
                <input type="text" name="sight_name">
                <div class="underline"></div>
                <label for="">Sight name</label>
-            </div>
-            <div class="input-data">
-               {{ edit_sight_form.active(checked = True) }}
-               <label for="">Active</label>
-            </div>
-         </div>
-
-          <div class="form-row">
-            
-            
-            <div class="input-data">
-               {{ edit_sight_form.age_category_id() }}
-               <div class="underline"></div>
-               <label for="">Sight name</label>
                {% for error in edit_sight_form.sight_name.errors %}
                   <div class="input-errors"> {{ error }}</div>
                {% endfor %}
@@ -47,19 +33,24 @@
             
             
             <div class="input-data">
-               <input type="hidden" name="old_sight_type">
-               {{ edit_sight_form.sight_type() }}
+               {{ edit_sight_form.active(checked = True) }}
+               <label for="">Active</label>
+            </div>
+         </div>
+
+          <div class="form-row">
+            <div class="input-data">
+               {{ edit_sight_form.age_category_id() }}
                <div class="underline"></div>
-               <label for="">Age category</label>
                {% for error in edit_sight_form.age_category_id.errors %}
                   <div class="input-errors"> {{ error }}</div>
                {% endfor %}
             </div>
-           
+            
             <div class="input-data">
-               <input type="text" name="sight_type" value="{{ edit_sight_form.sight_type.data if edit_sight_form.sight_type.data else '' }}">
+               <input type="hidden" name="old_sight_type">
+               {{ edit_sight_form.sight_type() }}
                <div class="underline"></div>
-               <label for="">Sight type ID</label>
                {% for error in edit_sight_form.sight_type.errors %}
                   <div class="input-errors"> {{ error }}</div>
                {% endfor %}
