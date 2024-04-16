@@ -115,6 +115,9 @@ class Edit_acheivements(FlaskForm):
     image = FileField("Image",validators=[])
     submit = SubmitField("Submit")
 
+class Filter_by_category(FlaskForm):
+    sight_type = SelectField("Category",choices=get_categories())
+
         
 if __name__ == "__main__":
     print(get_categories())

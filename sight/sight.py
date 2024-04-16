@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, url_for, redirect, flash, request
 from flask_login import current_user, login_required
+from forms import Filter_by_category, get_categories
 
 from database import  Database
 from models.sight import Sight
@@ -19,8 +20,12 @@ import json
 sight = Blueprint("sight", __name__, template_folder="templates", static_folder="static")
 
 
-@sight.route("/sights")
+@sight.route("/sights", methods=["GET", "POST"])
 def sights():
+    filter_by_category = Filter_by_category()
+    if request.method == "GET":
+        filter_by_category.sight_type.choices = get_categories()
+        filter_by_category=filter_by_category
     with Database(dict_cursor=True) as db:
         
         sight_model = Sight(db)
