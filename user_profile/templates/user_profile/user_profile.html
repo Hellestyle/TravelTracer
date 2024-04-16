@@ -53,12 +53,13 @@
 {% block content %}
 <div class="content">
   <div class="container">
-    {% for message in get_flashed_messages() %}
-    <div style="position: relative; top: 10px" class="alert alert-warning">
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+      <div style="position: relative; text-align: center; top: 10px; background-color: {{ '#60c79a' if category == 'success' else '#FF9494' }};" class="alert">
       <button type="button" class="close">&times;</button>
       {{ message }}
-    </div>
+          </div>
     {% endfor %}
+    
   </div>
 
   <div id="profile" class="">
