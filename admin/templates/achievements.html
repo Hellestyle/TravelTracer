@@ -17,7 +17,8 @@
 
     <body>
         
-        <div>
+        <div class="center">
+            <h1 class="achievemt-title">Achievements</h1>
             <table class="table">
                 <tr>
                     <th>Id</th>
@@ -36,6 +37,7 @@
                 </tr>
                 {% endfor %}
             </table>
+            <a href="{{ url_for('admin.admin_main') }}" class="back-button">Back</a>
         </div>
     
 
