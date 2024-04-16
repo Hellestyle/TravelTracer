@@ -154,7 +154,7 @@ def user_profileMain(user_id=None):
             success, message = user.changePassword(oldPassword, newPassword, verifyNewPassword)
             if success:
                 message = "Succsesfully changed password !"
-                flash(message)
+                flash(message, category = "success")
                 return render_template("user_profile/user_profile.html",
                                     user_id=user_id, user=user,
                                     changePassForm=changePassForm, changeUserForm=changeUserForm, \
@@ -166,7 +166,7 @@ def user_profileMain(user_id=None):
                                     admin=admin
                                 )
             else:
-                flash(message)
+                flash(message, category = "error")
                 return render_template("user_profile/user_profile.html",
                                     user_id=user_id, user=user,
                                     changePassForm=changePassForm, changeUserForm=changeUserForm, \
@@ -194,7 +194,7 @@ def user_profileMain(user_id=None):
                 user_info["last_name"] = newLastName
                 current_user.update()
                 message = "Succesfully changed User names !"
-                flash(message)
+                flash(message, category = "success")
                 return render_template("user_profile/user_profile.html",
                                     user_id=user_id, user=user,
                                     changePassForm=changePassForm, changeUserForm=changeUserForm, \
@@ -206,7 +206,7 @@ def user_profileMain(user_id=None):
                                     admin=admin
                                 )
             else:
-                flash(message)
+                flash(message, category = "error")
                 return render_template("user_profile/user_profile.html",
                                     user_id=user_id, user=user,
                                     changePassForm=changePassForm, changeUserForm=changeUserForm, \
@@ -229,7 +229,7 @@ def user_profileMain(user_id=None):
                 user_info["show_real_name"] = changePrivacySettingsForm.showRealName.data
                 current_user.update()
                 message = "Succesfully changed privacy settings !"
-                flash(message)
+                flash(message, category = "success")
                 return render_template("user_profile/user_profile.html",
                                     user_id=user_id, user=user,
                                     changePassForm=changePassForm, changeUserForm=changeUserForm, \
@@ -241,7 +241,7 @@ def user_profileMain(user_id=None):
                                     admin=admin
                                 )
             else:
-                flash(message)
+                flash(message, category = "error")
                 return render_template("user_profile/user_profile.html",
                                     user_id=user_id, user=user,
                                     changePassForm=changePassForm, changeUserForm=changeUserForm, \
@@ -259,15 +259,15 @@ def user_profileMain(user_id=None):
             if changePassForm.errors:
                 for errors in changePassForm.errors.values():
                     for error in errors:
-                        flash(error)
+                        flash(error, category = "error")
             elif changeUserForm.errors:
                 for errors in changeUserForm.errors.values():
                     for error in errors:
-                        flash(error)
+                        flash(error, category = "error")
             else:
                 for errors in changePrivacySettingsForm.errors.values():
                     for error in errors:
-                        flash(error)
+                        flash(error, category = "error")
             return render_template("user_profile/user_profile.html",
                                 user_id=user_id, user=user,
                                 changePassForm=changePassForm, changeUserForm=changeUserForm, \
@@ -292,7 +292,7 @@ def accept_friend_request(sender_name):
                 break
 
         result_02, message = user.accept_friend_request(sender_id)
-        flash(message)
+        flash(message, category = "success")
         return redirect(url_for("user_profile.user_profileMain"))
             
     else:
@@ -314,7 +314,7 @@ def decline_friend_request(sender_name):
                 break
         
         result_02, message = user.decline_friend_request(sender_id)
-        flash(message)
+        flash(message, category = "error")
         return redirect(url_for("user_profile.user_profileMain"))
             
     else:
@@ -337,10 +337,10 @@ def send_friend_request(receiver_name):
 
         if receiver_id:
             result_02, message = user.send_friend_request(receiver_id)
-            flash(message)
+            flash(message, category = "success")
             return redirect(url_for("user_profile.user_profileMain"))
         else:
-            flash("User not found")
+            flash("User not found", category = "error")
             return redirect(url_for("user_profile.user_profileMain"))
     else:
         flash(users_info)
@@ -361,7 +361,7 @@ def remove_friend(friend_name):
                 break
         
         result_02, message = user.remove_friend(friend_id)
-        flash(message)
+        flash(message, category = "error")
         return redirect(url_for("user_profile.user_profileMain"))
 
     else:
