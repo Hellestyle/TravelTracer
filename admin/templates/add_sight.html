@@ -50,12 +50,17 @@
                
             </div>
          </div>
+        
          <div class="form-row">
             <div class="input-data">
                <input type="text" name="address" >
                <div class="underline"></div>
                <label for="">Address</label>
+               {% for error in edit_sight_form.address.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
             </div>
+
             <div class="input-data">
                <input type="text" name="google_maps_url" >
                <div class="underline"></div>
@@ -68,12 +73,22 @@
                <input type="text" name="open_time" >
                <div class="underline"></div>
                <label for="">Open time</label>
+               {% for error in edit_sight_form.open_time.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
+         
             </div>
+            
             <div class="input-data">
                <input type="text" name="close_time" >
                <div class="underline"></div>
                <label for="">Close time</label>
+               {% for error in edit_sight_form.close_time.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
+         
             </div>
+            
             <div class="input-data">
                {{ edit_sight_form.image() }}
                <div class="underline"></div>

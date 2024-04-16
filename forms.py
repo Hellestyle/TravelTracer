@@ -98,8 +98,8 @@ class Edit_sight_detail(FlaskForm):
 class Add_sight_form(FlaskForm):
     active = BooleanField("Active")
     sight_name = StringField("Sight Name",validators=[DataRequired()])
-    age_category_id = StringField("Age Category ID",validators=[DataRequired()])
-    address = StringField("Address",validators=[])
+    age_category_id = StringField("Age Category ID",validators=[DataRequired(message="Please choose age category")])
+    address = StringField("Address",validators=[DataRequired()])
     google_maps_url = StringField("Google Maps URL", validators=[])
     open_time = StringField("Open Time", validators=[TimeFormatValidator()])
     close_time = StringField("Close Time", validators=[TimeFormatValidator()])
