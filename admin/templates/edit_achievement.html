@@ -17,17 +17,26 @@
 
     <body>
         
-        <div>
-            <form action="{{ url_for('admin.achievement_edit', achievement_id = achievement_id) }}" method="post" enctype="multipart/form-data">
+        <div class="center">
+            
+            <div>
+              <img class="achievement-image"src="{{ '../../' + current_image  }}" alt=""> </img>
+            </div>
+            <form class="achievement-form" action="{{ url_for('admin.achievement_edit', achievement_id = achievement_id) }}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                {{ edit_achievement_form.name.label }}
-                {{ edit_achievement_form.name() }} <br>
-                {{ edit_achievement_form.desc.label }}
-                {{ edit_achievement_form.desc() }} <br>
-                {{ edit_achievement_form.image() }}
+
+                <label for="name" class="achievement-form">Name</label> 
+                <input type="text" name="name" value="{{ edit_achievement_form.name.data }}" /> 
+                <label for="desc" class="achievement-form">Description</label>
+                <input type="text" class="achievement-form" value="{{ edit_achievement_form.desc.data }}" />
+                <label for="image" class="achievement-form">Select image</label> 
+                {{ edit_achievement_form.image() }} <br>
+                <a href="{{ url_for('admin.achievements_page') }}" class="back-button-edit">Back</a>
                 {{ edit_achievement_form.submit() }}
+                
 
             </form>
+            
         </div>
     
 
