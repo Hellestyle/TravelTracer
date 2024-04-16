@@ -158,9 +158,6 @@ def add_sight():
                     return render_template("add_sight.html", edit_sight_form=edit_sight_form)
         
         else:
-            for errors in edit_sight_form.errors.values():
-                for error in errors:
-                    flash(error)
             return render_template("add_sight.html", edit_sight_form=edit_sight_form)
         
 
