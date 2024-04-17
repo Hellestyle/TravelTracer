@@ -78,6 +78,7 @@ def sight_details(sight_id):
         visited_list_model = VisitedList(db)
 
         sight = sight_model.getSight(sight_id)
+        sight_statistic = sight_model.get_a_single_sight_statistic(sight_id)
 
         in_wishlist = wishlist_model.sightInWishlist(sight_id, current_user.get_id()) if current_user.is_authenticated else None
 
@@ -97,7 +98,7 @@ def sight_details(sight_id):
             is_open=is_open,
             in_wishlist=in_wishlist,
             in_visited_list=in_visited_list,
-            admin=admin
+            admin=admin, sight_statistic=sight_statistic
         )
     else:
         message = "No sights found"
