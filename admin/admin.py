@@ -56,6 +56,13 @@ def edit_sight(sight_id):
             )
     
     else:
+        with Database(dict_cursor=True) as db:
+            sight_model = Sight(db)
+            sight = sight_model.getSight(sight_id)
+            sight["active"] = bool(sight["active"])
+            
+            edit_sight_form.sight_type.choices = sort_dropdown_by_id(sight["sight_type_id"],get_categories())
+            edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
         
         if edit_sight_form.validate():
             active = edit_sight_form.active.data
@@ -98,10 +105,7 @@ def edit_sight(sight_id):
                     return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
         
         else:
-            for errors in edit_sight_form.errors.values():
-                for error in errors:
-                    flash(error)
-            return redirect(url_for("admin.edit_sight" , sight_id=sight_id,edit_sight_form=edit_sight_form))
+            return render_template("edit_sight.html" ,sight=sight, sight_id=sight_id, edit_sight_form=edit_sight_form)
 
 
 @admin.route("/add-sight", methods=["GET", "POST"])
