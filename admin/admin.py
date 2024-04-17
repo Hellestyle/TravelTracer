@@ -192,7 +192,7 @@ def achievement_edit(achievement_id):
     with Database(dict_cursor=True) as db:
         achievement = Achievement(db)
         result = achievement.get_achievement_data(achievement_id)
-        print(f'{result=}') # (1, '1.png', 1, 'Traveler', 'Travel to some outstanding place')
+        #print(f'{result=}') # (1, '1.png', 1, 'Traveler', 'Travel to some outstanding place')
         current_image = path + result["icon"]
         
     if request.method == "GET":
@@ -204,11 +204,19 @@ def achievement_edit(achievement_id):
         
         name = edit_achievement_form.name.data
         desc = edit_achievement_form.desc.data
+        print(f'{name=} {desc=}')
         if edit_achievement_form.image.data:
+            old_image = current_image
+            
+            if os.path.exists(old_image[3:]):
+                os.remove(old_image[3:])
+            else:
+                message = f'{old_image[3:]=} Cannot remove'
             image = edit_achievement_form.image.data
             image_name = secure_filename(image.filename)
             image_extention = os.path.splitext(image_name)[1]
             image_name = f'{achievement_id}{image_extention}'
+            image.save(f'{path[3:]}{image_name}')
         else:
             image_name = False
         with Database(dict_cursor=True) as db:
