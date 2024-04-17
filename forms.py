@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField,SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField,SelectField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, InputRequired, EqualTo
 from wtforms import ValidationError
 from database import Database
@@ -87,7 +87,7 @@ class Edit_sight_detail(FlaskForm):
     google_maps_url = StringField("Google Maps URL", validators=[])
     open_time = StringField("Open Time", validators=[TimeFormatValidator()])
     close_time = StringField("Close Time", validators=[TimeFormatValidator()])
-    description = StringField("Description", validators=[])
+    description = TextAreaField("Description", validators=[])
     image = MultipleFileField("Image")
     old_sight_type = StringField("Old Sight type ID",validators=[DataRequired()])
     sight_type = SelectField("Category",choices=get_categories())
@@ -103,7 +103,7 @@ class Add_sight_form(FlaskForm):
     google_maps_url = StringField("Google Maps URL", validators=[])
     open_time = StringField("Open Time", validators=[TimeFormatValidator()])
     close_time = StringField("Close Time", validators=[TimeFormatValidator()])
-    description = StringField("Description", validators=[])
+    description = TextAreaField("Description", validators=[])
     image = MultipleFileField("Image")
     sight_type = StringField("Sight type ID",validators=[DataRequired()])
     submit = SubmitField("submit")
