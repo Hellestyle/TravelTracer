@@ -110,7 +110,6 @@ img {
   align-items: center;
   justify-content: space-around;
   height: 10vh;
-  margin-top: 100px;
 }
 
 .header h1 {
@@ -167,6 +166,23 @@ img {
 #visited-button:hover {
   cursor: initial;
   box-shadow: none;
+}
+
+.statistic {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20%;
+  align-items: center;
+  gap: 20px;
+  font-size: 18px;
+}
+
+.statistic .bx-like {
+  color: green;
+}
+
+.statistic .bx-dislike {
+  color: red;
 }
 
 .image-container {

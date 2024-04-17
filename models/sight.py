@@ -295,10 +295,25 @@ class Sight:
         except Exception as e:
             return False, str(e)
 
-    def add_sight_image(self,sight_id,image_name):
+    def add_sight_image(self, sight_id, image_name):
         try:
-            self.__db.query("INSERT INTO `sight_photo` (`id`, `sight_id`, `photo`) VALUES (NULL, %s,%s)",(sight_id,image_name,))
+            self.__db.query("INSERT INTO `sight_photo` (`id`, `sight_id`, `photo`) VALUES (NULL, %s, %s)", (sight_id, image_name,))
             return True, "Image added to new sight successfully"
             
         except Exception as e:
             return False, str(e)
+        
+    
+    def get_a_single_sight_statistic(self, sight_id):
+        result = self.__db.queryOne("SELECT SUM(vl1.liked = 1) AS liked, SUM(vl2.liked = 0) AS disliked \
+                        FROM (SELECT DISTINCT id FROM visited_list WHERE sight_id = %s) AS ids \
+                        LEFT JOIN visited_list AS vl1 ON ids.id = vl1.id AND vl1.liked = 1 \
+                        LEFT JOIN visited_list AS vl2 ON ids.id = vl2.id AND vl2.liked = 0", (sight_id,))
+        if result:
+            statistic = {
+                'liked': str(result['liked']),
+                'disliked': str(result['disliked'])
+            }
+            return statistic
+        else:
+            return []
