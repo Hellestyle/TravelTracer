@@ -28,7 +28,7 @@
                 <label for="name" class="achievement-form">Name</label> 
                 <input type="text" name="name" value="{{ edit_achievement_form.name.data }}" /> 
                 <label for="desc" class="achievement-form">Description</label>
-                <input type="text" class="achievement-form" value="{{ edit_achievement_form.desc.data }}" />
+                <input type="text" name="desc" class="achievement-form" value="{{ edit_achievement_form.desc.data }}" />
                 <label for="image" class="achievement-form">Select image</label> 
                 {{ edit_achievement_form.image() }} <br>
                 <a href="{{ url_for('admin.achievements_page') }}" class="back-button-edit">Back</a>

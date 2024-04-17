@@ -112,7 +112,7 @@ class Add_sight_form(FlaskForm):
 class Edit_acheivements(FlaskForm):
     name = StringField("Name",validators=[DataRequired()])
     desc = StringField("Description",validators=[DataRequired()])
-    image = FileField("Image",validators=[])
+    image = FileField("Image")
     submit = SubmitField("Submit")
 
 class EditOrAddSightType(FlaskForm):
