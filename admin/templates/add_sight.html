@@ -23,7 +23,7 @@
 
          <div class="form-row">
             <div class="input-data">
-               <input type="text" name="sight_name">
+               <input type="text" name="sight_name" value="{{ edit_sight_form.sight_name.data if edit_sight_form.sight_name.data else '' }}">
                <div class="underline"></div>
                <label for="">Sight name</label>
                {% for error in edit_sight_form.sight_name.errors %}
@@ -33,7 +33,7 @@
             
             
             <div class="input-data">
-               {{ edit_sight_form.active(checked = True) }}
+               {{ edit_sight_form.active() }}
                <label for="">Active</label>
             </div>
          </div>
@@ -59,7 +59,7 @@
         
          <div class="form-row">
             <div class="input-data">
-               <input type="text" name="address" >
+               <input type="text" name="address" value="{{ edit_sight_form.address.data if edit_sight_form.address.data else '' }}">
                <div class="underline"></div>
                <label for="">Address</label>
                {% for error in edit_sight_form.address.errors %}
@@ -68,7 +68,7 @@
             </div>
 
             <div class="input-data">
-               <input type="text" name="google_maps_url" >
+               {{ edit_sight_form.google_maps_url() }}
                <div class="underline"></div>
                <label for="">Google maps url</label>
             </div>
@@ -76,7 +76,7 @@
 
          <div class="form-row">
             <div class="input-data">
-               <input type="text" name="open_time" >
+               {{ edit_sight_form.open_time() }}
                <div class="underline"></div>
                <label for="">Open time</label>
                {% for error in edit_sight_form.open_time.errors %}
@@ -86,7 +86,7 @@
             </div>
             
             <div class="input-data">
-               <input type="text" name="close_time" >
+               {{ edit_sight_form.close_time() }}
                <div class="underline"></div>
                <label for="">Close time</label>
                {% for error in edit_sight_form.close_time.errors %}
@@ -104,8 +104,7 @@
 
          <div class="form-row">
          <div class="input-data textarea">
-            <textarea rows="8" cols="80" name="description"></textarea>
-            <br />
+            {{ edit_sight_form.description() }}
             <div class="underline"></div>
             <label for="">Description</label>
             <br />
