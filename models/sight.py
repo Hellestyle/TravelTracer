@@ -316,4 +316,21 @@ class Sight:
             }
             return statistic
         else:
-            return []
+            return {}
+
+
+    def get_all_sight_statistics(self):
+        result = self.__db.query("SELECT sights.sight_id, SUM(vl1.liked = 1) AS liked, SUM(vl2.liked = 0) AS disliked \
+                                FROM (SELECT DISTINCT sight_id FROM stud_v23_she199.visited_list) AS sights \
+                                LEFT JOIN visited_list AS vl1 ON sights.sight_id = vl1.sight_id AND vl1.liked = 1 \
+                                LEFT JOIN visited_list AS vl2 ON sights.sight_id = vl2.sight_id AND vl2.liked = 0 \
+                                GROUP BY sights.sight_id;")
+        if result:
+            statistics = {
+                'sight_id': result['sight_id'],
+                'liked': str(result['liked']),
+                'disliked': str(result['disliked'])
+            }
+            return statistics
+        else:
+            return {}
