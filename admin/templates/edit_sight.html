@@ -19,7 +19,7 @@
       <div class="text">
         Edit sight
       </div>
-      <form action="{{ url_for('admin.edit_sight', sight_id=sight_id ) }}" method="post" enctype="multipart/form-data">
+      <form action="{{ url_for('admin.edit_sight', sight_id=sight_id, sight=sight ) }}" method="post" enctype="multipart/form-data">
          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
          <div class="form-row">
@@ -27,6 +27,9 @@
                <input type="text" name="sight_name" value="{{ sight.name if sight.name else '' }}">
                <div class="underline"></div>
                <label for="">Sight name</label>
+               {% for error in edit_sight_form.sight_name.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
             </div>
             <div class="input-data">
                {{ edit_sight_form.active(checked = sight.active) }}
@@ -44,7 +47,7 @@
             </div>
             
             <div class="input-data">
-               <input type="hidden" name="old_sight_type" value="{{ sight.sight_type_id if sight.sight_type_id else '' }}">
+               <input type="hidden" name="old_sight_type">
                {{ edit_sight_form.sight_type() }}
                <div class="underline"></div>
                
