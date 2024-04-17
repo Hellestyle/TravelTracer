@@ -334,7 +334,7 @@ class Sight:
         
     
     def get_a_single_sight_statistic(self, sight_id):
-        result = self.__db.queryOne("SELECT SUM(vl1.liked = 1) AS liked, SUM(vl2.liked = 0) AS disliked \
+        result = self.__db.queryOne("SELECT COUNT(vl1.liked = 1) AS liked, COUNT(vl2.liked = 0) AS disliked \
                         FROM (SELECT DISTINCT id FROM visited_list WHERE sight_id = %s) AS ids \
                         LEFT JOIN visited_list AS vl1 ON ids.id = vl1.id AND vl1.liked = 1 \
                         LEFT JOIN visited_list AS vl2 ON ids.id = vl2.id AND vl2.liked = 0", (sight_id,))
@@ -349,7 +349,7 @@ class Sight:
 
 
     def get_all_sight_statistics(self):
-        result = self.__db.query("SELECT sights.sight_id, SUM(vl1.liked = 1) AS liked, SUM(vl2.liked = 0) AS disliked \
+        result = self.__db.query("SELECT sights.sight_id, COUNT(vl1.liked = 1) AS liked, COUNT(vl2.liked = 0) AS disliked \
                                 FROM (SELECT DISTINCT sight_id FROM stud_v23_she199.visited_list) AS sights \
                                 LEFT JOIN visited_list AS vl1 ON sights.sight_id = vl1.sight_id AND vl1.liked = 1 \
                                 LEFT JOIN visited_list AS vl2 ON sights.sight_id = vl2.sight_id AND vl2.liked = 0 \

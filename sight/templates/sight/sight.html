@@ -86,8 +86,8 @@
 <div class="statistic">
   {% if sight_statistic %}
     {% if sight_statistic.liked %}
-      {% if sight_statistic.liked == "None" %}
-      <p><i class='bx bx-like'></i> {{ sight_statistic.liked }}</p>
+      {% if sight_statistic.liked == "0" %}
+      <p><i class='bx bx-like'></i> None</p>
       {% elif sight_statistic.liked == "1" %}
       <p><i class='bx bx-like'></i> {{ sight_statistic.liked }} person</p>
       {% else %}
@@ -96,8 +96,8 @@
     {% endif %}
 
     {% if sight_statistic.disliked %}
-      {% if sight_statistic.disliked == "None" %}
-      <p><i class='bx bx-dislike'></i> {{ sight_statistic.disliked }}</p>
+      {% if sight_statistic.disliked == "0" %}
+      <p><i class='bx bx-dislike'></i> None</p>
       {% elif sight_statistic.disliked == "1" %}
       <p><i class='bx bx-dislike'></i> {{ sight_statistic.disliked }} person</p>
       {% else %}
