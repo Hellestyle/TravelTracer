@@ -28,8 +28,7 @@
 }
 
 .center {
-  
-  margin: auto;
+  margin: 5% auto;
   width: 50%;
   padding: 10px;
 }
@@ -110,6 +109,21 @@
   border: 2px solid #00cec9;
 }
 
+.edit-achievement-button {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  text-decoration: none;
+  margin: 0 5px;
+  padding: 5px 5px;
+  color: black;
+  border: #ccc solid 1px;
+  border-radius: 5px;
+}
+
+.edit-achievement-button:hover {
+  background-color: #f2f2f2;
+}
 
 .back-button {
   display: flex;
@@ -120,6 +134,7 @@
   position: relative;
   color:  #045aaa;
   z-index: 1;
+  margin-top: 20px;
 }
 
 .back-button:before {
@@ -131,8 +146,6 @@
   transition: all 0.4s;
   z-index: -1;
 }
-
-
 
 .back-button {
   background: #045aaa;
@@ -151,6 +164,10 @@
   text-align: center;
 }
 
+.back-button:hover {
+  background-color: #358ee2;
+}
+
 .back-button-edit {
   width: 100px;
   background-color: #045aaa;
@@ -160,6 +177,11 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.back-button-edit:hover {
+  background-color: #358ee2;
 }
 
 .achievemt-title {
