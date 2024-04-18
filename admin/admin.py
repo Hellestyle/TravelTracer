@@ -47,8 +47,7 @@ def edit_sight(sight_id):
             
             edit_sight_form.sight_type.choices = sort_dropdown_by_id(sight["sight_type_id"],get_categories())
             edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
-            
-
+        
             return render_template(
                 "edit_sight.html",
                 sight=sight,
@@ -99,12 +98,6 @@ def edit_sight(sight_id):
                 sight_model = Sight(db)
                 result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_names, sight_type_id, old_sight_type_id)
 
-            print(f'{message=}')
-
-            if result:
-                flash(message)
-                return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
-            else:
                 flash(message)
                 return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
         
@@ -135,7 +128,6 @@ def add_sight():
             
             images = edit_sight_form.image.data
 
-        
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
                 result, message = sight_model.add_sight(sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description,sight_type_id)
@@ -185,7 +177,7 @@ def achievements_page():
     if request.method == "GET":
         
         return render_template("achievements.html", achievements = achievements, path=path)
-    
+
 
 @admin.route("/achievements/edit/<int:achievement_id>", methods=["GET", "POST"])
 #@login_required
