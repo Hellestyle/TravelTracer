@@ -321,7 +321,7 @@ class Sight:
 
     def get_all_sight_statistics(self):
         result = self.__db.query("SELECT sights.sight_id, COUNT(vl1.liked = 1) AS liked, COUNT(vl2.liked = 0) AS disliked \
-                                FROM (SELECT DISTINCT sight_id FROM stud_v23_she199.visited_list) AS sights \
+                                FROM (SELECT DISTINCT sight_id FROM visited_list) AS sights \
                                 LEFT JOIN visited_list AS vl1 ON sights.sight_id = vl1.sight_id AND vl1.liked = 1 \
                                 LEFT JOIN visited_list AS vl2 ON sights.sight_id = vl2.sight_id AND vl2.liked = 0 \
                                 GROUP BY sights.sight_id;")
