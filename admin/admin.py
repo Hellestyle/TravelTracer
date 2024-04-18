@@ -53,7 +53,6 @@ def edit_sight(sight_id):
                 sight=sight,
                 sight_id=sight_id, edit_sight_form=edit_sight_form
             )
-    
     else:
         with Database(dict_cursor=True) as db:
             sight_model = Sight(db)
@@ -100,7 +99,6 @@ def edit_sight(sight_id):
 
                 flash(message)
                 return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
-        
         else:
             return render_template("edit_sight.html" ,sight=sight, sight_id=sight_id, edit_sight_form=edit_sight_form)
 
@@ -114,7 +112,6 @@ def add_sight():
         edit_sight_form.age_category_id.choices = get_age_categories()
         return render_template("add_sight.html", edit_sight_form=edit_sight_form)
     else:
-        
         if edit_sight_form.validate():
             active = edit_sight_form.active.data
             sight_name = edit_sight_form.sight_name.data
@@ -158,10 +155,8 @@ def add_sight():
                 else:
                     flash(message)
                     return render_template("add_sight.html", edit_sight_form=edit_sight_form)
-        
         else:
-            return render_template("add_sight.html", edit_sight_form=edit_sight_form)
-        
+            return render_template("add_sight.html", edit_sight_form=edit_sight_form)   
 
 
 @admin.route("/achievements", methods=["GET", "POST"])
