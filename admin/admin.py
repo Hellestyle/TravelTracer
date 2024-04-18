@@ -53,7 +53,6 @@ def edit_sight(sight_id):
                 sight=sight,
                 sight_id=sight_id, edit_sight_form=edit_sight_form
             )
-    
     else:
         with Database(dict_cursor=True) as db:
             sight_model = Sight(db)
@@ -96,7 +95,6 @@ def edit_sight(sight_id):
 
                 flash(message)
                 return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
-        
         else:
             return render_template("edit_sight.html" ,sight=sight, sight_id=sight_id, edit_sight_form=edit_sight_form)
 
@@ -110,7 +108,6 @@ def add_sight():
         edit_sight_form.age_category_id.choices = get_age_categories()
         return render_template("add_sight.html", edit_sight_form=edit_sight_form)
     else:
-        
         if edit_sight_form.validate():
             active = edit_sight_form.active.data
             sight_name = edit_sight_form.sight_name.data
@@ -154,10 +151,8 @@ def add_sight():
                 else:
                     flash(message)
                     return render_template("add_sight.html", edit_sight_form=edit_sight_form)
-        
         else:
-            return render_template("add_sight.html", edit_sight_form=edit_sight_form)
-        
+            return render_template("add_sight.html", edit_sight_form=edit_sight_form)   
 
 
 @admin.route("/achievements", methods=["GET", "POST"])
@@ -192,6 +187,7 @@ def achievement_edit(achievement_id):
         edit_achievement_form.desc.data = result["description"]
         
         return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image)
+
     if edit_achievement_form.validate_on_submit():
         
         name = edit_achievement_form.name.data
@@ -208,7 +204,6 @@ def achievement_edit(achievement_id):
             achievement.update(achievement_id,name,desc,image_name)
         message = "Succsessfully updated achievement!"
         return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image)
-    
     else:
         return "invalid form"
         
