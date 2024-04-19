@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('.static', filename='/css/achievements.css') }}"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    
+    <title>Sight types page</title>
+  </head>
+
+    <body>
+        
+        <div class="center">
+            <h1 class="achievemt-title">Sight types</h1>
+            <a href="{{ url_for('admin.add_sight_type') }}" class="back-button">Add</a>
+            <table class="table">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Points</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                {% for sight_type in sight_types %}
+                <tr>
+                    <td>{{ sight_type[0] }}</td>
+                    <td>{{ sight_type[1] }}</td>
+                    <td>{{ sight_type[2] }}</td>
+                    <td>{{ sight_type[3] }}</td>
+                    <td> <a href="{{ url_for('admin.edit_sight_type', sight_type_id = sight_type[0]) }}">Edit</a> </td>
+                    <td><button onclick="confirmDelete({{ sight_type[0] }})">Delete</button></td>
+                    
+                </tr>
+                {% endfor %}
+            </table>
+            <a href="{{ url_for('admin.admin_main') }}" class="back-button">Back</a>
+            <ul>
+              {% for message in get_flashed_messages() %}
+              <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+        </div>
+    
+        <script>
+          var deleteSightTypeUrlTemplate = "{{ url_for('admin.delete_sight_type', sight_type_id=0) }}";
+          var csrfToken = "{{ csrf_token() }}"
+        </script>
+        <script src="{{ url_for('.static', filename='js/delete_sight_type.js') }}"></script>
+        <script src="{{ url_for('.static', filename='js/admin_profile.js') }}"></script>
+    </body>
+</html>
