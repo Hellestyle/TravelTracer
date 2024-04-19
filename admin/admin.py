@@ -4,7 +4,7 @@ from models.sight import Sight
 from models.sight_name import SightName
 from models.sight_type import SightType
 from models.achievement import Achievement
-from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories, Edit_acheivements
+from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories, Edit_acheivements, EditOrAddSightType
 from datetime import datetime as dt
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
@@ -206,7 +206,92 @@ def achievement_edit(achievement_id):
         return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image)
     else:
         return "invalid form"
+    
+
+
+@admin.route("/sight-types", methods=["GET", "POST"])
+def sight_types():
+#@login_required 
+    
+    with Database() as db:
+        obj = SightType(db)
+        success, message, sight_types = obj.get_sight_types(1)
         
+    if request.method == "GET":
+        
+        return render_template("sight_types.html", sight_types=sight_types)
+    
+
+
+@admin.route("/add-sight-type", methods=["GET", "POST"])
+def add_sight_type():
+    add_sight_type_form = EditOrAddSightType()
+    
+    if request.method == "GET":
+        return render_template("add_sight_type.html", add_sight_type_form=add_sight_type_form)
+    
+    if add_sight_type_form.validate_on_submit():
+        name = add_sight_type_form.name.data
+        description = add_sight_type_form.desc.data
+        points = add_sight_type_form.points.data
+
+        with Database(dict_cursor=True) as db:
+            sight_type = SightType(db)
+            sight_type.add_sight_type(name, description, points)
+
+        
+        flash("Successfully added sight type")
+        return render_template("add_sight_type.html", add_sight_type_form=add_sight_type_form)
+
+    else:
+        return flash("Invalid form")
+
+
+
+@admin.route("/sight-types/edit/<int:sight_type_id>", methods=["GET", "POST"])
+def edit_sight_type(sight_type_id):
+    edit_sight_type_form = EditOrAddSightType()
+    with Database(dict_cursor=True) as db:
+        sight_type = SightType(db)
+        sight_data = sight_type.get_sight_type_data(sight_type_id)
+        
+
+    if request.method == "GET":
+        edit_sight_type_form.name.data = sight_data["name"]
+        edit_sight_type_form.desc.data = sight_data["description"]
+        edit_sight_type_form.points.data = sight_data["points"]
+        
+        return render_template("edit_sight_type.html", edit_sight_type_form=edit_sight_type_form, sight_type_id=sight_type_id)
+    
+    if edit_sight_type_form.validate_on_submit():
+        name = edit_sight_type_form.name.data
+        description = edit_sight_type_form.desc.data
+        points = edit_sight_type_form.points.data
+
+        with Database(dict_cursor=True) as db:
+            sight_type = SightType(db)
+            sight_type.update(sight_type_id, name, description, points)
+
+        
+        flash("Successfully edited sight type")
+        return render_template("edit_sight_type.html", edit_sight_type_form=edit_sight_type_form, sight_type_id=sight_type_id)
+
+    else:
+        return flash("Invalid form")
+
+
+
+@admin.route("/sight-types/delete/<int:sight_type_id>", methods=["POST"])
+def delete_sight_type(sight_type_id):
+    if request.method == "GET":
+        return redirect(url_for('admin.sight_types'))
+    
+    else:
+        with Database(dict_cursor=True) as db:
+            sight_type = SightType(db)
+            success = sight_type.delete_sight_type(sight_type_id)
+
+        return redirect(url_for('admin.sight_types'))      
 
 def fix_image_filename(images,sight_id):
     image_names = []
