@@ -18,7 +18,8 @@
     <body>
         
         <div class="center">
-            <h1 class="achievemt-title">Achievements</h1>
+            <h1 class="achievemt-title">Achievements</h1> 
+            <a href="{{ url_for('admin.achievement_add') }}" class="back-button">Add new achievement</a>
             <table class="table">
                 <tr>
                     <th>Id</th>
@@ -38,6 +39,7 @@
                 {% endfor %}
             </table>
             <a href="{{ url_for('admin.admin_main') }}" class="back-button">Back</a>
+            
         </div>
     
 
