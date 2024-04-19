@@ -248,6 +248,7 @@ button:active {
   align-content: center;
   gap: 20px;
   padding: 0 5px;
+  margin-top: -10px;
 }
 
 .wishlist-and-visted-container .check-green {
