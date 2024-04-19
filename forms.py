@@ -115,6 +115,10 @@ class Edit_acheivements(FlaskForm):
     image = FileField("Image")
     submit = SubmitField("Submit")
 
+class Delete_achievement(FlaskForm):
+    id = StringField("Delete ID")
+    submit_delete = SubmitField("DELETE")
+
 class EditOrAddSightType(FlaskForm):
     name = StringField("Name",validators=[DataRequired()])
     desc = StringField("Description",validators=[DataRequired()])
