@@ -124,6 +124,9 @@
                         </div>
                         <img style="width: 200px; height: 200px;" src="/static/images/sight/{{ photo }}"></img>
                         <div hidden data-value="true"> {{ photo }}</div>
+                        <form action="{{ url_for('admin.delete_image', image_id=sight['id']) }}">
+                            <input type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+                        </form>
                     </div>
                 {% endfor %}
             </div>
