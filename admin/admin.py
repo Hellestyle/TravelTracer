@@ -300,3 +300,12 @@ def sort_dropdown_by_id(id,options):
         new.append(option)
     return new
 
+@admin.route("edit_sight/delete_image", methods=["POST"])
+def delete_image(sight_id, image_id):
+    sight_image_id = sight_id + image_id
+    image_path = os.path.join(current_app.config['SIGHT_IMAGE_FOLDER'], sight_image_id)
+    if os.path.exists(image_path):
+        os.remove(image_path)
+    else:
+        print(f'{image_path=} does not exist!')
+
