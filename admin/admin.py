@@ -48,13 +48,11 @@ def edit_sight(sight_id):
             edit_sight_form.sight_type.choices = sort_dropdown_by_id(sight["sight_type_id"],get_categories())
             edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
             
-
             return render_template(
                 "edit_sight.html",
                 sight=sight,
                 sight_id=sight_id, edit_sight_form=edit_sight_form
             )
-    
     else:
         with Database(dict_cursor=True) as db:
             sight_model = Sight(db)
@@ -91,19 +89,12 @@ def edit_sight(sight_id):
             else:
                 image_names =""
             
-
-            
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
                 result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_names, sight_type_id, old_sight_type_id)
 
-                if result:
-                    flash(message)
-                    return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
-                else:
-                    flash(message)
-                    return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
-        
+                flash(message)
+                return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
         else:
             return render_template("edit_sight.html" ,sight=sight, sight_id=sight_id, edit_sight_form=edit_sight_form)
 
@@ -117,7 +108,6 @@ def add_sight():
         edit_sight_form.age_category_id.choices = get_age_categories()
         return render_template("add_sight.html", edit_sight_form=edit_sight_form)
     else:
-        
         if edit_sight_form.validate():
             active = edit_sight_form.active.data
             sight_name = edit_sight_form.sight_name.data
@@ -130,9 +120,7 @@ def add_sight():
             sight_type_id = edit_sight_form.sight_type.data
             
             images = edit_sight_form.image.data
-            
 
-        
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
                 result, message = sight_model.add_sight(sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description,sight_type_id)
@@ -163,10 +151,8 @@ def add_sight():
                 else:
                     flash(message)
                     return render_template("add_sight.html", edit_sight_form=edit_sight_form)
-        
         else:
-            return render_template("add_sight.html", edit_sight_form=edit_sight_form)
-        
+            return render_template("add_sight.html", edit_sight_form=edit_sight_form)   
 
 
 @admin.route("/achievements", methods=["GET", "POST"])
@@ -182,7 +168,7 @@ def achievements_page():
     if request.method == "GET":
         
         return render_template("achievements.html", achievements = achievements, path=path)
-    
+
 
 @admin.route("/achievements/edit/<int:achievement_id>", methods=["GET", "POST"])
 def achievement_edit(achievement_id):
@@ -201,6 +187,7 @@ def achievement_edit(achievement_id):
         edit_achievement_form.desc.data = result["description"]
         
         return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image)
+
     if edit_achievement_form.validate_on_submit():
         
         name = edit_achievement_form.name.data
@@ -217,7 +204,6 @@ def achievement_edit(achievement_id):
             achievement.update(achievement_id,name,desc,image_name)
         message = "Succsessfully updated achievement!"
         return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image)
-    
     else:
         return "invalid form"
     
@@ -306,8 +292,6 @@ def delete_sight_type(sight_type_id):
             success = sight_type.delete_sight_type(sight_type_id)
 
         return redirect(url_for('admin.sight_types'))      
-    
-        
 
 def fix_image_filename(images,sight_id):
     image_names = []
