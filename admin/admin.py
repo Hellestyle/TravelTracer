@@ -4,7 +4,7 @@ from models.sight import Sight
 from models.sight_name import SightName
 from models.sight_type import SightType
 from models.achievement import Achievement
-from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories, Edit_acheivements
+from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories, Edit_acheivements, Delete_achievement
 from datetime import datetime as dt
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
@@ -186,7 +186,7 @@ def achievements_page():
 @admin.route("/achievements/edit/<int:achievement_id>", methods=["GET", "POST"])
 #@login_required
 def achievement_edit(achievement_id):
-
+    delete_form = Delete_achievement()
     edit_achievement_form = Edit_acheivements()
     path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}"
     message=False
@@ -200,7 +200,7 @@ def achievement_edit(achievement_id):
         edit_achievement_form.name.data = result["name"]
         edit_achievement_form.desc.data = result["description"]
         
-        return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image)
+        return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image, delete_form=delete_form)
     if edit_achievement_form.validate_on_submit():
         
         name = edit_achievement_form.name.data
@@ -224,8 +224,17 @@ def achievement_edit(achievement_id):
             achievement = Achievement(db)
             achievement.update(achievement_id,name,desc,image_name)
         message = "Succsessfully updated achievement!"
-        return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image)
-    
+        return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image, delete_form=delete_form)
+    if delete_form.submit_delete.data:
+        print("DELETE PRESSED!")
+        delete_id = delete_form.id.data
+        with Database(dict_cursor=True) as db:
+            try:
+                db.queryOne("DELETE FROM `achievement` WHERE `achievement`.`id` = %s",(delete_id,))
+            except Exception as e:
+                print(f'Error {e}')
+        return redirect(url_for("admin.achievements_page")) 
+        
     else:
         return "invalid form"
         

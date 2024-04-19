@@ -115,6 +115,10 @@ class Edit_acheivements(FlaskForm):
     image = FileField("Image")
     submit = SubmitField("Submit")
 
+class Delete_achievement(FlaskForm):
+    id = StringField("Delete ID")
+    submit_delete = SubmitField("DELETE")
+
         
 if __name__ == "__main__":
     print(get_categories())
