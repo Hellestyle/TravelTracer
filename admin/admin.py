@@ -232,6 +232,41 @@ def achievement_edit(achievement_id):
         
     else:
         return "invalid form"
+        
+@admin.route("/achievements/add", methods=["GET","POST"])
+#@login_required
+def achievement_add():
+    path = path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}"
+    achievement_add_form = Edit_acheivements()
+    default_image = path + "default.png"
+    
+    if request.method == "GET":
+        return render_template("add_achievement.html", achievement_add_form=achievement_add_form, default_image=default_image)
+    if achievement_add_form.validate_on_submit():
+        with Database(dict_cursor=True) as db:
+            db.query("INSERT INTO `achievement` (`id`, `icon`) VALUES (NULL, 'default.png')")
+            result = db.queryOne("SELECT id FROM `achievement` WHERE icon = 'default.png' ORDER BY id DESC LIMIT 1;")
+            print(f'after added default! {result=}')
+            achievement_id = result["id"]
+            name = achievement_add_form.name.data
+            desc = achievement_add_form.desc.data
+            db.queryOne("INSERT INTO `achievement_meta` (`achievement_id`, `language_id`, `name`, `description`) VALUES (%s, '1', %s, %s)",(achievement_id,name,desc,))
+            
+        if achievement_add_form.image.data:
+            image = achievement_add_form.image.data
+            image_name = secure_filename(image.filename)
+            image_extention = os.path.splitext(image_name)[1]
+            image_name = f"{achievement_id}{image_extention}"
+            with Database() as db:
+                try:
+                    db.queryOne("UPDATE `achievement` SET `icon` = %s WHERE `achievement`.`id` = %s",(image_name,achievement_id,))
+                except:
+                    return "Failed to insert into DB"
+                image.save(path[3:]+image_name)
+        else:
+            image_name = "default.png"
+        return redirect(url_for("admin.achievements_page")) 
+
     
 
 
