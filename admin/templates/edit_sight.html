@@ -97,6 +97,7 @@
                <a href="{{ url_for('admin.admin_main') }}" class="back-button">Back</a>
             </div>
          </div>
+         </div>
       </form>
 
       
@@ -109,12 +110,12 @@
 
 
     
-    <div>
+    <div class="container">
         <form action="">
             <div class="ms-boxes used-in-code">
-                <label for="Text-Field-2" class="ms-input-label">Drag n' Drop </label>
+                <label style="padding-top: 40px;" for="Text-Field-2" class="ms-input-label">Drag n' Drop </label>
                 {% for photo in sight["photos"] %}
-                    <div draggable="true" class="ms-box used-in-code" style="opacity: 1;">
+                    <div draggable="true" class="ms-box used-in-code" style="opacity: 1; width: 250px;">
                         <div class="ms-button-svg drag w-embed">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
                                 <path d="M0 0h24v24H0V0z" fill="none"></path>
@@ -122,12 +123,12 @@
                             </svg>
                         </div>
                         <img style="width: 200px; height: 200px;" src="/static/images/sight/{{ photo }}"></img>
-                        <div data-value="true"> test {{ photo }}</div>
+                        <div hidden data-value="true"> {{ photo }}</div>
                     </div>
                 {% endfor %}
             </div>
             <input type="text" class="w-input" data-input="drag-order" maxlength="256" name="field" data-name="Field" placeholder="Example Text" id="field" data-ms-member="drag-order">
-            <input type="submit" value="Save to Profile" data-wait="Please wait..." class="w-button">
+            <input type="submit" value="Save image order" data-wait="Please wait..." class="w-button">
         </form>
     </div>
     
