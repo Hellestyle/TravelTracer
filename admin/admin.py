@@ -289,7 +289,7 @@ def delete_sight_type(sight_type_id):
     else:
         with Database(dict_cursor=True) as db:
             sight_type = SightType(db)
-            success = sight_type.delete_sight_type(sight_type_id)
+            sight_type.delete_sight_type(sight_type_id)
 
         return redirect(url_for('admin.sight_types'))      
 
