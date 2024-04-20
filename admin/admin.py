@@ -176,8 +176,8 @@ def achievements_page():
 
 
 @admin.route("/achievements/edit/<int:achievement_id>", methods=["GET", "POST"])
-#@login_required
 def achievement_edit(achievement_id):
+#@login_required
     delete_form = Delete_achievement()
     edit_achievement_form = Edit_acheivements()
     path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}"
@@ -235,8 +235,8 @@ def achievement_edit(achievement_id):
         return "invalid form"
         
 @admin.route("/achievements/add", methods=["GET","POST"])
-#@login_required
 def achievement_add():
+#@login_required
     path = path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}"
     achievement_add_form = Edit_acheivements()
     default_image = path + "default.png"
@@ -268,7 +268,6 @@ def achievement_add():
             image_name = "default.png"
         return redirect(url_for("admin.achievements_page")) 
 
-    
 
 
 @admin.route("/sight-types", methods=["GET", "POST"])
@@ -283,7 +282,6 @@ def sight_types():
         
         return render_template("sight_types.html", sight_types=sight_types)
     
-
 
 @admin.route("/add-sight-type", methods=["GET", "POST"])
 def add_sight_type():
@@ -307,7 +305,6 @@ def add_sight_type():
 
     else:
         return flash("Invalid form")
-
 
 
 @admin.route("/sight-types/edit/<int:sight_type_id>", methods=["GET", "POST"])
@@ -341,8 +338,6 @@ def edit_sight_type(sight_type_id):
     else:
         return flash("Invalid form")
 
-
-
 @admin.route("/sight-types/delete/<int:sight_type_id>", methods=["POST"])
 def delete_sight_type(sight_type_id):
     if request.method == "GET":
@@ -353,41 +348,7 @@ def delete_sight_type(sight_type_id):
             sight_type = SightType(db)
             sight_type.delete_sight_type(sight_type_id)
 
-        return redirect(url_for('admin.sight_types'))      
-@admin.route("/achievements/add", methods=["GET","POST"])
-#@login_required
-def achievement_add():
-    path = path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}"
-    achievement_add_form = Edit_acheivements()
-    default_image = path + "default.png"
-    
-    if request.method == "GET":
-        return render_template("add_achievement.html", achievement_add_form=achievement_add_form, default_image=default_image)
-    if achievement_add_form.validate_on_submit():
-        with Database(dict_cursor=True) as db:
-            db.query("INSERT INTO `achievement` (`id`, `icon`) VALUES (NULL, 'default.png')")
-            result = db.queryOne("SELECT id FROM `achievement` WHERE icon = 'default.png' ORDER BY id DESC LIMIT 1;")
-            print(f'after added default! {result=}')
-            achievement_id = result["id"]
-            name = achievement_add_form.name.data
-            desc = achievement_add_form.desc.data
-            db.queryOne("INSERT INTO `achievement_meta` (`achievement_id`, `language_id`, `name`, `description`) VALUES (%s, '1', %s, %s)",(achievement_id,name,desc,))
-            
-        if achievement_add_form.image.data:
-            image = achievement_add_form.image.data
-            image_name = secure_filename(image.filename)
-            image_extention = os.path.splitext(image_name)[1]
-            image_name = f"{achievement_id}{image_extention}"
-            with Database() as db:
-                try:
-                    db.queryOne("UPDATE `achievement` SET `icon` = %s WHERE `achievement`.`id` = %s",(image_name,achievement_id,))
-                except:
-                    return "Failed to insert into DB"
-                image.save(path[3:]+image_name)
-        else:
-            image_name = "default.png"
-        return redirect(url_for("admin.achievements_page")) 
-
+        return redirect(url_for('admin.sight_types'))
 
 def fix_image_filename(images,sight_id):
     image_names = []
@@ -407,7 +368,6 @@ def fix_image_filename(images,sight_id):
             
     return image_names
 
-
 def sort_dropdown_by_id(id,options):
     new = []
     selected = options.pop(id-1)
@@ -422,22 +382,14 @@ def update_image_order(sight_id):
     image_names = image_names.split(',')
     print(f'{image_names=}')
 
-    #delete all rows with sight_id
-    #insert each row in order
-
-
     with Database(dict_cursor=True) as db:
         sight = Sight(db)
         lst = sight.get_image_ids(sight_id)
 
-
     print(f'{lst=}')
-
     Update_needed = False
-
     number_of_images = len(image_names)
     number_of_rows = len(lst)
-
     print(f'{number_of_images=}')
     print(f'{number_of_rows=}')
 
@@ -467,23 +419,10 @@ def update_image_order(sight_id):
             sight.update_image_order(ids, sight_id, image_names)
         print('Updated image order')
 
-    
-    
-    
-    #or
-    #get id order from database
-    #update each id with the photo order
-    #id list [50, 52]
-    #update id_list[0] image_order[0]
-
-
-
     return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
 
 @admin.route("/<int:sight_id>/delete_image/<path:image_path>", methods=["POST"])
 def delete_image(sight_id, image_path):
-    #print(f'{image_path=}')
-
     with Database(dict_cursor=True) as db:
         sight = Sight(db)
         result, message = sight.delete_sight_image(image_path)
