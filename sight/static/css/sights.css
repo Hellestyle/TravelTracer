@@ -247,25 +247,20 @@ button:active {
   display: flex;
   align-content: center;
   margin-top: -10px;
-  padding: -10px 0 0 0;
+  padding: 0;
   justify-content: space-between;
 }
 
-.wishlist-and-visted-container .check-green {
-  font-size: 18px;
-  color: darkgreen;
-}
-
+.wishlist-and-visted-container .check-green,
 .wishlist-and-visted-container .mark-blue {
   font-size: 18px;
-  color: #0056b3;
 }
 
 .statistic-container {
   display: flex;
   flex-direction: row;
+  margin: -15px 0 -15px 0;
   padding: 0;
-  margin: -15px 0 0 0;
   gap: 10px;
 }
 
@@ -275,6 +270,10 @@ button:active {
 
 .statistic-container .bx-dislike {
   color: rgb(175, 0, 0);
+}
+
+.sight-item h3 {
+  margin: 0;
 }
 
 .sight-link {
