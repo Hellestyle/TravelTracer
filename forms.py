@@ -89,7 +89,7 @@ class Edit_sight_detail(FlaskForm):
     close_time = StringField("Close Time", validators=[TimeFormatValidator()])
     description = TextAreaField("Description", validators=[])
     image = MultipleFileField("Image")
-    old_sight_type = StringField("Old Sight type ID",validators=[])
+    old_sight_type = StringField("Old Sight type ID")
     sight_type = SelectField("Category",choices=get_categories())
     #sight_type = StringField("Sight type ID",validators=[DataRequired()])
     submit = SubmitField("submit")
