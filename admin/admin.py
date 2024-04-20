@@ -410,7 +410,7 @@ def fix_image_filename(images,sight_id):
 
 def sort_dropdown_by_id(id,options):
     new = []
-    selected = options.pop(id)
+    selected = options.pop(id-1)
     new.append(selected)
     for option in options:
         new.append(option)
