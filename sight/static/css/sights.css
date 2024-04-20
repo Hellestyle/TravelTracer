@@ -246,9 +246,9 @@ button:active {
 .wishlist-and-visted-container {
   display: flex;
   align-content: center;
-  gap: 20px;
-  padding: 0 5px;
   margin-top: -10px;
+  padding: -10px 0 0 0;
+  justify-content: space-between;
 }
 
 .wishlist-and-visted-container .check-green {
@@ -259,6 +259,22 @@ button:active {
 .wishlist-and-visted-container .mark-blue {
   font-size: 18px;
   color: #0056b3;
+}
+
+.statistic-container {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: -15px 0 0 0;
+  gap: 10px;
+}
+
+.statistic-container .bx-like {
+  color: rgb(0, 120, 0);
+}
+
+.statistic-container .bx-dislike {
+  color: rgb(175, 0, 0);
 }
 
 .sight-link {

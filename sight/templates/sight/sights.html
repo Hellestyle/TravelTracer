@@ -72,6 +72,17 @@
                       <i class='bx bx-check-circle check-green' >Visited</i>
                     {% endif %}
                   {% endif %}
+
+                  {% if statistics %}
+                    <div class="statistic-container">
+                      {% for statistic in statistics %}
+                        {% if statistic.sight_id == sight.id %}
+                          <p><i class='bx bx-like'></i> {{ statistic.liked }}</p>
+                          <p><i class='bx bx-dislike'></i> {{ statistic.disliked }}</p>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
                 </div>
 
                 <div class="info sight-info">

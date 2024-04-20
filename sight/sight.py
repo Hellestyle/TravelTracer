@@ -25,6 +25,7 @@ def sights():
         
         sight_model = Sight(db)
         sights = sight_model.getAllSights()
+        statistics = sight_model.get_all_sight_statistics()
 
         sight_type_model = SightType(db)
         sight_types = sight_type_model.getAllSightTypes()
@@ -44,7 +45,8 @@ def sights():
                 sights=sights,
                 sight_type_names=[sight_type["name"] for sight_type in sight_types],
                 sight_names = [sight_name["name"] for sight_name in sight_names],
-                admin=admin, user_wishlist=user_wishlist, user_visited_list=user_visited_list
+                admin=admin, user_wishlist=user_wishlist, user_visited_list=user_visited_list,
+                statistics=statistics
             )
         else:
             return render_template(
@@ -52,7 +54,8 @@ def sights():
                 sights=sights,
                 sight_type_names=[sight_type["name"] for sight_type in sight_types],
                 sight_names = [sight_name["name"] for sight_name in sight_names],
-                admin=admin, message=message, user_wishlist=None, user_visited_list=None
+                admin=admin, message=message, user_wishlist=None, user_visited_list=None,
+                statistics=statistics
             )
     else:
         return render_template(
@@ -60,7 +63,7 @@ def sights():
             sights=sights,
             sight_type_names=[sight_type["name"] for sight_type in sight_types],
             sight_names = [sight_name["name"] for sight_name in sight_names],
-            admin=admin
+            admin=admin, statistics=statistics
         )
 
 
