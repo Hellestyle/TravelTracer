@@ -125,6 +125,7 @@ def add_sight():
             
             images = edit_sight_form.image.data
 
+        
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
                 result, message = sight_model.add_sight(sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description,sight_type_id)
