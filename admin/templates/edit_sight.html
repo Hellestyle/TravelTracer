@@ -109,29 +109,30 @@
     </div>
 
 
-    
+    <!--<form action="{{ url_for('admin.delete_image', sight_id=sight_id, image_path=photo ) }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <input type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+    </form>-->
     <div class="container">
-        <form action="">
-            <div class="ms-boxes used-in-code">
-                <label style="padding-top: 40px;" for="Text-Field-2" class="ms-input-label">Drag n' Drop </label>
+        <form action="{{ url_for('admin.update_image_order', sight_id=sight_id ) }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <div class="ms-boxes re-order-boxes">
+                <label style="padding-top: 40px;" for="Text-Field-2" class="ms-input-label">Drag to re-order images</label>
                 {% for photo in sight["photos"] %}
-                    <div draggable="true" class="ms-box used-in-code" style="opacity: 1; width: 250px;">
-                        <div class="ms-button-svg drag w-embed">
+                    <div draggable="true" class="ms-box re-order-boxes" style="width: 250px;">
+                        <div>
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
-                                <path d="M0 0h24v24H0V0z" fill="none"></path>
                                 <path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
                             </svg>
                         </div>
-                        <img style="width: 200px; height: 200px;" src="/static/images/sight/{{ photo }}"></img>
-                        <div hidden data-value="true"> {{ photo }}</div>
-                        <form action="{{ url_for('admin.delete_image', image_id=sight['id']) }}">
-                            <input type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-                        </form>
+                        <img draggable="false" style="width: 200px; height: 200px;" src="/static/images/sight/{{ photo }}"></img>
+                        <div hidden data-value="true">{{ photo }}</div>
+                       
                     </div>
                 {% endfor %}
             </div>
-            <input type="text" class="w-input" data-input="drag-order" maxlength="256" name="field" data-name="Field" placeholder="Example Text" id="field" data-ms-member="drag-order">
-            <input type="submit" value="Save image order" data-wait="Please wait..." class="w-button">
+            <input name="image_order" id="image_order" type="text" data-input="drag-order">
+            <input type="submit" value="Save image order" data-wait="Please wait...">
         </form>
     </div>
     

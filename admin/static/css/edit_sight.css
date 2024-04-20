@@ -244,28 +244,20 @@ form .form-row .input-data input[type="file"]::file-selector-button:hover {
   }
 }
 
-
-.ms-input-label {
-    color: rgb(211, 207, 201);
-}
-
-.ms-input-label {
-    color: #121331;
-    margin-bottom: 5px;
-    font-weight: 700;
-}
-
 label {
     margin-bottom: 5px;
     font-weight: bold;
     display: block;
 }
 
-.ms-box {
-    color: rgb(211, 207, 201);
-    background-color: rgb(24, 26, 27);
-    border-color: rgba(129, 120, 106, 0.25);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px -5px;
+
+
+
+
+.ms-input-label {
+    color: #121331;
+    margin-bottom: 5px;
+    font-weight: 700;
 }
 
 .ms-box {
@@ -287,26 +279,6 @@ label {
     position: relative;
     box-shadow: 0 5px 10px -5px rgba(0, 0, 0, .1);
 }
-.ms-button-svg {
-    width: 16px;
-    height: 16px;
-    justify-content: center;
-    align-items: center;
-    padding-top: 0;
-    padding-bottom: 0;
-    display: flex;
-}
-
-.ms-button-svg.drag {
-    width: 18px;
-    opacity: .5;
-}
-
-
-
-.w-embed:after {
-    clear: both;
-}
 
 .ms-box:hover {
     z-index: 2;
@@ -314,18 +286,14 @@ label {
     border-color: #2962ff;
 }
 
-.ms-drag-and-drop:hover .ms-button-svg {
-    opacity: 100%;
-  }
-
 .ms-box.over {
     background-color: #f2f3fa;
     border-style: solid;
     border-color: #0067d9;
 }
 
-.ms-boxes.used-in-code {
-    margin-bottom: 94px;
+.ms-boxes.re-order-boxes {
+    margin-bottom: 50px;
 }
 
 .ms-boxes {

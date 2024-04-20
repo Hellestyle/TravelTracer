@@ -72,30 +72,34 @@ def edit_sight(sight_id):
 
             images = edit_sight_form.image.data
             
+            with Database(dict_cursor=True) as db:
+                sight_model = Sight(db)
+
             if images[0]:
-                    image_names = fix_image_filename(images, sight_id=sight_id)
-                    number_of_images = len(image_names)
-                    try:
-                        for i in range(number_of_images):
-                            images[i].save(os.path.join(current_app.config['SIGHT_IMAGE_FOLDER'], image_names[i]))
-                            sight_model.add_sight_image(sight_id, image_names[i])
-                    except Exception as e:
-                        return str(e)
+                image_names = fix_image_filename(images, sight_id=sight_id)
+                number_of_images = len(image_names)
+                try:
+                    for i in range(number_of_images):
+                        images[i].save(os.path.join(current_app.config['SIGHT_IMAGE_FOLDER'], image_names[i]))
+                        sight_model.add_sight_image(sight_id, image_names[i])
+                except Exception as e:
+                    return f'{e=}'
+                
             else:
                 image_names =""
-            
-
             
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
                 result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_names, sight_type_id, old_sight_type_id)
 
-                if result:
-                    flash(message)
-                    return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
-                else:
-                    flash(message)
-                    return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
+            print(f'{message=}')
+
+            if result:
+                flash(message)
+                return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
+            else:
+                flash(message)
+                return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
         
         else:
             for errors in edit_sight_form.errors.values():
@@ -126,7 +130,6 @@ def add_sight():
             sight_type_id = edit_sight_form.sight_type.data
             
             images = edit_sight_form.image.data
-            
 
         
             with Database(dict_cursor=True) as db:
@@ -304,12 +307,86 @@ def sort_dropdown_by_id(id,options):
         new.append(option)
     return new
 
-@admin.route("edit_sight/delete_image", methods=["POST"])
-def delete_image(sight_id, image_id):
-    sight_image_id = sight_id + image_id
-    image_path = os.path.join(current_app.config['SIGHT_IMAGE_FOLDER'], sight_image_id)
+@admin.route("/update_image_order/<int:sight_id>", methods=["POST"])
+def update_image_order(sight_id):
+    image_names = request.form['image_order'].strip()
+    image_names = image_names.split(',')
+    print(f'{image_names=}')
+
+    #delete all rows with sight_id
+    #insert each row in order
+
+
+    with Database(dict_cursor=True) as db:
+        sight = Sight(db)
+        lst = sight.get_image_ids(sight_id)
+
+
+    print(f'{lst=}')
+
+    Update_needed = False
+
+    number_of_images = len(image_names)
+    number_of_rows = len(lst)
+
+    print(f'{number_of_images=}')
+    print(f'{number_of_rows=}')
+
+    if number_of_rows != number_of_images:
+        print("Number of rows in database and number of images do not match!")
+        return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
+    else:
+        print("Number of rows in database and images match")
+    
+    for i in range(len(lst)):
+        print(f'{lst[i]["photo"]=}, {image_names[i]=}')
+        if lst[i]['photo'] != image_names[i]:
+            Update_needed = True
+            print(f'Line 332: {Update_needed=}')
+            break
+
+    print(f'{Update_needed=}')
+
+    if Update_needed:
+        ids = []
+        for i in range(len(lst)):
+            ids.append(lst[i]["id"])
+        print(f'{ids=}')
+        
+        with Database(dict_cursor=True) as db:
+            sight = Sight(db)
+            sight.update_image_order(ids, sight_id, image_names)
+        print('Updated image order')
+
+    
+    
+    
+    #or
+    #get id order from database
+    #update each id with the photo order
+    #id list [50, 52]
+    #update id_list[0] image_order[0]
+
+
+
+    return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
+
+@admin.route("/<int:sight_id>/delete_image/<path:image_path>", methods=["POST"])
+def delete_image(sight_id, image_path):
+    #print(f'{image_path=}')
+
+    with Database(dict_cursor=True) as db:
+        sight = Sight(db)
+        result, message = sight.delete_sight_image(image_path)
+
+    flash(message)
+    print(f'{message=}')
+
+    image_path = os.path.join(current_app.config['SIGHT_IMAGE_FOLDER'], image_path)
     if os.path.exists(image_path):
         os.remove(image_path)
+        print("Deleted", image_path)
     else:
         print(f'{image_path=} does not exist!')
 
+    return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
