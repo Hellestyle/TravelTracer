@@ -111,15 +111,10 @@
         </ul>
     </div>
 
-
-    <!--<form action="{{ url_for('admin.delete_image', sight_id=sight_id, image_path=photo ) }}" method="post">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        <input type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-    </form>-->
     <div class="container">
         <form action="{{ url_for('admin.update_image_order', sight_id=sight_id ) }}" method="post">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-            <div class="ms-boxes re-order-boxes">
+            <div class="ms-boxes re-order-boxes" style="flex-direction: column;">
                 <label style="padding-top: 40px;" for="Text-Field-2" class="ms-input-label">Drag to re-order images</label>
                 {% for photo in sight["photos"] %}
                     <div draggable="true" class="ms-box re-order-boxes" style="width: 250px;">
@@ -130,7 +125,7 @@
                         </div>
                         <img draggable="false" style="width: 200px; height: 200px;" src="/static/images/sight/{{ photo }}"></img>
                         <div hidden data-value="true">{{ photo }}</div>
-                       
+                        <button style="position: absolute; left:250px" draggable="false" formaction="{{ url_for('admin.delete_image', sight_id=sight_id, image_path=photo ) }}" method="post" onclick="return confirm('Are you sure?');"> Delete </button>
                     </div>
                 {% endfor %}
             </div>
