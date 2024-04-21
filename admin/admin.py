@@ -397,68 +397,36 @@ def update_image_order(sight_id):
     image_names = image_names.split(',')
     print(f'{image_names=}')
 
-    #delete all rows with sight_id
-    #insert each row in order
-
-
     with Database(dict_cursor=True) as db:
         sight = Sight(db)
         lst = sight.get_image_ids(sight_id)
 
-
-    print(f'{lst=}')
-
     Update_needed = False
-
     number_of_images = len(image_names)
     number_of_rows = len(lst)
 
-    print(f'{number_of_images=}')
-    print(f'{number_of_rows=}')
-
     if number_of_rows != number_of_images:
-        print("Number of rows in database and number of images do not match!")
         return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
-    else:
-        print("Number of rows in database and images match")
-    
+
     for i in range(len(lst)):
-        print(f'{lst[i]["photo"]=}, {image_names[i]=}')
         if lst[i]['photo'] != image_names[i]:
             Update_needed = True
-            print(f'Line 332: {Update_needed=}')
             break
-
-    print(f'{Update_needed=}')
 
     if Update_needed:
         ids = []
         for i in range(len(lst)):
             ids.append(lst[i]["id"])
-        print(f'{ids=}')
         
         with Database(dict_cursor=True) as db:
             sight = Sight(db)
             sight.update_image_order(ids, sight_id, image_names)
-        print('Updated image order')
-
-    
-    
-    
-    #or
-    #get id order from database
-    #update each id with the photo order
-    #id list [50, 52]
-    #update id_list[0] image_order[0]
-
-
+        flash('Updated image order')
 
     return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
 
 @admin.route("/<int:sight_id>/delete_image/<path:image_path>", methods=["POST"])
 def delete_image(sight_id, image_path):
-    #print(f'{image_path=}')
-
     with Database(dict_cursor=True) as db:
         sight = Sight(db)
         result, message = sight.delete_sight_image(image_path)
