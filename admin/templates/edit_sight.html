@@ -42,15 +42,21 @@
             
             
             <div class="input-data">
-               {{ edit_sight_form.age_category_id() }}
+               <div ><label style=" color: #3498db;" for="">Age Category</label> </div> <br>
+               <div> {{ edit_sight_form.age_category_id() }} </div>
+               
                <div class="underline"></div>
                
             </div>
             
             <div class="input-data">
                <input type="hidden" name="old_sight_type" value="{{ sight.old_sight_type }}">
-               {{ edit_sight_form.sight_type() }}
+               <div ><label style=" color: #3498db;" for="">Category</label> </div> <br>
+               <div>{{ edit_sight_form.sight_type() }}</div>
+               
+               
                <div class="underline"></div>
+               
                
                
             </div>
@@ -130,7 +136,7 @@
                     </div>
                 {% endfor %}
             </div>
-            <input name="image_order" id="image_order" type="text" data-input="drag-order">
+            <input name="image_order"  id="image_order" type="hidden" data-input="drag-order">
             <input type="submit" value="Save image order" data-wait="Please wait...">
         </form>
     </div>
