@@ -47,7 +47,7 @@ def edit_sight(sight_id):
             
             edit_sight_form.sight_type.choices = sort_dropdown_by_id(sight["sight_type_id"],get_categories())
             edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
-        
+            
             return render_template(
                 "edit_sight.html",
                 sight=sight,
@@ -176,8 +176,8 @@ def achievements_page():
 
 
 @admin.route("/achievements/edit/<int:achievement_id>", methods=["GET", "POST"])
-def achievement_edit(achievement_id):
 #@login_required
+def achievement_edit(achievement_id):
     delete_form = Delete_achievement()
     edit_achievement_form = Edit_acheivements()
     path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}"
@@ -235,8 +235,8 @@ def achievement_edit(achievement_id):
         return "invalid form"
         
 @admin.route("/achievements/add", methods=["GET","POST"])
-def achievement_add():
 #@login_required
+def achievement_add():
     path = path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}"
     achievement_add_form = Edit_acheivements()
     default_image = path + "default.png"
@@ -268,6 +268,7 @@ def achievement_add():
             image_name = "default.png"
         return redirect(url_for("admin.achievements_page")) 
 
+    
 
 
 @admin.route("/sight-types", methods=["GET", "POST"])
@@ -282,6 +283,7 @@ def sight_types():
         
         return render_template("sight_types.html", sight_types=sight_types)
     
+
 
 @admin.route("/add-sight-type", methods=["GET", "POST"])
 def add_sight_type():
@@ -305,6 +307,7 @@ def add_sight_type():
 
     else:
         return flash("Invalid form")
+
 
 
 @admin.route("/sight-types/edit/<int:sight_type_id>", methods=["GET", "POST"])
@@ -338,6 +341,8 @@ def edit_sight_type(sight_type_id):
     else:
         return flash("Invalid form")
 
+
+
 @admin.route("/sight-types/delete/<int:sight_type_id>", methods=["POST"])
 def delete_sight_type(sight_type_id):
     if request.method == "GET":
@@ -348,7 +353,7 @@ def delete_sight_type(sight_type_id):
             sight_type = SightType(db)
             sight_type.delete_sight_type(sight_type_id)
 
-        return redirect(url_for('admin.sight_types'))
+        return redirect(url_for('admin.sight_types'))      
 
 def fix_image_filename(images,sight_id):
     image_names = []
@@ -382,14 +387,22 @@ def update_image_order(sight_id):
     image_names = image_names.split(',')
     print(f'{image_names=}')
 
+    #delete all rows with sight_id
+    #insert each row in order
+
+
     with Database(dict_cursor=True) as db:
         sight = Sight(db)
         lst = sight.get_image_ids(sight_id)
 
+
     print(f'{lst=}')
+
     Update_needed = False
+
     number_of_images = len(image_names)
     number_of_rows = len(lst)
+
     print(f'{number_of_images=}')
     print(f'{number_of_rows=}')
 
@@ -419,10 +432,23 @@ def update_image_order(sight_id):
             sight.update_image_order(ids, sight_id, image_names)
         print('Updated image order')
 
+    
+    
+    
+    #or
+    #get id order from database
+    #update each id with the photo order
+    #id list [50, 52]
+    #update id_list[0] image_order[0]
+
+
+
     return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
 
 @admin.route("/<int:sight_id>/delete_image/<path:image_path>", methods=["POST"])
 def delete_image(sight_id, image_path):
+    #print(f'{image_path=}')
+
     with Database(dict_cursor=True) as db:
         sight = Sight(db)
         result, message = sight.delete_sight_image(image_path)
