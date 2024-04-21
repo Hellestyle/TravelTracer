@@ -16,6 +16,7 @@ admin = Blueprint("admin", __name__, template_folder="templates", static_folder=
 @admin.route("/main-page")
 @login_required
 def admin_main():
+    
     with Database(dict_cursor=True) as db:
 
         sight_model = Sight(db)
@@ -38,6 +39,7 @@ def admin_main():
 @admin.route("/sight/id/<int:sight_id>", methods=["GET", "POST"])
 @login_required
 def edit_sight(sight_id):
+    
     edit_sight_form = Edit_sight_detail()
     if request.method == "GET":
         with Database(dict_cursor=True) as db:
@@ -162,8 +164,8 @@ def add_sight():
 
 
 @admin.route("/achievements", methods=["GET", "POST"])
+@login_required
 def achievements_page():
-#@login_required
     
     path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}" 
     
@@ -177,7 +179,7 @@ def achievements_page():
 
 
 @admin.route("/achievements/edit/<int:achievement_id>", methods=["GET", "POST"])
-#@login_required
+@login_required
 def achievement_edit(achievement_id):
     delete_form = Delete_achievement()
     edit_achievement_form = Edit_acheivements()
@@ -236,7 +238,7 @@ def achievement_edit(achievement_id):
         return "invalid form"
         
 @admin.route("/achievements/add", methods=["GET","POST"])
-#@login_required
+@login_required
 def achievement_add():
     path = path = f"{current_app.config['ACHIEVEMENTS_FOLDER']}"
     achievement_add_form = Edit_acheivements()
@@ -273,8 +275,9 @@ def achievement_add():
 
 
 @admin.route("/sight-types", methods=["GET", "POST"])
+@login_required 
 def sight_types():
-#@login_required 
+
     
     with Database() as db:
         obj = SightType(db)
@@ -287,6 +290,7 @@ def sight_types():
 
 
 @admin.route("/add-sight-type", methods=["GET", "POST"])
+@login_required 
 def add_sight_type():
     add_sight_type_form = EditOrAddSightType()
     
@@ -312,6 +316,7 @@ def add_sight_type():
 
 
 @admin.route("/sight-types/edit/<int:sight_type_id>", methods=["GET", "POST"])
+@login_required 
 def edit_sight_type(sight_type_id):
     edit_sight_type_form = EditOrAddSightType()
     with Database(dict_cursor=True) as db:
@@ -345,6 +350,7 @@ def edit_sight_type(sight_type_id):
 
 
 @admin.route("/sight-types/delete/<int:sight_type_id>", methods=["POST"])
+@login_required 
 def delete_sight_type(sight_type_id):
     if request.method == "GET":
         return redirect(url_for('admin.sight_types'))
@@ -392,6 +398,7 @@ def sort_dropdown_by_id_cat(id,options):
     return new
 
 @admin.route("/update_image_order/<int:sight_id>", methods=["POST"])
+@login_required 
 def update_image_order(sight_id):
     image_names = request.form['image_order'].strip()
     image_names = image_names.split(',')
@@ -426,6 +433,7 @@ def update_image_order(sight_id):
     return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
 
 @admin.route("/<int:sight_id>/delete_image/<path:image_path>", methods=["POST"])
+@login_required
 def delete_image(sight_id, image_path):
     with Database(dict_cursor=True) as db:
         sight = Sight(db)
@@ -442,3 +450,11 @@ def delete_image(sight_id, image_path):
         print(f'{image_path=} does not exist!')
 
     return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
+
+
+@admin.before_request
+def check_admin():
+    if current_user.is_authenticated:
+        if current_user.check_if_user_is_admin() == False:
+            return redirect(url_for("index"))
+    
