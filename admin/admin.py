@@ -44,6 +44,7 @@ def edit_sight(sight_id):
             sight_model = Sight(db)
             sight = sight_model.getSight(sight_id)
             sight["active"] = bool(sight["active"])
+            sight["old_sight_type"] = sight["sight_type_id"]
             
             edit_sight_form.sight_type.choices = sort_dropdown_by_id_cat(sight["sight_type_id"],get_categories())
             edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
@@ -383,7 +384,8 @@ def sort_dropdown_by_id(id,options):
 
 def sort_dropdown_by_id_cat(id,options):
     new = []
-    selected = options.pop(id)
+    options.pop(0)
+    selected = options.pop(id-1)
     new.append(selected)
     for option in options:
         new.append(option)
