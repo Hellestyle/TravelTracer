@@ -223,7 +223,7 @@ def achievement_edit(achievement_id):
         with Database(dict_cursor=True) as db:
             try:
                 db.queryOne("DELETE FROM `achievement` WHERE `achievement`.`id` = %s",(delete_id,))
-                if os.path.exists(current_image[3:]) and result["icon"] !=  + "default.png":
+                if os.path.exists(current_image[3:]) and result["icon"] !=   "default.png":
                     os.remove(current_image[3:])
                 else:
                     message = f'{current_image[3:]=} Cannot remove'
