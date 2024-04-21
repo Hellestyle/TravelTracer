@@ -45,7 +45,7 @@ def edit_sight(sight_id):
             sight = sight_model.getSight(sight_id)
             sight["active"] = bool(sight["active"])
             
-            edit_sight_form.sight_type.choices = sort_dropdown_by_id(sight["sight_type_id"],get_categories())
+            edit_sight_form.sight_type.choices = sort_dropdown_by_id_cat(sight["sight_type_id"],get_categories())
             edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
             
             return render_template(
@@ -59,7 +59,7 @@ def edit_sight(sight_id):
             sight = sight_model.getSight(sight_id)
             sight["active"] = bool(sight["active"])
             
-            edit_sight_form.sight_type.choices = sort_dropdown_by_id(sight["sight_type_id"],get_categories())
+            edit_sight_form.sight_type.choices = sort_dropdown_by_id_cat(sight["sight_type_id"],get_categories())
             edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
         
         if edit_sight_form.validate():
@@ -376,6 +376,14 @@ def fix_image_filename(images,sight_id):
 def sort_dropdown_by_id(id,options):
     new = []
     selected = options.pop(id-1)
+    new.append(selected)
+    for option in options:
+        new.append(option)
+    return new
+
+def sort_dropdown_by_id_cat(id,options):
+    new = []
+    selected = options.pop(id)
     new.append(selected)
     for option in options:
         new.append(option)
