@@ -35,7 +35,7 @@ def admin_main():
         sight_names=[sight_name["name"] for sight_name in sight_names]
     )
 
-
+#Edit sight function
 @admin.route("/sight/id/<int:sight_id>", methods=["GET", "POST"])
 @login_required
 def edit_sight(sight_id):
@@ -105,7 +105,7 @@ def edit_sight(sight_id):
         else:
             return render_template("edit_sight.html" ,sight=sight, sight_id=sight_id, edit_sight_form=edit_sight_form)
 
-
+#Add sight function 
 @admin.route("/add-sight", methods=["GET", "POST"])
 @login_required
 def add_sight():
@@ -177,7 +177,7 @@ def achievements_page():
         
         return render_template("achievements.html", achievements = achievements, path=path)
 
-
+#Edit achievement page with form
 @admin.route("/achievements/edit/<int:achievement_id>", methods=["GET", "POST"])
 @login_required
 def achievement_edit(achievement_id):
@@ -432,6 +432,7 @@ def update_image_order(sight_id):
 
     return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
 
+#Delete images 
 @admin.route("/<int:sight_id>/delete_image/<path:image_path>", methods=["POST"])
 @login_required
 def delete_image(sight_id, image_path):
@@ -451,7 +452,7 @@ def delete_image(sight_id, image_path):
 
     return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
 
-
+#Make admin not accessible to normal users and guest
 @admin.before_request
 def check_admin():
     if current_user.is_authenticated:
