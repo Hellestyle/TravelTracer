@@ -6,6 +6,10 @@ html {
     line-height: 1.5;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 img {
     display: block;
     max-width: 100%;

@@ -234,7 +234,6 @@ button {
 }
 
 button:hover {
-  transform: translateY(-4px) translateX(-2px);
   box-shadow: 2px 5px 0 0 black;
 }
 
@@ -259,7 +258,7 @@ button:active {
 .statistic-container {
   display: flex;
   flex-direction: row;
-  margin: -15px 0 -15px 0;
+  margin: 0 0 -15px 0;
   padding: 0;
   gap: 10px;
 }

@@ -2,6 +2,10 @@ body {
     margin-top: 0;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 h1 {
     font-size: 4.875rem;
     font-weight: 700;
@@ -71,11 +75,6 @@ h1 span {
     justify-content: center;
     align-items: flex-start;
     padding: 0;
-}
-
-
-.button-holder a{
-    text-decoration: none;
 }
 
 .view-more-button {
