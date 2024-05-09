@@ -4,7 +4,7 @@ from models.sight import Sight
 from models.sight_name import SightName
 from models.sight_type import SightType
 from models.achievement import Achievement
-from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories, Edit_acheivements, Delete_achievement, EditOrAddSightType
+from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories, Edit_acheivements, Delete_achievement, EditOrAddSightType, Achievements_In_Sight
 from datetime import datetime as dt
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
@@ -458,4 +458,14 @@ def check_admin():
     if current_user.is_authenticated:
         if current_user.check_if_user_is_admin() == False:
             return redirect(url_for("index"))
+
+
+def get_achievement_in_sight(sight_id):
     
+    with Database(dict_cursor=True) as db:
+        try:
+            db.query("",())
+        except:
+            return "ERROR"
+            
+    pass

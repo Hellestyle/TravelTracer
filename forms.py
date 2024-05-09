@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField,SelectField, TextAreaField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField,SelectField, TextAreaField, IntegerField, SelectMultipleField
 from wtforms.validators import DataRequired, Email, Length, InputRequired, EqualTo
 from wtforms import ValidationError
 from database import Database
@@ -124,6 +124,10 @@ class EditOrAddSightType(FlaskForm):
     desc = StringField("Description",validators=[DataRequired()])
     points = IntegerField("Points",validators=[DataRequired()])
     submit = SubmitField("Submit")
+    
+class Achievements_In_Sight(FlaskForm):
+    achievements = SelectMultipleField('Achievements', validators=[DataRequired()], coerce=str)
+    submit = SubmitField('Update Achievements')
 
 
         
