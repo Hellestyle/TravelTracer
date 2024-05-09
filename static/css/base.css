@@ -1,154 +1,217 @@
 html {
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
-    font-family: Helvetica, sans-serif;
-    line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: Helvetica, sans-serif;
+  line-height: 1.5;
 }
 
 a:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 img {
-    display: block;
-    max-width: 100%;
-    height: auto;
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 #hero {
-    height: 20vh;
-    color: white;
-    position: relative;
+  height: 20vh;
+  color: white;
+  position: relative;
 }
 
 .nav-container {
-    width: 80%;
-    margin: 0 auto;
-    height: 100%;
-    padding: 4rem 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
+  width: 80%;
+  margin: 0 auto;
+  height: 100%;
+  padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  z-index: 2;
 }
 
 nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
 nav ul a {
-    text-decoration: none;
-    color: white;
+  text-decoration: none;
+  color: white;
 }
 
 .btn {
-    color: white;
-    background-color: #60c79a;
-    display: inline-block;
-    padding: .75rem 1.5rem;
-    border-radius: 10em;
-    border: 1px solid #60c79a;
-    transition: background-color .3s ease-in-out, color .3s ease-in-out, border-color .3s ease-in-out;
+  color: white;
+  background-color: #60c79a;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10em;
+  border: 1px solid #60c79a;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out;
 }
 
 .btn:hover {
-    background-color: white;
-    color: #151618;
-    border-color: #151618;
+  background-color: white;
+  color: #151618;
+  border-color: #151618;
 }
 
 .buttons:hover {
-    color: #60c79a;
+  color: #60c79a;
 }
 
- .icon {
-    display: none;
+.icon {
+  display: none;
+}
+
+.paste-button {
+  position: relative;
+  display: block;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.button {
+  background-color: #60c79a;
+  color: white;
+  padding: 10px 15px;
+  font-size: 15px;
+  font-weight: normal;
+  border: 2px solid transparent;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  font-size: 13px;
+  position: absolute;
+  z-index: 1;
+  min-width: 200px;
+  background-color: #212121;
+  border: 2px solid #60c79a;
+  border-radius: 0px 15px 15px 15px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-content a {
+  color: #60c79a;
+  padding: 8px 10px;
+  text-decoration: none;
+  display: block;
+  transition: 0.1s;
+}
+
+.dropdown-content a:hover {
+  background-color: #60c79a;
+  color: #212121;
+}
+
+.dropdown-content a:focus {
+  background-color: #212121;
+  color: #60c79a;
+}
+
+.dropdown-content #top:hover {
+  border-radius: 0px 13px 0px 0px;
+}
+
+.dropdown-content #bottom:hover {
+  border-radius: 0px 0px 13px 13px;
+}
+
+.paste-button:hover button {
+  border-radius: 15px 15px 0px 0px;
+}
+
+.paste-button:hover .dropdown-content {
+  display: block;
 }
 
 @media screen and (max-width: 768px) {
-    nav ul li:not(:last-child) {
-        display: none;
-    }
+  nav ul li:not(:last-child) {
+    display: none;
+  }
 
-    .nav-container.responsive nav ul {
-        flex-direction: column;
-        width: 100%; 
-        max-height: 100vh; 
-        overflow-y: auto; 
-        position: fixed; 
-        top: 0; 
-        left: 0; 
-        background-color: #333; 
-        z-index: 999;
-        padding-top: 50px; 
-    }
+  .nav-container.responsive nav ul {
+    flex-direction: column;
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    z-index: 999;
+    padding-top: 50px;
+  }
 
-   .nav-container.responsive nav ul li {
-        display: block;
-        width: 100%;
-    }
+  .nav-container.responsive nav ul li {
+    display: block;
+    width: 100%;
+  }
 
-   .nav-container.responsive nav ul li a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px; 
-        color: white; 
-        text-decoration: none; 
-        
-    }
+  .nav-container.responsive nav ul li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+  }
 
-    .nav-container.responsive nav ul li a:hover {
-        background-color: #60c79a; 
-    }
+  .nav-container.responsive nav ul li a:hover {
+    background-color: #60c79a;
+  }
 
-    .nav-container a.icon {
-        display: block;
-        position: absolute; 
-        right: 0;
-        top: 0;
-        padding: 1rem;
-        z-index: 1000; 
-        font-size: 1.5rem; 
-    }
+  .nav-container a.icon {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 1rem;
+    z-index: 1000;
+    font-size: 1.5rem;
+  }
 
-    header a img {
-        max-height: 50px; 
-        max-width: 200px; 
-    }
+  header a img {
+    max-height: 50px;
+    max-width: 200px;
+  }
 
-    header {
-        position: absolute; 
-        top: 0;
-        left: 0;
-        width: 100%; 
-        background-color: transparent; 
-        z-index: 1000; 
-        display: flex; 
-        justify-content: space-between;
-        align-items: center; 
-        padding: 0.5rem 1rem; 
-    }
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: transparent;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+  }
 
-    nav ul a {
-        padding: 10px; 
-    }
+  nav ul a {
+    padding: 10px;
+  }
 
-    .nav-container.responsive nav ul li:last-child a {
-        border-bottom: none;
-    }
+  .nav-container.responsive nav ul li:last-child a {
+    border-bottom: none;
+  }
 }
