@@ -126,7 +126,7 @@ class EditOrAddSightType(FlaskForm):
     submit = SubmitField("Submit")
     
 class Achievements_In_Sight(FlaskForm):
-    achievements = SelectMultipleField('Achievements', validators=[DataRequired()], coerce=str)
+    achievements = SelectMultipleField('Achievements')
     submit = SubmitField('Update Achievements')
 
 

@@ -140,6 +140,20 @@
             <input type="submit" value="Save image order" data-wait="Please wait...">
         </form>
     </div>
+   <div>
+      <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <div>
+            {{ achievement_sight_form.achievements.label }}
+            <ul>
+                {% for selected, id in achievement_sight_form.achievements.choices %}
+                    <li><input type="checkbox" name="achievements" {{ 'checked' if selected == True }} value="{{ id[0] }}"> {{ id[1] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {{ achievement_sight_form.submit() }}
+    </form>
+   </div>
     
   </body>
 </html>
