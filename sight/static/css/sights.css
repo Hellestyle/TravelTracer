@@ -234,7 +234,6 @@ button {
 }
 
 button:hover {
-  transform: translateY(-4px) translateX(-2px);
   box-shadow: 2px 5px 0 0 black;
 }
 
