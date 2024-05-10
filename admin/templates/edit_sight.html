@@ -141,7 +141,7 @@
         </form>
     </div>
    <div>
-      <form method="POST">
+      <form method="post" action="{{ url_for('admin.edit_sight', sight_id=sight_id, sight=sight ) }}">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         <div>
             {{ achievement_sight_form.achievements.label }}

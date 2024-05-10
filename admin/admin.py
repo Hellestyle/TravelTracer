@@ -39,7 +39,7 @@ def admin_main():
 @admin.route("/sight/id/<int:sight_id>", methods=["GET", "POST"])
 @login_required
 def edit_sight(sight_id):
-    populate_form(sight_id)
+    
     achievement_sight_form = Achievements_In_Sight()
     edit_sight_form = Edit_sight_detail()
     if request.method == "GET":
@@ -61,6 +61,9 @@ def edit_sight(sight_id):
                 sight_id=sight_id, edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form,
             )
     else:
+        
+        achievement_list = populate_form(sight_id)
+        achievement_sight_form.achievements.choices = achievement_list
         with Database(dict_cursor=True) as db:
             sight_model = Sight(db)
             sight = sight_model.getSight(sight_id)
@@ -82,7 +85,7 @@ def edit_sight(sight_id):
                     return "Error"
                 
 
-        if edit_sight_form.validate():
+        if edit_sight_form.validate() and edit_sight_form.submit.data:
             active = edit_sight_form.active.data
             sight_name = edit_sight_form.sight_name.data
             age_category_id = edit_sight_form.age_category_id.data
