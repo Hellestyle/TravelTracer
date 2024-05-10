@@ -39,7 +39,7 @@ def admin_main():
 @admin.route("/sight/id/<int:sight_id>", methods=["GET", "POST"])
 @login_required
 def edit_sight(sight_id):
-    
+    populate_form(sight_id)
     edit_sight_form = Edit_sight_detail()
     if request.method == "GET":
         with Database(dict_cursor=True) as db:
@@ -464,8 +464,27 @@ def get_achievement_in_sight(sight_id):
     
     with Database(dict_cursor=True) as db:
         try:
-            db.query("",())
+            result = db.query("SELECT `achievement_id` FROM `sight_has_achievement` WHERE `sight_id`= %s",(sight_id,))
         except:
             return "ERROR"
-            
-    pass
+    a_ids = []
+    for item in result:
+        a_ids.append(item["achievement_id"])
+    return a_ids
+
+def populate_form(sight_id):
+    in_sight = get_achievement_in_sight(sight_id)
+    
+    with Database(dict_cursor=True) as db:
+        all_achievements = Achievement(db).getAchievements()
+        
+        all_achievements = list(all_achievements)
+        all_achievements.pop(0)
+        all_achievements.pop(0)
+        all_achievements = all_achievements[0]
+        for item in all_achievements:
+            if item["id"] in in_sight:
+                item["selected"] = True
+            else:
+                item["selected"] = False
+        print(all_achievements)
