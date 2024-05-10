@@ -150,11 +150,16 @@
   margin: 20px auto;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-image-container {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-image-container {
   position: relative;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-icon-container .achievement-counter {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-icon-container
+  .achievement-counter {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -166,14 +171,20 @@
   border-radius: 50%;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-icon-container .achievement-counter-text {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-icon-container
+  .achievement-counter-text {
   margin: 0;
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-icon-container .achievement-level {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-icon-container
+  .achievement-level {
   display: none;
   font-size: 0.8rem;
   font-weight: bold;
@@ -194,39 +205,67 @@
   flex-grow: 1;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-description {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-info
+  .achievement-modal-description {
   font-size: 160%;
   font-weight: bold;
   color: #484848;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-unlock-info {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-info
+  .achievement-modal-unlock-info {
   font-size: 120%;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-levels {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-info
+  .achievement-modal-levels {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   margin: 20px auto;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-levels .achievement-modal-level {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-info
+  .achievement-modal-levels
+  .achievement-modal-level {
   width: 160px;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-levels .achievement-modal-level .achievement-modal-icon {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-info
+  .achievement-modal-levels
+  .achievement-modal-level
+  .achievement-modal-icon {
   display: block;
   margin: 10px auto;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-levels .achievement-modal-level .achievement-level-title {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-info
+  .achievement-modal-levels
+  .achievement-modal-level
+  .achievement-level-title {
   margin: 10px auto;
   text-align: center;
   color: #484848;
 }
 
-#achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-levels .achievement-modal-level .achievement-level-comment {
+#achievement-modal
+  .achievement-modal-content
+  .achievement-modal-info
+  .achievement-modal-levels
+  .achievement-modal-level
+  .achievement-level-comment {
   margin: 10px auto;
   color: #787878;
   text-align: center;
@@ -265,7 +304,7 @@ html {
 }
 
 body {
-  background: #404943;
+  background: #343a40;
   overflow-x: hidden;
 }
 
@@ -332,7 +371,7 @@ header {
 }
 
 .add-remove-friend-button-container .user-profile-add-button,
-.add-remove-friend-button-container .user-profile-remove-button{
+.add-remove-friend-button-container .user-profile-remove-button {
   display: flex;
   text-align: center;
   gap: 5px;
@@ -345,15 +384,15 @@ header {
   padding: 5px 10px;
 }
 
-.add-remove-friend-button-container .user-profile-remove-button{
+.add-remove-friend-button-container .user-profile-remove-button {
   background-color: #dc3545;
 }
 
-.add-remove-friend-button-container .user-profile-add-button:hover{
+.add-remove-friend-button-container .user-profile-add-button:hover {
   background-color: #0056b3;
 }
 
-.add-remove-friend-button-container .user-profile-remove-button:hover{
+.add-remove-friend-button-container .user-profile-remove-button:hover {
   background-color: #a71f2d;
 }
 
@@ -499,9 +538,8 @@ header {
 }
 
 #profile-body-friends {
-  margin: 20px 20px 0 20px;
-  padding: 0;
-  margin-bottom: -20px;
+  margin: 20px;
+  padding: 10px;
   background-color: #fff;
   border-radius: 5px;
 }
@@ -1055,9 +1093,9 @@ header {
   }
 
   #achievement-modal {
-    width: 90%; 
-    margin-top: 5%; 
-    padding: 5px; 
+    width: 90%;
+    margin-top: 5%;
+    padding: 5px;
     overflow-y: auto;
     max-height: 90%;
     pointer-events: auto;
@@ -1065,23 +1103,28 @@ header {
 
   #achievement-modal .achievement-modal-content {
     flex-direction: column;
-    gap: 20px; 
+    gap: 20px;
   }
 
   #achievement-modal .achievement-modal-content .achievement-modal-icon {
-    width: 80px; 
-    height: 80px; 
+    width: 80px;
+    height: 80px;
   }
 
-
-  #achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-levels {
-    flex-direction: column; 
-    align-items: center; 
+  #achievement-modal
+    .achievement-modal-content
+    .achievement-modal-info
+    .achievement-modal-levels {
+    flex-direction: column;
+    align-items: center;
   }
 
-  #achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-levels .achievement-modal-level {
-    width: 100%; 
-    margin-bottom: 20px; 
+  #achievement-modal
+    .achievement-modal-content
+    .achievement-modal-info
+    .achievement-modal-levels
+    .achievement-modal-level {
+    width: 100%;
+    margin-bottom: 20px;
   }
-
 }
