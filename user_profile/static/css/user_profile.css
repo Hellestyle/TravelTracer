@@ -138,7 +138,7 @@
 }
 
 #achievement-modal .achievement-modal-title {
-  font-size: 350%;
+  font-size: 330%;
   text-align: center;
 }
 
@@ -1053,4 +1053,35 @@ header {
   #edit-profile-settings {
     font-size: 1rem;
   }
+
+  #achievement-modal {
+    width: 90%; 
+    margin-top: 5%; 
+    padding: 5px; 
+    overflow-y: auto;
+    max-height: 90%;
+    pointer-events: auto;
+  }
+
+  #achievement-modal .achievement-modal-content {
+    flex-direction: column;
+    gap: 20px; 
+  }
+
+  #achievement-modal .achievement-modal-content .achievement-modal-icon {
+    width: 80px; 
+    height: 80px; 
+  }
+
+
+  #achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-levels {
+    flex-direction: column; 
+    align-items: center; 
+  }
+
+  #achievement-modal .achievement-modal-content .achievement-modal-info .achievement-modal-levels .achievement-modal-level {
+    width: 100%; 
+    margin-bottom: 20px; 
+  }
+
 }
