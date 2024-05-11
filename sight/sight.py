@@ -24,12 +24,9 @@ sight = Blueprint("sight", __name__, template_folder="templates", static_folder=
 def sights():
     
     with Database(dict_cursor=True) as db:
-        context = db.query("SELECT `sight_type_id`,`name` FROM `sight_type_meta` WHERE `language_id`= 1 ORDER BY sight_type_id")
+        categories = db.query("SELECT `sight_type_id`,`name` FROM `sight_type_meta` WHERE `language_id`= 1 ORDER BY sight_type_id")
         
-    print(f'{context=}')
-
-    Filter_by_category = [x["name"] for x in context]
-    print(f'{Filter_by_category=}')
+    
 
     """
     filter_by_category = Filter_by_category()
@@ -59,7 +56,7 @@ def sights():
             return render_template(
                 "sight/sights.html",
                 sights=sights,
-                filter_by_category = filter_by_category,
+                categories = categories,
                 sight_type_names=[sight_type["name"] for sight_type in sight_types],
                 sight_names = [sight_name["name"] for sight_name in sight_names],
                 admin=admin, user_wishlist=user_wishlist, user_visited_list=user_visited_list,
@@ -68,7 +65,7 @@ def sights():
         else:
             return render_template(
                 "sight/sights.html",
-                filter_by_category = filter_by_category,
+                categories = categories,
                 sights=sights,
                 sight_type_names=[sight_type["name"] for sight_type in sight_types],
                 sight_names = [sight_name["name"] for sight_name in sight_names],
@@ -78,7 +75,7 @@ def sights():
     else:
         return render_template(
             "sight/sights.html",
-            filter_by_category = filter_by_category,
+            categories = categories,
             sights=sights,
             sight_type_names=[sight_type["name"] for sight_type in sight_types],
             sight_names = [sight_name["name"] for sight_name in sight_names],
@@ -127,27 +124,18 @@ def sight_details(sight_id):
         return render_template("sight/sights.html", message=message)
     
 # Handling everything search related:
-@sight.route("/sight/<string:age>/<string:user_input>", methods=["GET", "POST"])
-def sight_by_everything(age, user_input):
+@sight.route("/sight/<string:category>/<string:age>/<string:user_input>", methods=["GET", "POST"])
+def sight_by_everything(category, age, user_input=None):
 
-    filter_by_category = Filter_by_category()
+    """ filter_by_category = Filter_by_category()
     
     filter_by_category.sight_type.choices = get_categories()
     if filter_by_category.validate():
-        filter_by_category = filter_by_category
-        
-
-
+        filter_by_category = filter_by_category """
     
-    age_options = {
-        "children": 1,
-        "family_friendly": 2,
-        "teenagers": 3,
-        "young_adults": 4,
-        "adults": 5,
-        "seniors": 6
-    }
-    age_id = age_options[age]
+    if user_input == "_user_input_":
+        user_input = None
+
 
     admin = False
     if current_user.is_authenticated:
@@ -158,35 +146,34 @@ def sight_by_everything(age, user_input):
     with Database(dict_cursor=True) as db:
         sight_model = Sight(db)
         sights = sight_model.getAllSights()
-        #sight_category_id = sight_model.getSight()
-        sight_category_id = filter_by_category.sight_type.data
-
-        print(f'{sight_category_id=}')
+        sight_category = category
+     
         sight_type_meta = SightType(db)
         sight_types = sight_type_meta.getAllSightTypes()
 
         sight_name_model = SightName(db)
         sight_names = sight_name_model.getAllSightNames()
 
-        # Check if sight exist
-        sight_id = None
-        for sight in sights:
-            if user_input.lower() == sight['name'].lower():
-                sight_id = sight['id']
+        categories = db.query("SELECT sight_type_id,name FROM sight_type_meta WHERE language_id= 1 ORDER BY sight_type_id")
+        for x in categories:
+            if x["name"] == category:
+                category_id = int(x["sight_type_id"])
                 break
-        
-        if sight_id is not None:
-            sight_found = True
-            return redirect(url_for("sight.sight_details", sight_id=sight_id))
-        else:
-            sight_found = False
-        
+        categories = sort_dropdown_by_id_cat(category_id, categories)
+
+        age_categories = db.query("SELECT age_category_id, name FROM age_category_meta WHERE language_id= 1 ORDER BY age_category_id")
+        for x in age_categories:
+            if x["name"] == age:
+                age_id = int(x["age_category_id"])
+                break
+        age_categories = sort_dropdown_by_id(age_id, age_categories)
+
         # Check if empty
-        if age_id == 2:
+        if age == "All ages":
             age_selected = False
         else:
             age_selected = True
-        if sight_category_id == 0:
+        if sight_category == "All":
             category_selected = False
         else:
             category_selected = True
@@ -196,72 +183,40 @@ def sight_by_everything(age, user_input):
             return render_template("sight/sights.html", sights=sights,
                                     sight_type_names=[sight_type["name"] for sight_type in sight_types],
                                     sight_names = [sight_name["name"] for sight_name in sight_names],
-                                    user_input=user_input, admin=admin
+                                    user_input=user_input, admin=admin,
+                                    categories=categories
                                 )
         
         # Make list of all results of selected filters
         else:
-            age_filter_result = [sight for sight in sights if sight["age_id"] == age_id]
-            category_filter_result = [sight for sight in sights if sight_category_id["sight_type_id"] == category]
-            complete_filter_result = [sight for sight in sights if sight["age_id"] == age_id and sight_category_id["sight_type_id"] == category]
+            if age_selected != False:
+                filter_results = [sight for sight in sights if (sight["age_category"] == age or sight["age_category"] == "All ages")]
+            else:
+                filter_results = [sight for sight in sights]
+            if category_selected != False:
+                filter_results = [sight for sight in filter_results if sight_category in sight["sight_types"]]
 
         # Return end results
-        if age_selected == True and category_selected == True and user_input is None:
-            if not complete_filter_result:
-                    message = "No sights found with the filters you have choosen"
-                    return render_template("sight/sights.html", message=message,
-                                        filter_by_category = filter_by_category,
-                                        sight_type_names=[sight_type["name"] for sight_type in sight_types],
-                                        sight_names = [sight_name["name"] for sight_name in sight_names],
-                                        user_input=user_input, admin=admin
-                                    )
-            else:
-                return render_template("sight/sights.html", sights=complete_filter_result,
-                                filter_by_category = filter_by_category,
-                                sight_type_names=[sight_type["name"] for sight_type in sight_types],
-                                sight_names = [sight_name["name"] for sight_name in sight_names],
-                                user_input=user_input, admin=admin
-                            )
-        if age_selected == True and category_selected == False and user_input is None:
-            if not age_filter_result:
-                message = "No sights found with the age filter you have choosen"
+        if not filter_results:
+                message = "No sights found with the filters you have choosen"
                 return render_template("sight/sights.html", message=message,
-                                    filter_by_category = filter_by_category,
+                                    filter_by_category = Filter_by_category(),
+                                    user_input=user_input,
+                                    admin=admin,
+                                    categories=categories,
                                     sight_type_names=[sight_type["name"] for sight_type in sight_types],
-                                    sight_names = [sight_name["name"] for sight_name in sight_names],
-                                    user_input=user_input, admin=admin
+                                    sight_names = [sight_name["name"] for sight_name in sight_names]
                                 )
-            else:   
-                render_template("sight/sights.html", sights=age_filter_result,
-                                filter_by_category = filter_by_category,
-                                sight_type_names=[sight_type["name"] for sight_type in sight_types],
-                                sight_names = [sight_name["name"] for sight_name in sight_names],
-                                user_input=user_input, admin=admin
-                            )
-        if category_selected == True and age_selected == False and user_input is None:
-            if not category_filter_result:
-                message = "No sights found with the category filter you have choosen"
-                return render_template("sight/sights.html", message=message,
-                                    filter_by_category = filter_by_category,
-                                    sight_type_names=[sight_type["name"] for sight_type in sight_types],
-                                    sight_names = [sight_name["name"] for sight_name in sight_names],
-                                    user_input=user_input, admin=admin
-                                )
-            else:   
-                render_template("sight/sights.html", sights=category_filter_result,
-                                filter_by_category = filter_by_category,
-                                sight_type_names=[sight_type["name"] for sight_type in sight_types],
-                                sight_names = [sight_name["name"] for sight_name in sight_names],
-                                user_input=user_input, admin=admin
-                            )
-        if sight_found == False and category_selected == False and age_selected == False:
-            message = "No sights with that name"
-            return render_template("sight/sights.html", message=message,
-                                    filter_by_category = filter_by_category,
-                                    sight_type_names=[sight_type["name"] for sight_type in sight_types],
-                                    sight_names = [sight_name["name"] for sight_name in sight_names],
-                                    user_input=user_input, admin=admin
-                                )
+        else:
+            return render_template("sight/sights.html", sights=filter_results,
+                            filter_by_category = Filter_by_category(),
+                            user_input=user_input, 
+                            admin=admin,
+                            categories=categories,
+                            sight_type_names=[sight_type["name"] for sight_type in sight_types],
+                            sight_names = [sight_name["name"] for sight_name in sight_names]
+                        )
+        
     
 
 ## Handling cases where the inputbox is not empty and the age is selected
@@ -441,3 +396,20 @@ def add_to_visited_list(sight_id):
         flash(message)
     
     return redirect(next_page)
+
+
+def sort_dropdown_by_id(id,options):
+    new = []
+    selected = options.pop(id-1)
+    new.append(selected)
+    for option in options:
+        new.append(option)
+    return new
+
+def sort_dropdown_by_id_cat(id,options):
+    new = []
+    selected = options.pop(id)
+    new.append(selected)
+    for option in options:
+        new.append(option)
+    return new
