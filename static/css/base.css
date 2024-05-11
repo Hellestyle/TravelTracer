@@ -214,4 +214,9 @@ nav ul a {
   .nav-container.responsive nav ul li:last-child a {
     border-bottom: none;
   }
+
+  .paste-button{
+    display: flex;
+    justify-content: center;
+  }
 }

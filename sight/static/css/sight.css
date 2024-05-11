@@ -522,4 +522,13 @@ img {
   .sight-description-button {
     padding: 0 5px 0 8px;
   }
+
+  .statistic{
+    justify-content: center;
+    margin: auto;
+  }
+  
+  a#wishlist-button.header-button{
+    margin: auto;
+  }
 }
