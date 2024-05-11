@@ -30,7 +30,7 @@ body {
 
 .search-box {
   width: 425px;
-  height: 80px;
+  height: auto;
   background: #fff;
   margin: 0 auto;
   margin-bottom: 100px;
@@ -94,7 +94,7 @@ body {
 }
 
 .result-box {
-  max-height: 200px;
+  max-height: 300px;
   overflow-y: scroll;
 }
 
@@ -332,8 +332,8 @@ button:active {
     font-size: 14px;
   }
 
-  .result-box ul {
-    max-height: 150px;
+  .result-box {
+    max-height: 300px;
   }
 
   .choose-age-container {
