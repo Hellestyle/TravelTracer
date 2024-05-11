@@ -17,7 +17,9 @@
 
     <body>
         
-        <div>
+        <div class="center">
+            <h1 class="achievemt-title">Achievements</h1> 
+            <a href="{{ url_for('admin.achievement_add') }}" class="back-button">Add new achievement</a>
             <table class="table">
                 <tr>
                     <th>Id</th>
@@ -32,10 +34,12 @@
                     <td>{{ achievement[2] }}</td>
                     <td>{{ achievement[3] }}</td>
                     <td> <img class="achievement-image"src="{{ path + achievement[1]  }}" alt=""> </img></td>
-                    <td> <a href="{{ url_for('admin.achievement_edit', achievement_id = achievement[0]) }}">Edit</a> </td>  
+                    <td> <a href="{{ url_for('admin.achievement_edit', achievement_id = achievement[0]) }}" class="edit-achievement-button" >Edit</a> </td>  
                 </tr>
                 {% endfor %}
             </table>
+            <a href="{{ url_for('admin.admin_main') }}" class="back-button">Back</a>
+            
         </div>
     
 

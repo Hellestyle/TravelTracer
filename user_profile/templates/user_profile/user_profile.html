@@ -30,11 +30,13 @@
 ></script>
 <script src="{{ url_for('.static', filename='js/popup.js') }}" defer></script>
 <script src="{{ url_for('.static', filename='js/handle-button-click.js') }}" defer></script>
+<script src="{{ url_for('.static', filename='js/achievement-modal.js') }}" defer></script>
 {% endblock %} 
 
 {% block title %} Profile: {{ user_info["username"] }} {%endblock %} 
 
 {% block popup %}
+
 <div id="popup-background">
   <div id="popup">
     <div><button class="close-button"></button></div>
@@ -48,17 +50,89 @@
     </div>
   </div>
 </div>
+
+<div id="achievement-modal-background">
+  <div id="achievement-modal">
+
+    <div> <button class="close-button"> </button> </div>
+
+    <h1 class="achievement-modal-title"> </h1>
+
+    <div class="achievement-modal-content">
+      
+      <div class="achievement-modal-icon-container">
+
+        <div class="achievement-modal-image-container">
+
+          <div class="achievement-counter"> <p class="achievement-counter-text"> </p> </div>
+
+          <img class="achievement-modal-icon" alt="Achievement icon" />
+
+        </div>
+
+        <p class="achievement-level"> </p>
+
+      </div>
+
+      <div class="achievement-modal-info">
+
+        <p class="achievement-modal-description"> </p>
+
+        <p class="achievement-modal-unlock-info"> </p>
+
+        <div class="achievement-modal-levels">
+
+          <div class="achievement-modal-level" level="Bronze">
+
+            <img class="achievement-modal-icon" alt="Achievement icon" />
+
+            <h3 class="achievement-level-title"> Bronze </h3>
+
+            <p class="achievement-level-comment"> </p>
+
+          </div>
+
+          <div class="achievement-modal-level" level="Silver">
+
+            <img class="achievement-modal-icon" alt="Achievement icon" />
+
+            <h3 class="achievement-level-title"> Silver </h3>
+
+            <p class="achievement-level-comment"> </p>
+
+          </div>
+
+          <div class="achievement-modal-level" level="Gold">
+
+            <img class="achievement-modal-icon" alt="Achievement icon" />
+
+            <h3 class="achievement-level-title"> Gold </h3>
+
+            <p class="achievement-level-comment"> </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
 {% endblock %} 
 
 {% block content %}
 <div class="content">
   <div class="container">
-    {% for message in get_flashed_messages() %}
-    <div style="position: relative; top: 10px" class="alert alert-warning">
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+      <div style="position: relative; text-align: center; top: 10px; background-color: {{ '#60c79a' if category == 'success' else '#FF9494' }};" class="alert">
       <button type="button" class="close">&times;</button>
       {{ message }}
-    </div>
+          </div>
     {% endfor %}
+    
   </div>
 
   <div id="profile" class="">
@@ -455,7 +529,7 @@
           <div class="achievements-row">
             {% for j in range(i, i + 3) %} {% if j < achievements|length %}
 
-            <div class="achievement-box">
+            <div class="achievement-box" onclick="openModal('{{ achievements[j]['name'] }}', '{{ achievements[j]['description'] }}', '{{ url_for('static', filename='images/achievement/' + achievements[j]['icon']) }}', '{{ url_for('static', filename='images/achievement/default.png') }}', {{ user_achievements[achievements[j]['id']]['count'] if achievements[j]['id'] in user_achievements else 0 }});">
               <div class="achievement-icon-container">
                 {% if achievements[j]['id'] in user_achievements and
                 user_achievements[achievements[j]['id']]['count'] > 1 %}

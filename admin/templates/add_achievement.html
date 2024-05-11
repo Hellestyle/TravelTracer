@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('.static', filename='/css/achievements.css') }}"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Achievements Add</title>
+  </head>
+
+    <body>
+        
+        <div class="center">
+            
+            <div>
+              <img class="achievement-image"src="{{ '../../' + default_image  }}" alt=""> </img>
+            </div>
+            <form class="achievement-form" action="{{ url_for('admin.achievement_add') }}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+                <label for="name" class="achievement-form">Name</label> 
+                <input type="text" name="name" value="" /> 
+                <label for="desc" class="achievement-form">Description</label>
+                <input type="text" name="desc" class="achievement-form" value="" />
+                <label for="image" class="achievement-form">Select image</label> 
+                {{ achievement_add_form.image() }} <br>
+                <a href="{{ url_for('admin.achievements_page') }}" class="back-button-edit">Back</a>
+                {{ achievement_add_form.submit() }}
+                
+
+            </form>
+            
+        </div>
+    
+
+        <script src="{{ url_for('.static', filename='js/admin_profile.js') }}"></script>
+    </body>
+</html>

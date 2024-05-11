@@ -266,18 +266,23 @@ class Sight:
         return sights
     
 
-    def update_sight(self, id, name, age_category_id, address, google_maps_url, active, open_time, close_time, description, filename, sight_type_id, old_sight_type_id):
-        #add a for loop to handle multiple images
+    def update_sight(self, id, name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_names, sight_type_id, old_sight_type_id):
         try:
             self.__db.query("UPDATE sight SET age_category_id = %s, google_maps_url = %s, active = %s, open_time = %s, close_time = %s WHERE id = %s;", (age_category_id, google_maps_url, active, open_time, close_time, id))
             self.__db.query("UPDATE sight_meta SET name = %s, address = %s, description = %s WHERE sight_id = %s;", (name, address, description, id))
-            if filename != "":
-                self.__db.query("UPDATE sight_photo SET photo = %s WHERE sight_id = %s;", (filename, id))
             self.__db.query("UPDATE sight_has_sight_type SET sight_type_id = %s WHERE sight_id = %s AND sight_type_id = %s",(sight_type_id, id, old_sight_type_id))
+            if image_names != "":
+                self.update_sight_image(id, image_names)
             return True, "Sight updated successfully."
         
         except Exception as e:
             return False, str(e)
+        
+    def update_sight_image(self,sight_id,image_names):
+        for image_name in image_names:
+            self.__db.query("INSERT INTO `sight_photo` (`id`, `sight_id`, `photo`) VALUES (NULL, %s,%s)",(sight_id, image_name,))
+
+
         
     
     def add_sight(self, name, age_category_id, address, google_maps_url, active, open_time, close_time, description, sight_type_id,city_id=None, language_id=None):
@@ -295,10 +300,61 @@ class Sight:
         except Exception as e:
             return False, str(e)
 
-    def add_sight_image(self,sight_id,image_name):
+    def add_sight_image(self, sight_id, image_name):
         try:
-            self.__db.query("INSERT INTO `sight_photo` (`id`, `sight_id`, `photo`) VALUES (NULL, %s,%s)",(sight_id,image_name,))
+            self.__db.query("INSERT INTO `sight_photo` (`id`, `sight_id`, `photo`) VALUES (NULL, %s, %s)", (sight_id, image_name,))
             return True, "Image added to new sight successfully"
             
         except Exception as e:
             return False, str(e)
+        
+    def delete_sight_image(self, image_path):
+        try:
+            self.__db.query("DELETE FROM `sight_photo` WHERE photo = %s;",(image_path,))
+            return True, "Image deleted from sight successfully"
+            
+        except Exception as e:
+            return False, str(e)
+        
+    def get_image_ids(self, sight_id):
+        try:
+            ids = self.__db.query("SELECT id, photo from sight_photo WHERE sight_id = %s;", (sight_id,))
+            return ids
+        except Exception as e:
+            return False, str(e)
+
+    def update_image_order(self, ids, sight_id, image_names):
+        #Can probably be rewritten to only send one single update query rather than one per image
+        try:
+            for i in range(len(image_names)):
+                self.__db.query("UPDATE sight_photo SET photo = %s WHERE id = %s AND sight_id = %s;", (image_names[i], ids[i], sight_id,))
+
+        except Exception as e:
+            return False, str(e)
+        
+    
+    def get_a_single_sight_statistic(self, sight_id):
+        result = self.__db.queryOne("SELECT COUNT(vl1.liked = 1) AS liked, COUNT(vl2.liked = 0) AS disliked \
+                        FROM (SELECT DISTINCT id FROM visited_list WHERE sight_id = %s) AS ids \
+                        LEFT JOIN visited_list AS vl1 ON ids.id = vl1.id AND vl1.liked = 1 \
+                        LEFT JOIN visited_list AS vl2 ON ids.id = vl2.id AND vl2.liked = 0", (sight_id,))
+        if result:
+            statistic = {
+                'liked': str(result['liked']),
+                'disliked': str(result['disliked'])
+            }
+            return statistic
+        else:
+            return {}
+
+
+    def get_all_sight_statistics(self):
+        results = self.__db.query("SELECT sights.sight_id, COUNT(vl1.liked = 1) AS liked, COUNT(vl2.liked = 0) AS disliked \
+                                FROM (SELECT DISTINCT sight_id FROM visited_list) AS sights \
+                                LEFT JOIN visited_list AS vl1 ON sights.sight_id = vl1.sight_id AND vl1.liked = 1 \
+                                LEFT JOIN visited_list AS vl2 ON sights.sight_id = vl2.sight_id AND vl2.liked = 0 \
+                                GROUP BY sights.sight_id;")
+        if results:
+            return results
+        else:
+            return {}

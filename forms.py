@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField,SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField,SelectField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Email, Length, InputRequired, EqualTo
 from wtforms import ValidationError
 from database import Database
@@ -87,9 +87,9 @@ class Edit_sight_detail(FlaskForm):
     google_maps_url = StringField("Google Maps URL", validators=[])
     open_time = StringField("Open Time", validators=[TimeFormatValidator()])
     close_time = StringField("Close Time", validators=[TimeFormatValidator()])
-    description = StringField("Description", validators=[])
+    description = TextAreaField("Description", validators=[])
     image = MultipleFileField("Image")
-    old_sight_type = StringField("Old Sight type ID",validators=[DataRequired()])
+    old_sight_type = StringField("Old Sight type ID")
     sight_type = SelectField("Category",choices=get_categories())
     #sight_type = StringField("Sight type ID",validators=[DataRequired()])
     submit = SubmitField("submit")
@@ -98,12 +98,12 @@ class Edit_sight_detail(FlaskForm):
 class Add_sight_form(FlaskForm):
     active = BooleanField("Active")
     sight_name = StringField("Sight Name",validators=[DataRequired()])
-    age_category_id = StringField("Age Category ID",validators=[DataRequired()])
-    address = StringField("Address",validators=[])
+    age_category_id = StringField("Age Category ID",validators=[DataRequired(message="Please choose age category")])
+    address = StringField("Address",validators=[DataRequired()])
     google_maps_url = StringField("Google Maps URL", validators=[])
     open_time = StringField("Open Time", validators=[TimeFormatValidator()])
     close_time = StringField("Close Time", validators=[TimeFormatValidator()])
-    description = StringField("Description", validators=[])
+    description = TextAreaField("Description", validators=[])
     image = MultipleFileField("Image")
     sight_type = StringField("Sight type ID",validators=[DataRequired()])
     submit = SubmitField("submit")
@@ -112,11 +112,22 @@ class Add_sight_form(FlaskForm):
 class Edit_acheivements(FlaskForm):
     name = StringField("Name",validators=[DataRequired()])
     desc = StringField("Description",validators=[DataRequired()])
-    image = FileField("Image",validators=[])
+    image = FileField("Image")
+    submit = SubmitField("Submit")
+
+class Delete_achievement(FlaskForm):
+    id = StringField("Delete ID")
+    submit_delete = SubmitField("DELETE")
+
+class EditOrAddSightType(FlaskForm):
+    name = StringField("Name",validators=[DataRequired()])
+    desc = StringField("Description",validators=[DataRequired()])
+    points = IntegerField("Points",validators=[DataRequired()])
     submit = SubmitField("Submit")
 
 class Filter_by_category(FlaskForm):
     sight_type = SelectField("Category",choices=get_categories())
+
 
         
 if __name__ == "__main__":

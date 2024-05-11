@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('.static', filename='/css/achievements.css') }}"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Add sight type</title>
+  </head>
+
+    <body>
+        
+        <div class="center">
+            <form class="achievement-form" action="{{ url_for('admin.add_sight_type') }}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <label for="name" class="achievement-form">Name</label> 
+                {{ add_sight_type_form.name() }} 
+                <label for="desc" class="achievement-form">Description</label>
+                {{ add_sight_type_form.desc() }} 
+                <label for="points" class="achievement-form">Points</label> 
+                <br/>
+                {{ add_sight_type_form.points() }} <br/> 
+                <a href="{{ url_for('admin.sight_types') }}" class="back-button-edit">Back</a>
+                {{ add_sight_type_form.submit() }}
+                
+                <ul>
+                  {% for message in get_flashed_messages() %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+               </ul>
+                
+
+            </form>
+            
+        </div>
+    
+
+        <script src="{{ url_for('.static', filename='js/admin_profile.js') }}"></script>
+    </body>
+</html>

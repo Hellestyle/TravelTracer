@@ -31,6 +31,7 @@ def sights():
         
         sight_model = Sight(db)
         sights = sight_model.getAllSights()
+        statistics = sight_model.get_all_sight_statistics()
 
         sight_type_model = SightType(db)
         sight_types = sight_type_model.getAllSightTypes()
@@ -51,7 +52,8 @@ def sights():
                 filter_by_category = filter_by_category,
                 sight_type_names=[sight_type["name"] for sight_type in sight_types],
                 sight_names = [sight_name["name"] for sight_name in sight_names],
-                admin=admin, user_wishlist=user_wishlist, user_visited_list=user_visited_list
+                admin=admin, user_wishlist=user_wishlist, user_visited_list=user_visited_list,
+                statistics=statistics
             )
         else:
             return render_template(
@@ -60,7 +62,8 @@ def sights():
                 sights=sights,
                 sight_type_names=[sight_type["name"] for sight_type in sight_types],
                 sight_names = [sight_name["name"] for sight_name in sight_names],
-                admin=admin, message=message, user_wishlist=None, user_visited_list=None
+                admin=admin, message=message, user_wishlist=None, user_visited_list=None,
+                statistics=statistics
             )
     else:
         return render_template(
@@ -69,7 +72,7 @@ def sights():
             sights=sights,
             sight_type_names=[sight_type["name"] for sight_type in sight_types],
             sight_names = [sight_name["name"] for sight_name in sight_names],
-            admin=admin
+            admin=admin, statistics=statistics
         )
 
 
@@ -87,6 +90,7 @@ def sight_details(sight_id):
         visited_list_model = VisitedList(db)
 
         sight = sight_model.getSight(sight_id)
+        sight_statistic = sight_model.get_a_single_sight_statistic(sight_id)
 
         in_wishlist = wishlist_model.sightInWishlist(sight_id, current_user.get_id()) if current_user.is_authenticated else None
 
@@ -106,7 +110,7 @@ def sight_details(sight_id):
             is_open=is_open,
             in_wishlist=in_wishlist,
             in_visited_list=in_visited_list,
-            admin=admin
+            admin=admin, sight_statistic=sight_statistic
         )
     else:
         message = "No sights found"

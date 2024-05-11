@@ -83,6 +83,30 @@
   </div>
 </div>
 
+<div class="statistic">
+  {% if sight_statistic %}
+    {% if sight_statistic.liked %}
+      {% if sight_statistic.liked == "0" %}
+      <p><i class='bx bx-like'></i> None</p>
+      {% elif sight_statistic.liked == "1" %}
+      <p><i class='bx bx-like'></i> {{ sight_statistic.liked }} person</p>
+      {% else %}
+      <p><i class='bx bx-like'></i> {{ sight_statistic.liked }} persons</p>
+      {% endif %}
+    {% endif %}
+
+    {% if sight_statistic.disliked %}
+      {% if sight_statistic.disliked == "0" %}
+      <p><i class='bx bx-dislike'></i> None</p>
+      {% elif sight_statistic.disliked == "1" %}
+      <p><i class='bx bx-dislike'></i> {{ sight_statistic.disliked }} person</p>
+      {% else %}
+      <p><i class='bx bx-dislike' ></i> {{ sight_statistic.disliked }} persons</p>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+</div>
+
 <div class="image-container">
   <button onclick="prevImage()" class="button-left">
     <div class="arrow-wrapper-left">
