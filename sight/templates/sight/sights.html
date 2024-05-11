@@ -16,7 +16,7 @@
   <div class="row">
     <input type="text" id="input-box" value="{{ user_input if user_input is not none else '' }}" 
     placeholder="Search the category or sight name here" autocomplete="off">
-    <a href="{{ url_for('sight.sight_by_category', category='filter_by_category.sight_type.data', age='', user_input''') }}"><button class="search-button"><i class='bx bx-search'></i></button></a>
+    <a href="{{ url_for('sight.sight_by_everything', category='', age='') }}"><button class="search-button"><i class='bx bx-search'></i></button></a>
   </div>
 
   <div class="result-box"></div>
@@ -127,7 +127,7 @@
   initKeywords("{{ sight_type_names|join(',') }}" + "," + "{{ sight_names|join(',') }}");
 
   var url = {
-    sight_category: "{{ url_for('sight.sight_by_category', user_input='_category_', age='_age_') }}",
+    user_category: "{{ url_for('sight.sight_by_category', user_input='_category_', age='_age_') }}",
     age_category: "{{ url_for('sight.sight_by_age', age='_age_') }}"
   };
 </script>
