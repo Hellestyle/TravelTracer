@@ -126,7 +126,7 @@ class EditOrAddSightType(FlaskForm):
     submit = SubmitField("Submit")
 
 class Filter_by_category(FlaskForm):
-    sight_type = SelectField("Category",choices=get_categories())
+    sight_type = get_categories()
 
 
         
