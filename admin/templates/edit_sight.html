@@ -19,6 +19,11 @@
       <div class="text">
         Edit sight
       </div>
+      <ul>
+         {% for message in get_flashed_messages() %}
+         <li>{{ message }}</li>
+         {% endfor %}
+       </ul>
       <form action="{{ url_for('admin.edit_sight', sight_id=sight_id, sight=sight ) }}" method="post" enctype="multipart/form-data">
          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
          
@@ -124,11 +129,7 @@
       </form>
 
       
-      <ul>
-          {% for message in get_flashed_messages() %}
-          <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
+      
     </div>
 
     <div class="container">
