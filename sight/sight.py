@@ -22,11 +22,21 @@ sight = Blueprint("sight", __name__, template_folder="templates", static_folder=
 
 @sight.route("/sights")
 def sights():
+    
+    with Database(dict_cursor=True) as db:
+        context = db.query("SELECT `sight_type_id`,`name` FROM `sight_type_meta` WHERE `language_id`= 1 ORDER BY sight_type_id")
+        
+    print(f'{context=}')
+
+    Filter_by_category = [x["name"] for x in context]
+    print(f'{Filter_by_category=}')
+
+    """
     filter_by_category = Filter_by_category()
     if request.method == "GET":
         filter_by_category.sight_type.choices = get_categories()
         if filter_by_category.validate():
-            filter_by_category = filter_by_category
+            filter_by_category = filter_by_category """
     with Database(dict_cursor=True) as db:
         
         sight_model = Sight(db)
@@ -117,15 +127,17 @@ def sight_details(sight_id):
         return render_template("sight/sights.html", message=message)
     
 # Handling everything search related:
-@sight.route("/sight/<string:category>/<string:age>", methods=["GET", "POST"])
-def sight_by_everything(category, age, user_input):
+@sight.route("/sight/<string:age>/<string:user_input>", methods=["GET", "POST"])
+def sight_by_everything(age, user_input):
 
     filter_by_category = Filter_by_category()
-    if request.method == "GET":
-        filter_by_category.sight_type.choices = get_categories()
-        if filter_by_category.validate():
-            filter_by_category = filter_by_category
+    
+    filter_by_category.sight_type.choices = get_categories()
+    if filter_by_category.validate():
+        filter_by_category = filter_by_category
         
+
+
     
     age_options = {
         "children": 1,
@@ -142,11 +154,14 @@ def sight_by_everything(category, age, user_input):
         user = current_user
         admin = True if user.check_if_user_is_admin() else False
     
+
     with Database(dict_cursor=True) as db:
         sight_model = Sight(db)
         sights = sight_model.getAllSights()
-        sight_category_id = sight_model.getSight()
+        #sight_category_id = sight_model.getSight()
+        sight_category_id = filter_by_category.sight_type.data
 
+        print(f'{sight_category_id=}')
         sight_type_meta = SightType(db)
         sight_types = sight_type_meta.getAllSightTypes()
 
@@ -171,7 +186,7 @@ def sight_by_everything(category, age, user_input):
             age_selected = False
         else:
             age_selected = True
-        if category == 0:
+        if sight_category_id == 0:
             category_selected = False
         else:
             category_selected = True
