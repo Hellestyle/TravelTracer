@@ -76,6 +76,8 @@ body {
 
 .result-box ul {
   background-color: #fff;
+  position: relative;
+  z-index: 100;
   border-top: 2px solid #999;
   padding: 15px 10px;
   margin-top: 0;

@@ -25,26 +25,28 @@
 </div>
 
 <div class="choose-age-container">
-    <label for="age">Please select age group:</label>
+    <label for="age">Filters:</label>
     <!-- ages is always selected, either "all" or other age categories -->
     <select id="age" name="age">
-        <option value="All ages">All</option>
+        <option value="Age group">Age group</option>
         <option value="Family-friendly">Family-friendly</option>
-        <option value="Children (0-12 years)">0 - 12</option>
-        <option value="Teenagers (13-19 years)">13 - 19</option>
-        <option value="Young Adults (20-30 years)">20 - 30</option>
-        <option value="Adults (31-60 years)">31 - 60</option>
-        <option value="Seniors (60+ years)">60+</option>
+        <option value="Children (0-12 years)">Children (0 - 12)</option>
+        <option value="Teenagers (13-19 years)">Teenagers (13 - 19)</option>
+        <option value="Young Adults (20-30 years)">Young Adults (20 - 30)</option>
+        <option value="Adults (31-60 years)">Adults (31 - 60)</option>
+        <option value="Seniors (60+ years)">Seniors (60+)</option>
+    </select>
+
+    <select id="category_id" name="category_id" >
+        {% for category in categories %}
+            <option value="{{category.name}}"> {{category.name}} </option>
+        {% endfor %}
     </select>
 </div>
 
 
 <div>
-    <select id="category_id" name="category_id">
-        {% for category in categories %}
-            <option value="{{category.name}}"> {{category.name}} </option>
-        {% endfor %}
-    </select>
+    
 </div>
 
 
@@ -145,7 +147,7 @@
 <script src="{{ url_for('.static', filename='js/search.js') }}"> </script>
 <script src="{{ url_for('.static', filename='js/select-age.js') }}"> </script>
 <script>
-  initKeywords("{{ sight_type_names|join(',') }}" + "," + "{{ sight_names|join(',') }}");
+  initKeywords("{{ sight_names|join(',') }}");
 
   var url = {
     
