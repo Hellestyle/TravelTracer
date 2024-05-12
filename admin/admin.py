@@ -72,7 +72,7 @@ def edit_sight(sight_id):
             edit_sight_form.sight_type.choices = sort_dropdown_by_id_cat(sight["sight_type_id"],get_categories())
             edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
         
-        if achievement_sight_form.submit.data:
+        if achievement_sight_form.submit_achievements.data:
             a_id_list= []
             for ids in achievement_sight_form.achievements.data:
                 a_id_list.append(int(ids))
@@ -86,6 +86,8 @@ def edit_sight(sight_id):
                 
 
         if edit_sight_form.validate() and edit_sight_form.submit.data:
+        #if edit_sight_form.submit.data:
+            #if edit_sight_form.validate():
             active = edit_sight_form.active.data
             sight_name = edit_sight_form.sight_name.data
             age_category_id = edit_sight_form.age_category_id.data
@@ -478,6 +480,8 @@ def check_admin():
     if current_user.is_authenticated:
         if current_user.check_if_user_is_admin() == False:
             return redirect(url_for("index"))
+
+
 
 
 def get_achievement_in_sight(sight_id):

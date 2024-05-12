@@ -127,7 +127,7 @@ class EditOrAddSightType(FlaskForm):
     
 class Achievements_In_Sight(FlaskForm):
     achievements = SelectMultipleField('Achievements')
-    submit = SubmitField('Update Achievements')
+    submit_achievements = SubmitField('Update Achievements')
 
 
         
