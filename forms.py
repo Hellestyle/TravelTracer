@@ -125,6 +125,9 @@ class EditOrAddSightType(FlaskForm):
     points = IntegerField("Points",validators=[DataRequired()])
     submit = SubmitField("Submit")
 
+class Filter_by_category(FlaskForm):
+    sight_type = get_categories()
+
 
         
 if __name__ == "__main__":
