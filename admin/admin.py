@@ -42,6 +42,7 @@ def edit_sight(sight_id):
     
     achievement_sight_form = Achievements_In_Sight()
     edit_sight_form = Edit_sight_detail()
+
     if request.method == "GET":
         
         achievement_list = populate_form(sight_id)
@@ -59,12 +60,13 @@ def edit_sight(sight_id):
             return render_template(
                 "edit_sight.html",
                 sight=sight,
-                sight_id=sight_id, edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form,
+                sight_id=sight_id, edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form
             )
     elif request.method == "POST":
         
         achievement_list = populate_form(sight_id)
         achievement_sight_form.achievements.choices = achievement_list
+
         with Database(dict_cursor=True) as db:
             sight_model = Sight(db)
             sight = sight_model.getSight(sight_id)
@@ -72,22 +74,6 @@ def edit_sight(sight_id):
             
             edit_sight_form.sight_type.choices = sort_dropdown_by_id_cat(sight["sight_type_id"],get_categories())
             edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
-        
-        if achievement_sight_form.submit_achievements.data:
-            
-            a_id_list= []
-            for ids in achievement_sight_form.achievements.data:
-                a_id_list.append(int(ids))
-            with Database() as db:
-                try:
-                    db.query("DELETE FROM sight_has_achievement WHERE`sight_id` = %s",(sight_id,))
-                    for achievement_ids in a_id_list:
-                        db.query("INSERT INTO `sight_has_achievement` (`achievement_id`, `sight_id`) VALUES (%s, %s)",(achievement_ids,sight_id,))
-                except:
-                    return "Error"
-            return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
-                
-
         
         if edit_sight_form.submit.data and edit_sight_form.validate():
             active = edit_sight_form.active.data
@@ -101,9 +87,20 @@ def edit_sight(sight_id):
 
             old_sight_type_id = edit_sight_form.old_sight_type.data
             sight_type_id = edit_sight_form.sight_type.data
-
+    
             images = edit_sight_form.image.data
-            
+
+            a_id_list= []
+            for ids in achievement_sight_form.achievements.data:
+                a_id_list.append(int(ids))
+            with Database() as db:
+                try:
+                    db.query("DELETE FROM sight_has_achievement WHERE`sight_id` = %s",(sight_id,))
+                    for achievement_ids in a_id_list:
+                        db.query("INSERT INTO `sight_has_achievement` (`achievement_id`, `sight_id`) VALUES (%s, %s)",(achievement_ids,sight_id,))
+                except Exception as e:
+                    return f'{e=}'
+                
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
 
@@ -126,7 +123,7 @@ def edit_sight(sight_id):
                 flash(message)
                 return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
         else:
-            return render_template("edit_sight.html" ,sight=sight, sight_id=sight_id, edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form, )
+            return render_template("edit_sight.html" ,sight=sight, sight_id=sight_id, edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)
 
 #Add sight function 
 @admin.route("/add-sight", methods=["GET", "POST"])

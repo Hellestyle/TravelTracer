@@ -87,11 +87,12 @@ class Edit_sight_detail(FlaskForm):
     google_maps_url = StringField("Google Maps URL", validators=[])
     open_time = StringField("Open Time", validators=[TimeFormatValidator()])
     close_time = StringField("Close Time", validators=[TimeFormatValidator()])
-    description = TextAreaField("Description", validators=[])
+    description = TextAreaField("Description")
     image = MultipleFileField("Image")
     old_sight_type = StringField("Old Sight type ID")
     sight_type = SelectField("Category",choices=get_categories())
     #sight_type = StringField("Sight type ID",validators=[DataRequired()])
+    #achievements = SelectMultipleField('Achievements')
     submit = SubmitField("submit edit sight")
 
 
