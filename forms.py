@@ -92,7 +92,7 @@ class Edit_sight_detail(FlaskForm):
     old_sight_type = StringField("Old Sight type ID")
     sight_type = SelectField("Category",choices=get_categories())
     #sight_type = StringField("Sight type ID",validators=[DataRequired()])
-    submit = SubmitField("submit")
+    submit = SubmitField("submit edit sight")
 
 
 class Add_sight_form(FlaskForm):

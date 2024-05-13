@@ -43,6 +43,7 @@ def edit_sight(sight_id):
     achievement_sight_form = Achievements_In_Sight()
     edit_sight_form = Edit_sight_detail()
     if request.method == "GET":
+        
         achievement_list = populate_form(sight_id)
         achievement_sight_form.achievements.choices = achievement_list
         
@@ -60,7 +61,7 @@ def edit_sight(sight_id):
                 sight=sight,
                 sight_id=sight_id, edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form,
             )
-    else:
+    elif request.method == "POST":
         
         achievement_list = populate_form(sight_id)
         achievement_sight_form.achievements.choices = achievement_list
@@ -73,6 +74,7 @@ def edit_sight(sight_id):
             edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
         
         if achievement_sight_form.submit_achievements.data:
+            
             a_id_list= []
             for ids in achievement_sight_form.achievements.data:
                 a_id_list.append(int(ids))
@@ -83,11 +85,11 @@ def edit_sight(sight_id):
                         db.query("INSERT INTO `sight_has_achievement` (`achievement_id`, `sight_id`) VALUES (%s, %s)",(achievement_ids,sight_id,))
                 except:
                     return "Error"
+            return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
                 
 
-        if edit_sight_form.validate() and edit_sight_form.submit.data:
-        #if edit_sight_form.submit.data:
-            #if edit_sight_form.validate():
+        
+        if edit_sight_form.submit.data and edit_sight_form.validate():
             active = edit_sight_form.active.data
             sight_name = edit_sight_form.sight_name.data
             age_category_id = edit_sight_form.age_category_id.data
@@ -121,7 +123,6 @@ def edit_sight(sight_id):
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
                 result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_names, sight_type_id, old_sight_type_id)
-
                 flash(message)
                 return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
         else:

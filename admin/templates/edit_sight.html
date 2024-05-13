@@ -19,7 +19,7 @@
       <div class="text">
         Edit sight
       </div>
-      <form action="{{ url_for('admin.edit_sight', sight_id=sight_id, sight=sight ) }}" method="post" enctype="multipart/form-data">
+      <form action="{{ url_for('admin.edit_sight', sight_id=sight_id ) }}" method="post" enctype="multipart/form-data">
          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
          
 
@@ -101,7 +101,7 @@
             <div class="form-row submit-btn">
                <div class="input-data">
                   <div class="inner"></div>
-                  <input type="submit" value="submit">
+                  <input type="submit" value="submit" name="submit">
                </div>
 
                <a href="{{ url_for('admin.admin_main') }}" class="back-button">Back</a>
@@ -139,21 +139,21 @@
             <input name="image_order"  id="image_order" type="hidden" data-input="drag-order">
             <input type="submit" value="Save image order" data-wait="Please wait...">
         </form>
+      <div>
+            <form method="post" action="{{ url_for('admin.edit_sight', sight_id=sight_id ) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <div>
+                  {{ achievement_sight_form.achievements.label }}
+                  <ul>
+                     {% for selected, id in achievement_sight_form.achievements.choices %}
+                        <li><input type="checkbox" name="achievements" {{ 'checked' if selected == True }} value="{{ id[0] }}"> {{ id[1] }}</li>
+                     {% endfor %}
+                  </ul>
+            </div>
+            {{ achievement_sight_form.submit_achievements() }}
+         </form>
+      </div>
     </div>
-   <div>
-      <form method="post" action="{{ url_for('admin.edit_sight', sight_id=sight_id ) }}">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        <div>
-            {{ achievement_sight_form.achievements.label }}
-            <ul>
-                {% for selected, id in achievement_sight_form.achievements.choices %}
-                    <li><input type="checkbox" name="achievements" {{ 'checked' if selected == True }} value="{{ id[0] }}"> {{ id[1] }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {{ achievement_sight_form.submit_achievements() }}
-    </form>
-   </div>
     
   </body>
 </html>
