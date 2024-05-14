@@ -18,11 +18,11 @@
       <div class="text">
         Add sight
       </div>
-      <ul>
-         {% for message in get_flashed_messages() %}
-         <li>{{ message }}</li>
+      <div class="flash_msg">
+         {% for message in get_flashed_messages(width categories=) %}
+            {{ message }}
          {% endfor %}
-      </ul>
+      </div>
       <form action="{{ url_for('admin.add_sight') }}" method="post" enctype="multipart/form-data">
          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
