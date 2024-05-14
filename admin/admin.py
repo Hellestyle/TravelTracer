@@ -129,8 +129,12 @@ def edit_sight(sight_id):
 @admin.route("/add-sight", methods=["GET", "POST"])
 @login_required
 def add_sight():
+    #achievement_sight_form = Achievements_In_Sight()
     edit_sight_form = Edit_sight_detail()
     if request.method == "GET":
+        #achievement_list = populate_form(sight_id)
+        #achievement_sight_form.achievements.choices = achievement_list
+
         edit_sight_form.sight_type.choices = get_categories()
         edit_sight_form.age_category_id.choices = get_age_categories()
         return render_template("add_sight.html", edit_sight_form=edit_sight_form)
@@ -483,13 +487,16 @@ def check_admin():
 
 
 def get_achievement_in_sight(sight_id):
-    
+    if sight_id == None:
+        return []
     with Database(dict_cursor=True) as db:
         try:
             result = db.query("SELECT `achievement_id` FROM `sight_has_achievement` WHERE `sight_id`= %s",(sight_id,))
         except:
-            return "ERROR"
+            return []
     a_ids = []
+    if result == None:
+        return a_ids
     for item in result:
         a_ids.append(item["achievement_id"])
     return a_ids
@@ -504,6 +511,7 @@ def populate_form(sight_id):
         all_achievements.pop(0)
         all_achievements.pop(0)
         all_achievements = all_achievements[0]
+        
         for item in all_achievements:
             if item["id"] in in_sight:
                 item["selected"] = True
