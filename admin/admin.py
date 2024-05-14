@@ -4,7 +4,7 @@ from models.sight import Sight
 from models.sight_name import SightName
 from models.sight_type import SightType
 from models.achievement import Achievement
-from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories, Edit_acheivements, Delete_achievement, EditOrAddSightType
+from forms import Edit_sight_detail, Add_sight_form, get_age_categories, get_categories, Edit_acheivements, Delete_achievement, EditOrAddSightType, Achievements_In_Sight
 from datetime import datetime as dt
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
@@ -35,13 +35,19 @@ def admin_main():
         sight_names=[sight_name["name"] for sight_name in sight_names]
     )
 
-
+#Edit sight function
 @admin.route("/sight/id/<int:sight_id>", methods=["GET", "POST"])
 @login_required
 def edit_sight(sight_id):
     
+    achievement_sight_form = Achievements_In_Sight()
     edit_sight_form = Edit_sight_detail()
+
     if request.method == "GET":
+        
+        achievement_list = populate_form(sight_id)
+        achievement_sight_form.achievements.choices = achievement_list
+        
         with Database(dict_cursor=True) as db:
             sight_model = Sight(db)
             sight = sight_model.getSight(sight_id)
@@ -54,9 +60,13 @@ def edit_sight(sight_id):
             return render_template(
                 "edit_sight.html",
                 sight=sight,
-                sight_id=sight_id, edit_sight_form=edit_sight_form
+                sight_id=sight_id, edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form
             )
-    else:
+    elif request.method == "POST":
+        
+        achievement_list = populate_form(sight_id)
+        achievement_sight_form.achievements.choices = achievement_list
+
         with Database(dict_cursor=True) as db:
             sight_model = Sight(db)
             sight = sight_model.getSight(sight_id)
@@ -65,7 +75,7 @@ def edit_sight(sight_id):
             edit_sight_form.sight_type.choices = sort_dropdown_by_id_cat(sight["sight_type_id"],get_categories())
             edit_sight_form.age_category_id.choices = sort_dropdown_by_id(sight["age_category_id"],get_age_categories())
         
-        if edit_sight_form.validate():
+        if edit_sight_form.submit.data and edit_sight_form.validate():
             active = edit_sight_form.active.data
             sight_name = edit_sight_form.sight_name.data
             age_category_id = edit_sight_form.age_category_id.data
@@ -77,9 +87,20 @@ def edit_sight(sight_id):
 
             old_sight_type_id = edit_sight_form.old_sight_type.data
             sight_type_id = edit_sight_form.sight_type.data
-
+    
             images = edit_sight_form.image.data
-            
+
+            a_id_list= []
+            for ids in achievement_sight_form.achievements.data:
+                a_id_list.append(int(ids))
+            with Database() as db:
+                try:
+                    db.query("DELETE FROM sight_has_achievement WHERE`sight_id` = %s",(sight_id,))
+                    for achievement_ids in a_id_list:
+                        db.query("INSERT INTO `sight_has_achievement` (`achievement_id`, `sight_id`) VALUES (%s, %s)",(achievement_ids,sight_id,))
+                except Exception as e:
+                    return f'{e=}'
+                
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
 
@@ -99,21 +120,24 @@ def edit_sight(sight_id):
             with Database(dict_cursor=True) as db:
                 sight_model = Sight(db)
                 result, message = sight_model.update_sight(sight_id, sight_name, age_category_id, address, google_maps_url, active, open_time, close_time, description, image_names, sight_type_id, old_sight_type_id)
-
                 flash(message)
                 return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
         else:
-            return render_template("edit_sight.html" ,sight=sight, sight_id=sight_id, edit_sight_form=edit_sight_form)
+            return render_template("edit_sight.html" ,sight=sight, sight_id=sight_id, edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)
 
-
+#Add sight function 
 @admin.route("/add-sight", methods=["GET", "POST"])
 @login_required
 def add_sight():
+    achievement_sight_form = Achievements_In_Sight()
     edit_sight_form = Edit_sight_detail()
     if request.method == "GET":
+        achievement_list = populate_form(None)
+        achievement_sight_form.achievements.choices = achievement_list
+
         edit_sight_form.sight_type.choices = get_categories()
         edit_sight_form.age_category_id.choices = get_age_categories()
-        return render_template("add_sight.html", edit_sight_form=edit_sight_form)
+        return render_template("add_sight.html", edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)
     else:
         if edit_sight_form.validate():
             active = edit_sight_form.active.data
@@ -152,15 +176,26 @@ def add_sight():
                         os.mkdir(upload_folder_path+str(sight_id))
                     shutil.copy("static/images/TravelTracer.png", upload_folder_path + image_name)
                     sight_model.add_sight_image(sight_id, image_name)
+                
+                a_id_list= []
+                for ids in achievement_sight_form.achievements.data:
+                    a_id_list.append(int(ids))
+                    try:
+                        print(a_id_list)
+                        for achievement_ids in a_id_list:
+                            db.query("INSERT INTO `sight_has_achievement` (`achievement_id`, `sight_id`) VALUES (%s, %s)",(achievement_ids,sight_id,))
+                    except Exception as e:
+                        return f'{e=}'
 
                 if result:
                     flash(message)
-                    return render_template("add_sight.html", edit_sight_form=edit_sight_form)
+                    return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
+                    return render_template("add_sight.html", edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)
                 else:
                     flash(message)
-                    return render_template("add_sight.html", edit_sight_form=edit_sight_form)
+                    return render_template("add_sight.html", edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)
         else:
-            return render_template("add_sight.html", edit_sight_form=edit_sight_form)   
+            return render_template("add_sight.html", edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)   
 
 
 @admin.route("/achievements", methods=["GET", "POST"])
@@ -177,7 +212,7 @@ def achievements_page():
         
         return render_template("achievements.html", achievements = achievements, path=path)
 
-
+#Edit achievement page with form
 @admin.route("/achievements/edit/<int:achievement_id>", methods=["GET", "POST"])
 @login_required
 def achievement_edit(achievement_id):
@@ -432,6 +467,7 @@ def update_image_order(sight_id):
 
     return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
 
+#Delete images 
 @admin.route("/<int:sight_id>/delete_image/<path:image_path>", methods=["POST"])
 @login_required
 def delete_image(sight_id, image_path):
@@ -451,10 +487,49 @@ def delete_image(sight_id, image_path):
 
     return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
 
-
+#Make admin not accessible to normal users and guest
 @admin.before_request
 def check_admin():
     if current_user.is_authenticated:
         if current_user.check_if_user_is_admin() == False:
             return redirect(url_for("index"))
+
+
+
+
+def get_achievement_in_sight(sight_id):
+    if sight_id == None:
+        return []
+    with Database(dict_cursor=True) as db:
+        try:
+            result = db.query("SELECT `achievement_id` FROM `sight_has_achievement` WHERE `sight_id`= %s",(sight_id,))
+        except:
+            return []
+    a_ids = []
+    if result == None:
+        return a_ids
+    for item in result:
+        a_ids.append(item["achievement_id"])
+    return a_ids
+
+def populate_form(sight_id):
+    in_sight = get_achievement_in_sight(sight_id)
     
+    with Database(dict_cursor=True) as db:
+        all_achievements = Achievement(db).getAchievements()
+        
+        all_achievements = list(all_achievements)
+        all_achievements.pop(0)
+        all_achievements.pop(0)
+        all_achievements = all_achievements[0]
+        
+        for item in all_achievements:
+            if item["id"] in in_sight:
+                item["selected"] = True
+            else:
+                item["selected"] = False
+        simple_info = []
+        for item in all_achievements:
+            simple_info.append((item["selected"],[item["id"],item["name"]]))
+            
+        return simple_info
