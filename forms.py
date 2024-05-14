@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField,SelectField, TextAreaField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField,SelectField, TextAreaField, IntegerField, SelectMultipleField
 from wtforms.validators import DataRequired, Email, Length, InputRequired, EqualTo
 from wtforms import ValidationError
 from database import Database
@@ -87,12 +87,13 @@ class Edit_sight_detail(FlaskForm):
     google_maps_url = StringField("Google Maps URL", validators=[])
     open_time = StringField("Open Time", validators=[TimeFormatValidator()])
     close_time = StringField("Close Time", validators=[TimeFormatValidator()])
-    description = TextAreaField("Description", validators=[])
+    description = TextAreaField("Description")
     image = MultipleFileField("Image")
     old_sight_type = StringField("Old Sight type ID")
     sight_type = SelectField("Category",choices=get_categories())
     #sight_type = StringField("Sight type ID",validators=[DataRequired()])
-    submit = SubmitField("submit")
+    #achievements = SelectMultipleField('Achievements')
+    submit = SubmitField("submit edit sight")
 
 
 class Add_sight_form(FlaskForm):
@@ -124,6 +125,10 @@ class EditOrAddSightType(FlaskForm):
     desc = StringField("Description",validators=[DataRequired()])
     points = IntegerField("Points",validators=[DataRequired()])
     submit = SubmitField("Submit")
+    
+class Achievements_In_Sight(FlaskForm):
+    achievements = SelectMultipleField('Achievements')
+    submit_achievements = SubmitField('Update Achievements')
 
 class Filter_by_category(FlaskForm):
     sight_type = get_categories()

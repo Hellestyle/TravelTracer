@@ -19,15 +19,9 @@
       <div class="text">
         Edit sight
       </div>
-      <ul>
-         {% for message in get_flashed_messages() %}
-         <li>{{ message }}</li>
-         {% endfor %}
-       </ul>
-      <form action="{{ url_for('admin.edit_sight', sight_id=sight_id, sight=sight ) }}" method="post" enctype="multipart/form-data">
+      <form action="{{ url_for('admin.edit_sight', sight_id=sight_id ) }}" method="post" enctype="multipart/form-data">
          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
          
-
          <div class="form-row">
             <div class="input-data">
                <input type="text" name="sight_name" value="{{ sight.name if sight.name else '' }}">
@@ -44,28 +38,20 @@
          </div>
 
          <div class="form-row">
-            
-            
             <div class="input-data">
                <div ><label style=" color: #3498db; font-size: 14px;" for="">Age Category</label> </div> <br>
                <div> {{ edit_sight_form.age_category_id() }} </div>
-               
                <div class="underline"></div>
-               
             </div>
             
             <div class="input-data">
                <input type="hidden" name="old_sight_type" value="{{ sight.old_sight_type }}">
                <div ><label style=" color: #3498db; font-size: 14px;" for="">Category</label> </div> <br>
                <div>{{ edit_sight_form.sight_type() }}</div>
-               
-               
                <div class="underline"></div>
-               
-               
-               
             </div>
          </div>
+
          <div class="form-row">
             <div class="input-data">
                <input type="text" name="address" value="{{ sight.address if sight.address else '' }}">
@@ -108,32 +94,47 @@
                <label for="">Upload Images</label>
             </div>
          </div>
-         
-         <div class="form-row">
-         <div class="input-data textarea">
-            <textarea rows="8" cols="80" name="description">{{ sight.description if sight.description else '' }}</textarea>
-            <br />
-            <div class="underline"></div>
-            <label for="">Description</label>
-            <br />
-            <div class="form-row submit-btn">
-               <div class="input-data">
-                  <div class="inner"></div>
-                  <input type="submit" value="submit">
-               </div>
 
-               <a href="{{ url_for('admin.admin_main') }}" class="back-button">Back</a>
+         <div class="form-row">
+            <div class="achievements-container">
+               <h5>{{ achievement_sight_form.achievements.label }}</h5>
+               <ul>
+                  {% for selected, id in achievement_sight_form.achievements.choices %}
+                     <ul><input type="checkbox" name="achievements" {{ 'checked' if selected == True }} value="{{ id[0] }}"> {{ id[1] }}</ul>
+                  {% endfor %}
+               </ul>
             </div>
          </div>
+
+         <div class="form-row">
+            <div class="input-data textarea">
+               <textarea rows="8" cols="80" name="description">{{ sight.description if sight.description else '' }}</textarea>
+               <br />
+               <div class="underline"></div>
+               <label for="">Description</label>
+               <br />
+               <div class="form-row submit-btn">
+                  <div class="input-data">
+                     <div class="inner"></div>
+                     <input type="submit" value="submit" name="submit">
+                  </div>
+
+                  <a href="{{ url_for('admin.admin_main') }}" class="back-button">Back</a>
+               </div>
+            </div>
          </div>
       </form>
 
       
-      
+         <ul>
+            {% for message in get_flashed_messages() %}
+               <li>{{ message }}</li>
+            {% endfor %}
+         </ul>
     </div>
 
     <div class="container">
-        <form action="{{ url_for('admin.update_image_order', sight_id=sight_id ) }}" method="post">
+        <form action="{{ url_for('admin.update_image_order', sight_id=sight_id ) }}" method="post" class="image-order-form">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <div class="ms-boxes re-order-boxes" style="flex-direction: column;">
                 <label style="padding-top: 40px;" for="Text-Field-2" class="ms-input-label">Drag to re-order images</label>
@@ -154,6 +155,5 @@
             <input type="submit" value="Save image order" data-wait="Please wait...">
         </form>
     </div>
-    
   </body>
 </html>
