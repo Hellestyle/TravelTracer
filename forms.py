@@ -130,6 +130,9 @@ class Achievements_In_Sight(FlaskForm):
     achievements = SelectMultipleField('Achievements')
     submit_achievements = SubmitField('Update Achievements')
 
+class Filter_by_category(FlaskForm):
+    sight_type = get_categories()
+
 
         
 if __name__ == "__main__":
