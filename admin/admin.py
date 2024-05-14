@@ -129,15 +129,15 @@ def edit_sight(sight_id):
 @admin.route("/add-sight", methods=["GET", "POST"])
 @login_required
 def add_sight():
-    #achievement_sight_form = Achievements_In_Sight()
+    achievement_sight_form = Achievements_In_Sight()
     edit_sight_form = Edit_sight_detail()
     if request.method == "GET":
-        #achievement_list = populate_form(sight_id)
-        #achievement_sight_form.achievements.choices = achievement_list
+        achievement_list = populate_form(None)
+        achievement_sight_form.achievements.choices = achievement_list
 
         edit_sight_form.sight_type.choices = get_categories()
         edit_sight_form.age_category_id.choices = get_age_categories()
-        return render_template("add_sight.html", edit_sight_form=edit_sight_form)
+        return render_template("add_sight.html", edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)
     else:
         if edit_sight_form.validate():
             active = edit_sight_form.active.data
@@ -176,15 +176,26 @@ def add_sight():
                         os.mkdir(upload_folder_path+str(sight_id))
                     shutil.copy("static/images/TravelTracer.png", upload_folder_path + image_name)
                     sight_model.add_sight_image(sight_id, image_name)
+                
+                a_id_list= []
+                for ids in achievement_sight_form.achievements.data:
+                    a_id_list.append(int(ids))
+                    try:
+                        print(a_id_list)
+                        for achievement_ids in a_id_list:
+                            db.query("INSERT INTO `sight_has_achievement` (`achievement_id`, `sight_id`) VALUES (%s, %s)",(achievement_ids,sight_id,))
+                    except Exception as e:
+                        return f'{e=}'
 
                 if result:
                     flash(message)
-                    return render_template("add_sight.html", edit_sight_form=edit_sight_form)
+                    return redirect(url_for("admin.edit_sight" , sight_id=sight_id))
+                    return render_template("add_sight.html", edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)
                 else:
                     flash(message)
-                    return render_template("add_sight.html", edit_sight_form=edit_sight_form)
+                    return render_template("add_sight.html", edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)
         else:
-            return render_template("add_sight.html", edit_sight_form=edit_sight_form)   
+            return render_template("add_sight.html", edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)   
 
 
 @admin.route("/achievements", methods=["GET", "POST"])
