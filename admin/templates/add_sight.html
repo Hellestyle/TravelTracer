@@ -102,11 +102,11 @@
          </div>
 
          <div class="form-row">
-            <div>
-               {{ achievement_sight_form.achievements.label }}
+            <div class="achievements-container">
+               <h5>{{ achievement_sight_form.achievements.label }}</h5>
                <ul>
                   {% for selected, id in achievement_sight_form.achievements.choices %}
-                     <li><input type="checkbox" name="achievements" {{ 'checked' if selected == True }} value="{{ id[0] }}"> {{ id[1] }}</li>
+                     <ul><input type="checkbox" name="achievements" {{ 'checked' if selected == True }} value="{{ id[0] }}"> {{ id[1] }}</ul>
                   {% endfor %}
                </ul>
             </div>
