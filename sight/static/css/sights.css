@@ -325,14 +325,20 @@ button:active {
 
 @media screen and (max-width: 768px) {
   .container {
-    padding: 10px;
+    width: 100%;
+    padding:  10px;
   }
 
   .search-box {
-    width: 91%;
+    max-width: 91%;
     height: auto;
     margin-top: auto;
     margin-bottom: 50px;
+  }
+
+  .sight-photo{
+    width: auto;
+    height: auto;
   }
 
   .row {
@@ -349,9 +355,12 @@ button:active {
   }
 
   .choose-age-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-top: -40px;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-bottom: 10px;
   }
 
   .back-button-container {
@@ -362,4 +371,9 @@ button:active {
     padding: 20px 40px;
     font-size: 16px;
   }
+
+  .button-container{
+    flex-wrap: wrap;
+  }
+
 }

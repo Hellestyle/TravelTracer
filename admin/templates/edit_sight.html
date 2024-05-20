@@ -15,9 +15,14 @@
   </head>
 
   <body>
-    <div class="container">
+   <div class="container">
       <div class="text">
         Edit sight
+      </div>
+      <div class="flash_msg">
+         {% for message in get_flashed_messages() %}
+            {{ message }}
+         {% endfor %}
       </div>
       <form action="{{ url_for('admin.edit_sight', sight_id=sight_id ) }}" method="post" enctype="multipart/form-data">
          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
@@ -112,14 +117,7 @@
             </div>
          </div>
       </form>
-
-      
-         <ul>
-            {% for message in get_flashed_messages() %}
-               <li>{{ message }}</li>
-            {% endfor %}
-         </ul>
-    </div>
+   </div>
 
     <div class="container">
         <form action="{{ url_for('admin.update_image_order', sight_id=sight_id ) }}" method="post" class="image-order-form">
