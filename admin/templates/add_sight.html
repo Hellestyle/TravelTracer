@@ -18,11 +18,6 @@
       <div class="text">
         Add sight
       </div>
-      <div class="flash_msg">
-         {% for message in get_flashed_messages(width categories=) %}
-            {{ message }}
-         {% endfor %}
-      </div>
       <form action="{{ url_for('admin.add_sight') }}" method="post" enctype="multipart/form-data">
          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
@@ -44,14 +39,20 @@
 
           <div class="form-row">
             <div class="input-data">
-               <div ><label style=" color: #3498db; font-size: 14px;" for="">Age Category</label> </div> <br>
                {{ edit_sight_form.age_category_id() }}
+               <div class="underline"></div>
+               {% for error in edit_sight_form.age_category_id.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
             </div>
             
             <div class="input-data">
                <input type="hidden" name="old_sight_type">
-               <div ><label style=" color: #3498db; font-size: 14px;" for="">Category</label> </div> <br>
                {{ edit_sight_form.sight_type() }}
+               <div class="underline"></div>
+               {% for error in edit_sight_form.sight_type.errors %}
+                  <div class="input-errors"> {{ error }}</div>
+               {% endfor %}
             </div>
          </div>
         
@@ -128,7 +129,11 @@
          </div>
       </form>
 
-      
+      <ul>
+         {% for message in get_flashed_messages() %}
+         <li>{{ message }}</li>
+         {% endfor %}
+      </ul>
    </div>
   </body>
 </html>
