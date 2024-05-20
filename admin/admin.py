@@ -195,6 +195,8 @@ def add_sight():
                     flash(message)
                     return render_template("add_sight.html", edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)
         else:
+            achievement_list = populate_form(None)
+            achievement_sight_form.achievements.choices = achievement_list
             return render_template("add_sight.html", edit_sight_form=edit_sight_form, achievement_sight_form=achievement_sight_form)   
 
 
