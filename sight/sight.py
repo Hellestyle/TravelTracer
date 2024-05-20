@@ -200,7 +200,7 @@ def sight_by_everything(category, age, user_input=None):
         user_input.lower()
 
     
-    print(f'{age_selected=} {category_selected=} {user_input=}')
+    #print(f'{age_selected=} {category_selected=} {user_input=}')
     # Return to all sights if no filter is chosen
     if age_selected == False and category_selected == False and user_input is None:
         return render_template("sight/sights.html", 
@@ -267,6 +267,7 @@ def sight_by_everything(category, age, user_input=None):
     else:
         message = "No sights found with the filters you have choosen"
         return render_template("sight/sights.html",
+                               message=message,
                                user_input=user_input,
                                admin=admin,
                                categories=categories,
