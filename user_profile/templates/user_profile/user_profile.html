@@ -157,7 +157,7 @@
           {% if user_info["avatar"] %}
           <img
             class="profile-picture"
-            src="{{ url_for('.static', filename='images/' + user_info['avatar']) }}"
+            src="{{ url_for('static', filename='images/user/' + user_info['avatar']) }}"
             alt="Profile Picture"
             style="border-color: {{ points_level['color'] }}"
           />
