@@ -41,6 +41,12 @@
             <input type="hidden" name="id" value="{{ achievement_id }}"/>
             <input onclick="return confirm('Are you sure?');" name="submit_delete" type="submit" value="Delete"/>
             </form>
+
+            <ul>
+              {% for message in get_flashed_messages() %}
+              <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
             
         </div>
     

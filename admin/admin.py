@@ -256,6 +256,7 @@ def achievement_edit(achievement_id):
             achievement = Achievement(db)
             achievement.update(achievement_id,name,desc,image_name)
         message = "Succsessfully updated achievement!"
+        flash(message)
         return render_template("edit_achievement.html",edit_achievement_form=edit_achievement_form, path=path, message=message, achievement_id=achievement_id, current_image=current_image, delete_form=delete_form)
     if delete_form.submit_delete.data:
         print("DELETE PRESSED!")

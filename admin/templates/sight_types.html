@@ -37,7 +37,7 @@
                     <td>{{ sight_type[1] }}</td>
                     <td>{{ sight_type[2] }}</td>
                     <td>{{ sight_type[3] }}</td>
-                    <td> <a href="{{ url_for('admin.edit_sight_type', sight_type_id = sight_type[0]) }}">Edit</a> </td>
+                    <td> <a href="{{ url_for('admin.edit_sight_type', sight_type_id = sight_type[0]) }}" class="edit-achievement-button">Edit</a> </td>
                     <td><button onclick="confirmDelete({{ sight_type[0] }})">Delete</button></td>
                     
                 </tr>
