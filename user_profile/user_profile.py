@@ -89,19 +89,21 @@ def user_profileMain(user_id=None):
     result_03, friend_list = user.get_friendlist()
     result_04, friend_requests = user.get_friend_requests()
     result_05, sent_requests = user.show_sent_friend_request()
+    
 
     admin = False
     is_friend = False
     check_sent_request = False
+
     if current_user.is_authenticated:
-        user = current_user
-        admin = True if user.check_if_user_is_admin() else False
+
+        admin = current_user.check_if_user_is_admin()
         
-        if user.is_friend(user_id):
+        if user_id is not None and current_user.is_friend(user_id):
             is_friend = True
 
-        if user.get_id() != user_id:
-            result = user.check_sent_friend_request(user_id)
+        if user_id is not None and current_user.get_id() != user_id:
+            result = current_user.check_sent_friend_request(user_id)
             if result:
                 check_sent_request = True
     

@@ -205,16 +205,16 @@ INSERT INTO sight_has_achievement (achievement_id, sight_id) VALUES
 
 -- Navn generert ved hjelp av Faker Python-biblioteket (fake_names.py)
 INSERT INTO `user` (username, email, firstname, lastname, avatar, admin, password) VALUES
-	('tetiana2024', 'tetiana.v@example.com', 'Tetiana', 'V', '1.png', 1, 'pbkdf2:sha256:260000$IoGMsP32mSUxsqO7$36e01a1751342caa90bd3e2a540df2387aae463d69a6e188aea0d12e38a9ac09'), -- Password: 123456789
-	('jm12345', 'jammil@test.com', 'James', 'Miller', NULL, 0, 'pbkdf2:sha256:260000$IoGMsP32mSUxsqO7$36e01a1751342caa90bd3e2a540df2387aae463d69a6e188aea0d12e38a9ac09'),  -- Password: 123456789
-	('cole.ow', 'cole.ow@example.com', 'Cole', 'Owens', '3.jpg', 0, 'pbkdf2:sha256:260000$Ycm39vW9YqX7HjV7$30dc06b7640b2569f536685ce7f9dd4a32403dc185bcebdd7eeb320635e14131'),  -- Password: 123456789
-	('den2024', 'denshaw@example.com', 'Denise', 'Shaw', '4.jpeg', 0, 'pbkdf2:sha256:260000$tmCV8uhQYtn8mm4R$6c0daac42b8f17ad05f1817f1705ff6500f7b6b51a137353c1808f1539b7979a'),  -- Password: 123456789
-	('mark_sandoval', 'mark.sandoval@test.com', 'Mark', 'Sandoval', NULL, 0, 'pbkdf2:sha256:260000$YsNMbKSbfEUQnEmN$c5cfe6efc879e76d3277e3a50b2c123523533bc059e66aaf2fdb2c2d4c65e2c3'),  -- Password: 123456789
-	('abrown', 'abrown@example.com', 'Abigail', 'Brown', NULL, 0, 'pbkdf2:sha256:260000$LIbxJ2uys4OAUNTi$40748d70e16cb95c7dd3cfae70441d68cc166f0675f00f36a2942e31d6a8af00');  -- Password: 123456789
+	('tetiana2024', 'tetiana.v@example.com', 'Tetiana', 'V', '1.jpg', 1, 'pbkdf2:sha256:260000$IoGMsP32mSUxsqO7$36e01a1751342caa90bd3e2a540df2387aae463d69a6e188aea0d12e38a9ac09'), -- Password: 123456789
+	('jm12345', 'jammil@test.com', 'James', 'Miller', '2.jpg', 0, 'pbkdf2:sha256:260000$IoGMsP32mSUxsqO7$36e01a1751342caa90bd3e2a540df2387aae463d69a6e188aea0d12e38a9ac09'),  -- Password: 123456789
+	('cole.ow', 'cole.ow@example.com', 'Cole', 'Owens', '3.jpg', 1, 'pbkdf2:sha256:260000$Ycm39vW9YqX7HjV7$30dc06b7640b2569f536685ce7f9dd4a32403dc185bcebdd7eeb320635e14131'),  -- Password: 123456789
+	('den2024', 'denshaw@example.com', 'Denise', 'Shaw', '4.jpg', 0, 'pbkdf2:sha256:260000$tmCV8uhQYtn8mm4R$6c0daac42b8f17ad05f1817f1705ff6500f7b6b51a137353c1808f1539b7979a'),  -- Password: 123456789
+	('mark_sandoval', 'mark.sandoval@test.com', 'Mark', 'Sandoval', '5.jpg', 1, 'pbkdf2:sha256:260000$YsNMbKSbfEUQnEmN$c5cfe6efc879e76d3277e3a50b2c123523533bc059e66aaf2fdb2c2d4c65e2c3'),  -- Password: 123456789
+	('abrown', 'abrown@example.com', 'Abigail', 'Brown', '6.jpg', 0, 'pbkdf2:sha256:260000$LIbxJ2uys4OAUNTi$40748d70e16cb95c7dd3cfae70441d68cc166f0675f00f36a2942e31d6a8af00');  -- Password: 123456789
 
 INSERT INTO user_system_meta (user_id, verified, open_profile, show_real_name, show_friend_list, current_language, current_city) VALUES
 	(1, 1, 1, 1, 1, 1, 3),
-	(2, 0, 1, 1, 1, NULL, NULL),
+	(2, 1, 1, 1, 1, NULL, NULL),
 	(3, 1, 0, 1, 1, 2, 1),
 	(4, 1, 1, 0, 1, 2, 2),
 	(5, 1, 0, 0, 0, 1, NULL),
