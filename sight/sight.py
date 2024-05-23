@@ -33,6 +33,11 @@ def sights():
         temp.append(x)
     categories = temp
 
+    temp = [{"city_id":0, "name":"City"}]
+    for x in cities:
+        temp.append(x)
+    cities = temp
+
 
     with Database(dict_cursor=True) as db:
         
