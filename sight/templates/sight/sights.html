@@ -17,8 +17,8 @@
 <div class="search-box">
     <div class="row">
         <input type="text" id="input-box" value="{{ user_input if user_input is not none else '' }}" 
-        placeholder="Search the category or sight name here" autocomplete="off">
-        <a href="{{ url_for('sight.sight_by_everything', category='' ,age='', user_input='') }}"><button class="search-button"><i class='bx bx-search'></i></button></a>
+        placeholder="Search sight name here" autocomplete="off">
+        <a href="{{ url_for('sight.sight_by_everything', category='' ,age='', city='', user_input='') }}"><button class="search-button"><i class='bx bx-search'></i></button></a>
     </div>
     
     <div class="result-box"></div>
@@ -40,6 +40,12 @@
     <select id="category_id" name="category_id" >
         {% for category in categories %}
             <option value="{{category.name}}"> {{category.name}} </option>
+        {% endfor %}
+    </select>
+
+    <select id="city_id" name="city_id" >
+        {% for city in cities %}
+            <option value="{{city.name}}"> {{city.name}} </option>
         {% endfor %}
     </select>
 </div>
@@ -151,7 +157,7 @@
 
   var url = {
     
-    sight_category: "{{ url_for('sight.sight_by_everything', category='category_id', age='_age_', user_input='_user_input_') }}"
+    sight_category: "{{ url_for('sight.sight_by_everything', category='category_id', age='_age_', city='city_id', user_input='_user_input_') }}"
 
 
   };
