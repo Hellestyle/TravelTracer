@@ -17,7 +17,7 @@
 <div class="search-box">
     <div class="row">
         <input type="text" id="input-box" value="{{ user_input if user_input is not none else '' }}" 
-        placeholder="Search the category or sight name here" autocomplete="off">
+        placeholder="Search sight name here" autocomplete="off">
         <a href="{{ url_for('sight.sight_by_everything', category='' ,age='', city='', user_input='') }}"><button class="search-button"><i class='bx bx-search'></i></button></a>
     </div>
     
